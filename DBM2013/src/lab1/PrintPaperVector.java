@@ -7,6 +7,8 @@ public class PrintPaperVector {
 		- eliminare le stop words
 		- calcolo di tf e tfidf per ogni keyword
 		- costruzione del keyword vector <keyword, weight>
+		
+		Cambiamento prova per SVN
 	*/
 
 	
