@@ -70,8 +70,7 @@ public class PrintPaperVector
 	    stopWords.add("I");
 	    stopWords.add("the");
 
-	    TokenStream tokenStream = new TokenStream (new StringReader(input));
-	    tokenStream = new StopFilter(Version.LUCENE_36, tokenStream, stopWords);
+	    TokenStream tokenStream = new StandardTokenizer(Version.LUCENE_36, new StringReader(input));
 	    tokenStream = new PorterStemFilter(tokenStream);
 
 	    StringBuilder sb = new StringBuilder();
