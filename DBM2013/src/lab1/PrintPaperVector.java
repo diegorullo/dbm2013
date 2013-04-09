@@ -1,5 +1,7 @@
 package lab1;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.Connection;
@@ -12,7 +14,6 @@ import java.util.Set;
 
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.util.Version;
 
 import com.mysql.jdbc.Statement;
@@ -20,7 +21,10 @@ import com.mysql.jdbc.Statement;
 public class PrintPaperVector 
 {
 	
+
 	private static Scanner input;
+	private static TokenStream tokenStream;
+	
 
 	/* Task 1:
 	    - tokenizare
@@ -64,25 +68,36 @@ public class PrintPaperVector
 		return res;
 	}
 	
-	public static String removeStopWordsAndStem(String input) throws IOException {
-	    Set<String> stopWords = new HashSet<String>();
-	    stopWords.add("a");
-	    stopWords.add("I");
-	    stopWords.add("the");
+	private static Set<String> caricaStopWord() throws FileNotFoundException
+	{
+		
+		Set<String> stopWords = new HashSet<String>();
+		input = new Scanner(new File ("english.stop"));
+		input.useDelimiter("\n");
 
-	    TokenStream tokenStream = new StandardTokenizer(Version.LUCENE_36, new StringReader(input));
+		while(input.hasNext()) 
+		{
+			stopWords.add(input.next());
+		}
+		
+		return stopWords;
+	}
+	
+	public static void removeStopWordsAndStem(Set<String> stopWords,String input) throws IOException {
+
+	    tokenStream = new StandardTokenizer(Version.LUCENE_36, new StringReader(input));
 	    tokenStream = new PorterStemFilter(tokenStream);
 	    tokenStream = new StopFilter(Version.LUCENE_36, tokenStream, stopWords);
 
-	    StringBuilder sb = new StringBuilder();
+	    /*StringBuilder sb = new StringBuilder();
 	    TermAttribute termAttr = tokenStream.getAttribute(TermAttribute.class);
 	    while (tokenStream.incrementToken()) {
 	        if (sb.length() > 0) {
 	            sb.append(" ");
 	        }
 	        sb.append(termAttr.term());
-	    }
-	    return sb.toString();
+	    }*/
+	    //return sb.toString();
 	}
 	
 	// calcolo di TF per ogni keyword
@@ -93,9 +108,10 @@ public class PrintPaperVector
 	private static void key_TFID (ResultSet paper)
 	{}
 
-	public static void main(String args[]) throws SQLException
+	public static void main(String args[]) throws SQLException, FileNotFoundException
 	{
 		input = new Scanner(System.in);
+		Set<String> stopWords = caricaStopWord();
 		
 		while(true)
 		{
