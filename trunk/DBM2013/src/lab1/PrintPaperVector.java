@@ -1,6 +1,13 @@
 package lab1;
-public class PrintPaperVector {
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import com.mysql.jdbc.Statement;
+
+public class PrintPaperVector {
+	
 	/* Task 1:
 	    - tokenizare
 		- stemming
@@ -11,9 +18,13 @@ public class PrintPaperVector {
 		BLA BLA BLA !!!
 	*/
 	
-	public static void main(String args[]) 
+	public static void main(String args[]) throws SQLException
 	{
-		System.out.println("Hello World");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");
+		Statement stmt = (Statement) conn.createStatement();
+		String query = "SELECT name FROM authors WHERE personid = 1632506";
+		ResultSet res = stmt.executeQuery(query);
+		System.out.println("Hello " + res.first());
     }
 
 	
