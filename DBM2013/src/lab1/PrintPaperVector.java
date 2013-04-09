@@ -72,6 +72,7 @@ public class PrintPaperVector
 
 	    TokenStream tokenStream = new StandardTokenizer(Version.LUCENE_36, new StringReader(input));
 	    tokenStream = new PorterStemFilter(tokenStream);
+	    tokenStream = new StopFilter(Version.LUCENE_36, tokenStream, stopWords);
 
 	    StringBuilder sb = new StringBuilder();
 	    TermAttribute termAttr = tokenStream.getAttribute(TermAttribute.class);
