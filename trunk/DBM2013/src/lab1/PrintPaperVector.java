@@ -24,7 +24,11 @@ public class PrintPaperVector {
 		Statement stmt = (Statement) conn.createStatement();
 		String query = "SELECT name FROM authors WHERE personid = 1632506";
 		ResultSet res = stmt.executeQuery(query);
-		System.out.println("Hello " + res.first());
+		while (res.next()) {
+			String name = res.getString("name");
+			System.out.println("Hello " + name);
+		}
+		
     }
 
 	
