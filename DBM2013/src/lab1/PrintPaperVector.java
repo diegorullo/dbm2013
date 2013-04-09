@@ -1,10 +1,19 @@
 package lab1;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+
+import org.apache.lucene.analysis.*;
+import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.util.Version;
 
 import com.mysql.jdbc.Statement;
 
@@ -55,15 +64,14 @@ public class PrintPaperVector
 		return res;
 	}
 	
-	/*public static String removeStopWordsAndStem(String input) throws IOException {
+	public static String removeStopWordsAndStem(String input) throws IOException {
 	    Set<String> stopWords = new HashSet<String>();
 	    stopWords.add("a");
 	    stopWords.add("I");
 	    stopWords.add("the");
 
-	    TokenStream tokenStream = new StandardTokenizer(
-	            Version.LUCENE_30, new StringReader(input));
-	    tokenStream = new StopFilter(true, tokenStream, stopWords);
+	    TokenStream tokenStream = new TokenStream (new StringReader(input));
+	    tokenStream = new StopFilter(Version.LUCENE_36, tokenStream, stopWords);
 	    tokenStream = new PorterStemFilter(tokenStream);
 
 	    StringBuilder sb = new StringBuilder();
@@ -75,7 +83,7 @@ public class PrintPaperVector
 	        sb.append(termAttr.term());
 	    }
 	    return sb.toString();
-	}*/
+	}
 	
 	// calcolo di TF per ogni keyword
 	private static void key_TF (ResultSet paper)
