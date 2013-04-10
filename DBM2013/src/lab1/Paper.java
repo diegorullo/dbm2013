@@ -1,9 +1,14 @@
 package lab1;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import org.apache.lucene.analysis.TokenStream;
+
+import utils.Weights;
 
 import com.mysql.jdbc.Statement;
 
@@ -13,8 +18,9 @@ public class Paper {
 	private int year;
 	private String publisher;
 	private String paperAbstract;
+	private TokenStream keywords;
 	
-	public Paper(int paperid) {
+	public Paper(int paperid) throws IOException {
 		Connection conn = null;
 		Statement stmt = null;
 		String query = "SELECT * FROM papers WHERE paperid = " + paperid + ";";
@@ -31,6 +37,7 @@ public class Paper {
 			year = res.getInt("year");
 			publisher = res.getString("publisher");
 			paperAbstract = res.getString("abstract");
+			keywords = Weights.removeStopWordsAndStem(paperAbstract);
 		} 
 		catch (SQLException e) {		
 			System.out.println("SQLException");
@@ -42,40 +49,24 @@ public class Paper {
 		return paperid;
 	}
 
-	public void setPaperid(int paperid) {
-		this.paperid = paperid;
-	}
-
 	public String getTitle() {
 		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public int getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
-		this.year = year;
-	}
-
 	public String getPublisher() {
 		return publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
 	}
 
 	public String getPaperAbstract() {
 		return paperAbstract;
 	}
 
-	public void setPaperAbstract(String paperAbstract) {
-		this.paperAbstract = paperAbstract;
+	public TokenStream getKeywords() {
+		return keywords;
 	}
-
+	
 }
