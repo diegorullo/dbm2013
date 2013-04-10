@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.apache.lucene.analysis.*;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.util.Version;
 
 import com.mysql.jdbc.Statement;
@@ -21,11 +23,6 @@ import com.mysql.jdbc.Statement;
 public class PrintPaperVector 
 {
 	
-
-	private static Scanner input;
-	private static TokenStream tokenStream;
-	
-
 	/* Task 1:
 	    - tokenizare
 		- stemming
@@ -72,7 +69,7 @@ public class PrintPaperVector
 	{
 		
 		Set<String> stopWords = new HashSet<String>();
-		input = new Scanner(new File ("english.stop"));
+		Scanner input = new Scanner(new File ("resources/english.stop"));
 		input.useDelimiter("\n");
 
 		while(input.hasNext()) 
@@ -83,11 +80,26 @@ public class PrintPaperVector
 		return stopWords;
 	}
 	
-	public static void removeStopWordsAndStem(Set<String> stopWords,String input) throws IOException {
+	public static String removeStopWordsAndStem(Set<String> stopWords,String input) throws IOException {
 
-	    tokenStream = new StandardTokenizer(Version.LUCENE_36, new StringReader(input));
-	    tokenStream = new PorterStemFilter(tokenStream);
+		String lowerCasedInput = input.toLowerCase(); 
+		TokenStream tokenStream = new StandardTokenizer(Version.LUCENE_36, new StringReader(lowerCasedInput));
 	    tokenStream = new StopFilter(Version.LUCENE_36, tokenStream, stopWords);
+	    tokenStream = new PorterStemFilter(tokenStream);
+	    
+	    //TokenStream tokenStream = analyzer.tokenStream(fieldName, reader);
+	    OffsetAttribute offsetAttribute = tokenStream.addAttribute(OffsetAttribute.class);
+	    CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
+
+	    String out = ""; 
+	    
+	    while (tokenStream.incrementToken()) {
+	        int startOffset = offsetAttribute.startOffset();
+	        int endOffset = offsetAttribute.endOffset();
+	        out = out + " " + charTermAttribute.toString();
+	    }
+	    
+	    return out;
 
 	    /*StringBuilder sb = new StringBuilder();
 	    TermAttribute termAttr = tokenStream.getAttribute(TermAttribute.class);
@@ -110,9 +122,26 @@ public class PrintPaperVector
 
 	public static void main(String args[]) throws SQLException, FileNotFoundException
 	{
-		input = new Scanner(System.in);
+		
+		Scanner input = new Scanner(System.in);
 		Set<String> stopWords = caricaStopWord();
 		
+		System.out.println("Inserisci il codice dell'articolo: ");
+		int paperid = input.nextInt();
+		
+		Paper p = new Paper(paperid);
+		
+		try {
+			System.out.println(p.getYear());
+			System.out.println(removeStopWordsAndStem(stopWords, p.getTitle()));
+		} catch (IOException e) {
+			System.out.println("IOException");
+		}
+		
+		//System.out.println("Inserisci il modello per i pesi (TF oppure TFID): ");
+		//String model = input.next();
+		
+		/*
 		while(true)
 		{
 		
@@ -137,10 +166,10 @@ public class PrintPaperVector
 			
 			else System.out.print("Modello per i pesi ERRATO !!!");
 			
-			/*while (res.next()) {
+			while (res.next()) {
 				String name = res.getString("name");
 				System.out.println("Hello, " + name + "!");
-			}*/		
-		}
+			}	
+		}*/
     }
 }
