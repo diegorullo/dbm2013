@@ -17,7 +17,7 @@ public class Paper {
 	public Paper(int paperid) {
 		Connection conn = null;
 		Statement stmt = null;
-		String query = "SELECT * FROM papers WHERE paperid = " + paperid;
+		String query = "SELECT * FROM papers WHERE paperid = " + paperid + ";";
 		ResultSet res = null;
 		try 
 		{
@@ -26,10 +26,11 @@ public class Paper {
 			res = stmt.executeQuery(query);
 			
 			this.paperid = paperid;
+			res.next();
 			title = res.getString("title");
 			year = res.getInt("year");
 			publisher = res.getString("publisher");
-			paperAbstract = res.getString("paperAbstract");
+			paperAbstract = res.getString("abstract");
 		} 
 		catch (SQLException e) {		
 			System.out.println("SQLException");
@@ -76,6 +77,5 @@ public class Paper {
 	public void setPaperAbstract(String paperAbstract) {
 		this.paperAbstract = paperAbstract;
 	}
-	
-	
+
 }
