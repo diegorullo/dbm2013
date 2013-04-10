@@ -3,7 +3,9 @@ package lab1;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 
 import utils.Weights;
@@ -19,59 +21,46 @@ public class PrintPaperVector
 		- costruzione del keyword vector <keyword, weight>
 	*/
 	
+	
+//	Enumeration<String> enumKey = keywordSet.keys();
+//	while(enumKey.hasMoreElements()) {
+//	    String key = enumKey.nextElement();
+//	    n = keywordSet.get(key);
+//	    tf = n/K;
+//	    keywordVectorTF.put(key, tf);
+//	}
 
-
-	public static void main(String args[]) throws SQLException, FileNotFoundException
+	public static void main(String args[]) throws SQLException, IOException
 	{
-		
+		TreeMap<String, Double> keywordVector;
 		Scanner input = new Scanner(System.in);
 
 		
 		System.out.println("Inserisci il codice dell'articolo: ");
-		int paperid = input.nextInt();
-		
+		int paperid = input.nextInt();		
 		Paper p = new Paper(paperid);
-		
-		try {
-			System.out.println(p.getYear());
-			System.out.println(Weights.removeStopWordsAndStem(p.getTitle()));
-		} catch (IOException e) {
-			System.out.println("IOException");
-		}
-		
-		//System.out.println("Inserisci il modello per i pesi (TF oppure TFID): ");
-		//String model = input.next();
-		
-		/*
-		while(true)
-		{
-		
-		System.out.println("Inserisci il codice dell'articolo: ");
-		int paperid = input.nextInt();
-		
-		System.out.println("Inserisci il modello per i pesi (TF oppure TFID): ");
+
+		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
 		String model = input.next();
 		
-		ResultSet res = queryDB (paperid);
+		
+		//while(true)
 			
 			
 			if(model.equalsIgnoreCase("TF"))
 			{
-				key_TF (res);
+				keywordVector = Weights.key_TF(p.getKeywords());
 			}
 			
-			else if(model.equalsIgnoreCase("TFID"))
+			else if(model.equalsIgnoreCase("TFIDF"))
 			{
-				key_TFID (res);
+				//keywordVector = Weights.key_TFIDF(p.getKeywords());
 			}
 			
 			else System.out.print("Modello per i pesi ERRATO !!!");
 			
-			while (res.next()) {
-				String name = res.getString("name");
-				System.out.println("Hello, " + name + "!");
-			}	
-		}*/
+			
+			System.out.println("Fine!");
 		input.close();
     }
 }
