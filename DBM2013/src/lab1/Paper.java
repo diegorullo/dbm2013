@@ -20,7 +20,7 @@ public class Paper {
 	private String paperAbstract;
 	private TokenStream keywords;
 	
-	public Paper(int paperid) throws IOException {
+	public Paper(int paperid) {
 		Connection conn = null;
 		Statement stmt = null;
 		String query = "SELECT * FROM papers WHERE paperid = " + paperid + ";";
@@ -37,7 +37,12 @@ public class Paper {
 			year = res.getInt("year");
 			publisher = res.getString("publisher");
 			paperAbstract = res.getString("abstract");
-			keywords = Weights.removeStopWordsAndStem(paperAbstract);
+			try {
+				keywords = Weights.removeStopWordsAndStem(paperAbstract);
+			} catch (IOException e) {
+				System.out.println("IO Exception - no keyword");
+				keywords = null;
+			}
 		} 
 		catch (SQLException e) {		
 			System.out.println("SQLException");
