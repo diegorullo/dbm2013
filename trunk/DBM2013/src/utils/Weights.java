@@ -65,7 +65,8 @@ public class Weights {
 			currentKeyword = charTermAttribute.toString();
 			if (!keywordSet.containsKey(currentKeyword)) {
 				keywordSet.put(currentKeyword, 1);
-			} else {
+			}
+			else {
 				currentValue = keywordSet.get(currentKeyword) + 1;
 				keywordSet.put(currentKeyword, currentValue);
 			}

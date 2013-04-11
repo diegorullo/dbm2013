@@ -7,8 +7,7 @@ import java.util.Scanner;
 
 import utils.Weights;
 
-public class PrintPaperVector 
-{
+public class PrintPaperVector {
 	
 	/* Task 1:
 	    - tokenizare
@@ -27,11 +26,9 @@ public class PrintPaperVector
 //	    keywordVectorTF.put(key, tf);
 //	}
 
-	public static void main(String args[]) throws SQLException, IOException
-	{
+	public static void main(String args[]) throws SQLException, IOException	{
 		Map<String, Double> keywordVector;
 		Scanner input = new Scanner(System.in);
-
 		
 		// System.out.println("Inserisci il codice dell'articolo: ");
 //		int paperid = input.nextInt();	
@@ -42,23 +39,16 @@ public class PrintPaperVector
 //		String model = input.next();
 		String model = "tf";
 
-			if(model.equalsIgnoreCase("TF"))
-			{
+			if(model.equalsIgnoreCase("TF")) {
 				keywordVector = Weights.key_TF(p.getKeywords());
-				for (Map.Entry<String, Double> entry : keywordVector.entrySet())
-				{
-		            System.out.println("<" + entry.getKey() + ",  " +
-		                               entry.getValue()+">");
+				for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
+		            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
 		        }
-			}
-			
-			else if(model.equalsIgnoreCase("TFIDF"))
-			{
+			}			
+			else if(model.equalsIgnoreCase("TFIDF")) {
 				//keywordVector = Weights.key_TFIDF(p.getKeywords());
-			}
-			
-			else System.out.print("Modello per i pesi ERRATO !!!");
-			
+			}			
+			else System.out.print("Modello per i pesi ERRATO !!!");			
 			
 			System.out.println("Fine!");
 		input.close();
