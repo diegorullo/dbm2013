@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
@@ -49,7 +50,7 @@ public class Weights {
 	    CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
 
 	    String out = ""; 
-	    
+	 
 	    while(tokenStream.incrementToken()) {
 	        out = out + " " + charTermAttribute.toString();
 	    }
@@ -60,9 +61,9 @@ public class Weights {
 	}
 	
 		// calcolo di TF per ogni keyword
-		public static TreeMap<String, Double> key_TF(TokenStream tokenStream) throws IOException
+		public static Map<String, Double> key_TF(TokenStream tokenStream) throws IOException
 		{
-			TreeMap<String, Double> keywordVectorTF = new TreeMap<String, Double>();
+			Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
 			CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
 			int n = 0;
 			int K = 0;
@@ -72,6 +73,7 @@ public class Weights {
 			String keywordMultiset = "";
 			Hashtable<String, Integer> keywordSet = new Hashtable<String, Integer>();
 			
+			System.out.println("NON ENTRO !!! -> tokenStream.incrementToken() = "+tokenStream.incrementToken());
 			while(tokenStream.incrementToken()) {
 				K++;
 				currentKeyword = charTermAttribute.toString();
@@ -92,6 +94,7 @@ public class Weights {
 			    tf = n/K;
 			    keywordVectorTF.put(key, tf);
 			}
+			
 			
 			return keywordVectorTF;
 		}
