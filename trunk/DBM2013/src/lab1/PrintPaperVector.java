@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -32,7 +33,7 @@ public class PrintPaperVector
 
 	public static void main(String args[]) throws SQLException, IOException
 	{
-		TreeMap<String, Double> keywordVector;
+		Map<String, Double> keywordVector;
 		Scanner input = new Scanner(System.in);
 
 		
@@ -43,13 +44,16 @@ public class PrintPaperVector
 		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
 		String model = input.next();
 		
-		
-		//while(true)
-			
-			
+
 			if(model.equalsIgnoreCase("TF"))
 			{
+				
 				keywordVector = Weights.key_TF(p.getKeywords());
+				for (Map.Entry<String, Double> entry : keywordVector.entrySet())
+				{
+		            System.out.println("<" + entry.getKey() + ",  " +
+		                               entry.getValue()+">");
+		        }
 			}
 			
 			else if(model.equalsIgnoreCase("TFIDF"))
