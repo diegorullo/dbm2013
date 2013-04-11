@@ -19,18 +19,18 @@ public class Paper {
 	private String publisher;
 	private String paperAbstract;
 	private TokenStream keywords;
-	
+
 	public Paper(int paperid) {
 		Connection conn = null;
 		Statement stmt = null;
 		String query = "SELECT * FROM papers WHERE paperid = " + paperid + ";";
 		ResultSet res = null;
-		try 
-		{
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/dblp", "root", "root");
 			stmt = (Statement) conn.createStatement();
 			res = stmt.executeQuery(query);
-			
+
 			this.paperid = paperid;
 			res.next();
 			title = res.getString("title");
@@ -43,11 +43,10 @@ public class Paper {
 				System.out.println("IO Exception - no keyword");
 				keywords = null;
 			}
-		} 
-		catch (SQLException e) {		
+		} catch (SQLException e) {
 			System.out.println("SQLException");
 		}
-		
+
 	}
 
 	public int getPaperid() {
@@ -73,5 +72,5 @@ public class Paper {
 	public TokenStream getKeywords() {
 		return keywords;
 	}
-	
+
 }
