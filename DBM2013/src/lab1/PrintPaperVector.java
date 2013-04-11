@@ -1,13 +1,9 @@
 package lab1;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
-
 
 import utils.Weights;
 
@@ -37,17 +33,17 @@ public class PrintPaperVector
 		Scanner input = new Scanner(System.in);
 
 		
-		System.out.println("Inserisci il codice dell'articolo: ");
-		int paperid = input.nextInt();		
+		// System.out.println("Inserisci il codice dell'articolo: ");
+//		int paperid = input.nextInt();	
+		int paperid = 237222;
 		Paper p = new Paper(paperid);
 
-		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
-		String model = input.next();
-		
+//		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
+//		String model = input.next();
+		String model = "tf";
 
 			if(model.equalsIgnoreCase("TF"))
 			{
-				
 				keywordVector = Weights.key_TF(p.getKeywords());
 				for (Map.Entry<String, Double> entry : keywordVector.entrySet())
 				{
