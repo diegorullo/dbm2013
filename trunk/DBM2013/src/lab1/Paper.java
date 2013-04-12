@@ -17,13 +17,15 @@ public class Paper {
 	private int year;
 	private String publisher;
 	private String paperAbstract;
+	private ArrayList<String> authors;
 	private ArrayList<String> keywords;
+	
 	
 
 	public Paper(int paperid) {
 		Connection conn = null;
 		Statement stmt = null;
-		String query = "SELECT * FROM papers WHERE paperid = " + paperid + ";";
+		String query = "SELECT papers.*,authors.name FROM authors,papers,writtenby WHERE papers.paperid = " + paperid  + "AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
 		ResultSet res = null;
 		try {
 			conn = DriverManager.getConnection(
@@ -37,12 +39,18 @@ public class Paper {
 			year = res.getInt("year");
 			publisher = res.getString("publisher");
 			paperAbstract = res.getString("abstract");
+			
 			try {
 				keywords = Weights.removeStopWordsAndStem(paperAbstract);
 			} catch (IOException e) {
 				System.out.println("IO Exception - no keyword");
 				keywords = null;
 			}
+			
+			authors.add(res.getString("name"));			
+			while(res.next())
+				authors.add(res.getString("name"));	
+			
 		} catch (SQLException e) {
 			System.out.println("SQLException");
 		}
