@@ -25,14 +25,13 @@ public class Paper {
 	public Paper(int paperid) {
 		Connection conn = null;
 		Statement stmt = null;
-		String query = "SELECT papers.*,authors.name FROM authors,papers,writtenby WHERE papers.paperid = " + paperid  + "AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
+		String query = "SELECT authors.name,papers.* FROM authors,papers,writtenby WHERE papers.paperid = " + paperid + " AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
 		ResultSet res = null;
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/dblp", "root", "root");
+		try {			
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");			
 			stmt = (Statement) conn.createStatement();
 			res = stmt.executeQuery(query);
-
+			
 			this.paperid = paperid;
 			res.next();
 			title = res.getString("title");
@@ -47,12 +46,14 @@ public class Paper {
 				keywords = null;
 			}
 			
-			authors.add(res.getString("name"));			
+			authors.add(res.getString("name"));		
+			
 			while(res.next())
 				authors.add(res.getString("name"));	
+			System.out.println(authors.toString());
 			
 		} catch (SQLException e) {
-			System.out.println("SQLException");
+			System.out.println("SQLExceptionPaper");
 		}
 
 	}
