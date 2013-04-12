@@ -59,9 +59,8 @@ public class Weights {
 	}
 
 	// calcolo di TF per ogni keyword
-	public static Map<String, Double> key_TF(TokenStream tokenStream) throws IOException {
+	public static Map<String, Double> key_TF(ArrayList<String> keywords) throws IOException {
 		
-		CharTermAttribute charTermAttribute = tokenStream.addAttribute(CharTermAttribute.class);
 		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
 		int n = 0;
 		int K = 0;
@@ -71,18 +70,18 @@ public class Weights {
 		String keywordMultiset = "";
 		Hashtable<String, Integer> keywordSet = new Hashtable<String, Integer>();
 
-		while (tokenStream.incrementToken()) {
-			K++;
-			currentKeyword = charTermAttribute.toString();
-			if (!keywordSet.containsKey(currentKeyword)) {
-				keywordSet.put(currentKeyword, 1);
-			}
-			else {
-				currentValue = keywordSet.get(currentKeyword) + 1;
-				keywordSet.put(currentKeyword, currentValue);
-			}
-			keywordMultiset = keywordMultiset + currentKeyword;
-		}
+//		while (keywords.incrementToken()) {
+//			K++;
+//			currentKeyword = charTermAttribute.toString();
+//			if (!keywordSet.containsKey(currentKeyword)) {
+//				keywordSet.put(currentKeyword, 1);
+//			}
+//			else {
+//				currentValue = keywordSet.get(currentKeyword) + 1;
+//				keywordSet.put(currentKeyword, currentValue);
+//			}
+//			keywordMultiset = keywordMultiset + currentKeyword;
+//		}
 
 		Enumeration<String> enumKey = keywordSet.keys();
 		while (enumKey.hasMoreElements()) {
