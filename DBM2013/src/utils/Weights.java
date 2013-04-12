@@ -57,10 +57,10 @@ public class Weights {
 		ArrayList<String> keywords = new ArrayList<String>();
 		
 		while (tokenStream.incrementToken()) 
-		{
-			
+		{			
 			keywords.add(charTermAttribute.toString());
 		}
+		tokenStream.close();
 		return keywords;
 	}
 
