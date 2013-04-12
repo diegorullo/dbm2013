@@ -28,20 +28,20 @@ public class PrintPaperVector {
 
 //		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
 //		String model = input.next();
-		String model = "tf";
+		String model = "tfidf";
 
 			if(model.equalsIgnoreCase("TF")) {
-				keywordVector = Weights.key_TF(p.getKeywords());
-				for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
-		            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
-		        }
+				//keywordVector = Weights.key_TF(p.getKeywords());
+				//for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
+		            //System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
+		       // }
 			}			
-			else if(model.equalsIgnoreCase("TFIDF")) {
-				//keywordVector = Weights.key_TFIDF(p.getKeywords());
-			}			
-			else System.out.print("Modello per i pesi ERRATO !!!");			
-			
-			System.out.println("Fine!");
-		input.close();
+			//else if(model.equalsIgnoreCase("TFIDF")) {
+//				//keywordVector = Weights.key_TFIDF(p.getKeywords());
+//			}			
+//			else System.out.print("Modello per i pesi ERRATO !!!");			
+//			
+//			System.out.println("Fine!");
+//		input.close();
     }
 }
