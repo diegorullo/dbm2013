@@ -27,10 +27,10 @@ public class Author {
 			this.authorid = authorid;
 			res.next();
 			name = res.getString("name");
-			papers.add(new Paper(res.getInt("paperid")));
-			
-			while(res.next())
-				papers.add(new Paper(res.getInt("paperid")));	
+			papers.add(new Paper(res.getInt("paperid")));			
+			while(res.next()) {
+				papers.add(new Paper(res.getInt("paperid")));
+			}
 			
 		} catch (SQLException e) {
 			System.out.println("SQLException");

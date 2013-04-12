@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -25,8 +21,6 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
-
-import com.mysql.jdbc.Statement;
 
 public class Weights {
 
@@ -104,27 +98,6 @@ public class Weights {
 	// calcolo di TFID per ogni keyword
 	public static Map<String, Double> key_TFIDF(TokenStream tokenStream) {
 		Map<String, Double> keywordVectorTFIDF = null;
-		int cardDB=0;
-		// CharTermAttribute charTermAttribute =
-		// tokenStream.addAttribute(CharTermAttribute.class);
-		
-		Connection conn = null;
-		Statement stmt = null;
-		String query = "SELECT COUNT(*) FROM papers;";
-		ResultSet res = null;
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/dblp", "root", "root");
-			stmt = (Statement) conn.createStatement();
-			
-			res = stmt.executeQuery(query);
-			
-			res.next();
-			cardDB=res.getInt(1);
-		
-		} catch (SQLException e) {
-			System.out.println("SQLException CIAO");
-		}
 
 		int paperid = 237222;
 		Paper p = new Paper(paperid);
