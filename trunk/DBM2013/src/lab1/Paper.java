@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.apache.lucene.analysis.TokenStream;
 
@@ -18,7 +19,7 @@ public class Paper {
 	private int year;
 	private String publisher;
 	private String paperAbstract;
-	private TokenStream keywords;
+	private ArrayList<String> keywords;
 
 	public Paper(int paperid) {
 		Connection conn = null;
@@ -69,7 +70,7 @@ public class Paper {
 		return paperAbstract;
 	}
 
-	public TokenStream getKeywords() {
+	public ArrayList<String> getKeywords() {
 		return keywords;
 	}
 
