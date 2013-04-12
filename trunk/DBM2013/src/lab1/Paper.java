@@ -17,7 +17,7 @@ public class Paper {
 	private int year;
 	private String publisher;
 	private String paperAbstract;
-	private ArrayList<String> authors;
+	private ArrayList<String> authors = new ArrayList<String>();
 	private ArrayList<String> keywords;
 	
 	
@@ -27,6 +27,7 @@ public class Paper {
 		Statement stmt = null;
 		String query = "SELECT authors.name,papers.* FROM authors,papers,writtenby WHERE papers.paperid = " + paperid + " AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
 		ResultSet res = null;
+		String auth = "";
 		try {			
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");			
 			stmt = (Statement) conn.createStatement();
@@ -46,10 +47,13 @@ public class Paper {
 				keywords = null;
 			}
 			
-			authors.add(res.getString("name"));		
-			
-			while(res.next())
-				authors.add(res.getString("name"));	
+			auth = res.getString("name");
+			authors.add(auth);
+			while(res.next()) {
+//				authors.add(res.getString("name"));
+				auth = res.getString("name");
+				authors.add(auth);
+			}
 			System.out.println(authors.toString());
 			
 		} catch (SQLException e) {
