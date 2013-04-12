@@ -31,7 +31,6 @@ public class Author {
 			
 			while(res.next())
 				papers.add(new Paper(res.getInt("paperid")));	
-
 			
 		} catch (SQLException e) {
 			System.out.println("SQLException");
