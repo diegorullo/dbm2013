@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.apache.lucene.analysis.TokenStream;
-
 import utils.Weights;
 
 import com.mysql.jdbc.Statement;
@@ -20,6 +18,7 @@ public class Paper {
 	private String publisher;
 	private String paperAbstract;
 	private ArrayList<String> keywords;
+	
 
 	public Paper(int paperid) {
 		Connection conn = null;

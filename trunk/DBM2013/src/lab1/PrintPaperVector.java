@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Scanner;
 
-import utils.Weights;
-
 public class PrintPaperVector {
 	
 	/* Task 1:
