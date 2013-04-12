@@ -17,15 +17,6 @@ public class PrintPaperVector {
 		- costruzione del keyword vector <keyword, weight>
 	*/
 	
-	
-//	Enumeration<String> enumKey = keywordSet.keys();
-//	while(enumKey.hasMoreElements()) {
-//	    String key = enumKey.nextElement();
-//	    n = keywordSet.get(key);
-//	    tf = n/K;
-//	    keywordVectorTF.put(key, tf);
-//	}
-
 	public static void main(String args[]) throws SQLException, IOException	{
 		Map<String, Double> keywordVector;
 		Scanner input = new Scanner(System.in);
