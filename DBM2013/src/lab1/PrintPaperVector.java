@@ -34,10 +34,10 @@ public class PrintPaperVector {
 		            //System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
 		       // }
 			}			
-			//else if(model.equalsIgnoreCase("TFIDF")) {
+			else if(model.equalsIgnoreCase("TFIDF")) {
 //				//keywordVector = Weights.key_TFIDF(p.getKeywords());
-//			}			
-//			else System.out.print("Modello per i pesi ERRATO !!!");			
+			}			
+			else System.out.print("Modello per i pesi ERRATO !!!");			
 //			
 //			System.out.println("Fine!");
 //		input.close();
