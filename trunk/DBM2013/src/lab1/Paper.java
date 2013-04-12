@@ -27,7 +27,6 @@ public class Paper {
 		Statement stmt = null;
 		String query = "SELECT authors.name,papers.* FROM authors,papers,writtenby WHERE papers.paperid = " + paperid + " AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
 		ResultSet res = null;
-		String auth = "";
 		try {			
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");			
 			stmt = (Statement) conn.createStatement();
@@ -47,12 +46,8 @@ public class Paper {
 				keywords = null;
 			}
 			
-			auth = res.getString("name");
-			authors.add(auth);
 			while(res.next()) {
-//				authors.add(res.getString("name"));
-				auth = res.getString("name");
-				authors.add(auth);
+				authors.add(res.getString("name"));
 			}
 			System.out.println(authors.toString());
 			
