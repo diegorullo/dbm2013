@@ -49,7 +49,7 @@ public class Paper {
 			while(res.next()) {
 				authors.add(res.getString("name"));
 			}
-			System.out.println(authors.toString());
+			//System.out.println(authors.toString());
 			
 		} catch (SQLException e) {
 			System.out.println("SQLExceptionPaper");
