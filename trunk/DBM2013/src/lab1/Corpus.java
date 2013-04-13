@@ -28,6 +28,7 @@ public class Corpus {
 			res = stmt.executeQuery(queryA);
 
 			while(res.next()) {
+				System.out.println(res.getInt("personid"));
 				authors.add(new Author(res.getInt("personid")));
 			}
 			res = stmt.executeQuery(queryP);

@@ -16,7 +16,7 @@ public class Author {
 	public Author(int authorid) {
 		Connection conn = null;
 		Statement stmt = null;
-		String query = "SELECT authors.name,writtenby.paperid FROM authors,papers,writtenby WHERE authors.personid = " + authorid  + "AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
+		String query = "SELECT authors.name,writtenby.paperid FROM authors,papers,writtenby WHERE authors.personid = " + personid  + "AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
 		ResultSet res = null;
 		try {
 			conn = DriverManager.getConnection(
