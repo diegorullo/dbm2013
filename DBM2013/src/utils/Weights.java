@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
+import lab1.Corpus;
 import lab1.Paper;
 
 import org.apache.lucene.analysis.PorterStemFilter;
@@ -110,15 +111,18 @@ public class Weights {
 	}
 
 	// calcolo di TFIDF per ogni keyword
-	public static Map<String, Double> key_TFIDF(TokenStream tokenStream) {
+	public static Map<String, Double> key_TFIDF(ArrayList<String> keywords, Corpus dblp) {
 		Map<String, Double> keywordVectorTFIDF = null;
-
-		int paperid = 237222;
-		Paper p = new Paper(paperid);
-//		for (String k : p.getKeywords()) {
-//			//contare il numero di paper nel db che contengono k
-//			
-//		}
+		
+		int N;	//Numero totale di documenti del DB
+		int m;	//
+		
+		for (String k : keywords) {
+			//contare il numero di paper nel db che contengono k
+			for(Paper p : dblp.getPapers()) {
+				
+			}
+		}
 		
 		return keywordVectorTFIDF;
 	}
