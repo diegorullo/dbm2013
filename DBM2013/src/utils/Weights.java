@@ -5,10 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
@@ -61,23 +62,21 @@ public class Weights {
 	// calcolo di TF per ogni keyword
 	public static Map<String, Double> key_TF(ArrayList<String> keywords) throws IOException {
 		
-		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
 		int n = 0;
-		int K = 0;
+		int K = keywords.size();
 		double tf;
-		String keywordMultiset = "";
-		Hashtable<String, Integer> keywordSet = new Hashtable<String, Integer>();
+		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
+		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
 		
 		for(String k : keywords) {
-			K++;
 			if (!keywordSet.containsKey(k)) {
 				keywordSet.put(k, 1);
 			}
 			else {
 				keywordSet.put(k, keywordSet.get(k) + 1);
 			}
-			keywordMultiset = keywordMultiset + k;
-		}
+		} 		//System.out.println(keywordSet);
+		
 /*		while (keywords.incrementToken()) {
 			K++;
 			currentKeyword = charTermAttribute.toString();
@@ -91,27 +90,35 @@ public class Weights {
 			keywordMultiset = keywordMultiset + currentKeyword;
 		} */
 
-		Enumeration<String> enumKey = keywordSet.keys();
-		while (enumKey.hasMoreElements()) {
-			String key = enumKey.nextElement();
-			n = keywordSet.get(key);
-			tf = n / K;
-			keywordVectorTF.put(key, tf);
-		}
+//		Enumeration<String> enumKey = keywordSet.keys();
+//		while (enumKey.hasMoreElements()) {
+//			String key = enumKey.nextElement();
+//			n = keywordSet.get(key);
+//			tf = n / K;
+//			keywordVectorTF.put(key, tf);
+//		}
 
+		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			n = k.getValue();
+			tf = (double)n/K;
+			keywordVectorTF.put(k.getKey(), tf);
+		}
+		
 		return keywordVectorTF;
 	}
 
-	// calcolo di TFID per ogni keyword
+	// calcolo di TFIDF per ogni keyword
 	public static Map<String, Double> key_TFIDF(TokenStream tokenStream) {
 		Map<String, Double> keywordVectorTFIDF = null;
 
 		int paperid = 237222;
 		Paper p = new Paper(paperid);
-		for (String k : p.getKeywords()) {
-			//contare il numero di paper nel db che contengono k
-			
-		}
+//		for (String k : p.getKeywords()) {
+//			//contare il numero di paper nel db che contengono k
+//			
+//		}
 		
 		return keywordVectorTFIDF;
 	}
