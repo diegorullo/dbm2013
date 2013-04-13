@@ -18,6 +18,7 @@ public class PrintPaperVector {
 	
 	public static void main(String args[]) throws SQLException, IOException	{
 		Map<String, Double> keywordVector;
+		Map<String, Double> tfVector;
 		//Scanner input = new Scanner(System.in);
 		
 		// System.out.println("Inserisci il codice dell'articolo: ");
@@ -29,7 +30,7 @@ public class PrintPaperVector {
 
 //		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
 //		String model = input.next();
-		String model = "tf";
+		String model = "tfidf";
 
 			if(model.equalsIgnoreCase("TF")) {
 				System.out.println("Modello TF per \"" + p.getTitle() + "\" (" + paperid + "):");
@@ -39,7 +40,11 @@ public class PrintPaperVector {
 		        }
 			}			
 			else if(model.equalsIgnoreCase("TFIDF")) {
-				keywordVector = Weights.key_TFIDF(p.getKeywords(), dblp);
+				tfVector = Weights.key_TF(p.getKeywords());
+				keywordVector = Weights.key_TFIDF(p.getKeywords(), tfVector, dblp);
+//				for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
+//		            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
+//		        }
 			}			
 			else System.out.print("Modello per i pesi ERRATO !!!");			
 //			

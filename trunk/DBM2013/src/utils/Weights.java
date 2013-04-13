@@ -111,17 +111,24 @@ public class Weights {
 	}
 
 	// calcolo di TFIDF per ogni keyword
-	public static Map<String, Double> key_TFIDF(ArrayList<String> keywords, Corpus dblp) {
-		Map<String, Double> keywordVectorTFIDF = null;
+	public static Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector, Corpus dblp) {
+		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();
 		
-		int N;	//Numero totale di documenti del DB
-		int m;	//
+		int N = dblp.getCardinality();	//Numero totale di documenti del corpus
+		int m = 0;	//Numero di documenti in cui la feature occorre
+		double idf = 0;
+		double tfidf = 0; 
 		
 		for (String k : keywords) {
 			//contare il numero di paper nel db che contengono k
-			for(Paper p : dblp.getPapers()) {
-				
-			}
+			dblp.getPapers();
+//			for(Paper p : dblp.getPapers()) {
+//				if(p.getKeywords().contains(k)) {
+//					m++;
+//				}
+//			}
+//			idf = Math.log(m/N);
+			keywordVectorTFIDF.put(k, idf);
 		}
 		
 		return keywordVectorTFIDF;
