@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 import com.mysql.jdbc.Statement;
 
-public class DBLP {
+public class Corpus {
+
+	private static Corpus instance = null; // riferimento all' istanza
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
 
-	private static DBLP istance = null; // riferimento all' istanza
-
-	private DBLP() {// costruttore
+	private Corpus() {// costruttore
 		Connection conn = null;
 		Statement stmt = null;
 		String queryA = "SELECT authorid FROM authors;";
@@ -23,8 +23,7 @@ public class DBLP {
 		String queryC = "SELECT COUNT(*) FROM papers;";
 		ResultSet res = null;
 		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/dblp", "root", "root");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");
 			stmt = (Statement) conn.createStatement();
 			res = stmt.executeQuery(queryA);
 			
@@ -46,10 +45,22 @@ public class DBLP {
 		}
 	}
 
-	public static DBLP getIstance() {
-		if (istance == null)
-			istance = new DBLP();
-		return istance;
+	public static Corpus getInstance() {
+		if (instance == null)
+			instance = new Corpus();
+		return instance;
+	}
+	
+	public ArrayList<Author> getAuthors() {
+		return authors;
+	}
+
+	public ArrayList<Paper> getPapers() {
+		return papers;
+	}
+
+	public int getCardinality() {
+		return cardinality;
 	}
 
 }

@@ -21,9 +21,11 @@ public class PrintPaperVector {
 		//Scanner input = new Scanner(System.in);
 		
 		// System.out.println("Inserisci il codice dell'articolo: ");
+		Corpus dblp = Corpus.getInstance();
 //		int paperid = input.nextInt();	
 		int paperid = 237222;
 		Paper p = new Paper(paperid);
+		
 
 //		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
 //		String model = input.next();
@@ -37,7 +39,7 @@ public class PrintPaperVector {
 		        }
 			}			
 			else if(model.equalsIgnoreCase("TFIDF")) {
-//				//keywordVector = Weights.key_TFIDF(p.getKeywords());
+				keywordVector = Weights.key_TFIDF(p.getKeywords(), dblp);
 			}			
 			else System.out.print("Modello per i pesi ERRATO !!!");			
 //			
