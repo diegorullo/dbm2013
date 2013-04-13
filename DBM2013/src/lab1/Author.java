@@ -33,12 +33,12 @@ public class Author {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("SQLException");
+			System.out.println("SQLException: Author");
 		}
 
 	}
 
-	public int getAuthorid() {
+	public int getPersonid() {
 		return personid;
 	}
 
