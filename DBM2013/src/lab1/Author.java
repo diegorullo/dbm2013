@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import com.mysql.jdbc.Statement;
 
 public class Author {
-	private int authorid;
+	private int personid;
 	private String name;
 	private ArrayList<Paper> papers;
 
@@ -24,7 +24,7 @@ public class Author {
 			stmt = (Statement) conn.createStatement();
 			res = stmt.executeQuery(query);
 
-			this.authorid = authorid;
+			this.personid = authorid;
 			res.next();
 			name = res.getString("name");
 			papers.add(new Paper(res.getInt("paperid")));			
@@ -39,7 +39,7 @@ public class Author {
 	}
 
 	public int getAuthorid() {
-		return authorid;
+		return personid;
 	}
 
 	public String getName() {

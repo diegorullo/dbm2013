@@ -18,7 +18,7 @@ public class Corpus {
 	private Corpus() {// costruttore
 		Connection conn = null;
 		Statement stmt = null;
-		String queryA = "SELECT authorid FROM authors;";
+		String queryA = "SELECT personid FROM authors;";
 		String queryP = "SELECT paperid FROM papers;";
 		String queryC = "SELECT COUNT(*) FROM papers;";
 		ResultSet res = null;
@@ -26,9 +26,9 @@ public class Corpus {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");
 			stmt = (Statement) conn.createStatement();
 			res = stmt.executeQuery(queryA);
-			
+
 			while(res.next()) {
-				authors.add(new Author(res.getInt("authorid")));
+				authors.add(new Author(res.getInt("personid")));
 			}
 			res = stmt.executeQuery(queryP);
 			
@@ -41,7 +41,7 @@ public class Corpus {
 			cardinality = res.getInt(1);
 			
 		} catch (SQLException e) {
-			System.out.println("SQLException");
+			System.out.println("SQLException: Corpus");
 		}
 	}
 
