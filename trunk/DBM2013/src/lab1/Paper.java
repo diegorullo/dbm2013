@@ -52,7 +52,7 @@ public class Paper {
 			//System.out.println(authors.toString());
 			
 		} catch (SQLException e) {
-			System.out.println("SQLExceptionPaper");
+			System.out.println("SQLException: Paper");
 		}
 
 	}
