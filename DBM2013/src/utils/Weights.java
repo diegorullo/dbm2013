@@ -65,23 +65,31 @@ public class Weights {
 		int n = 0;
 		int K = 0;
 		double tf;
-		String currentKeyword;
-		int currentValue;
 		String keywordMultiset = "";
 		Hashtable<String, Integer> keywordSet = new Hashtable<String, Integer>();
-
-//		while (keywords.incrementToken()) {
-//			K++;
-//			currentKeyword = charTermAttribute.toString();
-//			if (!keywordSet.containsKey(currentKeyword)) {
-//				keywordSet.put(currentKeyword, 1);
-//			}
-//			else {
-//				currentValue = keywordSet.get(currentKeyword) + 1;
-//				keywordSet.put(currentKeyword, currentValue);
-//			}
-//			keywordMultiset = keywordMultiset + currentKeyword;
-//		}
+		
+		for(String k : keywords) {
+			K++;
+			if (!keywordSet.containsKey(k)) {
+				keywordSet.put(k, 1);
+			}
+			else {
+				keywordSet.put(k, keywordSet.get(k) + 1);
+			}
+			keywordMultiset = keywordMultiset + k;
+		}
+/*		while (keywords.incrementToken()) {
+			K++;
+			currentKeyword = charTermAttribute.toString();
+			if (!keywordSet.containsKey(currentKeyword)) {
+				keywordSet.put(currentKeyword, 1);
+			}
+			else {
+				currentValue = keywordSet.get(currentKeyword) + 1;
+				keywordSet.put(currentKeyword, currentValue);
+			}
+			keywordMultiset = keywordMultiset + currentKeyword;
+		} */
 
 		Enumeration<String> enumKey = keywordSet.keys();
 		while (enumKey.hasMoreElements()) {
