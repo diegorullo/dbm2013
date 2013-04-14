@@ -8,7 +8,5 @@ public class DifferentiateAuthor {
 		- eliminare le stop words
 		- calcolo di tf e tfidf per ogni keyword
 		- costruzione del combined keyword vector per autore <keyword, weight>
-	*/
-
-	
+	*/	
 }

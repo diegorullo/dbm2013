@@ -17,37 +17,6 @@ public class Corpus {
 		this.papers = papers;
 		this.cardinality = cardinality;
 	}
-
-//	private Corpus() {
-//		Connection conn = null;
-//		Statement stmt = null;
-//		String queryA = "SELECT personid FROM authors;";
-//		String queryP = "SELECT paperid FROM papers;";
-//		String queryC = "SELECT COUNT(*) FROM papers;";
-//		ResultSet res = null;
-//		try {
-//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");
-//			stmt = (Statement) conn.createStatement();
-//			res = stmt.executeQuery(queryA);
-//
-//			while(res.next()) {
-//				System.out.println(res.getInt("personid"));
-//				authors.add(new Author(res.getInt("personid")));
-//			}
-//			res = stmt.executeQuery(queryP);
-//			
-//			while(res.next()) {
-//				papers.add(new Paper(res.getInt("paperid")));
-//			}
-//			
-//			res = stmt.executeQuery(queryC);			
-//			res.next();
-//			cardinality = res.getInt(1);
-//			
-//		} catch (SQLException e) {
-//			System.out.println("SQLException: Corpus");
-//		}
-//	}
 	
 	// calcolo di TFIDF per ogni keyword
 	public Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector) {
