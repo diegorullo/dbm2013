@@ -112,18 +112,4 @@ public class DBEngine {
 		Corpus c = new Corpus(authors, papers, cardinality);		
 		return c;
 	}
-	
-//	public class Main{
-//		DBEngine engine = new DBEngine();
-//		
-//		public void doSomething(){
-//			try {
-//				Paper p = this.engine.newPaper(null);
-//			} catch (SQLException e) {
-//				System.err.println("Dannazione!");
-//			}
-//		}
-//		
-//	}
-
 }

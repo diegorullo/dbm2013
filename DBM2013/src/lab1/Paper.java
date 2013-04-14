@@ -30,41 +30,6 @@ public class Paper {
 		this.authors = authors;
 		this.keywords = keywords;
 	}
-
-//	public Paper(int paperid) {
-//		Connection conn = null;
-//		Statement stmt = null;
-//		String query = "SELECT authors.name,papers.* FROM authors,papers,writtenby WHERE papers.paperid = " + paperid + " AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
-//		ResultSet res = null;
-//		try {			
-//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");			
-//			stmt = (Statement) conn.createStatement();
-//			res = stmt.executeQuery(query);
-//			
-//			this.paperid = paperid;
-//			res.next();
-//			title = res.getString("title");
-//			year = res.getInt("year");
-//			publisher = res.getString("publisher");
-//			paperAbstract = res.getString("abstract");
-//			
-//			try {
-//				keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
-//			} catch (IOException e) {
-//				System.out.println("IO Exception - no keyword");
-//				keywords = null;
-//			}
-//			
-//			while(res.next()) {
-//				authors.add(res.getString("name"));
-//			}
-//			//System.out.println(authors.toString());
-//			
-//		} catch (SQLException e) {
-//			System.out.println("SQLException: Paper");
-//		}
-//
-//	}
 	
 	public Map<String, Double> key_TF(ArrayList<String> keywords) throws IOException {
 		
@@ -98,79 +63,53 @@ public class Paper {
 		return paperID;
 	}
 
-
-
 	public String getTitle() {
 		return title;
 	}
-
-
 
 	public int getYear() {
 		return year;
 	}
 
-
-
 	public String getPublisher() {
 		return publisher;
 	}
-
-
 
 	public String getPaperAbstract() {
 		return paperAbstract;
 	}
 
-
-
 	public ArrayList<String> getAuthors() {
 		return authors;
 	}
-
-
 
 	public ArrayList<String> getKeywords() {
 		return keywords;
 	}
 
-
-
 	public void setPaperid(int paperID) {
 		this.paperID = paperID;
 	}
-
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
-
 	public void setYear(int year) {
 		this.year = year;
 	}
-
-
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
-
-
 	public void setPaperAbstract(String paperAbstract) {
 		this.paperAbstract = paperAbstract;
 	}
 
-
-
 	public void setAuthors(ArrayList<String> authors) {
 		this.authors = authors;
 	}
-
-
 
 	public void setKeywords(ArrayList<String> keywords) {
 		this.keywords = keywords;
