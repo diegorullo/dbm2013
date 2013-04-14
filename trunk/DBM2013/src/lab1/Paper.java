@@ -49,7 +49,7 @@ public class Paper {
 //			paperAbstract = res.getString("abstract");
 //			
 //			try {
-//				keywords = Weights.removeStopWordsAndStem(paperAbstract);
+//				keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
 //			} catch (IOException e) {
 //				System.out.println("IO Exception - no keyword");
 //				keywords = null;
