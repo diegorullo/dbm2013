@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Map;
 
-import utils.Weights;
+import utils.DBEngine;
 
 public class PrintPaperVector {
 	
@@ -15,40 +15,39 @@ public class PrintPaperVector {
 		- calcolo di tf e tfidf per ogni keyword
 		- costruzione del keyword vector <keyword, weight>
 	*/
-	
 	public static void main(String args[]) throws SQLException, IOException	{
+		DBEngine db = new DBEngine();
+		db.init();
 		Map<String, Double> keywordVector;
 		Map<String, Double> tfVector;
-		//Scanner input = new Scanner(System.in);
-		
-		// System.out.println("Inserisci il codice dell'articolo: ");
-		Corpus dblp = Corpus.getInstance();
-//		int paperid = input.nextInt();	
+		Corpus dblp = db.newCorpus();
 		int paperid = 237222;
-		Paper p = new Paper(paperid);
-		
+		//Scanner input = new Scanner(System.in);		
+		//System.out.println("Inserisci il codice dell'articolo: ");
+		//int paperid = input.nextInt();	
+		Paper p = db.newPaper(paperid);		
 
-//		System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
-//		String model = input.next();
-		String model = "tfidf";
+		//System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
+		//String model = input.next();
+		String model = "tf";
 
 			if(model.equalsIgnoreCase("TF")) {
 				System.out.println("Modello TF per \"" + p.getTitle() + "\" (" + paperid + "):");
-				keywordVector = Weights.key_TF(p.getKeywords());
+				keywordVector = p.key_TF(p.getKeywords());
 				for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
 		            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
 		        }
 			}			
 			else if(model.equalsIgnoreCase("TFIDF")) {
-				tfVector = Weights.key_TF(p.getKeywords());
-				keywordVector = Weights.key_TFIDF(p.getKeywords(), tfVector, dblp);
+				System.out.println("Modello TFIDF per \"" + p.getTitle() + "\" (" + paperid + "):");
+				tfVector = p.key_TF(p.getKeywords());
+				keywordVector = dblp.key_TFIDF(p.getKeywords(), tfVector);
 //				for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
 //		            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
 //		        }
 			}			
 			else System.out.print("Modello per i pesi ERRATO !!!");			
-//			
-//			System.out.println("Fine!");
-//		input.close();
+
+			//input.close();
     }
 }
