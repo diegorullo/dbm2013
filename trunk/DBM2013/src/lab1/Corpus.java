@@ -1,55 +1,77 @@
 package lab1;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
-import com.mysql.jdbc.Statement;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Corpus {
 
-	private static Corpus instance = null; // riferimento all' istanza
+	//private static Corpus instance = null; // riferimento all' istanza
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
-
-	private Corpus() {// costruttore
-		Connection conn = null;
-		Statement stmt = null;
-		String queryA = "SELECT personid FROM authors;";
-		String queryP = "SELECT paperid FROM papers;";
-		String queryC = "SELECT COUNT(*) FROM papers;";
-		ResultSet res = null;
-		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");
-			stmt = (Statement) conn.createStatement();
-			res = stmt.executeQuery(queryA);
-
-			while(res.next()) {
-				System.out.println(res.getInt("personid"));
-				authors.add(new Author(res.getInt("personid")));
-			}
-			res = stmt.executeQuery(queryP);
-			
-			while(res.next()) {
-				papers.add(new Paper(res.getInt("paperid")));
-			}
-			
-			res = stmt.executeQuery(queryC);			
-			res.next();
-			cardinality = res.getInt(1);
-			
-		} catch (SQLException e) {
-			System.out.println("SQLException: Corpus");
-		}
+	
+	public Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
+		super();
+		this.authors = authors;
+		this.papers = papers;
+		this.cardinality = cardinality;
 	}
 
-	public static Corpus getInstance() {
-		if (instance == null)
-			instance = new Corpus();
-		return instance;
+//	private Corpus() {
+//		Connection conn = null;
+//		Statement stmt = null;
+//		String queryA = "SELECT personid FROM authors;";
+//		String queryP = "SELECT paperid FROM papers;";
+//		String queryC = "SELECT COUNT(*) FROM papers;";
+//		ResultSet res = null;
+//		try {
+//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dblp", "root", "root");
+//			stmt = (Statement) conn.createStatement();
+//			res = stmt.executeQuery(queryA);
+//
+//			while(res.next()) {
+//				System.out.println(res.getInt("personid"));
+//				authors.add(new Author(res.getInt("personid")));
+//			}
+//			res = stmt.executeQuery(queryP);
+//			
+//			while(res.next()) {
+//				papers.add(new Paper(res.getInt("paperid")));
+//			}
+//			
+//			res = stmt.executeQuery(queryC);			
+//			res.next();
+//			cardinality = res.getInt(1);
+//			
+//		} catch (SQLException e) {
+//			System.out.println("SQLException: Corpus");
+//		}
+//	}
+	
+	// calcolo di TFIDF per ogni keyword
+	public Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector) {
+		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();
+		
+		int N = this.getCardinality();	//Numero totale di documenti del corpus
+		int m = 0;	//Numero di documenti in cui la feature occorre
+		double idf = 0;
+		//double tfidf = 0; 
+		
+		for (String k : keywords) {
+			//contare il numero di paper nel db che contengono k
+			this.getPapers();
+			for(Paper p : this.getPapers()) {
+				if(p.getKeywords().contains(k)) {
+					m++;
+				}
+			}
+			idf = Math.log(m/N);
+			//TODO: per il momento calcolo solo l'idf 
+			keywordVectorTFIDF.put(k, idf);
+		}
+		
+		return keywordVectorTFIDF;
 	}
 	
 	public ArrayList<Author> getAuthors() {
