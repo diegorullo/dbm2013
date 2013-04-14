@@ -16,7 +16,7 @@ import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
 
-public class Weights {
+public class TextProcessor {
 
 	private static Scanner input;
 

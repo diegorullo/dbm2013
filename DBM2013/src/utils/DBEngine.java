@@ -51,7 +51,7 @@ public class DBEngine {
 		publisher = res.getString("publisher");
 		paperAbstract = res.getString("abstract");
 		
-		keywords = Weights.removeStopWordsAndStem(paperAbstract);
+		keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
 		
 		authors.add(res.getString("name"));
 		
