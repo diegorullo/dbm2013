@@ -50,22 +50,25 @@ public class Paper {
 	public double getTF(String s) {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
-		double frequency = 0;
+		double tf = 0;
 		if(keywordSet.containsKey(s)) {
-			frequency = (double) keywordSet.get(s) / keywordSet.size();
+			tf = (double) keywordSet.get(s) / keywordSet.size();
 		}
-		return frequency; 	
+		return tf; 	
 	}
 	
 	//Calcola il tfidf di un termine su tutto il corpus
-	public double getTfIdf(String s, Corpus c) {
+	public double getTfIdf(String s, Corpus c) throws Exception {
 		
-		HashMap<String, Integer> keywordSet = this.getKeywordSet();
-		double frequency = 0;
-		if(keywordSet.containsKey(s)) {
-			frequency = (double) keywordSet.get(s) / keywordSet.size();
-		}
-		return frequency; 
+		double tf = 0;
+		double idf = 0;
+		double tfidf = 0;
+		
+		tf = this.getTF(s);
+		idf = c.getIDF(s);
+		tfidf = tf * idf;
+		
+		return tfidf; 
 	}
 
 	
@@ -112,30 +115,30 @@ public class Paper {
         }
 	}
 	
-	// calcolo di TFIDF per ogni keyword
-	public Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector, Corpus c) {
-		
-		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();		
-		int N = c.getCardinality();	//Numero totale di documenti del corpus
-		int m = 0;	//Numero di documenti in cui la feature occorre
-		double idf = 0;
-		//double tfidf = 0; 
-		
-		for (String k : keywords) {
-			//contare il numero di paper nel db che contengono k
-			c.getPapers();
-			for(Paper p : c.getPapers()) {
-				if(p.getKeywords().contains(k)) {
-					m++;
-				}
-			}
-			idf = Math.log((double)m/N);
-			//TODO: per il momento calcolo solo l'idf 
-			keywordVectorTFIDF.put(k, idf);
-		}
-		
-		return keywordVectorTFIDF;
-	}
+//	// calcolo di TFIDF per ogni keyword
+//	public Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector, Corpus c) {
+//		
+//		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();		
+//		int N = c.getCardinality();	//Numero totale di documenti del corpus
+//		int m = 0;	//Numero di documenti in cui la feature occorre
+//		double idf = 0;
+//		//double tfidf = 0; 
+//		
+//		for (String k : keywords) {
+//			//contare il numero di paper nel db che contengono k
+//			c.getPapers();
+//			for(Paper p : c.getPapers()) {
+//				if(p.getKeywords().contains(k)) {
+//					m++;
+//				}
+//			}
+//			idf = Math.log((double)m/N);
+//			//TODO: per il momento calcolo solo l'idf 
+//			keywordVectorTFIDF.put(k, idf);
+//		}
+//		
+//		return keywordVectorTFIDF;
+//	}
 	
 	
 
