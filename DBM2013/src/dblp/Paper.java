@@ -58,7 +58,7 @@ public class Paper {
 	}
 	
 	//Calcola il tfidf di un termine su tutto il corpus
-	public double getTfIdf(String s, Corpus c) throws Exception {
+	public double getTFIDF(String s, Corpus c) throws Exception {
 		
 		double tf = 0;
 		double idf = 0;
@@ -87,24 +87,7 @@ public class Paper {
 		}
 		
 		return keywordVectorTF;
-	}	
-//	public Map<String, Double> getTFVector() throws IOException {
-//	int n = 0;
-//	int K = keywords.size();
-//	double tf;
-//	HashMap<String, Integer> keywordSet = this.getKeywordSet();
-//	Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();	
-//
-//	Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-//	while (it.hasNext()) {
-//		Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-//		n = k.getValue();
-//		tf = (double)n/K;
-//		keywordVectorTF.put(k.getKey(), tf);
-//	}
-//	
-//	return keywordVectorTF;
-//}
+	}
 	
 	public void printPaperTFVector() throws IOException {
 		
@@ -113,6 +96,23 @@ public class Paper {
 		for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
             System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
         }
+	}
+
+	// calcolo di TFIDF per ogni keyword
+	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
+		
+		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();
+		double tfidf;
+		
+		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			tfidf = getTFIDF(k.getKey(), c);
+			keywordVectorTFIDF.put(k.getKey(), tfidf);
+		}
+		
+		return keywordVectorTFIDF;
 	}
 	
 //	// calcolo di TFIDF per ogni keyword
