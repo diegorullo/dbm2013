@@ -45,12 +45,12 @@ public class Main {
 //		        }
 			}			
 			else if(model.equalsIgnoreCase("TFIDF")) {
-				System.out.println("Modello TFIDF per \"" + p.getTitle() + "\" (" + paperid + "):");
-				tfVector = p.getTFVector();
-				keywordVector = p.key_TFIDF(p.getKeywords(), tfVector, dblp);
-				for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
-		            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
-		        }
+//				System.out.println("Modello TFIDF per \"" + p.getTitle() + "\" (" + paperid + "):");
+//				tfVector = p.getTFVector();
+//				keywordVector = p.key_TFIDF(p.getKeywords(), tfVector, dblp);
+//				for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
+//		            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
+//		        }
 			}			
 			else System.out.print("Modello per i pesi ERRATO !!!");			
 
