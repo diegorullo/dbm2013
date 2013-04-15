@@ -47,7 +47,7 @@ public class Paper {
 	}
 	
 	//Calcola il tf di un termine tra le keyword di un Paper
-	public double getTermFrequency(String s) {
+	public double getTF(String s) {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
 		double frequency = 0;
@@ -57,6 +57,16 @@ public class Paper {
 		return frequency; 	
 	}
 	
+	//Calcola il tfidf di un termine su tutto il corpus
+	public double getTfIdf(String s, Corpus c) {
+		
+		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+		double frequency = 0;
+		if(keywordSet.containsKey(s)) {
+			frequency = (double) keywordSet.get(s) / keywordSet.size();
+		}
+		return frequency; 
+	}
 
 	
 	//Calcola il vettore di tf per ogni keyword
@@ -69,7 +79,7 @@ public class Paper {
 		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-			tf = getTermFrequency(k.getKey());
+			tf = getTF(k.getKey());
 			keywordVectorTF.put(k.getKey(), tf);
 		}
 		
