@@ -7,11 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import lab1.Author;
-import lab1.Corpus;
-import lab1.Paper;
 
 import com.mysql.jdbc.Statement;
+
+import dblp.Author;
+import dblp.Corpus;
+import dblp.Paper;
 
 public class DBEngine {
 	private static Connection conn;

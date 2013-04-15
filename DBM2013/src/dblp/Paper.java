@@ -1,4 +1,4 @@
-package lab1;
+package dblp;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,14 +31,10 @@ public class Paper {
 		this.keywords = keywords;
 	}
 	
-	public Map<String, Double> key_TF(ArrayList<String> keywords) throws IOException {
+	//Estrae l'insieme delle keyword, con il rispettivo numero di occorrenze
+	public HashMap<String, Integer> getKeywordSet() {
 		
-		int n = 0;
-		int K = keywords.size();
-		double tf;
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
-		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
-		
 		for(String k : keywords) {
 			if (!keywordSet.containsKey(k)) {
 				keywordSet.put(k, 1);
@@ -46,18 +42,92 @@ public class Paper {
 			else {
 				keywordSet.put(k, keywordSet.get(k) + 1);
 			}
-		} 		
+		}
+		return keywordSet;
+	}
+	
+	//Calcola il tf di un termine tra le keyword di un Paper
+	public double getTermFrequency(String s) {
+		
+		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+		double frequency = 0;
+		if(keywordSet.containsKey(s)) {
+			frequency = (double) keywordSet.get(s) / keywordSet.size();
+		}
+		return frequency; 	
+	}
+	
 
+	
+	//Calcola il vettore di tf per ogni keyword
+	public Map<String, Double> getTFVector() throws IOException {
+		
+		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
+		double tf;
+		
 		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-			n = k.getValue();
-			tf = (double)n/K;
+			tf = getTermFrequency(k.getKey());
 			keywordVectorTF.put(k.getKey(), tf);
 		}
 		
 		return keywordVectorTF;
+	}	
+//	public Map<String, Double> getTFVector() throws IOException {
+//	int n = 0;
+//	int K = keywords.size();
+//	double tf;
+//	HashMap<String, Integer> keywordSet = this.getKeywordSet();
+//	Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();	
+//
+//	Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+//	while (it.hasNext()) {
+//		Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+//		n = k.getValue();
+//		tf = (double)n/K;
+//		keywordVectorTF.put(k.getKey(), tf);
+//	}
+//	
+//	return keywordVectorTF;
+//}
+	
+	public void printPaperTFVector() throws IOException {
+		
+		System.out.println("Modello TF per \"" + title + "\" (" + paperID + "):");
+		Map<String, Double> keywordVector = this.getTFVector();
+		for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
+            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
+        }
 	}
+	
+	// calcolo di TFIDF per ogni keyword
+	public Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector, Corpus c) {
+		
+		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();		
+		int N = c.getCardinality();	//Numero totale di documenti del corpus
+		int m = 0;	//Numero di documenti in cui la feature occorre
+		double idf = 0;
+		//double tfidf = 0; 
+		
+		for (String k : keywords) {
+			//contare il numero di paper nel db che contengono k
+			c.getPapers();
+			for(Paper p : c.getPapers()) {
+				if(p.getKeywords().contains(k)) {
+					m++;
+				}
+			}
+			idf = Math.log((double)m/N);
+			//TODO: per il momento calcolo solo l'idf 
+			keywordVectorTFIDF.put(k, idf);
+		}
+		
+		return keywordVectorTFIDF;
+	}
+	
+	
 
 	public int getPaperID() {
 		return paperID;
