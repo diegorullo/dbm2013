@@ -1,4 +1,4 @@
-package lab1;
+package dblp;
 
 import java.util.ArrayList;
 

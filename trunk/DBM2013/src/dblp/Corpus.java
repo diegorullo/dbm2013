@@ -1,4 +1,4 @@
-package lab1;
+package dblp;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,6 +17,37 @@ public class Corpus {
 		this.papers = papers;
 		this.cardinality = cardinality;
 	}
+	
+//	public double getInverseDocumentFrequency(String s, Corpus c) throws Exception {
+//	
+//	ArrayList<Paper> papers = c.getPapers();
+//	double frequency = 0;
+//	
+//	//
+//	
+//	if(papers.contains(this)) {
+//		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+//		
+//		this.getKeywordSet();
+//		for (String k : keywords) {
+//			//contare il numero di paper nel db che contengono k
+//			
+////			for(Paper p : papers) {
+////				if(p.getKeywords().contains(k)) {
+////					m++;
+////				}
+////			}
+////			idf = Math.log((double)m/N);
+////			//TODO: per il momento calcolo solo l'idf 
+////			keywordVectorTFIDF.put(k, idf);
+//		}
+//		return frequency;
+//	}
+//	else {
+//		throw(new Exception("Il paper non è tra quelli del corpus!"));
+//	}
+//	
+//}
 	
 	// calcolo di TFIDF per ogni keyword
 	public Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector) {
@@ -54,5 +85,4 @@ public class Corpus {
 	public int getCardinality() {
 		return cardinality;
 	}
-
 }
