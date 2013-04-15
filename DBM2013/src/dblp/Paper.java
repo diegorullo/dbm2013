@@ -88,15 +88,7 @@ public class Paper {
 		
 		return keywordVectorTF;
 	}
-	
-	public void printPaperTFVector() throws IOException {
-		
-		System.out.println("Modello TF per \"" + title + "\" (" + paperID + "):");
-		Map<String, Double> keywordVector = this.getTFVector();
-		for (Map.Entry<String, Double> entry : keywordVector.entrySet()) {
-            System.out.println("<" + entry.getKey() + ",  " + entry.getValue()+">");
-        }
-	}
+
 
 	// calcolo di TFIDF per ogni keyword
 	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
