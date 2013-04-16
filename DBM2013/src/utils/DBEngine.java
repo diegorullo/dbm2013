@@ -101,9 +101,11 @@ public class DBEngine {
 			authors.add(newAuthor(res.getInt("personid")));
 		}
 		res = stmt.executeQuery(queryP);
-		
+		System.out.println(queryP);
 		while(res.next()) {
-			papers.add(newPaper(res.getInt("paperid")));
+			int i = res.getInt("paperid");
+			papers.add(newPaper(i));
+			System.out.println(i);
 		}
 		
 		res = stmt.executeQuery(queryC);			

@@ -35,7 +35,7 @@ public class Main {
 
 		//System.out.println("Inserisci il modello per i pesi (TF oppure TFIDF): ");
 		//String model = input.next();
-		String model = "tf";
+		String model = "tfidf";
 
 			if(model.equalsIgnoreCase("TF")) {
 				// ordinamento alfabetico prtType=0

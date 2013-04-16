@@ -63,7 +63,7 @@ public class Paper {
 		double tf = 0;
 		double idf = 0;
 		double tfidf = 0;
-		
+				
 		tf = this.getTF(s);
 		idf = c.getIDF(s);
 		tfidf = tf * idf;
@@ -96,14 +96,17 @@ public class Paper {
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
 		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();
 		double tfidf;
+		String key;
 		
 		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-			tfidf = getTFIDF(k.getKey(), c);
-			keywordVectorTFIDF.put(k.getKey(), tfidf);
+			key = k.getKey();
+			tfidf = getTFIDF(key, c);
+			//FIXME
+			//System.out.println("key: " + key + " tfidf: " + tfidf);
+			keywordVectorTFIDF.put(key, tfidf);
 		}
-		
 		return keywordVectorTFIDF;
 	}
 	
