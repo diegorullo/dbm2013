@@ -103,40 +103,11 @@ public class Paper {
 			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
 			key = k.getKey();
 			tfidf = getTFIDF(key, c);
-			//FIXME
-			//System.out.println("key: " + key + " tfidf: " + tfidf);
 			keywordVectorTFIDF.put(key, tfidf);
 		}
 		return keywordVectorTFIDF;
 	}
 	
-//	// calcolo di TFIDF per ogni keyword
-//	public Map<String, Double> key_TFIDF(ArrayList<String> keywords, Map<String, Double> tfVector, Corpus c) {
-//		
-//		Map<String, Double> keywordVectorTFIDF = new TreeMap<String, Double>();		
-//		int N = c.getCardinality();	//Numero totale di documenti del corpus
-//		int m = 0;	//Numero di documenti in cui la feature occorre
-//		double idf = 0;
-//		//double tfidf = 0; 
-//		
-//		for (String k : keywords) {
-//			//contare il numero di paper nel db che contengono k
-//			c.getPapers();
-//			for(Paper p : c.getPapers()) {
-//				if(p.getKeywords().contains(k)) {
-//					m++;
-//				}
-//			}
-//			idf = Math.log((double)m/N);
-//			//TODO: per il momento calcolo solo l'idf 
-//			keywordVectorTFIDF.put(k, idf);
-//		}
-//		
-//		return keywordVectorTFIDF;
-//	}
-	
-	
-
 	public int getPaperID() {
 		return paperID;
 	}
