@@ -38,7 +38,8 @@ public class Main {
 		String model = "tf";
 
 			if(model.equalsIgnoreCase("TF")) {
-				Printer.printPaperTFVector(p.getTFVector());
+				// ordinamento alfabetico prtType=0
+				Printer.printPaperTFVector(p.getTFVector(), 0);
 			}			
 			else if(model.equalsIgnoreCase("TFIDF")) {
 				System.out.println("Modello TFIDF per \"" + p.getTitle() + "\" (" + paperid + "):");
