@@ -22,9 +22,6 @@ public class Corpus {
 	
 	
 	public double getIDF(String s) throws Exception {
-	
-		//ArrayList<Paper> papers = this.getPapers();
-		//System.out.println("papers: " + papers);
 		double idf = 0;
 		int m = 0;
 		int N = this.getCardinality();
@@ -32,20 +29,16 @@ public class Corpus {
 			//contare il numero di occorrenze della keyword s nel corpus
 			for(Paper p : papers)
 			{
-				//System.out.println("p: " + p);
 				HashMap<String, Integer> keywordSet = p.getKeywordSet();
-				//System.out.println("keywordset: " + keywordSet);
 				Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 				while (it.hasNext()) {
 					Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-					//System.out.println("key: " + k.getKey());
 					if (k.getKey().equals(s)) {
 						m += k.getValue();
 					}
 				}
 					
 			}
-			//System.out.println(N + " " + m);
 			if (N > 0 && m > 0)
 			idf = Math.log((double)N/m);
 			return idf;
