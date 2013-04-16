@@ -100,17 +100,15 @@ public class DBEngine {
 		while(res.next()) {			
 			authors.add(newAuthor(res.getInt("personid")));
 		}
-		res = stmt.executeQuery(queryP);
-		System.out.println(queryP);
-		while(res.next()) {
-			int i = res.getInt("paperid");
-			papers.add(newPaper(i));
-			System.out.println(i);
+		
+		ResultSet res2 = stmt.executeQuery(queryP);
+		while(res2.next()) {
+			papers.add(newPaper(res2.getInt("paperid")));
 		}
 		
-		res = stmt.executeQuery(queryC);			
-		res.next();
-		cardinality = res.getInt(1);
+		ResultSet res3 = stmt.executeQuery(queryC);			
+		res3.next();
+		cardinality = res3.getInt(1);
 		
 		Corpus c = new Corpus(authors, papers, cardinality);		
 		return c;

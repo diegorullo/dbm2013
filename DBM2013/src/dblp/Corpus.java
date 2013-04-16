@@ -24,7 +24,7 @@ public class Corpus {
 	public double getIDF(String s) throws Exception {
 	
 		//ArrayList<Paper> papers = this.getPapers();
-		System.out.println("papers: " + papers);
+		//System.out.println("papers: " + papers);
 		double idf = 0;
 		int m = 0;
 		int N = this.getCardinality();
