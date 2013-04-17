@@ -69,9 +69,7 @@ public class DBEngine {
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final String name;
 		
-		String query = "SELECT authors.name,papers.paperid FROM authors,papers,writtenby WHERE authors.personid = "
-				+ personID +
-				" AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid AND writtenby.paperid IS NOT NULL;";
+		String query = "SELECT authors.name,papers.paperid FROM authors left outer join writtenby on writtenby.personid=authors.personid left outer join papers on  writtenby.paperid=papers.paperid where authors.personid = " + personID;
 		stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);		
 		ResultSet res = stmt.executeQuery(query);
 		
@@ -79,6 +77,7 @@ public class DBEngine {
 			//System.out.println("ciao: " + personID + " " + res.getInt("paperid"));
 			
 			name = res.getString("name");
+			if(res.getInt("paperid") != null)
 			papers.add(newPaper(res.getInt("paperid")));			
 			//FIXME
 			//System.out.println("1");
