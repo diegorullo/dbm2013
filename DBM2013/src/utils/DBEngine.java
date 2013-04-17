@@ -69,13 +69,16 @@ public class DBEngine {
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final String name;
 		
-		String query = "SELECT authors.name,writtenby.paperid FROM authors,papers,writtenby WHERE authors.personid = "
+		String query = "SELECT authors.name,papers.paperid FROM authors,papers,writtenby WHERE authors.personid = "
 				+ personID +
-				" AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
+				" AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid AND writtenby.paperid = '';";
 		stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);		
 		ResultSet res = stmt.executeQuery(query);
 		
-		res.next();
+		if(res.next()) {
+		
+		//System.out.println("ciao: " + personID + " " + res.getInt("paperid"));
+		
 		name = res.getString("name");
 		papers.add(newPaper(res.getInt("paperid")));			
 		//FIXME
@@ -87,6 +90,8 @@ public class DBEngine {
 			Paper p = newPaper(id);
 			papers.add(p);
 		}
+		}
+		else name = "Stefania";
 
 		Author a = new Author(personID, name, papers);	
 		return a;

@@ -19,7 +19,7 @@ public class Main {
 		DBEngine db = new DBEngine();
 		db.init();
 		
-		Author a = db.newAuthor(2390072);
+		Author a = db.newAuthor(2490036);
 		for (Paper p : a.getPapers()) {
 			System.out.println(p);
 		}
@@ -27,13 +27,13 @@ public class Main {
 		//System.out.println(a.getCombinedKeywordSet());
 		
 		
-		/* Task 1:
-	    - tokenizare
-		- stemming
-		- eliminare le stop words
-		- calcolo di tf e tfidf per ogni keyword
-		- costruzione del keyword vector <keyword, weight>
-		 */		
+//		/* Task 1:
+//	    - tokenizare
+//		- stemming
+//		- eliminare le stop words
+//		- calcolo di tf e tfidf per ogni keyword
+//		- costruzione del keyword vector <keyword, weight>
+//		 */		
 //		Map<String, Double> tfidfVector = new TreeMap<String, Double>();
 //		Corpus dblp = db.newCorpus();
 //		int paperid = 237222;
