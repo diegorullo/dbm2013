@@ -77,8 +77,8 @@ public class DBEngine {
 			//System.out.println("ciao: " + personID + " " + res.getInt("paperid"));
 			
 			name = res.getString("name");
-			if(res.getInt("paperid") != null)
-			papers.add(newPaper(res.getInt("paperid")));			
+			if(res.getInt("paperid") != 0)
+				papers.add(newPaper(res.getInt("paperid")));			
 			//FIXME
 			//System.out.println("1");
 			while(res.next()) {
@@ -89,7 +89,7 @@ public class DBEngine {
 				papers.add(p);
 			}
 		}
-		else name = "Stefania";
+		else throw new SQLException("An author with paperID " + personID + " is not in the DB.");
 
 		Author a = new Author(personID, name, papers);	
 		return a;
