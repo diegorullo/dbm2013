@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
-
 import com.mysql.jdbc.Statement;
 
 import dblp.Author;
@@ -73,17 +70,14 @@ public class DBEngine {
 		stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);		
 		ResultSet res = stmt.executeQuery(query);
 		
-		if(res.next()) {		
-			//System.out.println("ciao: " + personID + " " + res.getInt("paperid"));
-			
+		if(res.next()) {			
 			name = res.getString("name");
-			if(res.getInt("paperid") != 0)
-				papers.add(newPaper(res.getInt("paperid")));			
-			//FIXME
-			//System.out.println("1");
+			//Questo caso cattura l'eventualita' che esista un author senza papers
+			//e quindi la query restituisce paperid = null
+			if(res.getInt("paperid") != 0) {
+				papers.add(newPaper(res.getInt("paperid")));
+			}
 			while(res.next()) {
-				//FIXME
-				//System.out.println("2: " + res.getString("name"));
 				int id = res.getInt("paperid");
 				Paper p = newPaper(id);
 				papers.add(p);

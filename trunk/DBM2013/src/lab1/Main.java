@@ -2,15 +2,10 @@ package lab1;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Map;
-import java.util.TreeMap;
-
-import dblp.Author;
-import dblp.Corpus;
-import dblp.Paper;
 
 import utils.DBEngine;
-import utils.Printer;
+import dblp.Author;
+import dblp.Paper;
 
 public class Main {
 	
@@ -19,13 +14,12 @@ public class Main {
 		DBEngine db = new DBEngine();
 		db.init();
 		
-		Author a = db.newAuthor(15);
+		Author a = db.newAuthor(2390072);
 		System.out.println(a);
 		for (Paper p : a.getPapers()) {
-			System.out.println(p);
+			System.out.println(p.getKeywordSet());
 		}
-		//FIXME
-		//System.out.println(a.getCombinedKeywordSet());
+		System.out.println(a.getCombinedKeywordSet());
 		
 		
 //		/* Task 1:
