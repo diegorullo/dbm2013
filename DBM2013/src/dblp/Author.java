@@ -1,6 +1,10 @@
 package dblp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Author {
 	private int personID;
@@ -13,6 +17,34 @@ public class Author {
 		this.personID = personID;
 		this.name = name;
 		this.papers = papers;
+	}
+	
+	//Estrae l'insieme delle keyword, con il rispettivo numero di occorrenze
+	public HashMap<String, Integer> getCombinedKeywordSet() {
+		HashMap<String, Integer> combinedKeywordSet = new HashMap<String, Integer>();
+		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
+
+		for (Paper p : papers) {
+			keywordSet = p.getKeywordSet();
+			System.out.println(keywordSet);
+			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+				if (!combinedKeywordSet.containsKey(k)) {
+					combinedKeywordSet.put(k.getKey(), k.getValue());
+				}
+				else {
+					combinedKeywordSet.put(k.getKey(), combinedKeywordSet.get(k) + k.getValue());
+				}
+			}			
+		}
+		return combinedKeywordSet;
+	}
+	
+	public double getCombinedTF(String keyword) {
+		double combinedTF = 0;
+				
+		return combinedTF;
 	}
 
 	public int getPersonID() {

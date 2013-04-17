@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
 
 import com.mysql.jdbc.Statement;
 
@@ -20,7 +22,6 @@ public class DBEngine {
 	private static final String dbAddress = "jdbc:mysql://localhost:3306/dblp";
 	private static final String username = "root";
 	private static final String password = "root";
-	private ResultSet res = null;
 
 	public void init() throws SQLException {
 		if (conn == null)
@@ -44,7 +45,7 @@ public class DBEngine {
 				+ paperID
 				+ " AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
 		stmt = (Statement) conn.createStatement();		
-		res = stmt.executeQuery(query);
+		ResultSet res = stmt.executeQuery(query);
 		
 		res.next();
 		title = res.getString("title");
@@ -65,22 +66,28 @@ public class DBEngine {
 	}
 	
 	public Author newAuthor(int personID) throws SQLException, IOException {
-		final String name;
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
+		final String name;
 		
 		String query = "SELECT authors.name,writtenby.paperid FROM authors,papers,writtenby WHERE authors.personid = "
 				+ personID +
 				" AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
-		stmt = (Statement) conn.createStatement();		
-		res = stmt.executeQuery(query);
+		stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);		
+		ResultSet res = stmt.executeQuery(query);
 		
 		res.next();
 		name = res.getString("name");
 		papers.add(newPaper(res.getInt("paperid")));			
+		//FIXME
+		//System.out.println("1");
 		while(res.next()) {
-			papers.add(newPaper(res.getInt("paperid")));
+			//FIXME
+			//System.out.println("2: " + res.getString("name"));
+			int id = res.getInt("paperid");
+			Paper p = newPaper(id);
+			papers.add(p);
 		}
-		
+
 		Author a = new Author(personID, name, papers);	
 		return a;
 	}
@@ -89,26 +96,26 @@ public class DBEngine {
 		final ArrayList<Author> authors = new ArrayList<Author>();
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final int cardinality;		
-		
+				
 		String queryA = "SELECT personid FROM authors;";
 		String queryP = "SELECT paperid FROM papers;";
 		String queryC = "SELECT COUNT(*) FROM papers;";
 
 		stmt = (Statement) conn.createStatement();
-		res = stmt.executeQuery(queryA);			
+		ResultSet resA = stmt.executeQuery(queryA);			
 
-		while(res.next()) {			
-			authors.add(newAuthor(res.getInt("personid")));
+		while(resA.next()) {
+			authors.add(newAuthor(resA.getInt("personid")));
+		}		
+		
+		ResultSet resP = stmt.executeQuery(queryP);
+		while(resP.next()) {
+			papers.add(newPaper(resP.getInt("paperid")));
 		}
 		
-		ResultSet res2 = stmt.executeQuery(queryP);
-		while(res2.next()) {
-			papers.add(newPaper(res2.getInt("paperid")));
-		}
-		
-		ResultSet res3 = stmt.executeQuery(queryC);			
-		res3.next();
-		cardinality = res3.getInt(1);
+		ResultSet resC = stmt.executeQuery(queryC);			
+		resC.next();
+		cardinality = resC.getInt(1);
 		
 		Corpus c = new Corpus(authors, papers, cardinality);		
 		return c;
