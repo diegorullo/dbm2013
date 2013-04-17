@@ -51,8 +51,10 @@ public class Paper {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
 		double tf = 0;
+		int n = keywordSet.get(s);
+		int K = keywordSet.size();
 		if(keywordSet.containsKey(s)) {
-			tf = (double) keywordSet.get(s) / keywordSet.size();
+			tf = (double) n / K;
 		}
 		return tf; 	
 	}
