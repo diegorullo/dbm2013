@@ -26,7 +26,7 @@ public class Author {
 
 		for (Paper p : papers) {
 			keywordSet = p.getKeywordSet();
-			System.out.println(keywordSet);
+			//System.out.println(keywordSet);
 			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
