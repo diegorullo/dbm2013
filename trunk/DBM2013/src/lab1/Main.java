@@ -19,7 +19,8 @@ public class Main {
 		DBEngine db = new DBEngine();
 		db.init();
 		
-		Author a = db.newAuthor(2490036);
+		Author a = db.newAuthor(2390072);
+		System.out.println(a);
 		for (Paper p : a.getPapers()) {
 			System.out.println(p);
 		}

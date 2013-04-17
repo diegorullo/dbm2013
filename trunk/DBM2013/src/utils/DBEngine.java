@@ -71,25 +71,24 @@ public class DBEngine {
 		
 		String query = "SELECT authors.name,papers.paperid FROM authors,papers,writtenby WHERE authors.personid = "
 				+ personID +
-				" AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid AND writtenby.paperid = '';";
+				" AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid AND writtenby.paperid IS NOT NULL;";
 		stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);		
 		ResultSet res = stmt.executeQuery(query);
 		
-		if(res.next()) {
-		
-		//System.out.println("ciao: " + personID + " " + res.getInt("paperid"));
-		
-		name = res.getString("name");
-		papers.add(newPaper(res.getInt("paperid")));			
-		//FIXME
-		//System.out.println("1");
-		while(res.next()) {
+		if(res.next()) {		
+			//System.out.println("ciao: " + personID + " " + res.getInt("paperid"));
+			
+			name = res.getString("name");
+			papers.add(newPaper(res.getInt("paperid")));			
 			//FIXME
-			//System.out.println("2: " + res.getString("name"));
-			int id = res.getInt("paperid");
-			Paper p = newPaper(id);
-			papers.add(p);
-		}
+			//System.out.println("1");
+			while(res.next()) {
+				//FIXME
+				//System.out.println("2: " + res.getString("name"));
+				int id = res.getInt("paperid");
+				Paper p = newPaper(id);
+				papers.add(p);
+			}
 		}
 		else name = "Stefania";
 
