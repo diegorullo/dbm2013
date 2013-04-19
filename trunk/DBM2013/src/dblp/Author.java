@@ -1,5 +1,6 @@
 package dblp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +19,34 @@ public class Author {
 		this.name = name;
 		this.papers = papers;
 	}
+
+	public Map<String, Integer> foo() throws IOException {
+		HashMap<String, Integer> combinedKeywordSet = new HashMap<String, Integer>();
+		Map<String, Double> tfv;
+
+		/* - vettore di tf per ogni paper dell'autore
+		 * - età del paper
+		 * - peso usando l'età
+		 * - tfrkey[r] = sum(peso[i]*tfkey[i])/sum(peso[i]);
+		 */
+		
+		for (Paper p : papers) {
+			tfv = p.getTFVector();
+			//System.out.println(keywordSet);
+//			Iterator<Entry<String, Double>> it = tfv.entrySet().iterator();
+//			while (it.hasNext()) {
+//				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+//				if (!combinedKeywordSet.containsKey(k)) {
+//					combinedKeywordSet.put(k.getKey(), k.getValue());
+//				}
+//				else {
+//					combinedKeywordSet.put(k.getKey(), combinedKeywordSet.get(k) + k.getValue());
+//				}
+//			}			
+		}
+		return combinedKeywordSet;
+	}
+
 	
 	//Estrae l'insieme delle keyword, con il rispettivo numero di occorrenze
 	public HashMap<String, Integer> getCombinedKeywordSet() {

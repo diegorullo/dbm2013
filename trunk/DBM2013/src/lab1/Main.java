@@ -17,9 +17,10 @@ public class Main {
 		Author a = db.newAuthor(2390072);
 		System.out.println(a);
 		for (Paper p : a.getPapers()) {
-			System.out.println(p.getKeywordSet());
+			//System.out.println(p.getKeywordSet());
+			System.out.println("Paper published in " + p.getYear() + "; it is " + p.getAge() + " years old.");
 		}
-		System.out.println(a.getCombinedKeywordSet());
+		//System.out.println(a.getCombinedKeywordSet());
 		
 		
 //		/* Task 1:

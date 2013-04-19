@@ -44,8 +44,7 @@ public class TextProcessor {
 		tokenStream = new PorterStemFilter(tokenStream);
 		ArrayList<String> keywords = new ArrayList<String>();
 		
-		while (tokenStream.incrementToken()) 
-		{			
+		while (tokenStream.incrementToken()) {			
 			keywords.add(charTermAttribute.toString());
 		}
 		tokenStream.close();
