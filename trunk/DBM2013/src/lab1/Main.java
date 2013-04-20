@@ -6,17 +6,25 @@ import java.sql.SQLException;
 import utils.DBEngine;
 import dblp.Author;
 import dblp.Paper;
+import dblp.Corpus;
 
 public class Main {
 	
 
-	public static void main(String args[]) throws SQLException, IOException	{
+	public static void main(String args[]) throws Exception	{
 		DBEngine db = new DBEngine();
 		db.init();
 		
 		Author a = db.newAuthor(2390072);
 		System.out.println(a);
+		System.out.println("-------------------");
+		System.out.println(">TF model:");
 		System.out.println(a.getWTFVector());
+		System.out.println("-------------------");
+		System.out.println(">TFIDF model:");
+		Corpus dblp = db.newCorpus();
+		System.out.println(a.getWTFIDFVector(dblp));
+		
 		
 		
 //		for (Paper p : a.getPapers()) {
