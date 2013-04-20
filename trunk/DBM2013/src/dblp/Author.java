@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class Author {
 	private int personID;
@@ -20,11 +21,11 @@ public class Author {
 		this.papers = papers;
 	}
 
-	public Map<String, Integer> getWTFVector() throws IOException {
+	public Map<String, Double> getWTFVector() throws IOException {
 		Map<String, Double> wtfv;
 		double weight = 0;
 		double weightNormalizationFactor;
-		Map<String, Integer> WTFVector;
+		Map<String, Double> WTFVector = new TreeMap<String, Double>();
 
 		/* - vettore di tf per ogni paper dell'autore
 		 * - età del paper
@@ -35,22 +36,21 @@ public class Author {
 		for (Paper p : papers) {
 			weight += p.getWeightBasedOnAge();			
 		}
-		weightNormalizationFactor = 1/weight;
+		weightNormalizationFactor = 1 / weight;
 		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
 			wtfv = p.getWTFVector(weight);
-			//System.out.println(keywordSet);
-//			Iterator<Entry<String, Double>> it = tfv.entrySet().iterator();
-//			while (it.hasNext()) {
-//				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
-//				if (!combinedKeywordSet.containsKey(k)) {
-//					combinedKeywordSet.put(k.getKey(), k.getValue());
-//				}
-//				else {
-//					combinedKeywordSet.put(k.getKey(), combinedKeywordSet.get(k) + k.getValue());
-//				}
-//			}			
+			Iterator<Entry<String, Double>> it = wtfv.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+				if (!WTFVector.containsKey(k)) {
+					WTFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
+				}
+				else {
+					WTFVector.put(k.getKey(), WTFVector.get(k) + k.getValue() * weightNormalizationFactor);
+				}
+			}			
 		}
 		return WTFVector;
 	}
