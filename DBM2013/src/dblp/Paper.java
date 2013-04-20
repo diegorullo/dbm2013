@@ -120,10 +120,18 @@ public class Paper {
 		return (double) 1 / (1 + this.getAge());
 	}
 	
-	public double getWTF(String s) {
+	public double getWTF(String s, double weight) {
 		double tf = getTF(s);
-		double w = getWeightBasedOnAge();
-		return  w * tf;
+		return  weight * tf;
+	}
+	
+	public double getWTFVector(double weight) {
+		Map<String, Double> TFVector = getTFVector();
+		Map<String, Double> WTFVector = new Map<String, Double>();
+		for (Map<String, Double> tf : TFVector) {
+			
+		}
+		return  
 	}
 	
 	public int getPaperID() {
