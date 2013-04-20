@@ -20,9 +20,11 @@ public class Author {
 		this.papers = papers;
 	}
 
-	public Map<String, Integer> foo() throws IOException {
-		HashMap<String, Integer> combinedKeywordSet = new HashMap<String, Integer>();
-		Map<String, Double> tfv;
+	public Map<String, Integer> getWTFVector() throws IOException {
+		Map<String, Double> wtfv;
+		double weight = 0;
+		double weightNormalizationFactor;
+		Map<String, Integer> WTFVector;
 
 		/* - vettore di tf per ogni paper dell'autore
 		 * - età del paper
@@ -31,7 +33,13 @@ public class Author {
 		 */
 		
 		for (Paper p : papers) {
-			tfv = p.getTFVector();
+			weight += p.getWeightBasedOnAge();			
+		}
+		weightNormalizationFactor = 1/weight;
+		
+		for (Paper p : papers) {
+			weight = p.getWeightBasedOnAge();
+			wtfv = p.getWTFVector(weight);
 			//System.out.println(keywordSet);
 //			Iterator<Entry<String, Double>> it = tfv.entrySet().iterator();
 //			while (it.hasNext()) {
@@ -44,7 +52,7 @@ public class Author {
 //				}
 //			}			
 		}
-		return combinedKeywordSet;
+		return WTFVector;
 	}
 
 	
