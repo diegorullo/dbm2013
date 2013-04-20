@@ -18,10 +18,10 @@ public class Main {
 		System.out.println(a);
 		for (Paper p : a.getPapers()) {
 			//System.out.println(p.getKeywordSet());
-			System.out.println("Paper published in " + p.getYear() + "; it is " + p.getAge() + " years old.");
+			//System.out.println("Paper published in " + p.getYear() + "; it is " + p.getAge() + " years old.");		}
+			System.out.println(p.getWeightBasedOnAge());				
+			//System.out.println(a.getCombinedKeywordSet());
 		}
-		//System.out.println(a.getCombinedKeywordSet());
-		
 		
 //		/* Task 1:
 //	    - tokenizare

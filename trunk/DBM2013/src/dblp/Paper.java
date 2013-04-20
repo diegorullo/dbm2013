@@ -125,13 +125,21 @@ public class Paper {
 		return  weight * tf;
 	}
 	
-	public double getWTFVector(double weight) {
-		Map<String, Double> TFVector = getTFVector();
-		Map<String, Double> WTFVector = new Map<String, Double>();
-		for (Map<String, Double> tf : TFVector) {
-			
+	public Map<String, Double> getWTFVector(double weight) throws IOException {
+		Map<String, Double> TFVector = this.getTFVector();
+		Map<String, Double> WTFVector = new TreeMap<String, Double>();
+		
+		Iterator<Entry<String, Double>> it = TFVector.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+			String key;
+			Double wtf;
+			key=k.getKey();
+			wtf=(Double) k.getValue()* weight;
+			WTFVector.put(key,wtf);
 		}
-		return  
+
+		return WTFVector;
 	}
 	
 	public int getPaperID() {
