@@ -44,11 +44,11 @@ public class Author {
 			Iterator<Entry<String, Double>> it = wtfv.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
-				if (!WTFVector.containsKey(k)) {
+				if (!WTFVector.containsKey(k.getKey())) {
 					WTFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
 				}
 				else {
-					WTFVector.put(k.getKey(), WTFVector.get(k) + k.getValue() * weightNormalizationFactor);
+					WTFVector.put(k.getKey(), WTFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
 				}
 			}			
 		}
