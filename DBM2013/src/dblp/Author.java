@@ -20,6 +20,41 @@ public class Author {
 		this.name = name;
 		this.papers = papers;
 	}
+	
+	public Map<String, Double> getWTFIDFVector(Corpus c) throws Exception {
+		Map<String, Double> wtfidfv;
+		double weight = 0;
+		double weightNormalizationFactor;
+		Map<String, Double> WTFIDFVector = new TreeMap<String, Double>();
+
+		/* - vettore di tfidf per ogni paper dell'autore
+		 * - età del paper
+		 * - peso usando l'età
+		 * - tfidfrkey[r] = sum(peso[i]*tfidfkey[i])/sum(peso[i]);
+		 */
+		
+		for (Paper p : papers) {
+			weight += p.getWeightBasedOnAge();			
+		}
+		weightNormalizationFactor = 1 / weight;
+		
+		for (Paper p : papers) {
+			weight = p.getWeightBasedOnAge();
+			wtfidfv = p.getWTFIDFVector(weight, c);
+			Iterator<Entry<String, Double>> it = wtfidfv.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+				if (!WTFIDFVector.containsKey(k.getKey())) {
+					WTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
+				}
+				else {
+					WTFIDFVector.put(k.getKey(), WTFIDFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
+				}
+			}			
+		}
+		return WTFIDFVector;
+	}
+
 
 	public Map<String, Double> getWTFVector() throws IOException {
 		Map<String, Double> wtfv;
