@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -94,7 +93,6 @@ public class Paper {
 		return keywordVectorTF;
 	}
 
-
 	// calcolo di TFIDF per ogni keyword
 	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
 		
@@ -116,6 +114,10 @@ public class Paper {
 	public int getAge() {
 		int currentYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
 		return currentYear - this.year; 
+	}
+	
+	public double getWeightBasedOnAge() {
+		return (double) 1 / (1 + this.getAge());
 	}
 	
 	public int getPaperID() {
