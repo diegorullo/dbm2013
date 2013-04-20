@@ -128,14 +128,14 @@ public class Paper {
 	public Map<String, Double> getWTFVector(double weight) throws IOException {
 		Map<String, Double> TFVector = this.getTFVector();
 		Map<String, Double> WTFVector = new TreeMap<String, Double>();
+		String key;
+		Double wtf;
 		
 		Iterator<Entry<String, Double>> it = TFVector.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
-			String key;
-			Double wtf;
-			key=k.getKey();
-			wtf=(Double) k.getValue()* weight;
+			key = k.getKey();
+			wtf = (Double) k.getValue() * weight;
 			WTFVector.put(key,wtf);
 		}
 
