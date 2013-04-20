@@ -120,6 +120,12 @@ public class Paper {
 		return (double) 1 / (1 + this.getAge());
 	}
 	
+	public double getWTF(String s) {
+		double tf = getTF(s);
+		double w = getWeightBasedOnAge();
+		return  w * tf;
+	}
+	
 	public int getPaperID() {
 		return paperID;
 	}
