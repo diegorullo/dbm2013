@@ -80,13 +80,15 @@ public class Corpus {
 	}
 	
 	// estrae la lista dei paper comuni ad una lista di autori (corpus ristretto)
-	public List<Paper> getRestrictedCorpus(List<Author> authors) {
+	public List<Paper> getRestrictedCorpus(Author author, List<Author> authors) {
 		List<Paper> papers = new ArrayList<Paper>();
 		
 		for (Author a : authors) {
 			for (Paper p : a.getPapers()) {
-				if (!papers.contains(p)) {
-					papers.add(p);
+				if (p.getAuthors().contains(author)) {
+					if (!papers.contains(p)) {
+						papers.add(p);
+					}
 				}
 			}
 		}
@@ -94,10 +96,10 @@ public class Corpus {
 	} 
 	
 	// conta il numero di occorrenze della keyword s nel corpus ristretto
-	public double getRestrictedIDF(String s, List<Author> authors) {
+	public double getRestrictedIDF(String s, Author author, List<Author> authors) {
 		double idf = 0;
 		int m = 0;
-		List<Paper> rc = getRestrictedCorpus(authors);
+		List<Paper> rc = getRestrictedCorpus(author, authors);
 		int N = rc.size();		
 
 		// conta il numero di occorrenze della keyword s nel corpus ristretto		
