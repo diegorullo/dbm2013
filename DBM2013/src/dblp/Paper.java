@@ -124,23 +124,6 @@ public class Paper {
 		double tf = getTF(s);
 		return  weight * tf;
 	}
-
-	public Map<String, Double> getWTFIDFVector(double weight, Corpus c) throws Exception {
-		Map<String, Double> TFIDFVector = this.getTFIDFVector(c);
-		Map<String, Double> WTFIDFVector = new TreeMap<String, Double>();
-		String key;
-		Double wtfidf;
-		
-		Iterator<Entry<String, Double>> it = TFIDFVector.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
-			key = k.getKey();
-			wtfidf = (Double) k.getValue() * weight;
-			WTFIDFVector.put(key,wtfidf);
-		}
-
-		return WTFIDFVector;
-	}
 	
 	public Map<String, Double> getWTFVector(double weight) throws IOException {
 		Map<String, Double> TFVector = this.getTFVector();
@@ -157,6 +140,23 @@ public class Paper {
 		}
 
 		return WTFVector;
+	}
+	
+	public Map<String, Double> getWTFIDFVector(double weight, Corpus c) throws Exception {
+		Map<String, Double> TFIDFVector = this.getTFIDFVector(c);
+		Map<String, Double> WTFIDFVector = new TreeMap<String, Double>();
+		String key;
+		Double wtfidf;
+		
+		Iterator<Entry<String, Double>> it = TFIDFVector.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+			key = k.getKey();
+			wtfidf = (Double) k.getValue() * weight;
+			WTFIDFVector.put(key,wtfidf);
+		}
+
+		return WTFIDFVector;
 	}
 	
 	public int getPaperID() {

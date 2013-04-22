@@ -20,25 +20,31 @@ public class Main {
 		db.init();
 		
 		Author a = db.newAuthor(2390072);
-//		System.out.println(a);
-//		System.out.println("-------------------");
-//		System.out.println(">TF model:");
-//		System.out.println(a.getWTFVector());
-//		System.out.println("-------------------");
-//		System.out.println(">TFIDF model:");
+		System.out.println(a);
+		System.out.println("-------------------");
+		System.out.println(">TF model on author:");
+		System.out.println(a.getWTFVector());
+		System.out.println("-------------------");
+		System.out.println(">TFIDF model on author's papers:");
 		Corpus dblp = db.newCorpus();
-//		System.out.println(a.getWTFIDFVector(dblp));
+		System.out.println(a.getWTFIDFVector(dblp));
+		System.out.println("-------------------");
+		System.out.println(">TF model on all papers:");
+		System.out.println(a.getPapers().get(0).getTFVector());
+		System.out.println("-------------------");
+		System.out.println(">TFIDF model on all papers:");
+		System.out.println(a.getPapers().get(0).getTFIDFVector(dblp));
 		
-//		System.out.println(dblp.getCoAuthors(a));
+//		uSystem.out.println(dblp.getCoAuthors(a));
 		
-		List<Author> coAuthors = dblp.getCoAuthors(a);
-		ArrayList<String> kw;
-		for (Paper p : dblp.getRestrictedCorpus(coAuthors)) {
-			kw = p.getKeywords();
-			for (String k : kw) {
-				System.out.println(dblp.getRestrictedIDF(k, coAuthors));
-			}
-		}
+//		List<Author> coAuthors = dblp.getCoAuthors(a);
+//		ArrayList<String> kw;
+//		for (Paper p : dblp.getRestrictedCorpus(coAuthors)) {
+//			kw = p.getKeywords();
+//			for (String k : kw) {
+//				System.out.println(dblp.getRestrictedIDF(k, coAuthors));
+//			}
+//		}
 		
 //		/* Task 1:
 //	    - tokenizare
