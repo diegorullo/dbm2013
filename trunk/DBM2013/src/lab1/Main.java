@@ -3,7 +3,12 @@ package lab1;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import javax.naming.NameNotFoundException;
 
@@ -20,22 +25,60 @@ public class Main {
 		db.init();
 		
 		Author a = db.newAuthor(2390072);
+		
 		System.out.println(a);
 		System.out.println("-------------------");
 		System.out.println(">TF model on author:");
 		System.out.println(a.getWTFVector());
 		System.out.println("-------------------");
-		System.out.println(">TFIDF model on author's papers:");
-		Corpus dblp = db.newCorpus();
-		System.out.println(a.getWTFIDFVector(dblp));
-		System.out.println("-------------------");
-		System.out.println(">TF model on all papers:");
-		System.out.println(a.getPapers().get(0).getTFVector());
-		System.out.println("-------------------");
-		System.out.println(">TFIDF model on all papers:");
-		System.out.println(a.getPapers().get(0).getTFIDFVector(dblp));
+//		System.out.println(">TFIDF model on author's papers:");
+//		Corpus dblp = db.newCorpus();
+//		System.out.println(a.getWTFIDFVector(dblp));
+//		System.out.println("-------------------");
+//		System.out.println(">TF model on all papers:");
+//		System.out.println(a.getPapers().get(0).getTFVector());
+//		System.out.println("-------------------");
+//		System.out.println(">TFIDF model on all papers:");
+//		System.out.println(a.getPapers().get(0).getTFIDFVector(dblp));
 		
-//		uSystem.out.println(dblp.getCoAuthors(a));
+		
+
+		Map<String, Double> TFVector = new TreeMap<String, Double>();
+		Map<String, Double> TFVectorG = new TreeMap<String, Double>();
+
+		/* - vettore di tf per ogni paper dell'autore
+		 * - età del paper
+		 * - peso usando l'età
+		 * - tfrkey[r] = sum(peso[i]*tfkey[i])/sum(peso[i]);
+		 */
+
+		
+		ArrayList<Paper> lp = a.getPapers();
+		double denominatore = lp.size();
+		
+		for (Paper p : lp) {
+//			System.out.println(p);
+//			System.out.println("Peso del paper " + p.getPaperID() + ": " + p.getWeightBasedOnAge());
+//			System.out.println(p.getKeywordSet().get("algorithm"));
+			
+			TFVector = p.getTFVector();
+			Iterator<Entry<String, Double>> it = TFVector.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+				if (!TFVectorG.containsKey(k.getKey())) {
+					TFVectorG.put(k.getKey(), k.getValue()/denominatore);
+				}
+				else {
+					TFVectorG.put(k.getKey(), TFVectorG.get(k.getKey()) + k.getValue()/denominatore);
+				}
+			}
+		}
+		System.out.println("-------------------");
+		System.out.println(">TF W Stefania (pesi a 1):");
+		System.out.println(TFVectorG);
+		
+		
+//		System.out.println(dblp.getCoAuthors(a));
 		
 //		List<Author> coAuthors = dblp.getCoAuthors(a);
 //		ArrayList<String> kw;
