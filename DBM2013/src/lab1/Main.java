@@ -2,6 +2,10 @@ package lab1;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.NameNotFoundException;
 
 import utils.DBEngine;
 import dblp.Author;
@@ -11,28 +15,30 @@ import dblp.Corpus;
 public class Main {
 	
 
-	public static void main(String args[]) throws Exception	{
+	public static void main(String args[]) throws Exception {
 		DBEngine db = new DBEngine();
 		db.init();
 		
 		Author a = db.newAuthor(2390072);
-		System.out.println(a);
-		System.out.println("-------------------");
-		System.out.println(">TF model:");
-		System.out.println(a.getWTFVector());
-		System.out.println("-------------------");
-		System.out.println(">TFIDF model:");
+//		System.out.println(a);
+//		System.out.println("-------------------");
+//		System.out.println(">TF model:");
+//		System.out.println(a.getWTFVector());
+//		System.out.println("-------------------");
+//		System.out.println(">TFIDF model:");
 		Corpus dblp = db.newCorpus();
-		System.out.println(a.getWTFIDFVector(dblp));
+//		System.out.println(a.getWTFIDFVector(dblp));
 		
+//		System.out.println(dblp.getCoAuthors(a));
 		
-		
-//		for (Paper p : a.getPapers()) {
-//			//System.out.println(p.getKeywordSet());
-//			//System.out.println("Paper published in " + p.getYear() + "; it is " + p.getAge() + " years old.");		}
-//			System.out.println(p.getWTFVector(p.getWeightBasedOnAge()));				
-//			//System.out.println(a.getCombinedKeywordSet());
-//		}
+		List<Author> coAuthors = dblp.getCoAuthors(a);
+		ArrayList<String> kw;
+		for (Paper p : dblp.getRestrictedCorpus(coAuthors)) {
+			kw = p.getKeywords();
+			for (String k : kw) {
+				System.out.println(dblp.getRestrictedIDF(k, coAuthors));
+			}
+		}
 		
 //		/* Task 1:
 //	    - tokenizare

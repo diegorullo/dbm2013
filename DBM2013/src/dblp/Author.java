@@ -113,11 +113,7 @@ public class Author {
 		return combinedKeywordSet;
 	}
 	
-	public double getCombinedTF(String keyword) {
-		double combinedTF = 0;
-				
-		return combinedTF;
-	}
+
 
 	public int getPersonID() {
 		return personID;
@@ -150,5 +146,6 @@ public class Author {
 	public String toString() {
 		return "Author [personID=" + personID + ", name=" + name + ", papers="
 				+ papers + "]";
-	}	
+	}
+
 }
