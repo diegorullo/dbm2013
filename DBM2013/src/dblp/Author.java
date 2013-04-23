@@ -45,13 +45,32 @@ public class Author {
 			while (it.hasNext()) {
 				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
 				if (!WTFVector.containsKey(k.getKey())) {
-					WTFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
+					WTFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);			
 				}
 				else {
 					WTFVector.put(k.getKey(), WTFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
 				}
 			}			
 		}
+		
+		
+		Double denominatore = 0.0;
+		Iterator<Entry<String, Double>> it = WTFVector.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+			denominatore+=k.getValue();
+		}
+		
+		Double testUno = 0.0;
+		Iterator<Entry<String, Double>> itNorm = WTFVector.entrySet().iterator();
+		while (itNorm.hasNext()) {
+			Map.Entry<String, Double> k = (Map.Entry<String, Double>) itNorm.next();
+			WTFVector.put(k.getKey(), k.getValue()/denominatore);
+			testUno+=k.getValue()/denominatore;
+			
+		}
+		System.out.println(">Somma termini pesati: "+testUno);
+		
 		return WTFVector;
 	}
 	
