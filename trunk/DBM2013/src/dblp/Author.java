@@ -9,14 +9,14 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class Author {
-	private int personID;
+	private int authorID;
 	private String name;
 	private ArrayList<Paper> papers;
 	
 	
 	public Author(int personID, String name, ArrayList<Paper> papers) {
 		super();
-		this.personID = personID;
+		this.authorID = personID;
 		this.name = name;
 		this.papers = papers;
 	}
@@ -132,8 +132,8 @@ public class Author {
 	
 
 
-	public int getPersonID() {
-		return personID;
+	public int getAuthorID() {
+		return authorID;
 	}
 
 	public String getName() {
@@ -144,8 +144,8 @@ public class Author {
 		return papers;
 	}
 
-	public void setPersonID(int personID) {
-		this.personID = personID;
+	public void setAuthorID(int authorID) {
+		this.authorID = authorID;
 	}
 
 	public void setName(String name) {
@@ -161,7 +161,7 @@ public class Author {
 	 */
 	@Override
 	public String toString() {
-		return "Author [personID=" + personID + ", name=" + name + ", papers="
+		return "Author [personID=" + authorID + ", name=" + name + ", papers="
 				+ papers + "]";
 	}
 

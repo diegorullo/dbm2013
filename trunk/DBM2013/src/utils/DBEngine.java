@@ -36,9 +36,9 @@ public class DBEngine {
 		final String publisher;
 		final String paperAbstract;
 		final ArrayList<String> keywords;
-		final ArrayList<String> authors = new ArrayList<String>();
-		
-		String query = "SELECT authors.name,papers.* FROM authors,papers,writtenby WHERE papers.paperid = "
+		final ArrayList<String> authorsNames = new ArrayList<String>();
+		final ArrayList<Integer> authors = new ArrayList<Integer>();
+		String query = "SELECT authors.*,papers.* FROM authors,papers,writtenby WHERE papers.paperid = "
 				+ paperID
 				+ " AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
 		stmt = (Statement) conn.createStatement();		
@@ -52,13 +52,15 @@ public class DBEngine {
 		
 		keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
 		
-		authors.add(res.getString("name"));
+		authorsNames.add(res.getString("name"));
+		authors.add(res.getInt("personid"));
 		
 		while(res.next()) {
-			authors.add(res.getString("name"));
+			authorsNames.add(res.getString("name"));
+			authors.add(res.getInt("personid"));	
 		}
 		
-		Paper p = new Paper(paperID, title, year, publisher, paperAbstract, authors, keywords);	
+		Paper p = new Paper(paperID, title, year, publisher, paperAbstract, authorsNames, authors, keywords);	
 		return p;
 	}
 	

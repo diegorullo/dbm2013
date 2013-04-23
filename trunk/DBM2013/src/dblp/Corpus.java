@@ -55,12 +55,23 @@ public class Corpus {
 		throw new NameNotFoundException("There is no author named '" + name + "' in the Corpus.");
 	}
 	
+	// restituisce l'oggetto Author associato all'id dato
+	public Author getAuthorByID(int id) throws Exception {
+		for (Author a : authors) {
+			if (id==a.getAuthorID()) {
+				return a;
+			}
+		}
+		//FIXME: sistemare con eccezione appropriata
+		throw new Exception();
+	}
+	
 	// estrae i nomi dei coautori di un autore dato
 	public List<String> getCoAuthorsNames(Author a) {
 		List<String> coAuthorsNames = new ArrayList<String>();
 		
 		for (Paper p : a.getPapers()) {
-			for (String coA : p.getAuthors()) {
+			for (String coA : p.getAuthorsNames()) {
 				if(!coAuthorsNames.contains(coA)) {
 					coAuthorsNames.add(coA);
 				}
@@ -69,12 +80,27 @@ public class Corpus {
 		return coAuthorsNames;
 	}
 	
+	// estrae gli id dei coautori di un autore dato
+	public List<Integer> getCoAuthorsIDs(Author a) {
+		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
+		
+		for (Paper p : a.getPapers()) {
+			for (int coA : p.getAuthors()) {
+				if(!coAuthorsIDs.contains(coA)) {
+					coAuthorsIDs.add(coA);
+				}
+			}
+		}		
+		return coAuthorsIDs;
+	}
+	
 	// estrae i coautori di un autore dato
-	public List<Author> getCoAuthors(Author a) throws NameNotFoundException {
+	//FIXME: sostituire con exception appropriata
+	public List<Author> getCoAuthors(Author a) throws Exception {
 		List<Author> coAuthors = new ArrayList<Author>();
-		List<String> coAuthorsNames = this.getCoAuthorsNames(a);
-		for (String coA : coAuthorsNames) {
-			coAuthors.add(getAuthorByName(coA));
+		List<Integer> coAuthorsIDs = this.getCoAuthorsIDs(a);
+		for (int coA : coAuthorsIDs) {
+			coAuthors.add(getAuthorByID(coA));
 		}
 		return coAuthors;
 	}

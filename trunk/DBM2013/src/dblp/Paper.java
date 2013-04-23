@@ -16,12 +16,13 @@ public class Paper {
 	private int year;
 	private String publisher;
 	private String paperAbstract;
-	private ArrayList<String> authors;
+	private ArrayList<String> authorsNames;
+	private ArrayList<Integer> authors;
 	private ArrayList<String> keywords;
 	
 	
 	public Paper(int paperID, String title, int year, String publisher,
-			String paperAbstract, ArrayList<String> authors,
+			String paperAbstract, ArrayList<String> authorsNames, ArrayList<Integer> authors,
 			ArrayList<String> keywords) {
 		super();
 		this.paperID = paperID;
@@ -29,6 +30,7 @@ public class Paper {
 		this.year = year;
 		this.publisher = publisher;
 		this.paperAbstract = paperAbstract;
+		this.authorsNames = authorsNames;
 		this.authors = authors;
 		this.keywords = keywords;
 	}
@@ -179,10 +181,14 @@ public class Paper {
 		return paperAbstract;
 	}
 
-	public ArrayList<String> getAuthors() {
-		return authors;
+	public ArrayList<String> getAuthorsNames() {
+		return authorsNames;
 	}
 
+	public ArrayList<Integer> getAuthors() {
+		return authors;
+	}
+	
 	public ArrayList<String> getKeywords() {
 		return keywords;
 	}
@@ -207,7 +213,11 @@ public class Paper {
 		this.paperAbstract = paperAbstract;
 	}
 
-	public void setAuthors(ArrayList<String> authors) {
+	public void setAuthorsNames(ArrayList<String> authorsNames) {
+		this.authorsNames = authorsNames;
+	}
+	
+	public void setAuthors(ArrayList<Integer> authors) {
 		this.authors = authors;
 	}
 
