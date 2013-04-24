@@ -24,7 +24,7 @@ public class Author {
 	public Map<String, Double> getWTFVector() throws IOException {
 		Map<String, Double> wtfv;
 		double weight = 0;
-		double weightNormalizationFactor;
+		double weightNormalizationFactor = 0;
 		Map<String, Double> WTFVector = new TreeMap<String, Double>();
 
 		/* - vettore di tf per ogni paper dell'autore
@@ -33,10 +33,10 @@ public class Author {
 		 * - tfrkey[r] = sum(peso[i]*tfkey[i])/sum(peso[i]);
 		 */
 		
-		for (Paper p : papers) {
-			weight += p.getWeightBasedOnAge();			
-		}
-		weightNormalizationFactor = 1 / weight;
+//		for (Paper p : papers) {
+//			weight += p.getWeightBasedOnAge();			
+//		}
+//		weightNormalizationFactor = 1 / weight;
 		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
@@ -45,28 +45,27 @@ public class Author {
 			while (it.hasNext()) {
 				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
 				if (!WTFVector.containsKey(k.getKey())) {
-					WTFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);			
+					WTFVector.put(k.getKey(), k.getValue());			
 				}
 				else {
-					WTFVector.put(k.getKey(), WTFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
+					WTFVector.put(k.getKey(), WTFVector.get(k.getKey()) + k.getValue());
 				}
 			}			
 		}
 		
 		
-		Double denominatore = 0.0;
 		Iterator<Entry<String, Double>> it = WTFVector.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
-			denominatore+=k.getValue();
+			weightNormalizationFactor+=k.getValue();
 		}
 		
 		Double testUno = 0.0;
 		Iterator<Entry<String, Double>> itNorm = WTFVector.entrySet().iterator();
 		while (itNorm.hasNext()) {
 			Map.Entry<String, Double> k = (Map.Entry<String, Double>) itNorm.next();
-			WTFVector.put(k.getKey(), k.getValue()/denominatore);
-			testUno+=k.getValue()/denominatore;
+			WTFVector.put(k.getKey(), k.getValue()/weightNormalizationFactor);
+			testUno+=k.getValue();
 			
 		}
 		System.out.println(">Somma termini pesati: "+testUno);
