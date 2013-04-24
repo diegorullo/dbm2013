@@ -85,13 +85,15 @@ public class Paper {
 		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
 		double tf;
 		
+		double uno = 0.0; //FIXME
 		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
 			tf = getTF(k.getKey());
+			uno += tf; //FIXME
 			keywordVectorTF.put(k.getKey(), tf);
 		}
-		
+		System.out.println("  >Somma dei tf del paper " + paperID + ": " + uno); //FIXME
 		return keywordVectorTF;
 	}
 

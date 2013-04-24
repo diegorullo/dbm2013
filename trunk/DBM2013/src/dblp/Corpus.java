@@ -112,9 +112,9 @@ public class Corpus {
 		for (Author a : authors) {
 			for (Paper p : a.getPapers()) {
 				if (p.getAuthors().contains(author)) {
-					if (!papers.contains(p)) {
+					//if (!papers.contains(p)) {
 						papers.add(p);
-					}
+					//}
 				}
 			}
 		}
