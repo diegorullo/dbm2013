@@ -72,7 +72,7 @@ public class Corpus {
 		
 		for (Paper p : a.getPapers()) {
 			for (String coA : p.getAuthorsNames()) {
-				if(!coAuthorsNames.contains(coA)) {
+				if(!coAuthorsNames.contains(coA) && !a.getName().equals(coA)) {
 					coAuthorsNames.add(coA);
 				}
 			}
@@ -86,7 +86,7 @@ public class Corpus {
 		
 		for (Paper p : a.getPapers()) {
 			for (int coA : p.getAuthors()) {
-				if(!coAuthorsIDs.contains(coA)) {
+				if(!coAuthorsIDs.contains(coA) && a.getAuthorID()!=(coA)) {
 					coAuthorsIDs.add(coA);
 				}
 			}
@@ -103,6 +103,15 @@ public class Corpus {
 			coAuthors.add(getAuthorByID(coA));
 		}
 		return coAuthors;
+	}
+	
+	// estrae i coautori di un autore dato
+	//FIXME: sostituire con exception appropriata
+	public List<Author> getCoAuthorsAndSelf(Author a) throws Exception {
+		List<Author> coAuthorsAndSelf = this.getCoAuthors(a);
+		coAuthorsAndSelf.add(a);
+
+		return coAuthorsAndSelf;
 	}
 	
 	// estrae la lista dei paper comuni ad una lista di autori (corpus ristretto)
