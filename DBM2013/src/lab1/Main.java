@@ -31,6 +31,15 @@ public class Main {
 		System.out.println(">Weighted TF model based on author " + a.getAuthorID() + ":");
 		System.out.println(a.getWTFVector());
 		System.out.println("-------------------");
+		
+		Corpus dblp = db.newCorpus();
+		for (Author coa : dblp.getCoAuthors(a))
+			System.out.println(coa.getName());
+		System.out.println("-------------------");
+		for (Author coa : dblp.getCoAuthorsAndSelf(a))
+			System.out.println(coa.getName());
+		
+		
 //		System.out.println(">TFIDF model on author's papers:");
 //		Corpus dblp = db.newCorpus();
 //		System.out.println(a.getWTFIDFVector(dblp));
