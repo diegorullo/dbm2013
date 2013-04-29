@@ -78,7 +78,11 @@ public class Paper {
 	}
 
 	
-	//Calcola il vettore di tf per ogni keyword
+	/**
+	  *  restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	  *  rispetto al modello di pesi TF 
+	  * @return keywordVector pesato in base al TF
+	  */
 	public Map<String, Double> getTFVector() throws IOException {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
@@ -97,7 +101,11 @@ public class Paper {
 		return keywordVectorTF;
 	}
 
-	// calcolo di TFIDF per ogni keyword
+	/**
+	  *  restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	  *  rispetto al modello di pesi TFIDF 
+	  * @return keywordVector pesato in base al TFIDF
+	  */
 	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
@@ -115,20 +123,40 @@ public class Paper {
 		return keywordVectorTFIDF;
 	}
 	
+	/** restituisce l'età del paper corrente
+	 *
+	 * @return età del paper corrente
+	 */
 	public int getAge() {
 		int currentYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
 		return currentYear - this.year; 
 	}
 	
+	/** calcola il peso del paper basato sull`età
+	 * 
+	 * @return peso del paper
+	 */
 	public double getWeightBasedOnAge() {
 		return (double) 1 / (1 + this.getAge());
 	}
 	
-	public double getWTF(String s, double weight) {
-		double tf = getTF(s);
+	/** restituisce il TF della keyword pesato secondo l`età del paper
+	 * 
+	 * @param keyword 
+	 * @param weight
+	 * @return tf pesato della keyword
+	 */
+	public double getWTF(String keyword, double weight) {
+		double tf = getTF(keyword);
 		return  weight * tf;
 	}
 	
+	/** restituisce il vettore dei TF pesati secondo l`età dei papers
+	 *  
+	 * @param weight
+	 * @return vettore dei TF pesati
+	 * @throws IOException
+	 */
 	public Map<String, Double> getWTFVector(double weight) throws IOException {
 		Map<String, Double> TFVector = this.getTFVector();
 		Map<String, Double> WTFVector = new TreeMap<String, Double>();
@@ -146,6 +174,13 @@ public class Paper {
 		return WTFVector;
 	}
 	
+	/** restituisce il vettore dei TFIDF pesati secondo l`età dei papers
+	 * 
+	 * @param weight    
+	 * @param c         Corpus dei papers
+	 * @return vettore dei TFIDF pesati
+	 * @throws Exception
+	 */
 	public Map<String, Double> getWTFIDFVector(double weight, Corpus c) throws Exception {
 		Map<String, Double> TFIDFVector = this.getTFIDFVector(c);
 		Map<String, Double> WTFIDFVector = new TreeMap<String, Double>();
@@ -163,6 +198,11 @@ public class Paper {
 		return WTFIDFVector;
 	}
 	
+	/** controlla se la keyword è contenuta nel paper
+	 * 
+	 * @param key
+	 * @return true se la keyword è presente, false altrimenti
+	 */
 	public boolean containsKeyword(String key){
 		return this.keywords.contains(key);
 	}

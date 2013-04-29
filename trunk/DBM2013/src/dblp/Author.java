@@ -21,6 +21,7 @@ public class Author {
 		this.papers = papers;
 	}
 	
+	
 	public Map<String, Double> getWTFVector() throws IOException {
 		Map<String, Double> wtfv;
 		double weight = 0;
