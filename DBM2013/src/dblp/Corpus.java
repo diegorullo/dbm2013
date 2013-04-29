@@ -23,8 +23,14 @@ public class Corpus {
 		this.cardinality = cardinality;
 	}
 	
-	// calcola l'idf di una keyword
-	public double getIDF(String s) throws Exception {
+	/** restituisce l`IDF di una keyword
+	 * 
+	 * @param keyword
+	 * @return IDF di una keyword
+	 * @throws Exception
+	 */
+	//FIXME Sostituire con eccezione appropriata
+	public double getIDF(String keyword) throws Exception {
 		double idf = 0;
 		int m = 0;
 		int N = this.getCardinality();
@@ -35,7 +41,7 @@ public class Corpus {
 			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-				if (k.getKey().equals(s)) {
+				if (k.getKey().equals(keyword)) {
 					m += k.getValue();
 				}
 			}				
@@ -45,7 +51,12 @@ public class Corpus {
 		return idf;
 	}
 	
-	// restituisce l'oggetto Author associato al nome dato
+	/** restituisce l'oggetto Author associato al nome dato
+	 * 
+	 * @param name
+	 * @return oggetto Author associato al nome dato
+	 * @throws NameNotFoundException
+	 */
 	public Author getAuthorByName(String name) throws NameNotFoundException {
 		for (Author a : authors) {
 			if (name.equals(a.getName())) {
@@ -55,7 +66,12 @@ public class Corpus {
 		throw new NameNotFoundException("There is no author named '" + name + "' in the Corpus.");
 	}
 	
-	// restituisce l'oggetto Author associato all'id dato
+	/** restituisce l'oggetto Author associato all`id dato
+	 * 
+	 * @param id
+	 * @return oggetto Author associato all`id dato
+	 * @throws Exception
+	 */
 	public Author getAuthorByID(int id) throws Exception {
 		for (Author a : authors) {
 			if (id==a.getAuthorID()) {
@@ -66,7 +82,11 @@ public class Corpus {
 		throw new Exception();
 	}
 	
-	// estrae i nomi dei coautori di un autore dato
+	/** estrae i nomi dei coautori di un autore dato
+	 * 
+	 * @param a
+	 * @return lista di stringhe: nomi dei coautori di un autore dato
+	 */
 	public List<String> getCoAuthorsNames(Author a) {
 		List<String> coAuthorsNames = new ArrayList<String>();
 		
@@ -80,7 +100,11 @@ public class Corpus {
 		return coAuthorsNames;
 	}
 	
-	// estrae gli id dei coautori di un autore dato
+	/** estrae gli id dei coautori di un autore dato
+	 * 
+	 * @param a
+	 * @return lista di interi: id dei coautori di un autore dato
+	 */
 	public List<Integer> getCoAuthorsIDs(Author a) {
 		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
 		
@@ -94,7 +118,12 @@ public class Corpus {
 		return coAuthorsIDs;
 	}
 	
-	// estrae i coautori di un autore dato
+	/** estrae i coautori di un autore dato
+	 * 
+	 * @param a
+	 * @return lista di Author: coautori di un autore dato
+	 * @throws Exception
+	 */
 	//FIXME: sostituire con exception appropriata
 	public List<Author> getCoAuthors(Author a) throws Exception {
 		List<Author> coAuthors = new ArrayList<Author>();
@@ -108,7 +137,12 @@ public class Corpus {
 	}
 	
 	
-	// estrae i coautori di un autore dato insieme all'autore stesso
+	/** estrae i coautori di un autore dato insieme all'autore stesso
+	 * 
+	 * @param a
+	 * @return lista di Author: coautori di un autore dato + autore stesso
+	 * @throws Exception
+	 */
 	//FIXME: sostituire con exception appropriata
 	public List<Author> getCoAuthorsAndSelf(Author a) throws Exception {
 		List<Author> coAuthorsAndSelf = this.getCoAuthors(a);
@@ -117,7 +151,12 @@ public class Corpus {
 		return coAuthorsAndSelf;
 	}
 	
-	// estrae la lista dei paper comuni ad una lista di autori (corpus ristretto)
+	/** estrae la lista dei paper comuni ad una lista di autori (corpus ristretto)
+	 * 
+	 * @param author
+	 * @param authors
+	 * @return lista di Paper: paper comuni ad una lista di autori
+	 */
 	public List<Paper> getRestrictedCorpus(Author author, List<Author> authors) {
 		List<Paper> papers = new ArrayList<Paper>();
 		
@@ -134,8 +173,15 @@ public class Corpus {
 		return papers;
 	} 
 	
-	// conta il numero di occorrenze della keyword s nel corpus ristretto
-	public double getRestrictedIDF(String s, Author author, List<Author> authors) {
+	/** conta il numero di occorrenze di una keyword nel corpus ristretto
+	 * ovvero il corpus formato dai paper di un autore e dei suoi coautori
+	 * 
+	 * @param keyword
+	 * @param author
+	 * @param authors
+	 * @return IDF calcolato in base al corpus ristretto
+	 */
+	public double getRestrictedIDF(String keyword, Author author, List<Author> authors) {
 		double idf = 0;
 		int m = 0;
 		List<Paper> rc = getRestrictedCorpus(author, authors);
@@ -147,7 +193,7 @@ public class Corpus {
 			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-				if (k.getKey().equals(s)) {
+				if (k.getKey().equals(keyword)) {
 					m += k.getValue();
 				}
 			}				
@@ -160,12 +206,23 @@ public class Corpus {
 		return idf;
 	}
 	
+	/** restiruisce la lista dei paper dei coautori di un autore dato
+	 * 
+	 * @param a
+	 * @return lista di Paper: i paper dei coautori di un autore dato
+	 * @throws Exception
+	 */
 	//FIXME: chiedere se è davvero convinta...
 	public List<Paper> coauthor_papers(Author a) throws Exception {
 		return getCoAuthorsPapers(a);
 	}
 	
-	// estrae i paper dei coautori di un autore dato
+	/** estrae i paper dei coautori di un autore dato
+	 * 
+	 * @param a
+	 * @return lista di Paper: elenco dei paper dei coautori di un autore dato
+	 * @throws Exception
+	 */
 	//FIXME: sostituire con exception appropriata
 	public List<Paper> getCoAuthorsPapers(Author a) throws Exception {
 		List<Author> coAuthors = this.getCoAuthors(a);
@@ -185,13 +242,22 @@ public class Corpus {
 		return coAuthorsPapers;
 	}
 	
-	
+	/** rinomina in base a specifiche della funzione getCoAuthorsAndSelfPapers che
+	 * estrae i paper dei coautori di un autore dato insieme a quelli dell'autore stesso
+	 * @param a
+	 * @return lista di Paper: elenco dei paper di un autore dato insieme a quelli dell'autore stesso
+	 * @throws Exception
+	 */
 	//FIXME: chiedere se è convinta...
 	public List<Paper> coauthor_and_self(Author a) throws Exception {
 		return getCoAuthorsAndSelfPapers(a);
 	}
 	
-	// estrae i paper dei coautori di un autore dato, insieme a quelli dell'autore stesso
+	/** estrae i paper dei coautori di un autore dato insieme a quelli dell'autore stesso
+	 * @param a
+	 * @return lista di Paper: elenco dei paper di un autore dato insieme a quelli dell'autore stesso
+	 * @throws Exception
+	 */
 	//FIXME: sostituire con exception appropriata
 	public List<Paper> getCoAuthorsAndSelfPapers(Author a) throws Exception {
 		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(a);
@@ -208,7 +274,13 @@ public class Corpus {
 		return coAuthorsAndSelfPapers;
 	}
 	
-	//r_ij e’ il numero di articoli dei coautori in coauthor_papers(a_i) che non contengono la chiave k_j;
+	/** restituisce il numero di articoli dei coautori in coauthor_papers(a_i) che non contengono la chiave k_j;
+	 * 
+	 * @param a_i
+	 * @param k_j
+	 * @return numero intero: gli articoli dei coautori in coauthor_papers(a_i) che non contengono la chiave k_j;
+	 * @throws Exception
+	 */
 	//FIXME: sostituire con exception appropriata
 	public int r_notKey(Author a_i, String k_j) throws Exception {
 		List<Paper> coAuthorsPapers = this.coauthor_papers(a_i);
@@ -223,6 +295,13 @@ public class Corpus {
 		return r_ij;
 	}
 	
+	/** restituisce il numero di articoli in coauthor_and_self(a_i) che non contengono la chiave k_j
+	 * 
+	 * @param a_i
+	 * @param k_j
+	 * @return numero intero: gli articoli in coauthor_and_self(a_i) che non contengono la chiave k_j
+	 * @throws Exception
+	 */
 	public int n_notKey(Author a_i, String k_j) throws Exception {
 		List<Paper> coAuthorsPapers = this.coauthor_and_self(a_i);
 		int n_ij = 0;
@@ -235,6 +314,14 @@ public class Corpus {
 		
 		return n_ij;
 	}
+	
+	/** restituisce il peso u_ij della chiave k_j per l'autore a_i
+	 * 
+	 * @param a_i
+	 * @param k_j
+	 * @return peso u_ij della chiave k_j per l'autore a_i
+	 * @throws Exception
+	 */
 	//FIXME: sostituire con eccezione appropriata...
 	public double u_ij(Author a_i, String k_j) throws Exception{
 		double numLog = 0.0;
