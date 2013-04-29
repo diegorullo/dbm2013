@@ -99,13 +99,16 @@ public class Corpus {
 	public List<Author> getCoAuthors(Author a) throws Exception {
 		List<Author> coAuthors = new ArrayList<Author>();
 		List<Integer> coAuthorsIDs = this.getCoAuthorsIDs(a);
+		
 		for (int coA : coAuthorsIDs) {
 			coAuthors.add(getAuthorByID(coA));
 		}
+		
 		return coAuthors;
 	}
 	
-	// estrae i coautori di un autore dato
+	
+	// estrae i coautori di un autore dato insieme all'autore stesso
 	//FIXME: sostituire con exception appropriata
 	public List<Author> getCoAuthorsAndSelf(Author a) throws Exception {
 		List<Author> coAuthorsAndSelf = this.getCoAuthors(a);
@@ -127,6 +130,7 @@ public class Corpus {
 				}
 			}
 		}
+		
 		return papers;
 	} 
 	
@@ -148,10 +152,75 @@ public class Corpus {
 				}
 			}				
 		}
+		
 		if (N > 0 && m > 0) {
 			idf = Math.log((double)N/m);
 		}
+		
 		return idf;
+	}
+	
+	//FIXME: chiedere se è davvero convinta...
+	public List<Paper> coauthor_papers(Author a) throws Exception {
+		return getCoAuthorsPapers(a);
+	}
+	
+	// estrae i paper dei coautori di un autore dato
+	//FIXME: sostituire con exception appropriata
+	public List<Paper> getCoAuthorsPapers(Author a) throws Exception {
+		List<Author> coAuthors = this.getCoAuthors(a);
+		List<Paper> coAuthorsPapers = new ArrayList<Paper>();
+
+		List<Paper> authorsPapers = new ArrayList<Paper>();
+		for (Author coA : coAuthors) {
+			authorsPapers = null;
+			authorsPapers = coA.getPapers();
+			for (Paper p : authorsPapers) {
+				if(!coAuthorsPapers.contains(p)) {
+					coAuthorsPapers.add(p);
+				}
+			}
+		}
+		
+		return coAuthorsPapers;
+	}
+	
+	
+	//FIXME: chiedere se è convinta...
+	public List<Paper> coauthor_and_self(Author a) throws Exception {
+		return getCoAuthorsAndSelfPapers(a);
+	}
+	
+	// estrae i paper dei coautori di un autore dato, insieme a quelli dell'autore stesso
+	//FIXME: sostituire con exception appropriata
+	public List<Paper> getCoAuthorsAndSelfPapers(Author a) throws Exception {
+		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(a);
+		
+		List<Paper> selfPapers = a.getPapers();
+		for (Paper p : selfPapers) {
+			if(!coAuthorsAndSelfPapers.contains(p)) {
+				coAuthorsAndSelfPapers.add(p);
+			}
+		}
+		
+		//coAuthorsAndSelfPapers.addAll(a.getPapers());
+
+		return coAuthorsAndSelfPapers;
+	}
+	
+	//r_ij e’ il numero di articoli dei coautori in coauthor_papers(a_i) che non contengono la chiave k_j;
+	//FIXME: sostituire con exception appropriata
+	public int bozza_r(Author a_i, String k_j) throws Exception {
+		List<Paper> coAuthorsPapers = this.getCoAuthorsPapers(a_i);
+		int r_ij = 0;
+		
+		for (Paper p : coAuthorsPapers) {
+			if(!p.getKeywords().contains(k_j)) {
+				r_ij++;
+			}
+		}		
+		
+		return r_ij;
 	}
 	
 	public ArrayList<Author> getAuthors() {
