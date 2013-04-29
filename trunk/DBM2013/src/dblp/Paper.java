@@ -163,6 +163,9 @@ public class Paper {
 		return WTFIDFVector;
 	}
 	
+	public boolean containsKeyword(String key){
+		return this.keywords.contains(key);
+	}
 	public int getPaperID() {
 		return paperID;
 	}

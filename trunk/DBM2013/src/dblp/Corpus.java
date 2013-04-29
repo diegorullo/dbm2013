@@ -210,17 +210,30 @@ public class Corpus {
 	
 	//r_ij e’ il numero di articoli dei coautori in coauthor_papers(a_i) che non contengono la chiave k_j;
 	//FIXME: sostituire con exception appropriata
-	public int bozza_r(Author a_i, String k_j) throws Exception {
-		List<Paper> coAuthorsPapers = this.getCoAuthorsPapers(a_i);
+	public int r_notKey(Author a_i, String k_j) throws Exception {
+		List<Paper> coAuthorsPapers = this.coauthor_papers(a_i);
 		int r_ij = 0;
 		
 		for (Paper p : coAuthorsPapers) {
-			if(!p.getKeywords().contains(k_j)) {
+			if(!p.containsKeyword(k_j)) {
 				r_ij++;
 			}
 		}		
 		
 		return r_ij;
+	}
+	
+	public int n_notKey(Author a_i, String k_j) throws Exception {
+		List<Paper> coAuthorsPapers = this.coauthor_and_self(a_i);
+		int n_ij = 0;
+		
+		for (Paper p : coAuthorsPapers) {
+			if(!p.containsKeyword(k_j)) {
+				n_ij++;
+			}
+		}		
+		
+		return n_ij;
 	}
 	
 	public ArrayList<Author> getAuthors() {
