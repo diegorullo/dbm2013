@@ -235,6 +235,26 @@ public class Corpus {
 		
 		return n_ij;
 	}
+	//FIXME: sostituire con eccezione appropriata...
+	public double u_ij(Author a_i, String k_j) throws Exception{
+		double numLog = 0.0;
+		double denLog = 0.0;
+		double resLog = 0.0;
+		double resAbs = 0.0;
+		double u_ij = 0.0;
+		int r_ij=this.r_notKey(a_i,  k_j);
+		int n_ij=this.n_notKey(a_i, k_j);
+		int R_i=this.coauthor_papers(a_i).size();
+		int N_i=this.coauthor_and_self(a_i).size();
+		numLog = (double) r_ij / (R_i - r_ij);
+		denLog = (double) (n_ij - r_ij) / (N_i - n_ij - R_i + r_ij);
+		resLog = Math.log(numLog / denLog);
+		resAbs = Math.abs((double)(r_ij / R_i) - (double)((n_ij-r_ij) / (N_i - R_i)));
+		u_ij = resLog * resAbs;
+		return u_ij;
+	}
+	
+	
 	
 	public ArrayList<Author> getAuthors() {
 		return authors;
