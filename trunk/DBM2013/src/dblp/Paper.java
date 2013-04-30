@@ -24,7 +24,7 @@ public class Paper {
 	
 	public Paper(int paperID, String title, int year, String publisher,
 			String paperAbstract, ArrayList<String> authorsNames, ArrayList<Integer> authors,
-			ArrayList<String> keywords, ArrayList<String> keywordsTitle) {
+			ArrayList<String> keywords, ArrayList<String> titlesKeywords) {
 		super();
 		this.paperID = paperID;
 		this.title = title;
@@ -34,7 +34,7 @@ public class Paper {
 		this.authorsNames = authorsNames;
 		this.authors = authors;
 		this.keywords = keywords;
-		this.titlesKeywords = keywordsTitle;
+		this.titlesKeywords = titlesKeywords;
 	}
 	
 	public HashMap<String, Integer> getTitleKeywordSet(int weight) {
@@ -69,17 +69,17 @@ public class Paper {
 			}
 		}
 		
-		// keywords provenienti dal titolo	(pesate 'weight' volte)	
-		Iterator<Entry<String, Integer>> it = titlesKeywordSet.entrySet().iterator();
-		while(it.hasNext()) {
-			Map.Entry<String, Integer> k = (Entry<String, Integer>)it.next();
-			if (!keywordSet.containsKey(k.getKey())) {
-				keywordSet.put(k.getKey(), k.getValue());
-			}
-			else {
-				keywordSet.put(k.getKey(), keywordSet.get(k.getKey()) + k.getValue());
-			}
-		}
+//		// keywords provenienti dal titolo	(pesate 'weight' volte)	
+//		Iterator<Entry<String, Integer>> it = titlesKeywordSet.entrySet().iterator();
+//		while(it.hasNext()) {
+//			Map.Entry<String, Integer> k = (Entry<String, Integer>)it.next();
+//			if (!keywordSet.containsKey(k.getKey())) {
+//				keywordSet.put(k.getKey(), k.getValue());
+//			}
+//			else {
+//				keywordSet.put(k.getKey(), keywordSet.get(k.getKey()) + k.getValue());
+//			}
+//		}
 		
 		return keywordSet;
 	}
@@ -89,11 +89,18 @@ public class Paper {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
 		double tf = 0;
-		int n = keywordSet.get(s);
-		int K = keywordSet.size();
+		int n = 0;
+		int K = 0;
+		if (keywordSet.get(s) != null) {
+			n = keywordSet.get(s);
+		}
+		if (keywordSet != null) {
+			K = keywords.size();
+		}
 		if(keywordSet.containsKey(s)) {
 			tf = (double) n / K;
 		}
+		
 		return tf; 	
 	}
 	
@@ -121,17 +128,15 @@ public class Paper {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
 		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
-		double tf;
+		double tf = 0.0;
 		
-		double uno = 0.0; //FIXME
-		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+				Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
 			tf = getTF(k.getKey());
-			uno += tf; //FIXME
 			keywordVectorTF.put(k.getKey(), tf);
 		}
-		System.out.println("  >Somma dei tf del paper " + paperID + ": " + uno); //FIXME
+		
 		return keywordVectorTF;
 	}
 
@@ -272,7 +277,7 @@ public class Paper {
 		return keywords;
 	}
 
-	public ArrayList<String> getKeywordsTitle() {
+	public ArrayList<String> getTitlesKeywords() {
 		return titlesKeywords;
 	}
 
@@ -308,8 +313,8 @@ public class Paper {
 		this.keywords = keywords;
 	}
 	
-	public void setKeywordsTitle(ArrayList<String> keywordsTitle) {
-		this.titlesKeywords = keywordsTitle;
+	public void setKeywordsTitle(ArrayList<String> titlesKeywords) {
+		this.titlesKeywords = titlesKeywords;
 	}
 
 	/* (non-Javadoc)
