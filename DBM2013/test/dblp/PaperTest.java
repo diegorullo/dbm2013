@@ -1,13 +1,8 @@
 package dblp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
