@@ -3,16 +3,33 @@ package dblp;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utils.DBEngine;
+
 public class PaperTestAdvanced {
+	
+	static DBEngine db = new DBEngine();
+	@BeforeClass
+	public static void testSetup() throws SQLException {
+		db.init();
+	}
+
+	@AfterClass
+	public static void testCleanup() throws SQLException {
+		db.shutdown();
+	}
+	
 	@Test
-	public void testTFAUno() {
+	public void testTFAUnoDummy() {
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();
@@ -55,5 +72,20 @@ public class PaperTestAdvanced {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void testTFAUno() throws SQLException, IOException {
+		Paper paper = db.newPaper(1279177);
+
+			double uno = 0.0;
+			Map<String, Integer> ks = paper.getKeywordSet();
+			Iterator<Entry<String, Integer>> it = ks.entrySet().iterator();
+			while(it.hasNext()) {
+				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+				uno += paper.getTF(k.getKey());
+			}
+			assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, 0);
+			
+			paper.getTFVector();
 	}
 }
