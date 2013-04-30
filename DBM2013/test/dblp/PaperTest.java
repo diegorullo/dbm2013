@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -15,20 +19,20 @@ public class PaperTest {
 
 	@BeforeClass
 	public static void testSetup() {
-		DBEngine db = new DBEngine();
-		try {
-			db.init();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			Corpus dblp = db.newCorpus();
-		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		DBEngine db = new DBEngine();
+//		try {
+//			db.init();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		try {
+//			Corpus dblp = db.newCorpus();
+//		} catch (SQLException | IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@AfterClass
@@ -96,7 +100,8 @@ public class PaperTest {
 //
 //		Author a = db.newAuthor(2390072);
 //		
-//		Paper p = fail("Not yet implemented");
+//		Paper p = 
+		fail("Not yet implemented");
 	}
 
 }

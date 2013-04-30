@@ -25,7 +25,9 @@ public class Main {
 		db.init();
 		
 		Author a = db.newAuthor(2390072);
-		Corpus dblp = db.newCorpus();
+		//Corpus dblp = db.newCorpus();
+		
+		
 		
 // - Test su getWtfVector -
 //		System.out.println(a);
@@ -43,15 +45,15 @@ public class Main {
 //			System.out.println(coa.getName());
 
 // - Test su getCoAuthorsPapers e getCoAuthorsAndSelfPapers -
-		System.out.println("-------------------");
-		System.out.println(dblp.getCoAuthorsPapers(a).size() + " papers by " + a.getName() + "'s coauthors:");
-		for (Paper p : dblp.getCoAuthorsPapers(a))
-			System.out.println(p.getTitle());
-		
-		System.out.println("-------------------");
-		System.out.println(dblp.getCoAuthorsAndSelfPapers(a).size() + " papers by " + a.getName() + " and his coauthors:");
-		for (Paper p : dblp.getCoAuthorsAndSelfPapers(a))
-			System.out.println(p.getTitle());
+//		System.out.println("-------------------");
+//		System.out.println(dblp.getCoAuthorsPapers(a).size() + " papers by " + a.getName() + "'s coauthors:");
+//		for (Paper p : dblp.getCoAuthorsPapers(a))
+//			System.out.println(p.getTitle());
+//		
+//		System.out.println("-------------------");
+//		System.out.println(dblp.getCoAuthorsAndSelfPapers(a).size() + " papers by " + a.getName() + " and his coauthors:");
+//		for (Paper p : dblp.getCoAuthorsAndSelfPapers(a))
+//			System.out.println(p.getTitle());
 		
 		
 //		System.out.println(">TFIDF model on author's papers:");
