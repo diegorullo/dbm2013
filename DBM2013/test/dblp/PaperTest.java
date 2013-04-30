@@ -17,27 +17,15 @@ import utils.DBEngine;
 
 public class PaperTest {
 
+	static DBEngine db = new DBEngine();
 	@BeforeClass
-	public static void testSetup() {
-//		DBEngine db = new DBEngine();
-//		try {
-//			db.init();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		try {
-//			Corpus dblp = db.newCorpus();
-//		} catch (SQLException | IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+	public static void testSetup() throws SQLException {
+		db.init();
 	}
 
 	@AfterClass
-	public static void testCleanup() {
-		// Teardown for data used by the unit tests
+	public static void testCleanup() throws SQLException {
+		db.shutdown();
 	}
 
 	@Test
