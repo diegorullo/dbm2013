@@ -36,6 +36,7 @@ public class DBEngine {
 		final String publisher;
 		final String paperAbstract;
 		final ArrayList<String> keywords;
+		final ArrayList<String> keywordsTitle;
 		final ArrayList<String> authorsNames = new ArrayList<String>();
 		final ArrayList<Integer> authors = new ArrayList<Integer>();
 		String query = "SELECT authors.*,papers.* FROM authors,papers,writtenby WHERE papers.paperid = "
@@ -51,6 +52,7 @@ public class DBEngine {
 		paperAbstract = res.getString("abstract");
 		
 		keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
+		keywordsTitle = TextProcessor.removeStopWordsAndStem(title);
 		
 		authorsNames.add(res.getString("name"));
 		authors.add(res.getInt("personid"));
@@ -60,7 +62,7 @@ public class DBEngine {
 			authors.add(res.getInt("personid"));	
 		}
 		
-		Paper p = new Paper(paperID, title, year, publisher, paperAbstract, authorsNames, authors, keywords);	
+		Paper p = new Paper(paperID, title, year, publisher, paperAbstract, authorsNames, authors, keywords, keywordsTitle);	
 		return p;
 	}
 	

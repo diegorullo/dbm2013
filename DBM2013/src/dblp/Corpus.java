@@ -329,14 +329,15 @@ public class Corpus {
 		double resLog = 0.0;
 		double resAbs = 0.0;
 		double u_ij = 0.0;
-		int r_ij=this.r_notKey(a_i,  k_j);
-		int n_ij=this.n_notKey(a_i, k_j);
-		int R_i=this.coauthor_papers(a_i).size();
-		int N_i=this.coauthor_and_self(a_i).size();
-		numLog = (double) r_ij / (R_i - r_ij);
-		denLog = (double) (n_ij - r_ij) / (N_i - n_ij - R_i + r_ij);
+		double epsilon = 0.1; // costante che non fa andare a zero
+		int r_ij = this.r_notKey(a_i,  k_j);
+		int n_ij = this.n_notKey(a_i, k_j);
+		int R_i = this.coauthor_papers(a_i).size();
+		int N_i = this.coauthor_and_self(a_i).size();
+		numLog = (double) (r_ij + epsilon)/ (R_i - r_ij + epsilon);
+		denLog = (double) (n_ij - r_ij + epsilon) / (N_i - n_ij - R_i + r_ij + epsilon);
 		resLog = Math.log(numLog / denLog);
-		resAbs = Math.abs((double)(r_ij / R_i) - (double)((n_ij-r_ij) / (N_i - R_i)));
+		resAbs = Math.abs((double)(r_ij + epsilon / R_i + epsilon) - (double)((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
 		u_ij = resLog * resAbs;
 		return u_ij;
 	}

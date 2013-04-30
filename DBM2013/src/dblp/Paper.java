@@ -19,11 +19,12 @@ public class Paper {
 	private ArrayList<String> authorsNames;
 	private ArrayList<Integer> authors;
 	private ArrayList<String> keywords;
+	private ArrayList<String> titlesKeywords;
 	
 	
 	public Paper(int paperID, String title, int year, String publisher,
 			String paperAbstract, ArrayList<String> authorsNames, ArrayList<Integer> authors,
-			ArrayList<String> keywords) {
+			ArrayList<String> keywords, ArrayList<String> keywordsTitle) {
 		super();
 		this.paperID = paperID;
 		this.title = title;
@@ -33,12 +34,32 @@ public class Paper {
 		this.authorsNames = authorsNames;
 		this.authors = authors;
 		this.keywords = keywords;
+		this.titlesKeywords = keywordsTitle;
+	}
+	
+	public HashMap<String, Integer> getTitleKeywordSet(int weight) {
+		HashMap<String, Integer> titlesKeywordSet = new HashMap<String, Integer>();
+		
+		for(String k : titlesKeywords) {
+			if (!titlesKeywordSet.containsKey(k)) {
+				titlesKeywordSet.put(k, weight);
+			}
+			else {
+				titlesKeywordSet.put(k, titlesKeywordSet.get(k) + weight);
+			}
+		}
+		
+		return titlesKeywordSet;
 	}
 	
 	//Estrae l'insieme delle keyword, con il rispettivo numero di occorrenze
 	public HashMap<String, Integer> getKeywordSet() {
 		
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
+		int weight = 3; // in questo modo le keyword del titolo pesano 3 volte tanto
+		HashMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSet(weight);
+		
+		// keywords provenienti dall'abstract
 		for(String k : keywords) {
 			if (!keywordSet.containsKey(k)) {
 				keywordSet.put(k, 1);
@@ -47,6 +68,19 @@ public class Paper {
 				keywordSet.put(k, keywordSet.get(k) + 1);
 			}
 		}
+		
+		// keywords provenienti dal titolo	(pesate 'weight' volte)	
+		Iterator<Entry<String, Integer>> it = titlesKeywordSet.entrySet().iterator();
+		while(it.hasNext()) {
+			Map.Entry<String, Integer> k = (Entry<String, Integer>)it.next();
+			if (!keywordSet.containsKey(k.getKey())) {
+				keywordSet.put(k.getKey(), k.getValue());
+			}
+			else {
+				keywordSet.put(k.getKey(), keywordSet.get(k.getKey()) + k.getValue());
+			}
+		}
+		
 		return keywordSet;
 	}
 	
@@ -238,7 +272,11 @@ public class Paper {
 		return keywords;
 	}
 
-	public void setPaperid(int paperID) {
+	public ArrayList<String> getKeywordsTitle() {
+		return titlesKeywords;
+	}
+
+	public void setPaperID(int paperID) {
 		this.paperID = paperID;
 	}
 
@@ -268,6 +306,10 @@ public class Paper {
 
 	public void setKeywords(ArrayList<String> keywords) {
 		this.keywords = keywords;
+	}
+	
+	public void setKeywordsTitle(ArrayList<String> keywordsTitle) {
+		this.titlesKeywords = keywordsTitle;
 	}
 
 	/* (non-Javadoc)
