@@ -69,17 +69,17 @@ public class Paper {
 			}
 		}
 		
-//		// keywords provenienti dal titolo	(pesate 'weight' volte)	
-//		Iterator<Entry<String, Integer>> it = titlesKeywordSet.entrySet().iterator();
-//		while(it.hasNext()) {
-//			Map.Entry<String, Integer> k = (Entry<String, Integer>)it.next();
-//			if (!keywordSet.containsKey(k.getKey())) {
-//				keywordSet.put(k.getKey(), k.getValue());
-//			}
-//			else {
-//				keywordSet.put(k.getKey(), keywordSet.get(k.getKey()) + k.getValue());
-//			}
-//		}
+		// keywords provenienti dal titolo	(pesate 'weight' volte)	
+		Iterator<Entry<String, Integer>> it = titlesKeywordSet.entrySet().iterator();
+		while(it.hasNext()) {
+			Map.Entry<String, Integer> k = (Entry<String, Integer>)it.next();
+			if (!keywordSet.containsKey(k.getKey())) {
+				keywordSet.put(k.getKey(), k.getValue());
+			}
+			else {
+				keywordSet.put(k.getKey(), keywordSet.get(k.getKey()) + k.getValue());
+			}
+		}
 		
 		return keywordSet;
 	}
@@ -95,7 +95,8 @@ public class Paper {
 			n = keywordSet.get(s);
 		}
 		if (keywordSet != null) {
-			K = keywords.size();
+			//FIXME:
+			K = keywords.size() + titlesKeywords.size() * 3;
 		}
 		if(keywordSet.containsKey(s)) {
 			tf = (double) n / K;

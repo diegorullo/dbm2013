@@ -29,7 +29,7 @@ public class PaperTestAdvanced {
 	}
 	
 	@Test
-	public void testTFAUnoDummy() {
+	public void testTFAUnoDummy() throws IOException {
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();
@@ -47,8 +47,7 @@ public class PaperTestAdvanced {
 		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
 		ArrayList<Paper> paperList = new ArrayList<Paper>();
 		paperList.add(paper);
-		Author a = new Author(2013, "Stefania", paperList);
-		
+		Author a = new Author(2013, "Stefania", paperList);		
 		
 		for (Paper p : a.getPapers()) {
 			//System.out.println("#kw = " + p.getKeywordSet().size() + "  " + p);
@@ -60,23 +59,37 @@ public class PaperTestAdvanced {
 				//System.out.println(p.getTF(k.getKey()));
 				uno += p.getTF(k.getKey());
 			}
-			assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, 1/1000000);
+			double epsilon = (double)1/1000000000;
+			assertEquals("La somma dei tf per le varie keyword dovrebbe valere 1 e vale " + uno, 1.0, uno, epsilon);
 			//System.out.println("1 = " + uno);
 		}
 		
 		for (Paper p1 : a.getPapers()) {
-			try {
-				p1.getTFVector();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			p1.getTFVector();
 		}
+
 	}
 	
+	@Test
 	public void testTFAUno() throws SQLException, IOException {
-		Paper paper = db.newPaper(1279177);
-
+		//Paper paper = db.newPaper(1279177);
+		Paper paper = db.newPaper(943390);
+		double uno = 0.0;
+		Map<String, Integer> ks = paper.getKeywordSet();
+		Iterator<Entry<String, Integer>> it = ks.entrySet().iterator();
+		while(it.hasNext()) {
+			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			uno += paper.getTF(k.getKey());
+		}
+		
+		double epsilon = (double)1/1000000000;
+		assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, epsilon);
+	}
+	
+	@Test
+	public void testTFAUnoTuttiIPaper() throws SQLException, IOException {
+		Corpus dblp = db.newCorpus();
+		for (Paper paper : dblp.getPapers()) {
 			double uno = 0.0;
 			Map<String, Integer> ks = paper.getKeywordSet();
 			Iterator<Entry<String, Integer>> it = ks.entrySet().iterator();
@@ -84,8 +97,11 @@ public class PaperTestAdvanced {
 				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
 				uno += paper.getTF(k.getKey());
 			}
-			assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, 0);
+			
+			double epsilon = (double)1/1000000000;
+			assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, epsilon);
 			
 			paper.getTFVector();
+		}
 	}
 }
