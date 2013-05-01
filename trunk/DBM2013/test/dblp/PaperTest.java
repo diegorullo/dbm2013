@@ -2,7 +2,9 @@ package dblp;
 
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -24,8 +26,15 @@ public class PaperTest {
 	}
 
 	@Test
-	public void testGetKeywordSet() {
-		fail("Not yet implemented");
+	public void testGetKeywordSet() throws SQLException, IOException {		
+		int paperid = 943390;
+		Paper paper = db.newPaper(paperid);
+		Map<String, Integer> ks = paper.getKeywordSet();
+		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);
+		
+//FIXME: se il paper non ha titolo nè abstract, ks è nullo 
+//		e l'asserzione fallisce...verificare
+		
 	}
 
 	@Test
