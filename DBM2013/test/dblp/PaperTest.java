@@ -84,6 +84,12 @@ public class PaperTest {
 		org.junit.Assert.assertEquals(mapAtteso, ks);	
 	}
 
+	/**
+	 * parte dal paper fittizio e recupera il TF 
+	 * di una keyword prefissata.
+	 * Confronta il TF calcolato dal metodo con
+	 * il TF atteso, calcolato a mano.
+	 */
 	@Test
 	public void testGetTF() {
 		ArrayList<String> authorsNames = new ArrayList<String>();
@@ -101,28 +107,14 @@ public class PaperTest {
 		titlesKeywords.add("TF");
 		titlesKeywords.add("uno");
 		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
-		Map<String, Integer> ks = paper.getKeywordSet(); 
-//		Map<String, Integer> mapAtteso = new TreeMap<String, Double>() {
-//		private static final long serialVersionUID = 1L;
-//		{		    
-//		    put("TF", 1*3);
-//		    put("keyword", 3);
-//		    put("media", 2);
-//		    put("uno", 1*3);
-//		    put("testare", 1*3);
-//		}};
-//
-//		Iterator<Entry<String, Integer>> it = ks.entrySet().iterator();
-//		while(it.hasNext()) {
-//			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-//			mapAtteso.put(paper.getTF(k.getKey()), paper.getKeywordSet().get(k.getValue()));
-//		}
-//		
-//		double epsilon = (double)1/1000000000;
-//		assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, epsilon);
-//		org.junit.Assert.assertEquals(mapAtteso, ks);	
-//
-//		}
+		Map<String, Integer> ks = paper.getKeywordSet(); 	
+		
+		String testKeyword = "media";
+		Double testTf = paper.getTF(testKeyword);
+		// media occorre 2 volte su 14, 2/14 = 0.142857 periodico
+		Double tfAtteso = 0.14285714285714285;
+		Double epsilon = (double) 1/100000;
+		assertEquals("Il tf per la kw " + testKeyword + " vale: " + testTf, tfAtteso, testTf, epsilon);	
 	}
 
 	@Test

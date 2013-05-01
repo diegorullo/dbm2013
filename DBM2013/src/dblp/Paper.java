@@ -37,6 +37,14 @@ public class Paper {
 		this.titlesKeywords = titlesKeywords;
 	}
 	
+	/**
+	 * estrae le keyword contenute nel titolo e le inserisce in
+	 * un hasmap attribuendo a ciascuna di esse il peso 
+	 * passato come parametro (weight)
+	 * 
+	 * @param weight: peso parametrizzato
+	 * @return hasmap delle keyword del titolo pesate n.occ * weight
+	 */
 	public HashMap<String, Integer> getTitleKeywordSet(int weight) {
 		HashMap<String, Integer> titlesKeywordSet = new HashMap<String, Integer>();
 		
@@ -89,7 +97,14 @@ public class Paper {
 		return keywordSet;
 	}
 	
-	//Calcola il tf di un termine tra le keyword di un Paper
+	/** 
+	 * Calcola il tf di un termine tra le keyword di un Paper
+	 * tf = n.occorrenze / somma delle occorrenze di tutte le keyword
+	 * @param s
+	 * @return n.occorrenze keyword/ (somma delle occorrenze di tutte le keyword 
+	 * dell'abstract+ somma occorrenze pesate delle keyword del titolo)
+	 */
+	
 	public double getTF(String s) {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
@@ -110,7 +125,15 @@ public class Paper {
 		return tf; 	
 	}
 	
-	//Calcola il tfidf di un termine su tutto il corpus
+	/**
+	 * Data una stringa e un corpus, calcola il tfidf 
+	 * di un termine su tutto il corpus
+	 * 
+	 * @param s
+	 * @param c
+	 * @return tfidf
+	 * @throws Exception
+	 */
 	public double getTFIDF(String s, Corpus c) throws Exception {
 		
 		double tf = 0;
