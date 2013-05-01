@@ -52,7 +52,12 @@ public class Paper {
 		return titlesKeywordSet;
 	}
 	
-	//Estrae l'insieme delle keyword, con il rispettivo numero di occorrenze
+	/**
+	 * Estrae l'insieme delle keyword dal testo dell'abstract
+	 * con il rispettivo numero di occorrenze. 
+	 * 
+	 * @return l'hasmap delle keyword e rispettivo numero di occorrenze
+	 */
 	public HashMap<String, Integer> getKeywordSet() {
 		
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
