@@ -146,7 +146,6 @@ public class Paper {
 		
 		return tfidf; 
 	}
-
 	
 	/**
 	  *  restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
@@ -157,9 +156,8 @@ public class Paper {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
 		Map<String, Double> keywordVectorTF = new TreeMap<String, Double>();
-		double tf = 0.0;
-		
-				Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+		double tf = 0.0;		
+		Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
 			tf = getTF(k.getKey());

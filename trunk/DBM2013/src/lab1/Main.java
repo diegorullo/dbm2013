@@ -25,7 +25,18 @@ public class Main {
 		db.init();
 		
 		Author a = db.newAuthor(2390072);
-		//Corpus dblp = db.newCorpus();
+		Corpus dblp = db.newCorpus();
+		System.out.println(dblp.getTFIDF2Vector(dblp, a, dblp.getCoAuthors(a), dblp.coauthor_papers(a)));
+		
+//		System.out.println(dblp.getCoAuthors(a));	
+//		List<Author> coAuthors = dblp.getCoAuthors(a);
+//		ArrayList<String> kw;
+//		for (Paper p : dblp.getRestrictedCorpus(a, dblp.getCoAuthors(a))){
+//			kw = p.getKeywords();
+//			for (String k : kw) {
+//				System.out.println(dblp.getRestrictedTF(k, a, dblp.getCoAuthors(a)));
+//			}
+//		}
 		
 		
 		
