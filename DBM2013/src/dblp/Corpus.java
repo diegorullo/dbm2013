@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import javax.naming.NameNotFoundException;
@@ -186,7 +187,6 @@ public class Corpus {
 		int m = 0;
 		List<Paper> rc = getRestrictedCorpus(author, authors);
 		int N = rc.size();		
-
 		// conta il numero di occorrenze della keyword s nel corpus ristretto		
 		for(Paper p : rc) {
 			HashMap<String, Integer> keywordSet = p.getKeywordSet();
@@ -197,13 +197,63 @@ public class Corpus {
 					m += k.getValue();
 				}
 			}				
-		}
-		
+		}		
 		if (N > 0 && m > 0) {
 			idf = Math.log((double)N/m);
-		}
-		
+		}	
 		return idf;
+	}
+	
+	public double getRestrictedTF(String keyword, Author author, List<Author> authors) {
+		double tf = 0.0;
+		int m = 0;
+		List<Paper> rc = getRestrictedCorpus(author, authors);
+		int N = rc.size();		
+		// conta il numero di occorrenze della keyword s nel corpus ristretto		
+		for(Paper p : rc) {
+			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			int n = 0;
+			int K = 0;
+			if (keywordSet.get(keyword) != null) {
+				n = keywordSet.get(keyword);
+			}
+			if (keywordSet != null) {
+				//FIXME:
+				K = p.getKeywords().size() + p.getTitlesKeywords().size() * 3;
+			}
+			if(keywordSet.containsKey(keyword)) {
+				tf +=(double) n / K;
+			}				
+		}			
+		return tf;
+	}
+	
+	/**
+	 * restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	 * rispetto al modello di pesi TFIDF2, che per il calcolo del TF considera
+	 * l'insieme di tutti gli articoli scritti dall'autore dato e per il 
+	 * calcolo del IDF  considera l'insieme degli articoli scritti 
+	 * dall'autore e dai suoi coautori.
+	 * 
+	 * @param c
+	 * @return keywordVector pesato in base al modello TFIDF2
+	 * @throws Exception
+	 */
+	public Map<String, Double> getTFIDF2Vector(Corpus c, Author author ,List<Author> authors, List<Paper> papers) throws Exception {
+		Map<String, Double> keywordVectorTFIDF2 = new TreeMap<String, Double>();		
+		for (Paper p : papers){
+			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			double tfidf2;
+			String key;
+			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+				key = k.getKey();
+				tfidf2 = c.getRestrictedTF(k.getKey(), author, authors)* c.getRestrictedIDF(k.getKey(), author, authors);
+				keywordVectorTFIDF2.put(key, tfidf2);
+			}
+		}
+		return keywordVectorTFIDF2;
 	}
 	
 	/** restiruisce la lista dei paper dei coautori di un autore dato
