@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+
 public class Author {
+	//FIXME
+	final static int titleWeight = 3;
 	private int authorID;
 	private String name;
 	private ArrayList<Paper> papers;
@@ -27,7 +31,8 @@ public class Author {
 		double weight = 0;
 		double weightNormalizationFactor = 0;
 		Map<String, Double> WTFVector = new TreeMap<String, Double>();
-
+		//FIXME
+		
 		/* - vettore di tf per ogni paper dell'autore
 		 * - età del paper
 		 * - peso usando l'età
@@ -69,6 +74,7 @@ public class Author {
 			testUno+=k.getValue();
 			
 		}
+		//FIXME
 		System.out.println(">Somma termini pesati: "+testUno);
 		
 		return WTFVector;
@@ -131,7 +137,27 @@ public class Author {
 	}
 	
 
+	public double getRestrictedTF(String keyword) {
+		double tf = 0.0;
+		List<Paper> rc = this.getPapers();		
+		// conta il numero di occorrenze della keyword nei papers di author	
+		int n = 0;
+		int K = 0;
+		for(Paper p : rc) {
+			HashMap<String, Integer> keywordSet = p.getKeywordSet();
 
+			if (keywordSet.get(keyword) != null) {
+				n += keywordSet.get(keyword);
+			}
+			if (keywordSet != null) {
+				K += p.getKeywords().size() + p.getTitlesKeywords().size() * titleWeight;
+			}				
+		}
+		tf =(double) n / K;
+		return tf;
+	}
+	
+	
 	public int getAuthorID() {
 		return authorID;
 	}
