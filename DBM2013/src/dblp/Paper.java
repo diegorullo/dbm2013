@@ -11,6 +11,8 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 public class Paper {
+	//FIXME
+	final static int titleWeight = 3;
 	private int paperID;
 	private String title;
 	private int year;
@@ -69,8 +71,7 @@ public class Paper {
 	public HashMap<String, Integer> getKeywordSet() {
 		
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
-		int weight = 3; // in questo modo le keyword del titolo pesano 3 volte tanto
-		HashMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSet(weight);
+		HashMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSet(titleWeight);
 		
 		// keywords provenienti dall'abstract
 		for(String k : keywords) {
@@ -115,8 +116,7 @@ public class Paper {
 			n = keywordSet.get(s);
 		}
 		if (keywordSet != null) {
-			//FIXME:
-			K = keywords.size() + titlesKeywords.size() * 3;
+			K = keywords.size() + titlesKeywords.size() * titleWeight;
 		}
 		if(keywordSet.containsKey(s)) {
 			tf = (double) n / K;

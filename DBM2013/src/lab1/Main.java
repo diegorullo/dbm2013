@@ -26,7 +26,7 @@ public class Main {
 		
 		Author a = db.newAuthor(2390072);
 		Corpus dblp = db.newCorpus();
-		System.out.println(dblp.getTFIDF2Vector(dblp, a, dblp.getCoAuthors(a), dblp.coauthor_papers(a)));
+//		System.out.println(dblp.getTFIDF2Vector(dblp, a, dblp.getCoAuthors(a), dblp.coauthor_papers(a)));
 		
 //		System.out.println(dblp.getCoAuthors(a));	
 //		List<Author> coAuthors = dblp.getCoAuthors(a);
