@@ -25,13 +25,21 @@ public class Author {
 		this.papers = papers;
 	}
 	
-	
+	/**
+	 * Considera tutti gli articoli scritti da un certo autore per creare
+	 * un ”combined keyword vector” dei tf per quell’autore.
+	 * Nei ”combined keyword vector”, gli articoli piu’ recenti devono
+	 * pesare di piu’ di quelli piu’ vecchi.
+	 * 
+	 * @return treemap dei tf di un autore, pesando gli articoli per eta'
+	 * @throws IOException
+	 */
 	public Map<String, Double> getWTFVector() throws IOException {
 		Map<String, Double> wtfv;
 		double weight = 0;
 		double weightNormalizationFactor = 0;
 		Map<String, Double> WTFVector = new TreeMap<String, Double>();
-		//FIXME
+		//FIXME controllare - aggiustare il metodo
 		
 		/* - vettore di tf per ogni paper dell'autore
 		 * - età del paper
@@ -80,6 +88,16 @@ public class Author {
 		return WTFVector;
 	}
 	
+	/**
+	 * Considera tutti gli articoli scritti da un certo autore per creare
+	 * un ”combined keyword vector” dei tfidf per quell’autore.
+	 * Nei ”combined keyword vector”, gli articoli piu’ recenti devono
+	 * pesare di piu’ di quelli piu’ vecchi.
+	 * 
+	 * @return treemap dei tfidf di un autore, pesando gli articoli per eta'
+	 * @throws Exception
+	 */
+	//FIXME: sistemare l'eccezione
 	public Map<String, Double> getWTFIDFVector(Corpus c) throws Exception {
 		Map<String, Double> wtfidfv;
 		double weight = 0;
@@ -114,7 +132,12 @@ public class Author {
 		return WTFIDFVector;
 	}
 	
-	//Estrae l'insieme delle keyword, con il rispettivo numero di occorrenze
+	/**
+	 * Estrae l'insieme delle keyword presenti in tutti gli articoli dell'autore,
+	 * con il rispettivo numero di occorrenze.
+	 * 
+	 * @return hashmap delle keyword in tutti gli articoli dell'autore, con occorrenze
+	 */
 	public HashMap<String, Integer> getCombinedKeywordSet() {
 		HashMap<String, Integer> combinedKeywordSet = new HashMap<String, Integer>();
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
@@ -136,7 +159,13 @@ public class Author {
 		return combinedKeywordSet;
 	}
 	
-
+	/**
+	 * Calcola il tf della keyword basandosi sull’insieme
+	 * di tutti gli articoli scritti dall’autore dato.
+	 * 
+	 * @param keyword
+	 * @return tf della keyword basandosi sugli articoli dell'autore
+	 */	
 	public double getRestrictedTF(String keyword) {
 		double tf = 0.0;
 		List<Paper> rc = this.getPapers();		
