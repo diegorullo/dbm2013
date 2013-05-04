@@ -40,9 +40,8 @@ public class Paper {
 	}
 	
 	/**
-	 * estrae le keyword contenute nel titolo e le inserisce in
-	 * un hasmap attribuendo a ciascuna di esse il peso 
-	 * passato come parametro (weight)
+	 * Estrae le keyword contenute nel titolo e le inserisce in
+	 * un'hashmap attribuendo a ciascuna di esse il peso.
 	 * 
 	 * @param weight: peso parametrizzato
 	 * @return hasmap delle keyword del titolo pesate n.occ * weight
@@ -63,14 +62,15 @@ public class Paper {
 	}
 	
 	/**
-	 * Estrae l'insieme delle keyword dal testo dell'abstract
-	 * con il rispettivo numero di occorrenze. 
+	 * Estrae l'insieme delle keyword dal testo dell'abstract del documento
+	 * unitamente a quelle dal titolo, con il rispettivo numero di occorrenze. 
 	 * 
-	 * @return l'hasmap delle keyword e rispettivo numero di occorrenze
+	 * @return l'hashmap delle keyword e rispettivo numero di occorrenze
 	 */
 	public HashMap<String, Integer> getKeywordSet() {
 		
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
+		//FIXME documentare correttamente la scelta
 		HashMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSet(titleWeight);
 		
 		// keywords provenienti dall'abstract
@@ -83,7 +83,7 @@ public class Paper {
 			}
 		}
 		
-		// keywords provenienti dal titolo	(pesate 'weight' volte)	
+		// keywords provenienti dal titolo	(ognuna pesata 'weight' volte)	
 		Iterator<Entry<String, Integer>> it = titlesKeywordSet.entrySet().iterator();
 		while(it.hasNext()) {
 			Map.Entry<String, Integer> k = (Entry<String, Integer>)it.next();
@@ -99,26 +99,26 @@ public class Paper {
 	}
 	
 	/** 
-	 * Calcola il tf di un termine tra le keyword di un Paper
-	 * tf = n.occorrenze / somma delle occorrenze di tutte le keyword
-	 * @param s
-	 * @return n.occorrenze keyword/ (somma delle occorrenze di tutte le keyword 
-	 * dell'abstract+ somma occorrenze pesate delle keyword del titolo)
-	 */
-	
-	public double getTF(String s) {
+	 * Calcola il tf di un termine tra le keyword di un articolo
+	 * tf = n. occorrenze / somma delle occorrenze di tutte le keyword.
+	 * 
+	 * @param keyword
+	 * @return n. occorrenze keyword / (somma delle occorrenze di tutte le keyword 
+	 * dell'abstract + somma occorrenze pesate delle keyword del titolo)
+	 */	
+	public double getTF(String keyword) {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
 		double tf = 0;
 		int n = 0;
 		int K = 0;
-		if (keywordSet.get(s) != null) {
-			n = keywordSet.get(s);
+		if (keywordSet.get(keyword) != null) {
+			n = keywordSet.get(keyword);
 		}
 		if (keywordSet != null) {
 			K = keywords.size() + titlesKeywords.size() * titleWeight;
 		}
-		if(keywordSet.containsKey(s)) {
+		if(keywordSet.containsKey(keyword)) {
 			tf = (double) n / K;
 		}
 		
@@ -126,31 +126,30 @@ public class Paper {
 	}
 	
 	/**
-	 * Data una stringa e un corpus, calcola il tfidf 
-	 * di un termine su tutto il corpus
+	 * Calcola il tfidf di una keyword su tutto il corpus.
 	 * 
-	 * @param s
+	 * @param keyword
 	 * @param c
-	 * @return tfidf
+	 * @return tfidf d
 	 * @throws Exception
 	 */
-	public double getTFIDF(String s, Corpus c) throws Exception {
+	public double getTFIDF(String keyword, Corpus c) throws Exception {
 		
 		double tf = 0;
 		double idf = 0;
 		double tfidf = 0;
 				
-		tf = this.getTF(s);
-		idf = c.getIDF(s);
+		tf = this.getTF(keyword);
+		idf = c.getIDF(keyword);
 		tfidf = tf * idf;
 		
 		return tfidf; 
 	}
 	
 	/**
-	  *  restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
-	  *  rispetto al modello di pesi TF 
-	  * @return keywordVector pesato in base al TF
+	  *  Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	  *  rispetto al modello di pesi tf.
+	  * @return keywordVector pesato in base al tf
 	  */
 	public Map<String, Double> getTFVector() throws IOException {
 		
@@ -168,9 +167,9 @@ public class Paper {
 	}
 
 	/**
-	  *  restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
-	  *  rispetto al modello di pesi TFIDF 
-	  * @return keywordVector pesato in base al TFIDF
+	  *  Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	  *  rispetto al modello di pesi tfidf.
+	  * @return keywordVector pesato in base al tfidf
 	  */
 	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
 		
@@ -189,24 +188,25 @@ public class Paper {
 		return keywordVectorTFIDF;
 	}
 	
-	/** restituisce l'età del paper corrente
+	/** Calcola l'età dell'articolo corrente come differenza
+	 * tra l'anno corrente e l'anno di pubblicazione. 
 	 *
-	 * @return età del paper corrente
+	 * @return età dell'articolo corrente
 	 */
 	public int getAge() {
 		int currentYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
 		return currentYear - this.year; 
 	}
 	
-	/** calcola il peso del paper basato sull`età
+	/** Calcola il peso dell'articolo basato sull`età.
 	 * 
-	 * @return peso del paper
+	 * @return peso dell'articolo
 	 */
 	public double getWeightBasedOnAge() {
 		return (double) 1 / (1 + this.getAge());
 	}
 	
-	/** restituisce il TF della keyword pesato secondo l`età del paper
+	/** restituisce il TF della keyword pesato secondo l`età dell'articolo.
 	 * 
 	 * @param keyword 
 	 * @param weight
@@ -240,11 +240,11 @@ public class Paper {
 		return WTFVector;
 	}
 	
-	/** restituisce il vettore dei TFIDF pesati secondo l`età dei papers
+	/** restituisce il vettore dei tfidf pesati secondo l`età degli articoli
 	 * 
 	 * @param weight    
-	 * @param c         Corpus dei papers
-	 * @return vettore dei TFIDF pesati
+	 * @param c         Corpus degli articoli
+	 * @return vettore dei tfidf pesati
 	 * @throws Exception
 	 */
 	public Map<String, Double> getWTFIDFVector(double weight, Corpus c) throws Exception {
@@ -264,14 +264,15 @@ public class Paper {
 		return WTFIDFVector;
 	}
 	
-	/** controlla se la keyword è contenuta nel paper
+	/** controlla se la keyword è contenuta nell'articolo
 	 * 
-	 * @param key
+	 * @param keyword
 	 * @return true se la keyword è presente, false altrimenti
 	 */
-	public boolean containsKeyword(String key){
-		return this.keywords.contains(key);
+	public boolean containsKeyword(String keyword){
+		return this.keywords.contains(keyword);
 	}
+	
 	public int getPaperID() {
 		return paperID;
 	}
@@ -351,8 +352,9 @@ public class Paper {
 	public String toString() {
 		return "Paper [paperID=" + paperID + ", title=" + title + ", year="
 				+ year + ", publisher=" + publisher + ", paperAbstract="
-				+ paperAbstract + ", authors=" + authors + ", keywords="
-				+ keywords + "]";
+				+ paperAbstract + ", authorsNames=" + authorsNames
+				+ ", authors=" + authors + ", keywords=" + keywords
+				+ ", titlesKeywords=" + titlesKeywords + "]";
 	}
 
 	/* (non-Javadoc)

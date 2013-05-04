@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -30,8 +28,7 @@ public class PaperTest {
 		db.shutdown();
 	}
 
-	/** 
-	 * versione dummy test del metodo getKeywordSet
+	/** Versione dummy test del metodo getKeywordSet
 	 * verifica la mera creazione dell'HashMap di keyword
 	 * In realtà, se il paper ha titolo ed abstract nullo, 
 	 * il test fallisce: l'HashMap viene creato ma rimane nullo.
@@ -47,8 +44,7 @@ public class PaperTest {
 		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);		
 	}
 	
-	/**
-	 * testa il metodo getKeywordSet istanziando un paper
+	/** Testa il metodo getKeywordSet istanziando un paper
 	 * di keyword note.
 	 * 
 	 * @throws SQLException
@@ -84,8 +80,7 @@ public class PaperTest {
 		org.junit.Assert.assertEquals(mapAtteso, ks);	
 	}
 
-	/**
-	 * parte dal paper fittizio e recupera il TF 
+	/** Parte dal paper fittizio e recupera il TF 
 	 * di una keyword prefissata.
 	 * Confronta il TF calcolato dal metodo con
 	 * il TF atteso, calcolato a mano.
@@ -107,7 +102,7 @@ public class PaperTest {
 		titlesKeywords.add("TF");
 		titlesKeywords.add("uno");
 		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
-		Map<String, Integer> ks = paper.getKeywordSet(); 	
+		//Map<String, Integer> ks = paper.getKeywordSet(); 	
 		
 		String testKeyword = "media";
 		Double testTf = paper.getTF(testKeyword);

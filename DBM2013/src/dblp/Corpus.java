@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import javax.naming.NameNotFoundException;
@@ -24,10 +23,10 @@ public class Corpus {
 		this.cardinality = cardinality;
 	}
 	
-	/** restituisce l`IDF di una keyword
+	/** Restituisce l'idf di una keyword.
 	 * 
 	 * @param keyword
-	 * @return IDF di una keyword
+	 * @return idf di una keyword
 	 * @throws Exception
 	 */
 	//FIXME Sostituire con eccezione appropriata
@@ -52,7 +51,7 @@ public class Corpus {
 		return idf;
 	}
 	
-	/** restituisce l'oggetto Author associato al nome dato
+	/** Restituisce l'oggetto Author associato al nome dato.
 	 * 
 	 * @param name
 	 * @return oggetto Author associato al nome dato
@@ -67,7 +66,7 @@ public class Corpus {
 		throw new NameNotFoundException("There is no author named '" + name + "' in the Corpus.");
 	}
 	
-	/** restituisce l'oggetto Author associato all`id dato
+	/** Restituisce l'oggetto Author associato all'id dato.
 	 * 
 	 * @param id
 	 * @return oggetto Author associato all`id dato
@@ -83,7 +82,7 @@ public class Corpus {
 		throw new Exception();
 	}
 	
-	/** estrae i nomi dei coautori di un autore dato
+	/** Estrae i nomi dei coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di stringhe: nomi dei coautori di un autore dato
@@ -101,7 +100,7 @@ public class Corpus {
 		return coAuthorsNames;
 	}
 	
-	/** estrae gli id dei coautori di un autore dato
+	/** Estrae gli id dei coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di interi: id dei coautori di un autore dato
@@ -119,7 +118,7 @@ public class Corpus {
 		return coAuthorsIDs;
 	}
 	
-	/** estrae i coautori di un autore dato
+	/** Estrae i coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di Author: coautori di un autore dato
@@ -137,8 +136,7 @@ public class Corpus {
 		return coAuthors;
 	}
 	
-	
-	/** estrae i coautori di un autore dato insieme all'autore stesso
+	/** Estrae i coautori di un autore dato, insieme all'autore stesso.
 	 * 
 	 * @param a
 	 * @return lista di Author: coautori di un autore dato + autore stesso
@@ -152,10 +150,13 @@ public class Corpus {
 		return coAuthorsAndSelf;
 	}
 	
-	/** estrae la lista dei paper comuni ad una lista di autori (corpus ristretto)
+	//FIXME =================================
+	//FIXME CONTROLLARE COSA FA QUESTO METODO
+	//FIXME =================================
+	/** Estrae la lista dei paper comuni ad una lista di autori (corpus ristretto).
 	 * 
-	 * @param author
-	 * @param authors
+	 * @param author: l'autore in esame
+	 * @param authors: i coautori dell'autore in esame
 	 * @return lista di Paper: paper comuni ad una lista di autori
 	 */
 	public List<Paper> getRestrictedCorpus(Author author, List<Author> authors) {
@@ -174,8 +175,8 @@ public class Corpus {
 		return papers;
 	} 
 	
-	/** conta il numero di occorrenze di una keyword nel corpus ristretto
-	 * ovvero il corpus formato dai paper di un autore e dei suoi coautori
+	/** Calcola il numero di occorrenze di una keyword nel corpus ristretto,
+	 * ovvero il corpus formato dai paper di un autore e dei suoi coautori.
 	 * 
 	 * @param keyword
 	 * @param author
@@ -205,12 +206,10 @@ public class Corpus {
 	}
 	
 	
-	/**
-	 * restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
-	 * rispetto al modello di pesi TFIDF2, che per il calcolo del TF considera
-	 * l'insieme di tutti gli articoli scritti dall'autore dato e per il 
-	 * calcolo del IDF  considera l'insieme degli articoli scritti 
-	 * dall'autore e dai suoi coautori.
+	/** Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	 * rispetto al modello di pesi TFIDF2, che per il calcolo del tf considera
+	 * l'insieme di tutti gli articoli scritti dall'autore dato e per il calcolo dell'idf
+	 * considera l'insieme degli articoli scritti dall'autore e dai suoi coautori.
 	 * 
 	 * @param c
 	 * @return keywordVector pesato in base al modello TFIDF2
@@ -234,19 +233,8 @@ public class Corpus {
 //		}
 //		return keywordVectorTFIDF2;
 //	}
-	
-	/** restiruisce la lista dei paper dei coautori di un autore dato
-	 * 
-	 * @param a
-	 * @return lista di Paper: i paper dei coautori di un autore dato
-	 * @throws Exception
-	 */
-	//FIXME: chiedere se è davvero convinta...
-	public List<Paper> coauthor_papers(Author a) throws Exception {
-		return getCoAuthorsPapers(a);
-	}
-	
-	/** estrae i paper dei coautori di un autore dato
+		
+	/** Estrae gli articoli dei coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di Paper: elenco dei paper dei coautori di un autore dato
@@ -271,20 +259,10 @@ public class Corpus {
 		return coAuthorsPapers;
 	}
 	
-	/** rinomina in base a specifiche della funzione getCoAuthorsAndSelfPapers che
-	 * estrae i paper dei coautori di un autore dato insieme a quelli dell'autore stesso
+	/** Estrae gli articoli dei coautori di un autore dato, insieme a quelli dell'autore stesso.
+	 * 
 	 * @param a
-	 * @return lista di Paper: elenco dei paper di un autore dato insieme a quelli dell'autore stesso
-	 * @throws Exception
-	 */
-	//FIXME: chiedere se è convinta...
-	public List<Paper> coauthor_and_self(Author a) throws Exception {
-		return getCoAuthorsAndSelfPapers(a);
-	}
-	
-	/** estrae i paper dei coautori di un autore dato insieme a quelli dell'autore stesso
-	 * @param a
-	 * @return lista di Paper: elenco dei paper di un autore dato insieme a quelli dell'autore stesso
+	 * @return lista di Paper: elenco degli articoli di un autore dato insieme a quelli dell'autore stesso
 	 * @throws Exception
 	 */
 	//FIXME: sostituire con exception appropriata
@@ -303,16 +281,16 @@ public class Corpus {
 		return coAuthorsAndSelfPapers;
 	}
 	
-	/** restituisce il numero di articoli dei coautori in coauthor_papers(a_i) che non contengono la chiave k_j;
+	/** Calcola il numero di articoli dei soli coautori dell'autore a_i che non contengono la chiave k_j.
 	 * 
 	 * @param a_i
 	 * @param k_j
-	 * @return numero intero: gli articoli dei coautori in coauthor_papers(a_i) che non contengono la chiave k_j;
+	 * @return numero di articoli dei soli coautori dell'autore a_i che non contengono la chiave k_j
 	 * @throws Exception
 	 */
 	//FIXME: sostituire con exception appropriata
-	public int r_notKey(Author a_i, String k_j) throws Exception {
-		List<Paper> coAuthorsPapers = this.coauthor_papers(a_i);
+	public int r_withoutKey(Author a_i, String k_j) throws Exception {
+		List<Paper> coAuthorsPapers = this.getCoAuthorsPapers(a_i);
 		int r_ij = 0;
 		
 		for (Paper p : coAuthorsPapers) {
@@ -324,15 +302,15 @@ public class Corpus {
 		return r_ij;
 	}
 	
-	/** restituisce il numero di articoli in coauthor_and_self(a_i) che non contengono la chiave k_j
+	/** Calcola il numero di articoli dell'autore a_i e dei suoi coautori che non contengono la chiave k_j.
 	 * 
 	 * @param a_i
 	 * @param k_j
-	 * @return numero intero: gli articoli in coauthor_and_self(a_i) che non contengono la chiave k_j
+	 * @return numero intero: gli articoli dell'autore a_i e dei suoi coautori che non contengono la chiave k_j
 	 * @throws Exception
 	 */
-	public int n_notKey(Author a_i, String k_j) throws Exception {
-		List<Paper> coAuthorsPapers = this.coauthor_and_self(a_i);
+	public int n_withoutKey(Author a_i, String k_j) throws Exception {
+		List<Paper> coAuthorsPapers = this.getCoAuthorsAndSelfPapers(a_i);
 		int n_ij = 0;
 		
 		for (Paper p : coAuthorsPapers) {
@@ -344,35 +322,39 @@ public class Corpus {
 		return n_ij;
 	}
 	
-	/** restituisce il peso u_ij della chiave k_j per l'autore a_i
+	/** Calcola il peso u_ij della keyword k_j per l'autore a_i.
 	 * 
 	 * @param a_i
 	 * @param k_j
-	 * @return peso u_ij della chiave k_j per l'autore a_i
+	 * @return peso u_ij della keyword k_j per l'autore a_i
 	 * @throws Exception
 	 */
 	//FIXME: sostituire con eccezione appropriata...
 	public double u_ij(Author a_i, String k_j) throws Exception{
+		double u_ij = 0.0;
+		double epsilon = 0.1; // costante che non fa andare a zero		
 		double numLog = 0.0;
 		double denLog = 0.0;
 		double resLog = 0.0;
 		double resAbs = 0.0;
-		double u_ij = 0.0;
-		double epsilon = 0.1; // costante che non fa andare a zero
-		int r_ij = this.r_notKey(a_i,  k_j);
-		int n_ij = this.n_notKey(a_i, k_j);
-		int R_i = this.coauthor_papers(a_i).size();
-		int N_i = this.coauthor_and_self(a_i).size();
-		numLog = (double) (r_ij + epsilon)/ (R_i - r_ij + epsilon);
+		
+		int r_ij = this.r_withoutKey(a_i,  k_j);
+		int n_ij = this.n_withoutKey(a_i, k_j);
+		int R_i = this.getCoAuthorsPapers(a_i).size();
+		int N_i = this.getCoAuthorsAndSelfPapers(a_i).size();
+		
+		numLog = (double) (r_ij)/ (R_i - r_ij + epsilon);
 		denLog = (double) (n_ij - r_ij + epsilon) / (N_i - n_ij - R_i + r_ij + epsilon);
-		resLog = Math.log(numLog / denLog);
+		//FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2 maggio a lezione)
+		resLog = Math.log(1 + numLog / denLog);
+		
 		resAbs = Math.abs((double)(r_ij + epsilon / R_i + epsilon) - (double)((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
+		
 		u_ij = resLog * resAbs;
+		
 		return u_ij;
 	}
-	
-	
-	
+		
 	public ArrayList<Author> getAuthors() {
 		return authors;
 	}
