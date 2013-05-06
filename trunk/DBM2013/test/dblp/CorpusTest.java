@@ -55,7 +55,6 @@ public class CorpusTest {
 		fail("Not yet implemented");
 	}
 
-	
 	/**
 	 * Restituisce la lista degli articoli data una lista di autori.
 	 * Caso in cui gli autori non hanno paper in comune.
