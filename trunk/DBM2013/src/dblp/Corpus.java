@@ -98,7 +98,7 @@ public class Corpus {
 		List<Integer> coAuthorsIDs = a.getCoAuthorsIDs();
 		
 		for (int coA : coAuthorsIDs) {
-			coAuthors.add(getAuthorByID(coA));
+			coAuthors.add(this.getAuthorByID(coA));
 		}
 		
 		return coAuthors;
@@ -129,15 +129,13 @@ public class Corpus {
 	 * @param authors: i coautori dell'autore in esame
 	 * @return lista di Paper: paper comuni ad una lista di autori
 	 */
-	public List<Paper> getRestrictedCorpus(Author author, List<Author> authors) {
+	public static List<Paper> getRestrictedCorpus(List<Author> authors) {
 		List<Paper> papers = new ArrayList<Paper>();
 		
 		for (Author a : authors) {
 			for (Paper p : a.getPapers()) {
-				if (p.getAuthors().contains(author)) {
-					//if (!papers.contains(p)) {
-						papers.add(p);
-					//}
+				if (!papers.contains(p)) {
+					papers.add(p);
 				}
 			}
 		}
@@ -154,27 +152,27 @@ public class Corpus {
 	 * @param authors
 	 * @return IDF calcolato in base al corpus ristretto
 	 */
-	public double getRestrictedIDF(String keyword, Author author, List<Author> authors) {
-		double idf = 0;
-		int m = 0;
-		List<Paper> rc = getRestrictedCorpus(author, authors);
-		int N = rc.size();		
-		// conta il numero di occorrenze della keyword s nel corpus ristretto		
-		for(Paper p : rc) {
-			HashMap<String, Integer> keywordSet = p.getKeywordSet();
-			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-				if (k.getKey().equals(keyword)) {
-					m += k.getValue();
-				}
-			}				
-		}		
-		if (N > 0 && m > 0) {
-			idf = Math.log((double)N/m);
-		}	
-		return idf;
-	}
+//	public double getRestrictedIDF(String keyword, Author author, List<Author> authors) {
+//		double idf = 0;
+//		int m = 0;
+//		List<Paper> rc = getRestrictedCorpus(author, authors);
+//		int N = rc.size();		
+//		// conta il numero di occorrenze della keyword s nel corpus ristretto		
+//		for(Paper p : rc) {
+//			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+//			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+//			while (it.hasNext()) {
+//				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+//				if (k.getKey().equals(keyword)) {
+//					m += k.getValue();
+//				}
+//			}				
+//		}		
+//		if (N > 0 && m > 0) {
+//			idf = Math.log((double)N/m);
+//		}	
+//		return idf;
+//	}
 	
 	
 	/**
