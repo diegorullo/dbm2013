@@ -61,28 +61,30 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetRestrictedCorpusSenzaPaperInComune() {
-		ArrayList<String> authorsNames = new ArrayList<String>();
-		authorsNames.add("Stefania");
-		ArrayList<Integer> authors = new ArrayList<Integer>();
-		authors.add(2013);
+		// -- PAPER --
+		
+		ArrayList<String> authorsNames1 = new ArrayList<String>();
+		authorsNames1.add("Stefania");
+		ArrayList<Integer> authors1 = new ArrayList<Integer>();
+		authors1.add(1001);
 		
 		ArrayList<String> authorsNames2 = new ArrayList<String>();
 		authorsNames2.add("Luca");
 		ArrayList<Integer> authors2 = new ArrayList<Integer>();
-		authors2.add(2014);
-		
+		authors2.add(1002);
+						
 		// paper 1
-		ArrayList<String> keywords = new ArrayList<String>();
-		keywords.add("media");
-		keywords.add("media");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		ArrayList<String> titlesKeywords = new ArrayList<String>();
-		titlesKeywords.add("testare");
-		titlesKeywords.add("TF");
-		titlesKeywords.add("uno");
-		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
+		ArrayList<String> keywords1 = new ArrayList<String>();
+		keywords1.add("media");
+		keywords1.add("media");
+		keywords1.add("keyword");
+		keywords1.add("keyword");
+		keywords1.add("keyword");
+		ArrayList<String> titlesKeywords1 = new ArrayList<String>();
+		titlesKeywords1.add("testare");
+		titlesKeywords1.add("TF");
+		titlesKeywords1.add("uno");
+		Paper paper1 = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames1, authors1, keywords1, titlesKeywords1);
 		
 		// paper 2
 		ArrayList<String> keywords2 = new ArrayList<String>();
@@ -95,7 +97,7 @@ public class CorpusTest {
 		titlesKeywords2.add("insieme");
 		titlesKeywords2.add("degli");
 		titlesKeywords2.add("articoli");
-		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames, authors, keywords2, titlesKeywords2);
+		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames1, authors1, keywords2, titlesKeywords2);
 		
 		// paper 3
 		ArrayList<String> keywords3 = new ArrayList<String>();
@@ -119,38 +121,36 @@ public class CorpusTest {
 		titlesKeywords4.add("dei");
 		titlesKeywords4.add("token");
 		Paper paper4 = new Paper(4, "insieme dei token", 2013, "Gruppo DBM DLS", "method token parser parser", authorsNames2, authors2, keywords4, titlesKeywords4);
+				
 		
-		// paper 5
-		ArrayList<String> keywords5 = new ArrayList<String>();
-		keywords5.add("token");
-		keywords5.add("token");
-		keywords5.add("mathematics");
-		ArrayList<String> titlesKeywords5 = new ArrayList<String>();
-		titlesKeywords5.add("Metodi");
-		titlesKeywords5.add("Matematici");
-		Paper paper5 = new Paper(5, "Metodi Matematici", 2013, "Gruppo DBM DLS", "token token mathematics", authorsNames2, authors2, keywords5, titlesKeywords5);
+		// -- AUTORI --
 		
-		ArrayList<Paper> paperList = new ArrayList<Paper>();
-		paperList.add(paper);
-		paperList.add(paper2);
+		ArrayList<Paper> paperListStefania = new ArrayList<Paper>();
+		paperListStefania.add(paper1);
+		paperListStefania.add(paper2);
 		
-		ArrayList<Paper> paperList2 = new ArrayList<Paper>();
-		paperList2.add(paper3);
-		paperList2.add(paper4);
-		paperList2.add(paper5);
+		ArrayList<Paper> paperListLuca = new ArrayList<Paper>();
+		paperListLuca.add(paper3);
+		paperListLuca.add(paper4);
+				
+		Author authorStefania = new Author(1001, "Stefania", paperListStefania);
+		Author authorLuca = new Author(1002, "Luca", paperListLuca);
 		
-		Author a = new Author(2013, "Stefania", paperList);
-		Author a2 = new Author(2014, "Luca", paperList2);
-		ArrayList<Author> aaa = new ArrayList<Author>();
-		aaa.add(a);
-		aaa.add(a2);
+		// -- CORPUS
 		
-		List<Paper> ppp = new ArrayList<Paper>();
-		ppp = Corpus.getRestrictedCorpus(aaa);
-//		for (Paper p : ppp) {
-//			System.out.println(p);
-//		}
-		assertEquals("Gli autori hanno globalmente " + (paperList.size() + paperList2.size()) + " articoli, mentre l'unione degli articoli conta " + ppp.size() + " articoli.",  paperList.size() + paperList2.size(), ppp.size());
+		ArrayList<Author> listaAutoriNelCorpus = new ArrayList<Author>();
+		listaAutoriNelCorpus.add(authorStefania);
+		listaAutoriNelCorpus.add(authorLuca);
+		
+		ArrayList<Paper> listaPaperNelCorpus = new ArrayList<Paper>();
+		listaPaperNelCorpus.addAll(paperListStefania);
+		listaPaperNelCorpus.addAll(paperListLuca);
+		
+		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
+		
+		ArrayList<Paper> listaPaper = (ArrayList<Paper>)dummyCorpus.getRestrictedCorpus(listaAutoriNelCorpus);
+				
+		assertEquals("Gli autori hanno globalmente " + (paperListStefania.size() + paperListLuca.size()) + " articoli, mentre l'unione degli articoli conta " + listaPaper.size() + " articoli.",  paperListStefania.size() + paperListLuca.size(), listaPaper.size());
 	}
 	
 	/**
@@ -159,35 +159,37 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetRestrictedCorpusConUnPaperInComune() {
-		ArrayList<String> authorsNames = new ArrayList<String>();
-		authorsNames.add("Stefania");
-		ArrayList<Integer> authors = new ArrayList<Integer>();
-		authors.add(2013);
+		// -- PAPER --
+		
+		ArrayList<String> authorsNames1 = new ArrayList<String>();
+		authorsNames1.add("Stefania");
+		ArrayList<Integer> authors1 = new ArrayList<Integer>();
+		authors1.add(1001);
 		
 		ArrayList<String> authorsNames2 = new ArrayList<String>();
 		authorsNames2.add("Luca");
 		ArrayList<Integer> authors2 = new ArrayList<Integer>();
-		authors2.add(2014);
-		
-		
+		authors2.add(1002);
+				
 		ArrayList<String> authorsNames3 = new ArrayList<String>();
+		authorsNames3.add("Stefania");
 		authorsNames3.add("Luca");
 		ArrayList<Integer> authors3 = new ArrayList<Integer>();
-		authors3.add(2013);
-		authors3.add(2014);
+		authors3.add(1001);
+		authors3.add(1002);
 		
 		// paper 1
-		ArrayList<String> keywords = new ArrayList<String>();
-		keywords.add("media");
-		keywords.add("media");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		ArrayList<String> titlesKeywords = new ArrayList<String>();
-		titlesKeywords.add("testare");
-		titlesKeywords.add("TF");
-		titlesKeywords.add("uno");
-		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
+		ArrayList<String> keywords1 = new ArrayList<String>();
+		keywords1.add("media");
+		keywords1.add("media");
+		keywords1.add("keyword");
+		keywords1.add("keyword");
+		keywords1.add("keyword");
+		ArrayList<String> titlesKeywords1 = new ArrayList<String>();
+		titlesKeywords1.add("testare");
+		titlesKeywords1.add("TF");
+		titlesKeywords1.add("uno");
+		Paper paper1 = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames1, authors1, keywords1, titlesKeywords1);
 		
 		// paper 2
 		ArrayList<String> keywords2 = new ArrayList<String>();
@@ -200,7 +202,7 @@ public class CorpusTest {
 		titlesKeywords2.add("insieme");
 		titlesKeywords2.add("degli");
 		titlesKeywords2.add("articoli");
-		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames, authors, keywords2, titlesKeywords2);
+		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames1, authors1, keywords2, titlesKeywords2);
 		
 		// paper 3
 		ArrayList<String> keywords3 = new ArrayList<String>();
@@ -231,74 +233,81 @@ public class CorpusTest {
 		keywords5.add("token");
 		keywords5.add("mathematics");
 		ArrayList<String> titlesKeywords5 = new ArrayList<String>();
-		titlesKeywords5.add("Metodi");
-		titlesKeywords5.add("Matematici");
+		titlesKeywords5.add("metodi");
+		titlesKeywords5.add("matematici");
 		Paper paper5 = new Paper(5, "Metodi Matematici", 2013, "Gruppo DBM DLS", "token token mathematics", authorsNames3, authors3, keywords5, titlesKeywords5);
 		
-		ArrayList<Paper> paperList = new ArrayList<Paper>();
-		paperList.add(paper);
-		paperList.add(paper2);
 		
-		ArrayList<Paper> paperList2 = new ArrayList<Paper>();
-		paperList2.add(paper3);
-		paperList2.add(paper4);
-		paperList2.add(paper5);
+		// -- AUTORI --
 		
-		Author a = new Author(2013, "Stefania", paperList);
-		Author a2 = new Author(2014, "Luca", paperList2);
-		ArrayList<Author> aaa = new ArrayList<Author>();
-		aaa.add(a);
-		aaa.add(a2);
+		ArrayList<Paper> paperListStefania = new ArrayList<Paper>();
+		paperListStefania.add(paper1);
+		paperListStefania.add(paper2);
+		paperListStefania.add(paper5);
 		
-		List<Paper> ppp = new ArrayList<Paper>();
-		ppp = Corpus.getRestrictedCorpus(aaa);
-//		for (Paper p : ppp) {
-//			System.out.println(p);
-//		}
-		assertEquals("Gli autori hanno globalmente " + (paperList.size() + paperList2.size()) + " articoli, mentre l'unione degli articoli conta " + ppp.size() + " articoli.",  paperList.size() + paperList2.size(), ppp.size());
+		ArrayList<Paper> paperListLuca = new ArrayList<Paper>();
+		paperListLuca.add(paper3);
+		paperListLuca.add(paper4);
+		paperListLuca.add(paper5);
+		
+		Author authorStefania = new Author(1001, "Stefania", paperListStefania);
+		Author authorLuca = new Author(1002, "Luca", paperListLuca);
+		
+		
+		// -- CORPUS
+		
+		ArrayList<Author> listaAutoriNelCorpus = new ArrayList<Author>();
+		listaAutoriNelCorpus.add(authorStefania);
+		listaAutoriNelCorpus.add(authorLuca);
+		
+		ArrayList<Paper> listaPaperNelCorpus = new ArrayList<Paper>();
+		listaPaperNelCorpus.addAll(paperListStefania);
+		listaPaperNelCorpus.addAll(paperListLuca);
+				
+		assertEquals("Gli autori hanno globalmente " + (paperListStefania.size() + paperListLuca.size()) + " articoli, mentre l'unione degli articoli conta " + listaPaperNelCorpus.size() + " articoli.",  paperListStefania.size() + paperListLuca.size(), listaPaperNelCorpus.size());
 	}
 
 	@Test
 	public void testGetRestrictedIDF() throws Exception {
 		//FIXME
-		ArrayList<String> authorsNames = new ArrayList<String>();
-		authorsNames.add("Stefania");
-		ArrayList<Integer> authors = new ArrayList<Integer>();
-		authors.add(2013);
-		
-		// paper 1
-		ArrayList<String> keywords = new ArrayList<String>();
-		keywords.add("media");
-		keywords.add("media");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		ArrayList<String> titlesKeywords = new ArrayList<String>();
-		titlesKeywords.add("testare");
-		titlesKeywords.add("TF");
-		titlesKeywords.add("uno");
-		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
-		
-		// paper 2
-		ArrayList<String> keywords2 = new ArrayList<String>();
-		keywords.add("algorithm");
-		keywords.add("algorithm");
-		keywords.add("parser");
-		keywords.add("parser");
-		ArrayList<String> titlesKeywords2 = new ArrayList<String>();
-		titlesKeywords.add("calcolare");
-		titlesKeywords.add("insieme");
-		titlesKeywords.add("degli");
-		titlesKeywords.add("articoli");
-		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames, authors, keywords2, titlesKeywords2);
-		ArrayList<Paper> paperList = new ArrayList<Paper>();
-		paperList.add(paper);
-		paperList.add(paper2);
-		Author a = new Author(2013, "Stefania", paperList);	
-		Corpus dblp = db.newCorpus();
-		String keyword = "algorithm";
-		Double idf = 0.0;
-		Double valAtteso = (double) 2/30;
+//		ArrayList<String> authorsNames = new ArrayList<String>();
+//		authorsNames.add("Stefania");
+//		ArrayList<Integer> authors = new ArrayList<Integer>();
+//		authors.add(1001);
+//		
+//		// paper 1
+//		ArrayList<String> keywords = new ArrayList<String>();
+//		keywords.add("media");
+//		keywords.add("media");
+//		keywords.add("keyword");
+//		keywords.add("keyword");
+//		keywords.add("keyword");
+//		ArrayList<String> titlesKeywords = new ArrayList<String>();
+//		titlesKeywords.add("testare");
+//		titlesKeywords.add("TF");
+//		titlesKeywords.add("uno");
+//		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
+//		
+//		// paper 2
+//		ArrayList<String> keywords2 = new ArrayList<String>();
+//		keywords.add("algorithm");
+//		keywords.add("algorithm");
+//		keywords.add("parser");
+//		keywords.add("parser");
+//		ArrayList<String> titlesKeywords2 = new ArrayList<String>();
+//		titlesKeywords.add("calcolare");
+//		titlesKeywords.add("insieme");
+//		titlesKeywords.add("degli");
+//		titlesKeywords.add("articoli");
+//		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames, authors, keywords2, titlesKeywords2);
+//		ArrayList<Paper> paperList = new ArrayList<Paper>();
+//		paperList.add(paper);
+//		paperList.add(paper2);
+//		Author a = new Author(2013, "Stefania", paperList);	
+//		Corpus dblp = db.newCorpus();
+//		String keyword = "algorithm";
+//		Double idf = 0.0;
+//		Double valAtteso = (double) 2/30;
 //		idf = dblp.getRestrictedIDF(keyword, a, dblp.getCoAuthorsAndSelf(a));
 //		System.out.println("Keyword: " + keyword +", IDF = "+ idf);
 //		assertEquals ("Keyword: " + keyword +", IDF = "+ idf, valAtteso, idf, 1/1000000);
@@ -312,35 +321,38 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetCoAuthorsPapersConPaperInComune() throws Exception {
-		ArrayList<String> authorsNames = new ArrayList<String>();
-		authorsNames.add("Stefania");
-		ArrayList<Integer> authors = new ArrayList<Integer>();
-		authors.add(2013);
+		
+		// -- PAPER --
+		
+		ArrayList<String> authorsNames1 = new ArrayList<String>();
+		authorsNames1.add("Stefania");
+		ArrayList<Integer> authors1 = new ArrayList<Integer>();
+		authors1.add(1001);
 		
 		ArrayList<String> authorsNames2 = new ArrayList<String>();
 		authorsNames2.add("Luca");
 		ArrayList<Integer> authors2 = new ArrayList<Integer>();
-		authors2.add(2014);
-		
-		
+		authors2.add(1002);
+				
 		ArrayList<String> authorsNames3 = new ArrayList<String>();
+		authorsNames3.add("Stefania");
 		authorsNames3.add("Luca");
 		ArrayList<Integer> authors3 = new ArrayList<Integer>();
-		authors3.add(2013);
-		authors3.add(2014);
+		authors3.add(1001);
+		authors3.add(1002);
 		
 		// paper 1
-		ArrayList<String> keywords = new ArrayList<String>();
-		keywords.add("media");
-		keywords.add("media");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		keywords.add("keyword");
-		ArrayList<String> titlesKeywords = new ArrayList<String>();
-		titlesKeywords.add("testare");
-		titlesKeywords.add("TF");
-		titlesKeywords.add("uno");
-		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
+		ArrayList<String> keywords1 = new ArrayList<String>();
+		keywords1.add("media");
+		keywords1.add("media");
+		keywords1.add("keyword");
+		keywords1.add("keyword");
+		keywords1.add("keyword");
+		ArrayList<String> titlesKeywords1 = new ArrayList<String>();
+		titlesKeywords1.add("testare");
+		titlesKeywords1.add("TF");
+		titlesKeywords1.add("uno");
+		Paper paper1 = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames1, authors1, keywords1, titlesKeywords1);
 		
 		// paper 2
 		ArrayList<String> keywords2 = new ArrayList<String>();
@@ -353,7 +365,7 @@ public class CorpusTest {
 		titlesKeywords2.add("insieme");
 		titlesKeywords2.add("degli");
 		titlesKeywords2.add("articoli");
-		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames, authors, keywords2, titlesKeywords2);
+		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013, "Gruppo DBM DLS", "algorithm algorithm parser parser", authorsNames1, authors1, keywords2, titlesKeywords2);
 		
 		// paper 3
 		ArrayList<String> keywords3 = new ArrayList<String>();
@@ -384,39 +396,47 @@ public class CorpusTest {
 		keywords5.add("token");
 		keywords5.add("mathematics");
 		ArrayList<String> titlesKeywords5 = new ArrayList<String>();
-		titlesKeywords5.add("Metodi");
-		titlesKeywords5.add("Matematici");
+		titlesKeywords5.add("metodi");
+		titlesKeywords5.add("matematici");
 		Paper paper5 = new Paper(5, "Metodi Matematici", 2013, "Gruppo DBM DLS", "token token mathematics", authorsNames3, authors3, keywords5, titlesKeywords5);
 		
-		ArrayList<Paper> paperList = new ArrayList<Paper>();
-		paperList.add(paper);
-		paperList.add(paper2);
 		
-		ArrayList<Paper> paperList2 = new ArrayList<Paper>();
-		paperList2.add(paper3);
-		paperList2.add(paper4);
-		paperList2.add(paper5);
+		// -- AUTORI --
 		
-		Author a = new Author(2013, "Stefania", paperList);
-		Author a2 = new Author(2014, "Luca", paperList2);
-		ArrayList<Author> aaa = new ArrayList<Author>();
-		aaa.add(a);
-		aaa.add(a2);
+		ArrayList<Paper> paperListStefania = new ArrayList<Paper>();
+		paperListStefania.add(paper1);
+		paperListStefania.add(paper2);
+		paperListStefania.add(paper5);
 		
-		ArrayList<Paper> pppList = (ArrayList<Paper>)paperList;
-		pppList.addAll(paperList2);
+		ArrayList<Paper> paperListLuca = new ArrayList<Paper>();
+		paperListLuca.add(paper3);
+		paperListLuca.add(paper4);
+		paperListLuca.add(paper5);
 		
-		Corpus dblp = new Corpus(aaa, pppList, pppList.size());
-			
+		Author authorStefania = new Author(1001, "Stefania", paperListStefania);
+		Author authorLuca = new Author(1002, "Luca", paperListLuca);
 		
-		List<Paper> pp1 = new ArrayList<Paper>();
-		pp1 = dblp.getCoAuthorsPapers(a);
 		
-		List<Paper> pp2 = new ArrayList<Paper>();
-		pp2 = dblp.getCoAuthorsPapers(a2);
+		// -- CORPUS
+		
+		ArrayList<Author> listaAutoriNelCorpus = new ArrayList<Author>();
+		listaAutoriNelCorpus.add(authorStefania);
+		listaAutoriNelCorpus.add(authorLuca);
+		
+		ArrayList<Paper> listaPaperNelCorpus = new ArrayList<Paper>();
+		listaPaperNelCorpus.addAll(paperListStefania);
+		listaPaperNelCorpus.addAll(paperListLuca);
+		
+		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
+		
+		List<Paper> listaPaperCoautoriStefania = new ArrayList<Paper>();
+		listaPaperCoautoriStefania = dummyCorpus.getCoAuthorsPapers(authorStefania);
+		
+		List<Paper> listaPaperCoautoriLuca = new ArrayList<Paper>();
+		listaPaperCoautoriLuca = dummyCorpus.getCoAuthorsPapers(authorLuca);
 
-		assertEquals("L'insieme degli articoli dei coautori di " + a.getName() + "",  3, pp1.size());
-		assertEquals("L'insieme degli articoli dei coautori di " + a2.getName() + " è vuoto.", 3, pp2.size());
+		assertEquals("L'insieme degli articoli dei coautori di " + authorStefania.getName() + ".",  3, listaPaperCoautoriStefania.size());
+		assertEquals("L'insieme degli articoli dei coautori di " + authorLuca.getName() + ".", 3, listaPaperCoautoriLuca.size());
 	}
 
 	@Test

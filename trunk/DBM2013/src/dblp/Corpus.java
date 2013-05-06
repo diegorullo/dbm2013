@@ -100,7 +100,7 @@ public class Corpus {
 		for (int coA : coAuthorsIDs) {
 			coAuthors.add(this.getAuthorByID(coA));
 		}
-		
+			
 		return coAuthors;
 	}
 	
@@ -125,7 +125,7 @@ public class Corpus {
 	 * @param authors: i coautori dell'autore in esame
 	 * @return lista di Paper: paper comuni ad una lista di autori
 	 */
-	public static List<Paper> getRestrictedCorpus(List<Author> authors) {
+	public List<Paper> getRestrictedCorpus(List<Author> authors) {
 		List<Paper> papers = new ArrayList<Paper>();
 		
 		for (Author a : authors) {
@@ -135,6 +135,12 @@ public class Corpus {
 				}
 			}
 		}
+		
+//		System.out.println("xxxxxxxxxxxx");
+//		
+//		for (Paper pp : papers) {
+//			System.out.println(pp);
+//		}
 		
 		return papers;
 	} 
@@ -211,16 +217,18 @@ public class Corpus {
 	public List<Paper> getCoAuthorsPapers(Author a) throws Exception {
 		List<Author> coAuthors = this.getCoAuthors(a);
 		List<Paper> coAuthorsPapers = new ArrayList<Paper>();
-
-		List<Paper> authorsPapers = new ArrayList<Paper>();
-		for (Author coA : coAuthors) {
-			authorsPapers = coA.getPapers();
-			for (Paper p : authorsPapers) {
-				if(!coAuthorsPapers.contains(p)) {
-					coAuthorsPapers.add(p);
-				}
-			}
-		}
+		
+//		List<Paper> authorsPapers = new ArrayList<Paper>();
+//		for (Author coA : coAuthors) {
+//			authorsPapers = coA.getPapers();
+//			for (Paper p : authorsPapers) {
+//				if(!coAuthorsPapers.contains(p)) {
+//					coAuthorsPapers.add(p);
+//				}
+//			}
+//		}
+		
+		coAuthorsPapers = this.getRestrictedCorpus(coAuthors);
 		
 		return coAuthorsPapers;
 	}
