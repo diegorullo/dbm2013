@@ -119,13 +119,9 @@ public class Corpus {
 		return coAuthorsAndSelf;
 	}
 	
-	//FIXME =================================
-	//FIXME CONTROLLARE COSA FA QUESTO METODO
-	//FIXME =================================
 	/**
 	 * Estrae la lista dei paper comuni ad una lista di autori (corpus ristretto).
 	 * 
-	 * @param author: l'autore in esame
 	 * @param authors: i coautori dell'autore in esame
 	 * @return lista di Paper: paper comuni ad una lista di autori
 	 */
@@ -218,7 +214,6 @@ public class Corpus {
 
 		List<Paper> authorsPapers = new ArrayList<Paper>();
 		for (Author coA : coAuthors) {
-			authorsPapers = null;
 			authorsPapers = coA.getPapers();
 			for (Paper p : authorsPapers) {
 				if(!coAuthorsPapers.contains(p)) {
