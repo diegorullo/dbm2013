@@ -147,10 +147,11 @@ public class Paper {
 	}
 	
 	/**
-	  *  Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
-	  *  rispetto al modello di pesi tf.
-	  * @return keywordVector pesato in base al tf
-	  */
+	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	 * rispetto al modello di pesi tf.
+	 * 
+	 * @return keywordVector pesato in base al tf
+	 */
 	public Map<String, Double> getTFVector() throws IOException {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
@@ -167,10 +168,11 @@ public class Paper {
 	}
 
 	/**
-	  *  Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
-	  *  rispetto al modello di pesi tfidf.
-	  * @return keywordVector pesato in base al tfidf
-	  */
+	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	 * rispetto al modello di pesi tfidf.
+	 * 
+	 * @return keywordVector pesato in base al tfidf
+	 */
 	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSet();
@@ -188,7 +190,8 @@ public class Paper {
 		return keywordVectorTFIDF;
 	}
 	
-	/** Calcola l'età dell'articolo corrente come differenza
+	/**
+	 * Calcola l'età dell'articolo corrente come differenza
 	 * tra l'anno corrente e l'anno di pubblicazione. 
 	 *
 	 * @return età dell'articolo corrente
@@ -198,7 +201,8 @@ public class Paper {
 		return currentYear - this.year; 
 	}
 	
-	/** Calcola il peso dell'articolo basato sull`età.
+	/**
+	 * Calcola il peso dell'articolo basato sull`età.
 	 * 
 	 * @return peso dell'articolo
 	 */
@@ -206,7 +210,8 @@ public class Paper {
 		return (double) 1 / (1 + this.getAge());
 	}
 	
-	/** restituisce il TF della keyword pesato secondo l`età dell'articolo.
+	/**
+	 * Restituisce il tf della keyword, pesato secondo l'età dell'articolo.
 	 * 
 	 * @param keyword 
 	 * @param weight
@@ -217,7 +222,8 @@ public class Paper {
 		return  weight * tf;
 	}
 	
-	/** restituisce il vettore dei TF pesati secondo l`età dei papers
+	/**
+	 * Restituisce il vettore dei tf, pesati secondo l'età degli articoli.
 	 *  
 	 * @param weight
 	 * @return vettore dei TF pesati
@@ -240,7 +246,8 @@ public class Paper {
 		return WTFVector;
 	}
 	
-	/** restituisce il vettore dei tfidf pesati secondo l`età degli articoli
+	/**
+	 * Restituisce il vettore dei tfidf, pesati secondo l`età degli articoli.
 	 * 
 	 * @param weight    
 	 * @param c         Corpus degli articoli
@@ -264,7 +271,8 @@ public class Paper {
 		return WTFIDFVector;
 	}
 	
-	/** controlla se la keyword è contenuta nell'articolo
+	/** 
+	 * Controlla se la keyword è contenuta nell'articolo.
 	 * 
 	 * @param keyword
 	 * @return true se la keyword è presente, false altrimenti

@@ -23,7 +23,8 @@ public class Corpus {
 		this.cardinality = cardinality;
 	}
 	
-	/** Restituisce l'idf di una keyword.
+	/**
+	 * Restituisce l'idf di una keyword.
 	 * 
 	 * @param keyword
 	 * @return idf di una keyword
@@ -51,7 +52,8 @@ public class Corpus {
 		return idf;
 	}
 	
-	/** Restituisce l'oggetto Author associato al nome dato.
+	/**
+	 * Restituisce l'oggetto Author associato al nome dato.
 	 * 
 	 * @param name
 	 * @return oggetto Author associato al nome dato
@@ -66,7 +68,8 @@ public class Corpus {
 		throw new NameNotFoundException("There is no author named '" + name + "' in the Corpus.");
 	}
 	
-	/** Restituisce l'oggetto Author associato all'id dato.
+	/**
+	 * Restituisce l'oggetto Author associato all'id dato.
 	 * 
 	 * @param id
 	 * @return oggetto Author associato all`id dato
@@ -82,7 +85,8 @@ public class Corpus {
 		throw new Exception();
 	}
 	
-	/** Estrae i nomi dei coautori di un autore dato.
+	/**
+	 * Estrae i nomi dei coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di stringhe: nomi dei coautori di un autore dato
@@ -100,7 +104,8 @@ public class Corpus {
 		return coAuthorsNames;
 	}
 	
-	/** Estrae gli id dei coautori di un autore dato.
+	/**
+	 * Estrae gli id dei coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di interi: id dei coautori di un autore dato
@@ -118,7 +123,8 @@ public class Corpus {
 		return coAuthorsIDs;
 	}
 	
-	/** Estrae i coautori di un autore dato.
+	/**
+	 * Estrae i coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di Author: coautori di un autore dato
@@ -136,7 +142,8 @@ public class Corpus {
 		return coAuthors;
 	}
 	
-	/** Estrae i coautori di un autore dato, insieme all'autore stesso.
+	/**
+	 * Estrae i coautori di un autore dato, insieme all'autore stesso.
 	 * 
 	 * @param a
 	 * @return lista di Author: coautori di un autore dato + autore stesso
@@ -153,7 +160,8 @@ public class Corpus {
 	//FIXME =================================
 	//FIXME CONTROLLARE COSA FA QUESTO METODO
 	//FIXME =================================
-	/** Estrae la lista dei paper comuni ad una lista di autori (corpus ristretto).
+	/**
+	 * Estrae la lista dei paper comuni ad una lista di autori (corpus ristretto).
 	 * 
 	 * @param author: l'autore in esame
 	 * @param authors: i coautori dell'autore in esame
@@ -175,7 +183,8 @@ public class Corpus {
 		return papers;
 	} 
 	
-	/** Calcola il numero di occorrenze di una keyword nel corpus ristretto,
+	/**
+	 * Calcola il numero di occorrenze di una keyword nel corpus ristretto,
 	 * ovvero il corpus formato dai paper di un autore e dei suoi coautori.
 	 * 
 	 * @param keyword
@@ -206,7 +215,8 @@ public class Corpus {
 	}
 	
 	
-	/** Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	/**
+	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
 	 * rispetto al modello di pesi TFIDF2, che per il calcolo del tf considera
 	 * l'insieme di tutti gli articoli scritti dall'autore dato e per il calcolo dell'idf
 	 * considera l'insieme degli articoli scritti dall'autore e dai suoi coautori.
@@ -234,7 +244,8 @@ public class Corpus {
 //		return keywordVectorTFIDF2;
 //	}
 		
-	/** Estrae gli articoli dei coautori di un autore dato.
+	/**
+	 * Estrae gli articoli dei coautori di un autore dato.
 	 * 
 	 * @param a
 	 * @return lista di Paper: elenco dei paper dei coautori di un autore dato
@@ -259,7 +270,8 @@ public class Corpus {
 		return coAuthorsPapers;
 	}
 	
-	/** Estrae gli articoli dei coautori di un autore dato, insieme a quelli dell'autore stesso.
+	/**
+	 * Estrae gli articoli dei coautori di un autore dato, insieme a quelli dell'autore stesso.
 	 * 
 	 * @param a
 	 * @return lista di Paper: elenco degli articoli di un autore dato insieme a quelli dell'autore stesso
@@ -281,7 +293,8 @@ public class Corpus {
 		return coAuthorsAndSelfPapers;
 	}
 	
-	/** Calcola il numero di articoli dei soli coautori dell'autore a_i che non contengono la chiave k_j.
+	/**
+	 * Calcola il numero di articoli dei soli coautori dell'autore a_i che non contengono la chiave k_j.
 	 * 
 	 * @param a_i
 	 * @param k_j
@@ -322,7 +335,8 @@ public class Corpus {
 		return n_ij;
 	}
 	
-	/** Calcola il peso u_ij della keyword k_j per l'autore a_i.
+	/**
+	 * Calcola il peso u_ij della keyword k_j per l'autore a_i.
 	 * 
 	 * @param a_i
 	 * @param k_j

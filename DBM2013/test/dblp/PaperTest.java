@@ -28,8 +28,9 @@ public class PaperTest {
 		db.shutdown();
 	}
 
-	/** Versione dummy test del metodo getKeywordSet
-	 * verifica la mera creazione dell'HashMap di keyword
+	/**
+	 * Versione dummy test del metodo getKeywordSet
+	 * verifica la mera creazione dell'HashMap di keyword.
 	 * In realtà, se il paper ha titolo ed abstract nullo, 
 	 * il test fallisce: l'HashMap viene creato ma rimane nullo.
 	 * 
@@ -44,7 +45,8 @@ public class PaperTest {
 		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);		
 	}
 	
-	/** Testa il metodo getKeywordSet istanziando un paper
+	/**
+	 * Testa il metodo getKeywordSet istanziando un paper
 	 * di keyword note.
 	 * 
 	 * @throws SQLException
@@ -80,7 +82,8 @@ public class PaperTest {
 		org.junit.Assert.assertEquals(mapAtteso, ks);	
 	}
 
-	/** Parte dal paper fittizio e recupera il TF 
+	/**
+	 * Parte dal paper fittizio e recupera il TF 
 	 * di una keyword prefissata.
 	 * Confronta il TF calcolato dal metodo con
 	 * il TF atteso, calcolato a mano.
