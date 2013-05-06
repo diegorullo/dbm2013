@@ -84,45 +84,7 @@ public class Corpus {
 		//FIXME: sistemare con eccezione appropriata
 		throw new Exception();
 	}
-	
-	/**
-	 * Estrae i nomi dei coautori di un autore dato.
-	 * 
-	 * @param a
-	 * @return lista di stringhe: nomi dei coautori di un autore dato
-	 */
-	public List<String> getCoAuthorsNames(Author a) {
-		List<String> coAuthorsNames = new ArrayList<String>();
 		
-		for (Paper p : a.getPapers()) {
-			for (String coA : p.getAuthorsNames()) {
-				if(!coAuthorsNames.contains(coA) && !a.getName().equals(coA)) {
-					coAuthorsNames.add(coA);
-				}
-			}
-		}		
-		return coAuthorsNames;
-	}
-	
-	/**
-	 * Estrae gli id dei coautori di un autore dato.
-	 * 
-	 * @param a
-	 * @return lista di interi: id dei coautori di un autore dato
-	 */
-	public List<Integer> getCoAuthorsIDs(Author a) {
-		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
-		
-		for (Paper p : a.getPapers()) {
-			for (int coA : p.getAuthors()) {
-				if(!coAuthorsIDs.contains(coA) && a.getAuthorID()!=(coA)) {
-					coAuthorsIDs.add(coA);
-				}
-			}
-		}		
-		return coAuthorsIDs;
-	}
-	
 	/**
 	 * Estrae i coautori di un autore dato.
 	 * 
@@ -133,7 +95,7 @@ public class Corpus {
 	//FIXME: sostituire con exception appropriata
 	public List<Author> getCoAuthors(Author a) throws Exception {
 		List<Author> coAuthors = new ArrayList<Author>();
-		List<Integer> coAuthorsIDs = this.getCoAuthorsIDs(a);
+		List<Integer> coAuthorsIDs = a.getCoAuthorsIDs();
 		
 		for (int coA : coAuthorsIDs) {
 			coAuthors.add(getAuthorByID(coA));

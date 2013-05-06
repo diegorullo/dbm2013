@@ -160,6 +160,42 @@ public class Author {
 	}
 	
 	/**
+	 * Estrae i nomi dei coautori dell'autore corrente.
+	 * 
+	 * @return lista di stringhe: nomi dei coautori dell'autore corrente
+	 */
+	public List<String> getCoAuthorsNames() {
+		List<String> coAuthorsNames = new ArrayList<String>();
+		
+		for (Paper p : this.getPapers()) {
+			for (String coA : p.getAuthorsNames()) {
+				if(!coAuthorsNames.contains(coA) && !this.getName().equals(coA)) {
+					coAuthorsNames.add(coA);
+				}
+			}
+		}		
+		return coAuthorsNames;
+	}
+	
+	/**
+	 * Estrae gli id dei coautori dell'autore corrente.
+	 * 
+	 * @return lista di interi: id dei coautori dell'autore corrente
+	 */
+	public List<Integer> getCoAuthorsIDs() {
+		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
+		
+		for (Paper p : this.getPapers()) {
+			for (int coA : p.getAuthors()) {
+				if(!coAuthorsIDs.contains(coA) && this.getAuthorID()!=(coA)) {
+					coAuthorsIDs.add(coA);
+				}
+			}
+		}		
+		return coAuthorsIDs;
+	}
+	
+	/**
 	 * Calcola il tf della keyword basandosi sull’insieme
 	 * di tutti gli articoli scritti dall’autore dato.
 	 * 
