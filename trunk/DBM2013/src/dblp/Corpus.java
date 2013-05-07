@@ -180,6 +180,26 @@ public class Corpus {
 		return idf;
 	}
 	
+	/**
+	 * Calcola il tfidf2:
+	 * tf2 - tutti gli articoli dell'autore
+	 * idf2 - tutti gli articoli del corpus ristretto
+	 *  (ovvvero dell'autore e i suoi coautori) 
+	 * 
+	 * @param keyword
+	 * @param author
+	 * @return double tfidf2
+	 * @throws Exception
+	 */
+	public double getTFIDF2(String keyword, Author author) throws Exception {
+		double tfidf2 = 0.0;		
+		double tf2 = author.getRestrictedTF(keyword);
+		double idf2 = this.getRestrictedIDF(keyword, author);
+		
+		tfidf2 = tf2 * idf2;
+		
+		return tfidf2;
+	}
 	
 	/**
 	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
