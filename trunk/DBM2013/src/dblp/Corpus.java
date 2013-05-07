@@ -228,8 +228,9 @@ public class Corpus {
 //			}
 //		}
 		
-		coAuthorsPapers = this.getRestrictedCorpus(coAuthors);
-		
+		if (this.getRestrictedCorpus(coAuthors) != null) {
+			coAuthorsPapers = this.getRestrictedCorpus(coAuthors);
+		}
 		return coAuthorsPapers;
 	}
 	
@@ -242,16 +243,22 @@ public class Corpus {
 	 */
 	//FIXME: sostituire con exception appropriata
 	public List<Paper> getCoAuthorsAndSelfPapers(Author a) throws Exception {
-		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(a);
-		
-		List<Paper> selfPapers = a.getPapers();
-		for (Paper p : selfPapers) {
-			if(!coAuthorsAndSelfPapers.contains(p)) {
-				coAuthorsAndSelfPapers.add(p);
-			}
-		}
+//		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(a);		
+//		List<Paper> selfPapers = a.getPapers();
+//		for (Paper p : selfPapers) {
+//			if(!coAuthorsAndSelfPapers.contains(p)) {
+//				coAuthorsAndSelfPapers.add(p);
+//			}
+//		}
 		
 		//coAuthorsAndSelfPapers.addAll(a.getPapers());
+		
+		List<Author> coAuthors = this.getCoAuthorsAndSelf(a);
+		List<Paper> coAuthorsAndSelfPapers = new ArrayList<Paper>();
+		
+		if (this.getRestrictedCorpus(coAuthors) != null) {
+			coAuthorsAndSelfPapers = this.getRestrictedCorpus(coAuthors);
+		}
 
 		return coAuthorsAndSelfPapers;
 	}
