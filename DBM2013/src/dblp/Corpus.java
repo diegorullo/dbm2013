@@ -153,28 +153,32 @@ public class Corpus {
 	 * @param author
 	 * @param authors
 	 * @return IDF calcolato in base al corpus ristretto
+	 * @throws Exception 
 	 */
-//	public double getRestrictedIDF(String keyword, Author author, List<Author> authors) {
-//		double idf = 0;
-//		int m = 0;
-//		List<Paper> rc = getRestrictedCorpus(author, authors);
-//		int N = rc.size();		
-//		// conta il numero di occorrenze della keyword s nel corpus ristretto		
-//		for(Paper p : rc) {
-//			HashMap<String, Integer> keywordSet = p.getKeywordSet();
-//			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-//			while (it.hasNext()) {
-//				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-//				if (k.getKey().equals(keyword)) {
-//					m += k.getValue();
-//				}
-//			}				
-//		}		
-//		if (N > 0 && m > 0) {
-//			idf = Math.log((double)N/m);
-//		}	
-//		return idf;
-//	}
+	public double getRestrictedIDF(String keyword, Author author) throws Exception {
+		double idf = 0;
+		int m = 0; // conta il numero di articoli in cui la keyword compare
+		
+		List<Author> coAuthorsAndSelf = this.getCoAuthorsAndSelf(author);
+		List<Paper> rc = getRestrictedCorpus(coAuthorsAndSelf);
+		int N = rc.size();
+		
+		for(Paper p : rc) {
+			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+				if (k.getKey().equals(keyword)) {
+					m++;
+				}
+			}				
+		}		
+		if (N > 0 && m > 0) {
+			idf = Math.log((double)N/m);
+		}
+		
+		return idf;
+	}
 	
 	
 	/**
