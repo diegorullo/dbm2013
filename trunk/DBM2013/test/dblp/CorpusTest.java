@@ -1,12 +1,12 @@
 package dblp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -980,7 +980,7 @@ public class CorpusTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
 		Map<String, Double> tfidf2VectorStefania = dummyCorpus.getTFIDF2Vector(authorStefania);
-		Map<String, Double> tfidf2VectorLuca = dummyCorpus.getTFIDF2Vector(authorLuca);
+		//Map<String, Double> tfidf2VectorLuca = dummyCorpus.getTFIDF2Vector(authorLuca);
 		//System.out.println(tfidf2VectorStefania);
 		//System.out.println(tfidf2VectorLuca);
 		
