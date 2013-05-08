@@ -34,11 +34,11 @@ public class Author {
 	 * @return treemap dei tf di un autore, pesando gli articoli per eta'
 	 * @throws IOException
 	 */
-	public Map<String, Double> getWTFVector() throws IOException {
+	public Map<String, Double> getWeightedTFVector() throws IOException {
 		Map<String, Double> wtfv;
 		double weight = 0;
 		double weightNormalizationFactor = 0;
-		Map<String, Double> WTFVector = new TreeMap<String, Double>();
+		TreeMap<String, Double> weightedTFVector = new TreeMap<String, Double>();
 		//FIXME controllare - aggiustare il metodo
 		
 		/* - vettore di tf per ogni paper dell'autore
@@ -58,34 +58,31 @@ public class Author {
 			Iterator<Entry<String, Double>> it = wtfv.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
-				if (!WTFVector.containsKey(k.getKey())) {
-					WTFVector.put(k.getKey(), k.getValue());			
+				if (!weightedTFVector.containsKey(k.getKey())) {
+					weightedTFVector.put(k.getKey(), k.getValue());			
 				}
 				else {
-					WTFVector.put(k.getKey(), WTFVector.get(k.getKey()) + k.getValue());
+					weightedTFVector.put(k.getKey(), weightedTFVector.get(k.getKey()) + k.getValue());
 				}
 			}			
 		}
 		
 		
-		Iterator<Entry<String, Double>> it = WTFVector.entrySet().iterator();
+		Iterator<Entry<String, Double>> it = weightedTFVector.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
 			weightNormalizationFactor+=k.getValue();
 		}
 		
 		Double testUno = 0.0;
-		Iterator<Entry<String, Double>> itNorm = WTFVector.entrySet().iterator();
+		Iterator<Entry<String, Double>> itNorm = weightedTFVector.entrySet().iterator();
 		while (itNorm.hasNext()) {
 			Map.Entry<String, Double> k = (Map.Entry<String, Double>) itNorm.next();
-			WTFVector.put(k.getKey(), k.getValue()/weightNormalizationFactor);
+			weightedTFVector.put(k.getKey(), k.getValue()/weightNormalizationFactor);
 			testUno+=k.getValue();
-			
 		}
-		//FIXME
-		System.out.println(">Somma termini pesati: "+testUno);
 		
-		return WTFVector;
+		return weightedTFVector;
 	}
 	
 	/**
