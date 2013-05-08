@@ -40,7 +40,7 @@ public class Normalization {
 		double epsilon = (double) 1/1000000;
 		
 		if(Normalization.isNormalized(treemap, epsilon)) {
-			System.out.println("La map in input è già normalizzata!");
+			//System.out.println("La map in input è già normalizzata!");
 			normalizedTreeMap = treemap;
 		}
 		else {
@@ -51,8 +51,8 @@ public class Normalization {
 			for (Entry<String, Double> entry : treemap.entrySet()) {
 				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
 			}
-			System.out.println("denominatore: " + denominatore);
-			System.out.println("normalizedTreeMap.size(): " + normalizedTreeMap.size());
+			//System.out.println("denominatore: " + denominatore);
+			//System.out.println("normalizedTreeMap.size(): " + normalizedTreeMap.size());
 		}
 
 		

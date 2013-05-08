@@ -54,7 +54,7 @@ public class Author {
 		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfv = p.getWTFVector(weight);
+			wtfv = p.getWeightedTFVector(weight);
 			Iterator<Entry<String, Double>> it = wtfv.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
@@ -117,7 +117,7 @@ public class Author {
 		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfidfv = p.getWTFIDFVector(weight, c);
+			wtfidfv = p.getWeightedTFIDFVector(weight, c);
 			Iterator<Entry<String, Double>> it = wtfidfv.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
