@@ -1,10 +1,8 @@
 package utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.security.KeyStore.Entry;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 import org.junit.Test;
@@ -21,7 +19,7 @@ public class NormalizationTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testNormalizedTFIDFVector() throws Exception {
+	public void testNormalizedTFIDFVectorDummy() throws Exception {
 
 		// -- PAPER --
 
