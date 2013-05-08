@@ -21,16 +21,11 @@ public class Normalization {
 			uno += entry.getValue();
 		}
 		
-		if(epsilon > 0) {
-			if(((1 - epsilon) <= uno) && (uno < (1 + epsilon))) {
-				result = true;
-			} 
-		}
-		else {
-			if(((1 + epsilon) <= uno) && (uno < (1 - epsilon))) {
-				result = true;
-			}
-		}
+		epsilon = Math.abs(epsilon);
+				
+		if(((1.0 - epsilon) <= uno) && (uno <= (1.0 + epsilon))) {
+			result = true;			
+		} 
 		
 		return result;
 	}
@@ -54,9 +49,12 @@ public class Normalization {
 				denominatore += entry.getValue();
 			}
 			for (Entry<String, Double> entry : treemap.entrySet()) {
-				normalizedTreeMap.put(entry.getKey(), entry.getValue() / denominatore);
+				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
 			}
+			System.out.println("denominatore: " + denominatore);
+			System.out.println("normalizedTreeMap.size(): " + normalizedTreeMap.size());
 		}
+
 		
 		return normalizedTreeMap;
 	}

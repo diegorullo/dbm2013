@@ -2,6 +2,7 @@ package utils;
 
 import static org.junit.Assert.*;
 
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -105,12 +106,20 @@ public class NormalizationTest {
 
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
-		TreeMap<String, Double> vettore = (TreeMap<String, Double>) paper1.getTFIDFVector(dummyCorpus);
-		
-		assertFalse(Normalization.isNormalized(vettore, 1/1000000));
+		//TreeMap<String, Double> vettore = (TreeMap<String, Double>) paper1.getTFIDFVector(dummyCorpus);
+		TreeMap<String, Double> vettore = (TreeMap<String, Double>) paper1.getTFVector();
+		double idf = dummyCorpus.getIDF("media");
+		System.out.println("idf = " + idf);
+		TreeMap<String, Double> vettoreTFIDF = new TreeMap<String, Double>();
+		for(java.util.Map.Entry<String, Double> e : vettore.entrySet()) {
+			vettoreTFIDF.put(e.getKey(), e.getValue() * idf);
+		}
+		System.out.println("vettoreTFidf = " + vettoreTFIDF);
+		//assertFalse(Normalization.isNormalized(vettore, 1/1000000));
 		TreeMap<String, Double> vettoreNormalizzato = Normalization.normalizeTreeMap(vettore);
+		System.out.println("vettore: " + vettore);
+		System.out.println("vettore normalizzato: " + vettoreNormalizzato);
 		assertTrue(Normalization.isNormalized(vettoreNormalizzato, 1/1000000));
-		
 	}
 
 }
