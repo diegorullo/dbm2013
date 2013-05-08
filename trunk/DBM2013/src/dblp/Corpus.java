@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
@@ -210,25 +211,27 @@ public class Corpus {
 	 * @param c
 	 * @return keywordVector pesato in base al modello TFIDF2
 	 * @throws Exception
-	 */
-	
-//TODO
-//	public Map<String, Double> getTFIDF2Vector(Corpus c, Author author ,List<Author> authors, List<Paper> papers) throws Exception {
-//		Map<String, Double> keywordVectorTFIDF2 = new TreeMap<String, Double>();		
-//		for (Paper p : papers){
-//			HashMap<String, Integer> keywordSet = p.getKeywordSet();
-//			double tfidf2;
-//			String key;
-//			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-//			while (it.hasNext()) {
-//				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
-//				key = k.getKey();
-//				tfidf2 = author.getRestrictedTF(k.getKey()) * c.getRestrictedIDF(k.getKey(), author, authors);
-//				keywordVectorTFIDF2.put(key, tfidf2);
-//			}
-//		}
-//		return keywordVectorTFIDF2;
-//	}
+	 */	
+//FIXME
+	public Map<String, Double> getTFIDF2Vector(Author author) throws Exception {
+		Map<String, Double> keywordVectorTFIDF2 = new TreeMap<String, Double>();
+		
+		List<Paper> papers = author.getPapers();
+		for (Paper p : papers){
+			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			double tfidf2;
+			String key;
+			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+				key = k.getKey();
+				tfidf2 = this.getTFIDF2(key, author);
+				keywordVectorTFIDF2.put(key, tfidf2);
+			}
+		}
+		
+		return keywordVectorTFIDF2;
+	}
 		
 	/**
 	 * Estrae gli articoli dei coautori di un autore dato.
