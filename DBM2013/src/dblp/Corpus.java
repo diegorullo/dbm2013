@@ -44,12 +44,13 @@ public class Corpus {
 			while (it.hasNext()) {
 				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
 				if (k.getKey().equals(keyword)) {
-					m += k.getValue();
+					m++;
 				}
 			}				
 		}
-		if (N > 0 && m > 0)
-		idf = Math.log((double)N/m);
+		if (N > 0 && m > 0) {
+			idf = Math.log((double)N/m);
+		}
 		return idf;
 	}
 	
