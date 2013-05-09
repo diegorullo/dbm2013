@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import utils.Normalization;
+
 
 public class Author {
 	//FIXME
@@ -66,20 +68,25 @@ public class Author {
 		}
 		
 		//FIXME
-		/*qui normalizza in loco: bisogna dare in pasto weightedTFVector a 
-		  Normalization.normalizeTreeMap ed eliminare i due for che seguono.
-		*/
-		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
-			weightNormalizationFactor+=k.getValue();
-		}
+		/* escluso i for di normalizzazione e passato vettore al metodo normalizaTreeMap
+		 * implementato metodo NormalizationTest.testNormalizedWeightedTFVectorDummy
+		 * Esito negativo.
+		 */
 		
-		Double testUno = 0.0;
-		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
-			weightedTFVector.put(k.getKey(), k.getValue()/weightNormalizationFactor);
-			testUno+=k.getValue();
-		}
-		
-		return weightedTFVector;
+		Map<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);		
+		return normalizedWeightedTFVector;
+//		
+//		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
+//			weightNormalizationFactor+=k.getValue();
+//		}
+//		
+//		Double testUno = 0.0;
+//		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
+//			weightedTFVector.put(k.getKey(), k.getValue()/weightNormalizationFactor);
+//			testUno+=k.getValue();
+//		}
+//		
+//		return weightedTFVector;
 	}
 	
 	/**
@@ -92,11 +99,11 @@ public class Author {
 	 * @throws Exception
 	 */
 	//FIXME: sistemare l'eccezione
-	public Map<String, Double> getWTFIDFVector(Corpus c) throws Exception {
+	public Map<String, Double> getWeightedTFIDFVector(Corpus c) throws Exception {
 		Map<String, Double> wtfidfv;
 		double weight = 0;
 		double weightNormalizationFactor;
-		Map<String, Double> WTFIDFVector = new TreeMap<String, Double>();
+		Map<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 
 		/* - vettore di tfidf per ogni paper dell'autore
 		 * - età del paper
@@ -113,15 +120,15 @@ public class Author {
 			weight = p.getWeightBasedOnAge();
 			wtfidfv = p.getWeightedTFIDFVector(weight, c);
 			for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
-				if (!WTFIDFVector.containsKey(k.getKey())) {
-					WTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
+				if (!weightedTFIDFVector.containsKey(k.getKey())) {
+					weightedTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
 				}
 				else {
-					WTFIDFVector.put(k.getKey(), WTFIDFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
+					weightedTFIDFVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
 				}
 			}			
 		}
-		return WTFIDFVector;
+		return weightedTFIDFVector;
 	}
 	
 	/**
