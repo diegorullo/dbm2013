@@ -352,7 +352,7 @@ public class Corpus {
 		numLog = (double) (r_ij)/ (R_i - r_ij + epsilon);
 		denLog = (double) (n_ij - r_ij + epsilon) / (N_i - n_ij - R_i + r_ij + epsilon);
 		//FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2 maggio a lezione)
-		resLog = Math.log(1 + numLog / denLog);
+		resLog = Math.log(1 + (numLog / denLog));
 		
 		resAbs = Math.abs((double)(r_ij + epsilon / R_i + epsilon) - (double)((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
 		
