@@ -2,13 +2,13 @@ package dblp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
+
+import utils.Normalization;
 
 public class Corpus {
 
@@ -211,7 +211,7 @@ public class Corpus {
 	 */	
 //FIXME
 	public Map<String, Double> getTFIDF2Vector(Author author) throws Exception {
-		Map<String, Double> keywordVectorTFIDF2 = new TreeMap<String, Double>();
+		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
 		
 		List<Paper> papers = author.getPapers();
 		for (Paper p : papers){
@@ -221,11 +221,14 @@ public class Corpus {
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				key = k.getKey();
 				tfidf2 = this.getTFIDF2(key, author);
-				keywordVectorTFIDF2.put(key, tfidf2);
+				TFIDF2Vector.put(key, tfidf2);
 			}
 		}
 		
-		return keywordVectorTFIDF2;
+		Map<String, Double> normalizedTFIDF2Vector = Normalization.normalizeTreeMap(TFIDF2Vector);
+		
+		return normalizedTFIDF2Vector;
+		
 	}
 		
 	/**
@@ -336,7 +339,7 @@ public class Corpus {
 	 * @throws Exception
 	 */
 	//FIXME: sostituire con eccezione appropriata...
-	public double u_ij(Author a_i, String k_j) throws Exception{
+	public double getU_ij(Author a_i, String k_j) throws Exception{
 		double u_ij = 0.0;
 		double epsilon = 0.1; // costante che non fa andare a zero		
 		double numLog = 0.0;
@@ -359,6 +362,38 @@ public class Corpus {
 		u_ij = resLog * resAbs;
 		
 		return u_ij;
+	}
+	
+	/**
+	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
+	 * rispetto al modello di pesi PF, che per il calcolo dei pesi considera
+	 * l'insieme di tutti gli articoli scritti dall'autore dato e
+	 * l'insieme degli articoli scritti dall'autore e dai suoi coautori.
+	 * Utilizza il meccanismo di feedback probabilistico (PF).
+	 * 
+	 * @param c
+	 * @return keywordVector pesato in base al modello PF
+	 * @throws Exception
+	 */	
+//FIXME
+	public Map<String, Double> getPFVector(Author author) throws Exception {
+		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
+		
+		List<Paper> papers = author.getPapers();
+		for (Paper p : papers){
+			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			double pf;
+			String key;
+			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
+				key = k.getKey();
+				pf = this.getU_ij(author,key);
+				PFVector.put(key, pf);
+			}
+		}
+		
+		Map<String, Double> normalizedPFVector = Normalization.normalizeTreeMap(PFVector);
+		
+		return normalizedPFVector;
 	}
 		
 	public ArrayList<Author> getAuthors() {
