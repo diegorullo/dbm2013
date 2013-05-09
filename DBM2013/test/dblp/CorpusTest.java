@@ -977,7 +977,7 @@ public class CorpusTest {
 		
 		Map<String, Double> pfVectorStefania = dummyCorpus.getPFVector(authorStefania);
 
-		Printer.printPaperTFIDFVector(pfVectorStefania, 1);
+		Printer.printVector(pfVectorStefania, 1);
 		//assertTrue(Normalization.isNormalized(pfVectorStefania, (double)-1/100000));
 	}
 
