@@ -40,9 +40,7 @@ public class Corpus {
 		// conta il numero di occorrenze della keyword s nel corpus
 		for(Paper p : papers) {
 			HashMap<String, Integer> keywordSet = p.getKeywordSet();
-			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {
 					m++;
 				}
@@ -167,9 +165,7 @@ public class Corpus {
 		
 		for(Paper p : rc) {
 			HashMap<String, Integer> keywordSet = p.getKeywordSet();
-			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {
 					m++;
 				}
@@ -222,9 +218,7 @@ public class Corpus {
 			HashMap<String, Integer> keywordSet = p.getKeywordSet();
 			double tfidf2;
 			String key;
-			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				key = k.getKey();
 				tfidf2 = this.getTFIDF2(key, author);
 				keywordVectorTFIDF2.put(key, tfidf2);

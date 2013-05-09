@@ -61,9 +61,7 @@ public class PaperTestAdvanced {
 			//System.out.println("#kw = " + p.getKeywordSet().size() + "  " + p);
 			double uno = 0.0;
 			Map<String, Integer> ks = p.getKeywordSet();
-			Iterator<Entry<String, Integer>> it = ks.entrySet().iterator();
-			while(it.hasNext()) {
-				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			for(Map.Entry<String, Integer> k : ks.entrySet()) {
 				//System.out.println(p.getTF(k.getKey()));
 				uno += p.getTF(k.getKey());
 			}
@@ -92,9 +90,7 @@ public class PaperTestAdvanced {
 		Paper paper = db.newPaper(943390);
 		double uno = 0.0;
 		Map<String, Integer> ks = paper.getKeywordSet();
-		Iterator<Entry<String, Integer>> it = ks.entrySet().iterator();
-		while(it.hasNext()) {
-			Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+		for(Map.Entry<String, Integer> k : ks.entrySet()) {
 			uno += paper.getTF(k.getKey());
 		}
 		
@@ -116,9 +112,7 @@ public class PaperTestAdvanced {
 		for (Paper paper : dblp.getPapers()) {
 			double uno = 0.0;
 			Map<String, Integer> ks = paper.getKeywordSet();
-			Iterator<Entry<String, Integer>> it = ks.entrySet().iterator();
-			while(it.hasNext()) {
-				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			for(Map.Entry<String, Integer> k : ks.entrySet()) {
 				uno += paper.getTF(k.getKey());
 			}
 			
@@ -144,9 +138,7 @@ public class PaperTestAdvanced {
 		double uno = 0.0;
 		//FIXME: da implementare
 		Map<String, Double> tfv = paper.getTFVector();
-		Iterator<Entry<String, Double>> it = tfv.entrySet().iterator();
-		while(it.hasNext()) {
-			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+		for(Map.Entry<String, Double> k : tfv.entrySet()) {
 			uno += paper.getTF(k.getKey());
 		}
 		
