@@ -12,7 +12,7 @@ public class Printer {
 // Stampa del vettore TFIDF (Paper): 
 // prtType=0 tipo ordinamento: alfabetico
 // prtType=1 tipo ordinamento: indice numerico
-	public static void printPaperTFIDFVector(Map<String, Double> m, int prtType)
+	public static void printVector(Map<String, Double> m, int prtType)
 			throws IOException {
 
 		if (prtType==0) 
@@ -71,7 +71,7 @@ public class Printer {
 		testTreeMap.put("Sheila", 45.6);
 		testTreeMap.put("Lili", 85.2);
 		
-		printPaperTFIDFVector(testTreeMap, 1);
+		printVector(testTreeMap, 1);
 	}
 }
 
