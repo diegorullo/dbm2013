@@ -16,7 +16,7 @@ public class Normalization {
 	public static boolean isNormalized(Map<String, Double> map, double epsilon) {
 		boolean result = false;
 		double uno = 0.0;
-		
+			
 		for (Entry<String, Double> entry : map.entrySet()) {
 			uno += entry.getValue();
 		}
@@ -26,6 +26,8 @@ public class Normalization {
 		if(((1.0 - epsilon) <= uno) && (uno <= (1.0 + epsilon))) {
 			result = true;			
 		} 
+		
+		//System.out.println("Debug: " + uno);		
 		
 		return result;
 	}
@@ -39,6 +41,9 @@ public class Normalization {
 		
 		double epsilon = (double) 1/1000000;
 		
+		@SuppressWarnings("unused")
+		double debug = 0.0;
+		
 		if(Normalization.isNormalized(treemap, epsilon)) {
 			//System.out.println("La map in input è già normalizzata!");
 			normalizedTreeMap = treemap;
@@ -50,7 +55,10 @@ public class Normalization {
 			}
 			for (Entry<String, Double> entry : treemap.entrySet()) {
 				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
+				debug += entry.getValue() / denominatore;
 			}
+			//System.out.println("Debug: " + debug);
+			
 			//System.out.println("denominatore: " + denominatore);
 			//System.out.println("normalizedTreeMap.size(): " + normalizedTreeMap.size());
 		}
@@ -68,8 +76,11 @@ public class Normalization {
 		
 		double epsilon = (double) 1/1000000;
 		
+		@SuppressWarnings("unused")
+		double debug = 0.0;
+		
 		if(Normalization.isNormalized(hashmap, epsilon)) {
-			System.out.println("La map in input è già normalizzata!");
+			//System.out.println("La map in input è già normalizzata!");
 			normalizedHashMap = hashmap;
 		}
 		else {
@@ -79,8 +90,10 @@ public class Normalization {
 			}
 			for (Entry<String, Double> entry : hashmap.entrySet()) {
 				normalizedHashMap.put(entry.getKey(), entry.getValue() / denominatore);
+				debug += entry.getValue() / denominatore;
 			}
 		}
+		//System.out.println("Debug: " + debug);
 		
 		return normalizedHashMap;
 	}
