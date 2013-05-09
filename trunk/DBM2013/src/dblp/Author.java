@@ -54,10 +54,8 @@ public class Author {
 		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfv = p.getWeightedTFVector(weight);
-			Iterator<Entry<String, Double>> it = wtfv.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+			wtfv = p.getWeightedTFVector(weight);	
+			for(Map.Entry<String, Double> k : wtfv.entrySet()) {
 				if (!weightedTFVector.containsKey(k.getKey())) {
 					weightedTFVector.put(k.getKey(), k.getValue());			
 				}
@@ -67,17 +65,16 @@ public class Author {
 			}			
 		}
 		
-		
-		Iterator<Entry<String, Double>> it = weightedTFVector.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+		//FIXME
+		/*qui normalizza in loco: bisogna dare in pasto weightedTFVector a 
+		  Normalization.normalizeTreeMap ed eliminare i due for che seguono.
+		*/
+		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
 			weightNormalizationFactor+=k.getValue();
 		}
 		
 		Double testUno = 0.0;
-		Iterator<Entry<String, Double>> itNorm = weightedTFVector.entrySet().iterator();
-		while (itNorm.hasNext()) {
-			Map.Entry<String, Double> k = (Map.Entry<String, Double>) itNorm.next();
+		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
 			weightedTFVector.put(k.getKey(), k.getValue()/weightNormalizationFactor);
 			testUno+=k.getValue();
 		}
@@ -115,9 +112,7 @@ public class Author {
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
 			wtfidfv = p.getWeightedTFIDFVector(weight, c);
-			Iterator<Entry<String, Double>> it = wtfidfv.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Double> k = (Map.Entry<String, Double>) it.next();
+			for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
 				if (!WTFIDFVector.containsKey(k.getKey())) {
 					WTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
 				}
@@ -142,9 +137,7 @@ public class Author {
 		for (Paper p : papers) {
 			keywordSet = p.getKeywordSet();
 			//System.out.println(keywordSet);
-			Iterator<Entry<String, Integer>> it = keywordSet.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry<String, Integer> k = (Map.Entry<String, Integer>) it.next();
+			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (!combinedKeywordSet.containsKey(k)) {
 					combinedKeywordSet.put(k.getKey(), k.getValue());
 				}
