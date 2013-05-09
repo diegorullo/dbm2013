@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 public class Printer {
-// Stampa del vettore TF (Paper): 
+// Stampa del vettore TFIDF (Paper): 
 // prtType=0 tipo ordinamento: alfabetico
 // prtType=1 tipo ordinamento: indice numerico
-	public static void printPaperTFVector(Map<String, Double> m, int prtType)
+	public static void printPaperTFIDFVector(Map<String, Double> m, int prtType)
 			throws IOException {
 
 		if (prtType==0) 
@@ -24,10 +25,27 @@ public class Printer {
 		}
 		else
 		{
-			ArrayList<Map.Entry<String, Double>> as = new ArrayList<Map.Entry<String, Double>>(
-					m.entrySet());
+			ArrayList<Map.Entry<String, Double>> ordV = orderVectorMap(m);
+			System.out.println("<Vettore TF(Paper) [ordinamento: value decrescente]>");
+
+			for (Entry<String, Double> entry : ordV) 
+			{
+
+				System.out.println("<" + entry.getKey() + ", " + entry.getValue()
+						+ ">");
+			}
+			
+		}
+	}
 	
-			Collections.sort(as, new Comparator<Map.Entry<String, Double>>() {
+	public static ArrayList<Map.Entry<String, Double>> orderVectorMap(Map<String, Double> m)
+	{
+
+		ArrayList<Map.Entry<String, Double>> ordVector = new ArrayList<Map.Entry<String, Double>>(
+					m.entrySet());
+		
+		
+			Collections.sort(ordVector, new Comparator<Map.Entry<String, Double>>() {
 				public int compare(Map.Entry<String, Double> o1,
 						Map.Entry<String, Double> o2) {
 					Double first = (Double) o1.getValue();
@@ -35,12 +53,25 @@ public class Printer {
 					return second.compareTo(first);
 				}
 			});
-	
-			System.out.println("<Vettore TF(Paper) [ordinamento: ordine di apparizione]>");
-			for (Entry<String, Double> entry : as) {
-				System.out.println("<" + entry.getKey() + "," + entry.getValue()
-						+ ">");
-			}
+
+			return ordVector;
 		}
+	
+	public static void main(String args[]) throws IOException
+	{
+		
+		Map<String, Double> testTreeMap = new TreeMap<String, Double>();
+		
+		//Populate example map with values
+		testTreeMap.put("Sam", 25.1);
+		testTreeMap.put("John", 58.9);
+		testTreeMap.put("Sunny", 58.9);
+		testTreeMap.put("Linda", 53.3);
+		testTreeMap.put("Amit", 53.3);
+		testTreeMap.put("Sheila", 45.6);
+		testTreeMap.put("Lili", 85.2);
+		
+		printPaperTFIDFVector(testTreeMap, 1);
 	}
 }
+
