@@ -98,10 +98,10 @@ public class Author {
 	 */
 	//FIXME: sistemare l'eccezione
 	public Map<String, Double> getWeightedTFIDFVector(Corpus c) throws Exception {
-		Map<String, Double> wtfidfv;
+		TreeMap<String, Double> wtfidfv;
 		double weight = 0;
 		double weightNormalizationFactor;
-		Map<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
+		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 
 		/* - vettore di tfidf per ogni paper dell'autore
 		 * - età del paper
@@ -113,19 +113,44 @@ public class Author {
 			weight += p.getWeightBasedOnAge();			
 		}
 		weightNormalizationFactor = 1 / weight;
+		//FIXME
+		TreeMap<String, Double> newVector = new TreeMap<String, Double>();
 		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfidfv = p.getWeightedTFIDFVector(weight, c);
+			wtfidfv = (TreeMap<String, Double>) p.getWeightedTFIDFVector(weight, c);
+			//FIXME
+			//System.out.println("Il vettore wtfidfv del paper " + p.getPaperID() +  " è normalizzato? " + Normalization.isNormalized(wtfidfv, 0.0));
 			for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
 				if (!weightedTFIDFVector.containsKey(k.getKey())) {
+					newVector.put(k.getKey(), k.getValue());
 					weightedTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
 				}
 				else {
 					weightedTFIDFVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
+					newVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue());
 				}
-			}			
+			}		
+			//FIXME
+			//System.out.println("Il vettore weightedTFIDFVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(weightedTFIDFVector, 0.0));
+			
+			//FIXME
+			//System.out.println("Il vettore newVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector, 0.0));
+			
+			//FIXME
+			//TreeMap<String, Double> newVector2 = Normalization.normalizeTreeMap(newVector);
+			
+			//FIXME
+			//System.out.println("Il vettore newVector2 del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector2, 0.0));
+			
+			//FIXME
+			//System.out.println("miao: " + newVector2);
+			
 		}
+		
+
+		
+		
 		return weightedTFIDFVector;
 	}
 	
