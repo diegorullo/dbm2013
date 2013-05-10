@@ -37,7 +37,7 @@ public class Author {
 	public Map<String, Double> getWeightedTFVector() throws IOException {
 		Map<String, Double> wtfv;
 		double weight = 0;
-		double weightNormalizationFactor = 0;
+//		double weightNormalizationFactor = 0;
 		TreeMap<String, Double> weightedTFVector = new TreeMap<String, Double>();
 		//FIXME controllare - aggiustare il metodo
 		
@@ -131,20 +131,22 @@ public class Author {
 					newVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue());
 				}
 			}		
+			
+			double epsilon = (double) 1/100000000;
 			//FIXME
-			//System.out.println("Il vettore weightedTFIDFVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(weightedTFIDFVector, 0.0));
+			System.out.println("Il vettore weightedTFIDFVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(weightedTFIDFVector, epsilon));
 			
 			//FIXME
-			//System.out.println("Il vettore newVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector, 0.0));
+			System.out.println("Il vettore newVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector, epsilon));
 			
 			//FIXME
-			//TreeMap<String, Double> newVector2 = Normalization.normalizeTreeMap(newVector);
+			TreeMap<String, Double> newVector2 = Normalization.normalizeTreeMap(newVector);
 			
 			//FIXME
-			//System.out.println("Il vettore newVector2 del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector2, 0.0));
+			System.out.println("Il vettore newVector2 del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector2, epsilon));
 			
 			//FIXME
-			//System.out.println("miao: " + newVector2);
+			System.out.println("Vettore normalizzato a posteriori (newVector2): " + newVector2);
 			
 		}
 		
