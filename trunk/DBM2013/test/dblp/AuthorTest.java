@@ -98,8 +98,8 @@ public class AuthorTest {
 		 */
 		Double valAtteso = (double) 2/30;
 		tf = a.getRestrictedTF(keyword);
-
-		assertEquals ("Keyword: " + keyword +", TF = "+ tf, valAtteso, tf, 1/1000000);
+		double epsilon = (double)1/1000000000;
+		assertEquals ("Keyword: " + keyword +", TF = "+ tf, valAtteso, tf, epsilon);
 	}
 
 	@Test

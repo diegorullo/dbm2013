@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import utils.DBEngine;
 import utils.Normalization;
-import utils.Printer;
 
 public class CorpusTest {
 	
@@ -859,8 +858,8 @@ public class CorpusTest {
 		 */
 		Double valAttesoIDF = Math.log((double)3/2);
 		idf = dummyCorpus.getRestrictedIDF(keyword, authorStefania);
-		
-		assertEquals("Keyword: " + keyword +", IDF = "+ idf, valAttesoIDF, idf, 1/1000000);
+		double epsilon = (double)1/1000000000;
+		assertEquals("Keyword: " + keyword +", IDF = "+ idf, valAttesoIDF, idf, epsilon);
 	}
 	
 	@Test
@@ -977,8 +976,9 @@ public class CorpusTest {
 		
 		Map<String, Double> pfVectorStefania = dummyCorpus.getPFVector(authorStefania);
 
-		Printer.printVector(pfVectorStefania, 1);
-		//assertTrue(Normalization.isNormalized(pfVectorStefania, (double)-1/100000));
+		//Printer.printVector(pfVectorStefania, 1);
+		double epsilon = (double)1/1000000000;
+		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));
 	}
 
 	

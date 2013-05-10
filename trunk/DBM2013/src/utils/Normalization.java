@@ -57,7 +57,7 @@ public class Normalization {
 				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
 				debug += entry.getValue() / denominatore;
 			}
-			//System.out.println("Debug: " + debug);
+//			System.out.println("Debug (treemap.1st = " + treemap.firstKey() +  "): " + debug);
 			
 			//System.out.println("denominatore: " + denominatore);
 			//System.out.println("normalizedTreeMap.size(): " + normalizedTreeMap.size());
