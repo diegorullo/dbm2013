@@ -39,7 +39,7 @@ public class Corpus {
 
 		// conta il numero di occorrenze della keyword s nel corpus
 		for(Paper p : papers) {
-			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {
 					m++;
@@ -164,7 +164,7 @@ public class Corpus {
 		int N = rc.size();
 		
 		for(Paper p : rc) {
-			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {
 					m++;
@@ -215,7 +215,7 @@ public class Corpus {
 		
 		List<Paper> papers = author.getPapers();
 		for (Paper p : papers){
-			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			double tfidf2;
 			String key;
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
@@ -381,7 +381,7 @@ public class Corpus {
 		
 		List<Paper> papers = author.getPapers();
 		for (Paper p : papers){
-			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			double pf;
 			String key;
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {

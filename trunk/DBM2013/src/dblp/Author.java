@@ -167,7 +167,7 @@ public class Author {
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
 
 		for (Paper p : papers) {
-			keywordSet = p.getKeywordSet();
+			keywordSet = p.getKeywordSetWithOccurrences();
 			//System.out.println(keywordSet);
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (!combinedKeywordSet.containsKey(k)) {
@@ -231,7 +231,7 @@ public class Author {
 		int n = 0;
 		int K = 0;
 		for(Paper p : rc) {
-			HashMap<String, Integer> keywordSet = p.getKeywordSet();
+			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 
 			if (keywordSet.get(keyword) != null) {
 				n += keywordSet.get(keyword);

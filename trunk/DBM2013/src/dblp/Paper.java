@@ -67,7 +67,7 @@ public class Paper {
 	 * 
 	 * @return l'hashmap delle keyword e rispettivo numero di occorrenze
 	 */
-	public HashMap<String, Integer> getKeywordSet() {
+	public HashMap<String, Integer> getKeywordSetWithOccurrences() {
 		
 		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
 		//FIXME documentare correttamente la scelta
@@ -106,7 +106,7 @@ public class Paper {
 	 */	
 	public double getTF(String keyword) {
 		
-		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+		HashMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		double tf = 0;
 		int n = 0;
 		int K = 0;		
@@ -152,7 +152,7 @@ public class Paper {
 	 */
 	public Map<String, Double> getTFVector() throws IOException {
 		
-		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+		HashMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFVector = new TreeMap<String, Double>();		
 		double tf = 0.0;		
 		
@@ -175,7 +175,7 @@ public class Paper {
 	 */
 	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
 		
-		HashMap<String, Integer> keywordSet = this.getKeywordSet();
+		HashMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFIDFVector = new TreeMap<String, Double>();
 		double tfidf;
 		String key;

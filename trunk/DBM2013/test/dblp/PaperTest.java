@@ -40,7 +40,7 @@ public class PaperTest {
 	public void testGetKeywordSetDummy() throws SQLException, IOException {		
 		int paperid = 943390;
 		Paper paper = db.newPaper(paperid);
-		Map<String, Integer> ks = paper.getKeywordSet();
+		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);		
 	}
 	
@@ -68,7 +68,7 @@ public class PaperTest {
 		titlesKeywords.add("TF");
 		titlesKeywords.add("uno");
 		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
-		Map<String, Integer> ks = paper.getKeywordSet(); 
+		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences(); 
 		Map<String, Integer> mapAtteso = new HashMap<String, Integer>() {
 		private static final long serialVersionUID = 1L;
 		{		    
