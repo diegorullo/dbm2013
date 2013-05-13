@@ -244,6 +244,26 @@ public class Author {
 		return tf;
 	}
 	
+	/**
+	 * Restituisce l'insieme delle keyword relativo a tutti i paper dell'autore.
+	 * 
+	 * @return arraylist delle keyword dell'autore
+	 */
+	public ArrayList<String> getKeywordSet() {
+		ArrayList<String> keywordSet = new ArrayList<String>();
+		
+		ArrayList<String> ks = new ArrayList<String>();
+		for(Paper p : papers) {
+			ks = p.getKeywordSet();
+			for(String k : ks) {
+				if(!keywordSet.contains(k)) {
+					keywordSet.add(k);
+				}
+			}
+		}
+		
+		return keywordSet;
+	}
 	
 	public int getAuthorID() {
 		return authorID;
