@@ -27,6 +27,15 @@ public class PaperTest {
 		db.shutdown();
 	}
 
+	@Test
+	public void testGetKeywordSetDummy() throws SQLException, IOException {		
+		int paperid = 943390;
+		Paper paper = db.newPaper(paperid);
+		ArrayList<String> ks = paper.getKeywordSet();
+		//System.out.println(ks);
+		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);		
+	}
+	
 	/**
 	 * Versione dummy test del metodo getKeywordSet
 	 * verifica la mera creazione dell'HashMap di keyword.
@@ -37,7 +46,7 @@ public class PaperTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetKeywordSetDummy() throws SQLException, IOException {		
+	public void testGetKeywordSetWithOccurrencesDummy() throws SQLException, IOException {		
 		int paperid = 943390;
 		Paper paper = db.newPaper(paperid);
 		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
@@ -45,14 +54,14 @@ public class PaperTest {
 	}
 	
 	/**
-	 * Testa il metodo getKeywordSet istanziando un paper
+	 * Testa il metodo getKeywordSetWithOccurrences istanziando un paper
 	 * di keyword note.
 	 * 
 	 * @throws SQLException
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetKeywordSet() throws SQLException, IOException {		
+	public void testGetKeywordSetWithOccurrences() throws SQLException, IOException {		
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();
