@@ -670,4 +670,5 @@ public class NormalizationTest {
 		double epsilon = (double)1/1000000000;
 		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));
 	}
+	
 }
