@@ -46,19 +46,19 @@ public class Paper {
 	 * @param weight: peso parametrizzato
 	 * @return hasmap delle keyword del titolo pesate n.occ * weight
 	 */
-	public HashMap<String, Integer> getTitleKeywordSet(int weight) {
-		HashMap<String, Integer> titlesKeywordSet = new HashMap<String, Integer>();
+	public HashMap<String, Integer> getTitleKeywordSetWithOccurrences(int weight) {
+		HashMap<String, Integer> titlesKeywordSetWithOccurrences = new HashMap<String, Integer>();
 		
 		for(String k : titlesKeywords) {
-			if (!titlesKeywordSet.containsKey(k)) {
-				titlesKeywordSet.put(k, weight);
+			if (!titlesKeywordSetWithOccurrences.containsKey(k)) {
+				titlesKeywordSetWithOccurrences.put(k, weight);
 			}
 			else {
-				titlesKeywordSet.put(k, titlesKeywordSet.get(k) + weight);
+				titlesKeywordSetWithOccurrences.put(k, titlesKeywordSetWithOccurrences.get(k) + weight);
 			}
 		}
 		
-		return titlesKeywordSet;
+		return titlesKeywordSetWithOccurrences;
 	}
 	
 	/**
@@ -69,27 +69,74 @@ public class Paper {
 	 */
 	public HashMap<String, Integer> getKeywordSetWithOccurrences() {
 		
-		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
+		HashMap<String, Integer> keywordSetWithOccurrences = new HashMap<String, Integer>();
 		//FIXME documentare correttamente la scelta
-		HashMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSet(titleWeight);
+		HashMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSetWithOccurrences(titleWeight);
 		
 		// keywords provenienti dall'abstract
 		for(String k : keywords) {
-			if (!keywordSet.containsKey(k)) {
-				keywordSet.put(k, 1);
+			if (!keywordSetWithOccurrences.containsKey(k)) {
+				keywordSetWithOccurrences.put(k, 1);
 			}
 			else {
-				keywordSet.put(k, keywordSet.get(k) + 1);
+				keywordSetWithOccurrences.put(k, keywordSetWithOccurrences.get(k) + 1);
 			}
 		}
 		
 		// keywords provenienti dal titolo	(ognuna pesata 'weight' volte)	
 		for (Map.Entry<String, Integer> k : titlesKeywordSet.entrySet()) {
-			if (!keywordSet.containsKey(k.getKey())) {
-				keywordSet.put(k.getKey(), k.getValue());
+			if (!keywordSetWithOccurrences.containsKey(k.getKey())) {
+				keywordSetWithOccurrences.put(k.getKey(), k.getValue());
 			}
 			else {
-				keywordSet.put(k.getKey(), keywordSet.get(k.getKey()) + k.getValue());
+				keywordSetWithOccurrences.put(k.getKey(), keywordSetWithOccurrences.get(k.getKey()) + k.getValue());
+			}
+		}
+		
+		return keywordSetWithOccurrences;
+	}
+	
+	/**
+	 * Estrae le keyword contenute nel titolo e le inserisce in
+	 * un'arraylist.
+	 * 
+	 * @return arraylist delle keyword del titolo
+	 */
+	public ArrayList<String> getTitleKeywordSet() {
+		ArrayList<String> titlesKeywordSet = new  ArrayList<String>();
+		
+		for(String k : titlesKeywords) {
+			if (!titlesKeywordSet.contains(k)) {
+				titlesKeywordSet.add(k);
+			}
+		}
+		
+		return titlesKeywordSet;
+	}
+	
+	/**
+	 * Estrae l'insieme delle keyword dal testo dell'abstract del documento
+	 * unitamente a quelle dal titolo. 
+	 * 
+	 * @return l'arraylist delle keyword e rispettivo numero di occorrenze
+	 */
+	public ArrayList<String> getKeywordSet() {
+		
+		ArrayList<String> keywordSet = new ArrayList<String>();
+		//FIXME documentare correttamente la scelta
+		ArrayList<String> titlesKeywordSet = this.getTitleKeywordSet();
+		
+		// keywords provenienti dall'abstract
+		for(String k : keywords) {
+			if (!keywordSet.contains(k)) {
+				keywordSet.add(k);
+			}
+		}
+		
+		// keywords provenienti dal titolo	(ognuna pesata 'weight' volte)	
+		for (String k : titlesKeywordSet) {
+			if (!keywordSet.contains(k)) {
+				keywordSet.add(k);
 			}
 		}
 		
