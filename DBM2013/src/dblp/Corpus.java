@@ -395,6 +395,42 @@ public class Corpus {
 		
 		return normalizedPFVector;
 	}
+	
+	public ArrayList<HashMap<String, Double>> getDocumentTermMatrix(Author a) throws Exception {
+		ArrayList<HashMap<String, Double>> documentTermMatrix = new ArrayList<HashMap<String, Double>>();
+		
+		ArrayList<String> keywordSet = a.getKeywordSet();
+		ArrayList<Paper> documents = a.getPapers();
+		
+		int m = documents.size();
+		//int n = keywordSet.size();
+				
+		//inizializziamo la matrice con tutti valori a 0
+		for(int doc = 0; doc < m; doc++) {
+			HashMap<String, Double> row = new HashMap<String, Double>();
+			for(String s : keywordSet) {
+				row.put(s, 0.0);
+			}
+			documentTermMatrix.add(row);
+		}
+		
+		//inseriamo i valori di tfidf relativi al vettore dei vari documenti 
+		Map<String, Double> tfidfv = new HashMap<String, Double>();
+		for(int doc = 0; doc < m; doc++) {
+			//recupera il vettore di tfidf del paper corrente...
+			tfidfv = documents.get(doc).getTFIDFVector(this);
+			
+			//modifica la riga relativa al documento corrente, sostituendo gli zeri con i valori
+			HashMap<String, Double> row = documentTermMatrix.get(doc);
+			for(Map.Entry<String, Double> entry : tfidfv.entrySet()) {
+				row.put(entry.getKey(), entry.getValue());
+				//documentTermMatrix.set(doc, documentTermMatrix.get(doc).put(entry.getKey(), entry.getValue()))
+			}
+			documentTermMatrix.set(doc, row);
+		}
+		
+		return documentTermMatrix;
+	}
 		
 	public ArrayList<Author> getAuthors() {
 		return authors;
