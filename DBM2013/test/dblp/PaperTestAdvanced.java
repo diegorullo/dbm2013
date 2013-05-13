@@ -58,7 +58,7 @@ public class PaperTestAdvanced {
 		for (Paper p : a.getPapers()) {
 			//System.out.println("#kw = " + p.getKeywordSet().size() + "  " + p);
 			double uno = 0.0;
-			Map<String, Integer> ks = p.getKeywordSet();
+			Map<String, Integer> ks = p.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : ks.entrySet()) {
 				//System.out.println(p.getTF(k.getKey()));
 				uno += p.getTF(k.getKey());
@@ -87,7 +87,7 @@ public class PaperTestAdvanced {
 		//Paper paper = db.newPaper(1279177);
 		Paper paper = db.newPaper(943390);
 		double uno = 0.0;
-		Map<String, Integer> ks = paper.getKeywordSet();
+		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 		for(Map.Entry<String, Integer> k : ks.entrySet()) {
 			uno += paper.getTF(k.getKey());
 		}
@@ -109,7 +109,7 @@ public class PaperTestAdvanced {
 		Corpus dblp = db.newCorpus();
 		for (Paper paper : dblp.getPapers()) {
 			double uno = 0.0;
-			Map<String, Integer> ks = paper.getKeywordSet();
+			Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : ks.entrySet()) {
 				uno += paper.getTF(k.getKey());
 			}
