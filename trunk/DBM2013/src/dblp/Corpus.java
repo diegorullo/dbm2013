@@ -1,5 +1,8 @@
 package dblp;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +19,8 @@ public class Corpus {
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
+	//FIXME
+	final static String documentTermMatrixFilePath = "c:\\documentTermMatrix.csv";
 	
 	public Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
 		super();
@@ -430,6 +435,37 @@ public class Corpus {
 		}
 		
 		return documentTermMatrix;
+	}
+	
+	/**
+	 * stampa su file, percorso e nome statici, della matrice DocumentTermMatrix
+	 * @param a (author)
+	 * @throws Exception
+	 */
+	public void printDocumentTermMatrix(Author a) throws Exception{
+		try {
+		  FileOutputStream file = new FileOutputStream(documentTermMatrixFilePath);
+		  PrintStream Output = new PrintStream(file);  			  
+		  ArrayList<HashMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(a);
+
+		  for(HashMap<String, Double> riga : documentTermMatrix) {
+			  int i=0;
+			  for(Map.Entry<String, Double> cella : riga.entrySet()) {
+				  Output.print(cella.getValue());
+				  i++;
+				  if (i<riga.size()){
+					  Output.print(",");
+				  }
+			  }
+			 System.out.print("\n");
+		  }	
+		  Output.close();
+	    } 
+		catch (IOException e) {
+	      System.out.println("Errore: " + e);
+	      System.exit(1);
+	    }
+
 	}
 		
 	public ArrayList<Author> getAuthors() {
