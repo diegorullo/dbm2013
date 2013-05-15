@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -98,9 +99,9 @@ public class Paper {
 	
 	/**
 	 * Estrae le keyword contenute nel titolo e le inserisce in
-	 * un'arraylist.
+	 * un'arraylist, ordinate lessicograficamente.
 	 * 
-	 * @return arraylist delle keyword del titolo
+	 * @return arraylist delle keyword del titolo, ordinato
 	 */
 	public ArrayList<String> getTitleKeywordSet() {
 		ArrayList<String> titlesKeywordSet = new  ArrayList<String>();
@@ -111,14 +112,16 @@ public class Paper {
 			}
 		}
 		
+		Collections.sort(titlesKeywordSet);
+		
 		return titlesKeywordSet;
 	}
 	
 	/**
 	 * Estrae l'insieme delle keyword dal testo dell'abstract del documento
-	 * unitamente a quelle dal titolo. 
+	 * unitamente a quelle dal titolo, ordinato lessicograficamente. 
 	 * 
-	 * @return l'arraylist delle keyword e rispettivo numero di occorrenze
+	 * @return l'arraylist delle keyword e rispettivo numero di occorrenze, ordinato
 	 */
 	public ArrayList<String> getKeywordSet() {
 		
@@ -139,6 +142,8 @@ public class Paper {
 				keywordSet.add(k);
 			}
 		}
+		
+		Collections.sort(keywordSet);
 		
 		return keywordSet;
 	}
