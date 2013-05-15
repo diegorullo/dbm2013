@@ -419,20 +419,23 @@ public class Corpus {
 			documentTermMatrix.add(row);
 		}
 		
-		//inseriamo i valori di tfidf relativi al vettore dei vari documenti 
-		Map<String, Double> tfidfv = new HashMap<String, Double>();
-		for(int doc = 0; doc < m; doc++) {
-			//recupera il vettore di tfidf del paper corrente...
-			tfidfv = documents.get(doc).getTFIDFVector(this);
-			
-			//modifica la riga relativa al documento corrente, sostituendo gli zeri con i valori
-			HashMap<String, Double> row = documentTermMatrix.get(doc);
-			for(Map.Entry<String, Double> entry : tfidfv.entrySet()) {
-				row.put(entry.getKey(), entry.getValue());
-				//documentTermMatrix.set(doc, documentTermMatrix.get(doc).put(entry.getKey(), entry.getValue()))
-			}
-			documentTermMatrix.set(doc, row);
-		}
+//		//inseriamo i valori di tfidf relativi al vettore dei vari documenti 
+//		Map<String, Double> currentWeightedTFIDFVector = new HashMap<String, Double>();
+//		for(int doc = 0; doc < m; doc++) {
+//			//recupera il paper corrente...
+//			Paper currentPaper = documents.get(doc);
+//			System.out.println("Paper: \'" + currentPaper.getTitle() + "\', peso: " + currentPaper.getWeightBasedOnAge());
+//			//... e ne calcola il vettore di tfidf pesato
+//			currentWeightedTFIDFVector = currentPaper.getWeightedTFIDFVector(currentPaper.getWeightBasedOnAge(), this);
+//			System.out.println("WeightedTFIDFVector: \'" + currentWeightedTFIDFVector);
+//			//modifica la riga relativa al documento corrente, sostituendo gli zeri con i valori
+//			HashMap<String, Double> row = documentTermMatrix.get(doc);
+//			for(Map.Entry<String, Double> entry : currentWeightedTFIDFVector.entrySet()) {
+//				row.put(entry.getKey(), entry.getValue());
+//				//documentTermMatrix.set(doc, documentTermMatrix.get(doc).put(entry.getKey(), entry.getValue()))
+//			}
+//			documentTermMatrix.set(doc, row);
+//		}
 		
 		return documentTermMatrix;
 	}
