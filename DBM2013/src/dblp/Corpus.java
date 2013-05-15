@@ -1,8 +1,5 @@
 package dblp;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +16,7 @@ public class Corpus {
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
-	//FIXME
-	final static String documentTermMatrixFilePath = "../data/X.csv";
+
 	
 	public Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
 		super();
@@ -401,8 +397,14 @@ public class Corpus {
 		return normalizedPFVector;
 	}
 	
-	public ArrayList<HashMap<String, Double>> getDocumentTermMatrix(Author a) throws Exception {
-		ArrayList<HashMap<String, Double>> documentTermMatrix = new ArrayList<HashMap<String, Double>>();
+	/**
+	 * Restituisce la matrice document-term relativa all'autore selezionato
+	 * @param a autore
+	 * @return ArrayList<TreeMap<String, Double>> matrice document-term
+	 * @throws Exception
+	 */	
+	public ArrayList<TreeMap<String, Double>> getDocumentTermMatrix(Author a) throws Exception {
+		ArrayList<TreeMap<String, Double>> documentTermMatrix = new ArrayList<TreeMap<String, Double>>();
 		
 		ArrayList<String> keywordSet = a.getKeywordSet();
 		ArrayList<Paper> documents = a.getPapers();
@@ -412,63 +414,32 @@ public class Corpus {
 				
 		//inizializziamo la matrice con tutti valori a 0
 		for(int doc = 0; doc < m; doc++) {
-			HashMap<String, Double> row = new HashMap<String, Double>();
+			TreeMap<String, Double> row = new TreeMap<String, Double>();
 			for(String s : keywordSet) {
 				row.put(s, 0.0);
 			}
 			documentTermMatrix.add(row);
 		}
 		
-//		//inseriamo i valori di tfidf relativi al vettore dei vari documenti 
-//		Map<String, Double> currentWeightedTFIDFVector = new HashMap<String, Double>();
-//		for(int doc = 0; doc < m; doc++) {
-//			//recupera il paper corrente...
-//			Paper currentPaper = documents.get(doc);
-//			System.out.println("Paper: \'" + currentPaper.getTitle() + "\', peso: " + currentPaper.getWeightBasedOnAge());
-//			//... e ne calcola il vettore di tfidf pesato
-//			currentWeightedTFIDFVector = currentPaper.getWeightedTFIDFVector(currentPaper.getWeightBasedOnAge(), this);
-//			System.out.println("WeightedTFIDFVector: \'" + currentWeightedTFIDFVector);
-//			//modifica la riga relativa al documento corrente, sostituendo gli zeri con i valori
-//			HashMap<String, Double> row = documentTermMatrix.get(doc);
-//			for(Map.Entry<String, Double> entry : currentWeightedTFIDFVector.entrySet()) {
-//				row.put(entry.getKey(), entry.getValue());
-//				//documentTermMatrix.set(doc, documentTermMatrix.get(doc).put(entry.getKey(), entry.getValue()))
-//			}
-//			documentTermMatrix.set(doc, row);
-//		}
+		//inseriamo i valori di tfidf relativi al vettore dei vari documenti 
+		Map<String, Double> currentWeightedTFIDFVector = new HashMap<String, Double>();
+		for(int doc = 0; doc < m; doc++) {
+			//recupera il paper corrente...
+			Paper currentPaper = documents.get(doc);
+			//System.out.println("Paper: \'" + currentPaper.getTitle() + "\', peso: " + currentPaper.getWeightBasedOnAge());
+			//... e ne calcola il vettore di tfidf pesato
+			currentWeightedTFIDFVector = currentPaper.getWeightedTFIDFVector(currentPaper.getWeightBasedOnAge(), this);
+			//System.out.println("WeightedTFIDFVector: \'" + currentWeightedTFIDFVector);
+			//modifica la riga relativa al documento corrente, sostituendo gli zeri con i valori
+			TreeMap<String, Double> row = documentTermMatrix.get(doc);
+			for(Map.Entry<String, Double> entry : currentWeightedTFIDFVector.entrySet()) {
+				row.put(entry.getKey(), entry.getValue());
+				//documentTermMatrix.set(doc, documentTermMatrix.get(doc).put(entry.getKey(), entry.getValue()))
+			}
+			documentTermMatrix.set(doc, row);
+		}
 		
 		return documentTermMatrix;
-	}
-	
-	/**
-	 * stampa su file, percorso e nome statici, della matrice DocumentTermMatrix
-	 * @param a (author)
-	 * @throws Exception
-	 */
-	public void printDocumentTermMatrix(Author a) throws Exception{
-		try {
-		  FileOutputStream file = new FileOutputStream(documentTermMatrixFilePath);
-		  PrintStream Output = new PrintStream(file);  			  
-		  ArrayList<HashMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(a);
-
-		  for(HashMap<String, Double> riga : documentTermMatrix) {
-			  int i=0;
-			  for(Map.Entry<String, Double> cella : riga.entrySet()) {
-				  Output.print(cella.getValue());
-				  i++;
-				  if (i<riga.size()){
-					  Output.print(",");
-				  }
-			  }
-			  Output.print("\n");
-		  }	
-		  Output.close();
-	    } 
-		catch (IOException e) {
-	      System.out.println("Errore: " + e);
-	      System.exit(1);
-	    }
-
 	}
 		
 	public ArrayList<Author> getAuthors() {

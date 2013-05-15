@@ -2,6 +2,7 @@ package dblp;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,9 +246,10 @@ public class Author {
 	}
 	
 	/**
-	 * Restituisce l'insieme delle keyword relativo a tutti i paper dell'autore.
+	 * Restituisce l'insieme delle keyword relativo a tutti i paper dell'autore,
+	 * ordinato lessicograficamente.
 	 * 
-	 * @return arraylist delle keyword dell'autore
+	 * @return arraylist delle keyword dell'autore, ordinato
 	 */
 	public ArrayList<String> getKeywordSet() {
 		ArrayList<String> keywordSet = new ArrayList<String>();
@@ -261,6 +263,8 @@ public class Author {
 				}
 			}
 		}
+		
+		Collections.sort(keywordSet);
 		
 		return keywordSet;
 	}
