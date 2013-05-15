@@ -20,7 +20,7 @@ public class Corpus {
 	private ArrayList<Paper> papers;
 	private int cardinality;
 	//FIXME
-	final static String documentTermMatrixFilePath = "c:\\documentTermMatrix.csv";
+	final static String documentTermMatrixFilePath = "../data/X.csv";
 	
 	public Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
 		super();
@@ -457,7 +457,7 @@ public class Corpus {
 					  Output.print(",");
 				  }
 			  }
-			 System.out.print("\n");
+			  Output.print("\n");
 		  }	
 		  Output.close();
 	    } 
