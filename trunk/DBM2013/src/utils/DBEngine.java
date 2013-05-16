@@ -20,16 +20,27 @@ public class DBEngine {
 	private static final String username = "root";
 	private static final String password = "root";
 
+	/**
+	 * inizializza la connessione al db
+	 */
 	public void init() throws SQLException {
 		if (conn == null)
 			conn = DriverManager.getConnection(dbAddress, username, password);
 	}
 	
+	/**
+	 * chiude la connessione al db
+	 */
 	public void shutdown() throws SQLException{
 		if(conn!=null)
 			conn.close();
 	}
 	
+	/**
+	 * istanzia un paper a partire dal relativo id
+	 * @param paperID   id del paper
+	 * @return paper	paper
+	 */
 	public Paper newPaper(int paperID) throws SQLException, IOException {
 		final String title;
 		final int year;
@@ -66,6 +77,11 @@ public class DBEngine {
 		return p;
 	}
 	
+	/**
+	 * istanzia un autore a partire dal relativo id
+	 * @param personID   id dell'autore
+	 * @return author	 autore
+	 */
 	public Author newAuthor(int personID) throws SQLException, IOException {
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final String name;
@@ -93,6 +109,14 @@ public class DBEngine {
 		return a;
 	}
 	
+	/**
+	 * istanzia il corpus popolando:
+	 * - l'elenco di tutti gli autori del corpus stesso
+	 * - l'elenco di tutti i papers 
+	 * - la cardinalità, numero di papers del corpus.
+	 * 
+	 * @return corpus	corpus con autori, papers e cardinalità
+	 */
 	public Corpus newCorpus() throws SQLException, IOException {
 		final ArrayList<Author> authors = new ArrayList<Author>();
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
