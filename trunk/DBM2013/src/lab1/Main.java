@@ -1,5 +1,7 @@
 package lab1;
 
+import java.util.Scanner;
+
 import utils.DBEngine;
 
 public class Main {	
@@ -8,6 +10,26 @@ public class Main {
 		DBEngine db = new DBEngine();
 		db.init();
 
+//		Scanner input = new Scanner(System.in);
+//		
+//		System.out.println();
+//		
+//		switch (input.next())
+//		{
+//		    case 1:
+//		    	System.out.println("Inserisci il codice dell'articolo: ");
+//				int paperid = input.nextInt();
+//				
+//				
+//		        break;
+//		    case 2:
+//		        //...
+//		    	break;
+//		    case 3:
+//		    	//...
+//		    	break;
+//		}
+	
 //		/* Task 1:
 //	    - tokenizare
 //		- stemming
