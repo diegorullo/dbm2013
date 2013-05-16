@@ -62,6 +62,12 @@ public class Printer {
 		return ordVector;
 	}
 
+	/**
+	 * Stampa a video matrice document-term
+	 * 
+	 * @param documentTermMatrix matrice
+	 * @param author autore
+	 */
 	public static void printDocumentTermMatrix(ArrayList<TreeMap<String, Double>> documentTermMatrix, Author author) {
 
 		System.out.println("Document-term matrix");
