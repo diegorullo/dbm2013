@@ -1,7 +1,5 @@
 package lab1;
 
-import java.util.Scanner;
-
 import utils.DBEngine;
 
 public class Main {	
