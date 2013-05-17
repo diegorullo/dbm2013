@@ -80,6 +80,25 @@ public class Printer {
 
 		return;
 	}
+	
+	/**
+	 * Stampa a video una matrice 
+	 * 
+	 * @param matrix matrice
+	 * 
+	 */
+	public static void printMatrix(ArrayList<ArrayList<Double>> matrix) {
+
+		for (ArrayList<Double> riga : matrix) {
+			for (Double cella : riga) {
+				System.out.printf("%.4f", cella);
+				System.out.print(",\t\t");
+			}
+			System.out.print("\n");
+		}
+
+		return;
+	}
 
 //	public static void main(String args[]) throws IOException {
 //
