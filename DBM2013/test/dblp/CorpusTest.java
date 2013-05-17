@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import utils.DBEngine;
+import utils.IO;
 import utils.Normalization;
 import utils.Printer;
 
@@ -1171,7 +1172,7 @@ public class CorpusTest {
 		
 		System.out.println("Stampa su file di Document-term matrix");
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = dummyCorpus.getDocumentTermMatrix(authorStefania);
-		Printer.printDocumentTermMatrixOnFile(documentTermMatrix, "path");
+		IO.printDocumentTermMatrixOnFile(documentTermMatrix, "path");
 
 		//System.out.println(dummyCorpus.getDocumentTermMatrix(authorStefania));
 	}

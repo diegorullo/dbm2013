@@ -18,10 +18,13 @@ public class MatlabEngine
 	{
 		factory = new MatlabProxyFactory();
 		proxy = factory.getProxy();
+	}	
+	
+	public void eval(String path) throws MatlabConnectionException, MatlabInvocationException {
+	//matlab path
+		String complete_path = path;
 		
-		//matlab path
-		String path = "C:\\Program Files\\MATLAB\\R2012b\\bin";
-		proxy.eval(path);
+		proxy.feval(complete_path);
 	}
 	
 	/**
