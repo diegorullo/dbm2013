@@ -62,22 +62,32 @@ public class IO {
 	 *            path della sorgente
 	 * @throws Exception
 	 */
-	public static ArrayList<TreeMap<String, Double>> readDocumentTermMatrixFromFile(
-			String path) throws Exception {
-		ArrayList<TreeMap<String, Double>> documentTermMatrix = new ArrayList<TreeMap<String, Double>>();
+	public static ArrayList<ArrayList<Double>> readDocumentTermMatrixFromFile(String path) throws Exception {
+		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
+		ArrayList<Double> riga = new ArrayList<Double>();
+		
 		try {
 			// FileInputStream file = new FileOutputStream(path);
-			FileInputStream file = new FileInputStream(
-					documentTermMatrixFilePath);
+			FileInputStream file = new FileInputStream(documentTermMatrixFilePath);
 
 			Scanner sc = new Scanner(file);
-			sc.useDelimiter(",");
-			while (sc.hasNext()) {
-				System.out.println(sc.next());
+			
+			String val;
+			String[] elem ;
+			while (sc.hasNextLine()) 
+			{
+				val = sc.nextLine();
+				elem = val.split(",");
+				
+				for(String v : elem)
+				{
+					riga.add(Double.valueOf(v));
+				}
+				documentTermMatrix.add(riga);
 			}
 			sc.close();
 
-			// for(TreeMap<String, Double> riga : documentTermMatrix) {
+			// for(ArrayList<ArrayList<Double>> riga : documentTermMatrix) {
 			// int i=0;
 			// for(Map.Entry<String, Double> cella : riga.entrySet()) {
 			// Output.print(cella.getValue());
