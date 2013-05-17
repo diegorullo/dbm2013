@@ -20,7 +20,7 @@ public class MatlabEngine
 		proxy = factory.getProxy();
 		
 		//matlab path
-		String path = "cd(\'*******\')";
+		String path = "C:\\Program Files\\MATLAB\\R2012b\\bin";
 		proxy.eval(path);
 	}
 	
