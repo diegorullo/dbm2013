@@ -99,62 +99,54 @@ public class Author {
 	 */
 	//FIXME: sistemare l'eccezione
 	public Map<String, Double> getWeightedTFIDFVector(Corpus c) throws Exception {
-		TreeMap<String, Double> wtfidfv;
-		double weight = 0;
-		double weightNormalizationFactor;
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 
+		Map<String, Double> wtfidfv;
+		double weight = 0;
+		
 		/* - vettore di tfidf per ogni paper dell'autore
 		 * - età del paper
 		 * - peso usando l'età
 		 * - tfidfrkey[r] = sum(peso[i]*tfidfkey[i])/sum(peso[i]);
 		 */
 		
-		for (Paper p : papers) {
-			weight += p.getWeightBasedOnAge();			
-		}
-		weightNormalizationFactor = 1 / weight;
-		//FIXME
-		TreeMap<String, Double> newVector = new TreeMap<String, Double>();
+//		for (Paper p : papers) {
+//			weight += p.getWeightBasedOnAge();			
+//		}
+//		weightNormalizationFactor = 1 / weight;
+//		
+//		for (Paper p : papers) {
+//			weight = p.getWeightBasedOnAge();
+//			wtfidfv = (TreeMap<String, Double>) p.getWeightedTFIDFVector(weight, c);
+//			//FIXME
+//			//System.out.println("Il vettore wtfidfv del paper " + p.getPaperID() +  " è normalizzato? " + Normalization.isNormalized(wtfidfv, 0.0));
+//			for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
+//				if (!weightedTFIDFVector.containsKey(k.getKey())) {
+//					weightedTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
+//				}
+//				else {
+//					weightedTFIDFVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
+//				}
+//			}
+//		}
 		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfidfv = (TreeMap<String, Double>) p.getWeightedTFIDFVector(weight, c);
-			//FIXME
-			//System.out.println("Il vettore wtfidfv del paper " + p.getPaperID() +  " è normalizzato? " + Normalization.isNormalized(wtfidfv, 0.0));
+			wtfidfv = p.getWeightedTFVector(weight);	
 			for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
 				if (!weightedTFIDFVector.containsKey(k.getKey())) {
-					newVector.put(k.getKey(), k.getValue());
-					weightedTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
+					weightedTFIDFVector.put(k.getKey(), k.getValue());			
 				}
 				else {
-					weightedTFIDFVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
-					newVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue());
+					weightedTFIDFVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue());
 				}
-			}		
-			
-			double epsilon = (double) 1/100000000;
-			//FIXME
-			System.out.println("Il vettore weightedTFIDFVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(weightedTFIDFVector, epsilon));
-			
-			//FIXME
-			System.out.println("Il vettore newVector del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector, epsilon));
-			
-			//FIXME
-			TreeMap<String, Double> newVector2 = Normalization.normalizeTreeMap(newVector);
-			
-			//FIXME
-			System.out.println("Il vettore newVector2 del paper " + p.getPaperID() + " è normalizzato? " + Normalization.isNormalized(newVector2, epsilon));
-			
-			//FIXME
-			System.out.println("Vettore normalizzato a posteriori (newVector2): " + newVector2);
-			
+			}			
 		}
+			
+		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalizeTreeMap(weightedTFIDFVector);
 		
-
 		
-		
-		return weightedTFIDFVector;
+		return normalizedWeightedTFIDFVector;
 	}
 	
 	/**
