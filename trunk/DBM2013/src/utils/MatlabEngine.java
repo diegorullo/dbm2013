@@ -10,7 +10,7 @@ public class MatlabEngine
 
 	/**
 	 * Crea un proxy, che useremo per controllare MATLAB e ne imposta il path
-	 * @param args
+	 * 
 	 * @throws MatlabConnectionException 
 	 * @throws MatlabInvocationException 
 	*/
@@ -20,31 +20,19 @@ public class MatlabEngine
 		proxy = factory.getProxy();
 	}	
 	
-	public void eval(String path) throws MatlabConnectionException, MatlabInvocationException {
-	//matlab path
-		String complete_path = path;
+	/**
+	 * Fa calcolare da MATLAB la funzione il cui nome e' passato come parametro
+	 * (E' possibile vedere quali funzioni sono invocabili analizzando il contenuto
+	 * della cartella "ext-matlab")
+	 * 
+	 * @param functionName nome della funzione da invocare
+	 * @throws MatlabConnectionException 
+	 * @throws MatlabInvocationException 
+	*/
+	public void eval(String functionName) throws MatlabConnectionException, MatlabInvocationException {		
+		proxy.feval(functionName);
+	}
 		
-		proxy.feval(complete_path);
-	}
-	
-	/**
-	 * Esegue la funzione svd_IR 
-	 * @throws MatlabInvocationException 
-	*/
-	public void svd_IR() throws MatlabInvocationException 
-	{
-		proxy.eval("svd_IR");
-	}
-	
-	/**
-	 * Esegue la funzione pca_IR 
-	 * @throws MatlabInvocationException 
-	*/
-	public void pca_IR() throws MatlabInvocationException 
-	{
-		proxy.eval("pca_IR");
-	}
-	
 	/**
 	 * disconnette il proxy da Matlab
 	 */
