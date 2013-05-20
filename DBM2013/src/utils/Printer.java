@@ -87,8 +87,8 @@ public class Printer {
 	 * @param matrix matrice
 	 * 
 	 */
-	public static void printMatrix(ArrayList<ArrayList<Double>> matrix) {
-
+	public static void printMatrix(ArrayList<ArrayList<Double>> matrix) 
+	{
 		for (ArrayList<Double> riga : matrix) {
 			for (Double cella : riga) {
 				System.out.printf("%.4f", cella);

@@ -2,15 +2,12 @@ package utils;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 public class IO {
 
@@ -70,46 +67,35 @@ public class IO {
 		
 		try {
 			// FileInputStream file = new FileOutputStream(path);
-//			FileInputStream file = new FileInputStream(documentTermMatrixFilePath);
-//
-//			Scanner sc = new Scanner(file);
-//			
-//			String val;
-//			String[] elem ;
-//			while (sc.hasNextLine()) 
-//			{
-//				val = sc.nextLine();
-//				elem = val.split(",");
-//				ArrayList<Double> riga = new ArrayList<Double>();
-//				for(String v : elem)
-//				{
-//					riga.add(Double.valueOf(v));
-//				}
-//				documentTermMatrix.add(riga);
-//			}
-//			sc.close();
-			
-			String csvFilename = documentTermMatrixFilePath;
-			CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ',');
-			String[] row = null;
-			while((row = csvReader.readNext()) != null) {
-				System.out.println(row[1]);
-			}
-			//...
-			csvReader.close();
+			FileInputStream file = new FileInputStream(documentTermMatrixFilePath);
 
-			// for(ArrayList<ArrayList<Double>> riga : documentTermMatrix) {
-			// int i=0;
-			// for(Map.Entry<String, Double> cella : riga.entrySet()) {
-			// Output.print(cella.getValue());
-			// i++;
-			// if (i<riga.size()){
-			// Output.print(",");
-			// }
-			// }
-			// Output.print("\n");
-			// }
-			// Output.close();
+			Scanner sc = new Scanner(file);
+			
+			String val;
+			String[] elem ;
+			while (sc.hasNextLine()) 
+			{
+				val = sc.nextLine();
+				elem = val.split(",");
+				ArrayList<Double> riga = new ArrayList<Double>();
+				for(String v : elem)
+				{
+					riga.add(Double.valueOf(v));
+				}
+				documentTermMatrix.add(riga);
+			}
+			sc.close();
+			
+//			String csvFilename = documentTermMatrixFilePath;
+//			CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
+//			String[] row = null;
+//			
+//			while((row = csvReader.readNext()) != null) {
+//				System.out.println(row[0]);
+//				
+//			}
+//			csvReader.close();
+
 		} catch (IOException e) {
 			System.out.println("Errore: " + e);
 			System.exit(1);
