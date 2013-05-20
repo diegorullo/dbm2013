@@ -20,6 +20,8 @@ import utils.Printer;
 
 public class CorpusTest {
 	
+	private final static boolean DEBUG = false;
+	
 	static DBEngine db = new DBEngine();
 	@BeforeClass
 	public static void testSetup() throws SQLException {
@@ -1087,7 +1089,9 @@ public class CorpusTest {
 		
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = dummyCorpus.getDocumentTermMatrix(authorStefania);
 		
-		Printer.printDocumentTermMatrix(documentTermMatrix, authorStefania);
+		if(DEBUG) {
+			Printer.printDocumentTermMatrix(documentTermMatrix, authorStefania);
+		}
 	}
 	
 	/**
@@ -1170,11 +1174,27 @@ public class CorpusTest {
 
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
-		System.out.println("Stampa su file di Document-term matrix");
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = dummyCorpus.getDocumentTermMatrix(authorStefania);
-		IO.printDocumentTermMatrixOnFile(documentTermMatrix, "path");
+		if(DEBUG) {
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/X.csv");
+		}
 
 		//System.out.println(dummyCorpus.getDocumentTermMatrix(authorStefania));
+	}
+	
+	@Test
+	public void testGetDocumentTermMatrix() throws Exception {
+		if(DEBUG) {
+			Corpus dblp = db.newCorpus();
+			
+			Author testAuthor = dblp.getAuthorByID(2390072);
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = dblp.getDocumentTermMatrix(testAuthor);
+			//IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + testAuthor.getAuthorID() + ".csv");
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + "X" + ".csv");
+			//ArrayList<ArrayList<Double>> matrixFromFile =IO.readDocumentTermMatrixFromFile("../data/" + testAuthor.getAuthorID() + ".csv");
+			ArrayList<ArrayList<Double>> matrixFromFile =IO.readDocumentTermMatrixFromFile("../data/" +"X" + ".csv");
+			Printer.printMatrix(matrixFromFile);
+		}
 	}
 	
 }
