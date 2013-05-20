@@ -64,7 +64,7 @@ public class IO {
 	 */
 	public static ArrayList<ArrayList<Double>> readDocumentTermMatrixFromFile(String path) throws Exception {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
-		ArrayList<Double> riga = new ArrayList<Double>();
+		//ArrayList<Double> riga = new ArrayList<Double>();
 		
 		try {
 			// FileInputStream file = new FileOutputStream(path);
@@ -78,7 +78,7 @@ public class IO {
 			{
 				val = sc.nextLine();
 				elem = val.split(",");
-				
+				ArrayList<Double> riga = new ArrayList<Double>();
 				for(String v : elem)
 				{
 					riga.add(Double.valueOf(v));
