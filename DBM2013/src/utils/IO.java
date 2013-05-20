@@ -11,26 +11,19 @@ import java.util.TreeMap;
 
 public class IO {
 
-	// FIXME
-	final static String documentTermMatrixFilePath = "../data/X.csv";
-
 	/**
 	 * FIXME: stampa su file, percorso e nome statici, della matrice
 	 * DocumentTermMatrix
 	 * 
-	 * @param documentTermMatrix
-	 *            matrice
-	 * @param path
-	 *            path della destinazione
+	 * @param documentTermMatrix    matrice
+	 * @param path		path della destinazione
 	 * @throws Exception
 	 */
 	public static void printDocumentTermMatrixOnFile(
 			ArrayList<TreeMap<String, Double>> documentTermMatrix, String path)
 			throws Exception {
 		try {
-			// FileOutputStream file = new FileOutputStream(path);
-			FileOutputStream file = new FileOutputStream(
-					documentTermMatrixFilePath);
+			FileOutputStream file = new FileOutputStream(path);
 			PrintStream Output = new PrintStream(file);
 
 			for (TreeMap<String, Double> riga : documentTermMatrix) {
@@ -56,18 +49,15 @@ public class IO {
 	 * FIXME: legge da file, percorso e nome statici, la matrice
 	 * DocumentTermMatrix
 	 * 
-	 * @param documentTermMatrix
-	 *            matrice
-	 * @param path
-	 *            path della sorgente
+	 * @param documentTermMatrix	matrice
+	 * @param path		path della sorgente
 	 * @throws Exception
 	 */
 	public static ArrayList<ArrayList<Double>> readDocumentTermMatrixFromFile(String path) throws Exception {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
 		
 		try {
-			// FileInputStream file = new FileOutputStream(path);
-			FileInputStream file = new FileInputStream(documentTermMatrixFilePath);
+			FileInputStream file = new FileInputStream(path);
 
 			Scanner sc = new Scanner(file);
 			
