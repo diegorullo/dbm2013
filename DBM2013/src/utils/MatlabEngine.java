@@ -16,8 +16,12 @@ public class MatlabEngine
 	*/
 	public void init() throws MatlabConnectionException, MatlabInvocationException
 	{
-		factory = new MatlabProxyFactory();
-		proxy = factory.getProxy();
+		if (factory == null) {
+			factory = new MatlabProxyFactory();
+			if (proxy == null || !proxy.isConnected()) {
+				proxy = factory.getProxy();
+			}
+		}
 	}	
 	
 	/**
@@ -35,9 +39,11 @@ public class MatlabEngine
 		
 	/**
 	 * disconnette il proxy da Matlab
+	 * @throws MatlabInvocationException 
 	 */
-	public void shutdown() 
+	public void shutdown() throws MatlabInvocationException 
 	{
+		proxy.exit();
 		proxy.disconnect();
 	}
 }

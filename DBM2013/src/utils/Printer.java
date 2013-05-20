@@ -91,8 +91,8 @@ public class Printer {
 	{
 		for (ArrayList<Double> riga : matrix) {
 			for (Double cella : riga) {
-				System.out.printf("%.4f", cella);
-				System.out.print(",\t\t");
+				System.out.printf("\t%.7f", cella);
+				System.out.print(",");
 			}
 			System.out.print("\n");
 		}
