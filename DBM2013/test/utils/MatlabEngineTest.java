@@ -43,15 +43,15 @@ public class MatlabEngineTest {
 	
 	@Test
 	public void evalTestSVD() throws Exception {			
-			Corpus dblp = db.newCorpus();
-			
-			Author testAuthor = dblp.getAuthorByID(2390072);
-			ArrayList<TreeMap<String, Double>> documentTermMatrix = dblp.getDocumentTermMatrix(testAuthor);
-			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + "X" + ".csv");
-			//IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + testAuthor.getAuthorID() + ".csv");
-			me.eval("svd_IR");
-			ArrayList<ArrayList<Double>> matrix_v =IO.readDocumentTermMatrixFromFile("../data/" +"V" + ".csv");
-			System.out.println("Matrice V:");
-			Printer.printMatrix(matrix_v);
+		Corpus dblp = db.newCorpus();
+		
+		Author testAuthor = dblp.getAuthorByID(2390072);
+		ArrayList<TreeMap<String, Double>> documentTermMatrix = dblp.getDocumentTermMatrix(testAuthor);
+		IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + "X" + ".csv");
+		//IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + testAuthor.getAuthorID() + ".csv");
+		me.eval("svd_IR");
+		ArrayList<ArrayList<Double>> matrix_v =IO.readDocumentTermMatrixFromFile("../data/" +"V" + ".csv");
+		System.out.println("Matrice V:");
+		Printer.printMatrix(matrix_v);
 	}
 }
