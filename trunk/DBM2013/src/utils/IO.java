@@ -93,9 +93,7 @@ public class IO {
 			CSVReader csvReader = new CSVReader(new FileReader(csvFilename), ',');
 			String[] row = null;
 			while((row = csvReader.readNext()) != null) {
-			    System.out.println(row[0]
-			              + " # " + row[1]
-			              + " #  " + row[2]);
+				System.out.println(row[1]);
 			}
 			//...
 			csvReader.close();
