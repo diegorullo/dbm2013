@@ -1175,7 +1175,7 @@ public class CorpusTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = dummyCorpus.getDocumentTermMatrix(authorStefania);
-		if(true) {
+		if(DEBUG) {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/Stefania.csv");
 		}
 
