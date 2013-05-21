@@ -30,11 +30,12 @@ public class MatlabEngine
 	 * della cartella "ext-matlab")
 	 * 
 	 * @param functionName nome della funzione da invocare
+	 * @param fileName nome del file da elaborare (lettura/scrittura)
 	 * @throws MatlabConnectionException 
 	 * @throws MatlabInvocationException 
 	*/
-	public void eval(String functionName) throws MatlabConnectionException, MatlabInvocationException {		
-		proxy.feval(functionName);
+	public void eval(String functionName,String fileName) throws MatlabConnectionException, MatlabInvocationException {		
+		proxy.feval(functionName,fileName);
 	}
 		
 	/**

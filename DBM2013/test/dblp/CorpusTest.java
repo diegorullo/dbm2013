@@ -1175,8 +1175,8 @@ public class CorpusTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = dummyCorpus.getDocumentTermMatrix(authorStefania);
-		if(DEBUG) {
-			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/X.csv");
+		if(true) {
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/Stefania.csv");
 		}
 
 		//System.out.println(dummyCorpus.getDocumentTermMatrix(authorStefania));
@@ -1188,11 +1188,12 @@ public class CorpusTest {
 			Corpus dblp = db.newCorpus();
 			
 			Author testAuthor = dblp.getAuthorByID(2390072);
+			String fileName = testAuthor.getAuthorID() + ".csv";
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = dblp.getDocumentTermMatrix(testAuthor);
-			//IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + testAuthor.getAuthorID() + ".csv");
-			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + "X" + ".csv");
-			//ArrayList<ArrayList<Double>> matrixFromFile =IO.readDocumentTermMatrixFromFile("../data/" + testAuthor.getAuthorID() + ".csv");
-			ArrayList<ArrayList<Double>> matrixFromFile =IO.readDocumentTermMatrixFromFile("../data/" +"X" + ".csv");
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
+			//IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + "X" + ".csv");
+			ArrayList<ArrayList<Double>> matrixFromFile =IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+			//ArrayList<ArrayList<Double>> matrixFromFile =IO.readDocumentTermMatrixFromFile("../data/" +"X" + ".csv");
 			Printer.printMatrix(matrixFromFile);
 		}
 	}
