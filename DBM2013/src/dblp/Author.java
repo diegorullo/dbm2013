@@ -260,6 +260,11 @@ public class Author {
 		
 		return keywordSet;
 	}
+	//FIXME - not yet implemented
+	public ArrayList<ArrayList<Double>> getSVD() {
+		ArrayList<ArrayList<Double>> svd = new ArrayList<ArrayList<Double>>();
+		return svd;
+	}
 	
 	public int getAuthorID() {
 		return authorID;
@@ -321,5 +326,7 @@ public class Author {
 			return false;
 		return true;
 	}
+	
+	
 
 }
