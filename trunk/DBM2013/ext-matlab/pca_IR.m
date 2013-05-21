@@ -1,7 +1,8 @@
-function pca_IR
-X = csvread('../data/X.csv');
+function pca_IR(filename)
+path = strcat('../../data/',filename)
+X = csvread(path);
 [pc,score,latent] = princomp(X);
-csvwrite('../data/pc.csv',pc);
-csvwrite('../data/score.csv',score);
-csvwrite('../data/latent.csv',latent);
+csvwrite(strcat('../../data/pc_',filename),pc);
+csvwrite(strcat('../../data/score_',filename),score);
+csvwrite(strcat('../../data/latent_',filename),latent);
 end
