@@ -34,8 +34,8 @@ public class MatlabEngine
 	 * @throws MatlabConnectionException 
 	 * @throws MatlabInvocationException 
 	*/
-	public void eval(String functionName,String fileName) throws MatlabConnectionException, MatlabInvocationException {		
-		proxy.feval(functionName,fileName);
+	public void eval(String functionName, String fileName) throws MatlabConnectionException, MatlabInvocationException {		
+		proxy.feval(functionName, fileName);
 	}
 		
 	/**
