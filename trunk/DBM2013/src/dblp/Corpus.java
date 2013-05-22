@@ -1,57 +1,186 @@
 package dblp;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
-import utils.Normalization;
+import utils.TextProcessor;
+
+import com.mysql.jdbc.Statement;
+//FIXME
+//import utils.DBEngine;
 
 public class Corpus {
 
-	//private static Corpus instance = null; // riferimento all' istanza
+	private static Corpus corpusInstance = null; // riferimento all' istanza
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
 
+	private static Connection conn;
+	private static Statement stmt;
+	private static final String dbAddress = "jdbc:mysql://localhost:3306/dblp";
+	private static final String username = "root";
+	private static final String password = "root";
+
+	/**
+	 * inizializza la connessione al db
+	 */
+	public void init() throws SQLException {
+		if (conn == null)
+			conn = DriverManager.getConnection(dbAddress, username, password);
+	}
 	
-	public Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
+	/**
+	 * chiude la connessione al db
+	 */
+	public void shutdown() throws SQLException{
+		if(conn!=null)
+			conn.close();
+	}
+	
+//	public static Statement getStatement() throws SQLException{
+//		return (Statement) conn.createStatement();	
+//	}
+	
+	/**
+	 * istanzia il corpus popolando:
+	 * - l'elenco di tutti gli autori del corpus stesso
+	 * - l'elenco di tutti i papers 
+	 * - la cardinalità, numero di papers del corpus.
+	 * 
+	 * @return corpus	corpus con autori, papers e cardinalità
+	 */
+	private Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
 		super();
 		this.authors = authors;
 		this.papers = papers;
 		this.cardinality = cardinality;
 	}
 	
-	/**
-	 * Restituisce l'idf di una keyword.
-	 * 
-	 * @param keyword
-	 * @return idf di una keyword
-	 * @throws Exception
-	 */
-	//FIXME Sostituire con eccezione appropriata
-	public double getIDF(String keyword) throws Exception {
-		double idf = 0;
-		int m = 0;
-		int N = this.getCardinality();
+	public static synchronized Corpus getCorpus() throws SQLException, IOException{
+		if (corpusInstance == null) {
+			final ArrayList<Author> authors = new ArrayList<Author>();
+			final ArrayList<Paper> papers = new ArrayList<Paper>();
+			final int cardinality;	
+			Statement stmt;
+			
+					
+			String queryA = "SELECT personid FROM authors;";
+			String queryP = "SELECT paperid FROM papers;";
+			String queryC = "SELECT COUNT(*) FROM papers;";
 
-		// conta il numero di occorrenze della keyword s nel corpus
-		for(Paper p : papers) {
-			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
-			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				if (k.getKey().equals(keyword)) {
-					m++;
-				}
-			}				
+			stmt = (Statement) conn.createStatement();
+			ResultSet resA = stmt.executeQuery(queryA);			
+
+			while(resA.next()) {
+				authors.add(newAuthor(resA.getInt("personid")));
+			}		
+			
+			ResultSet resP = stmt.executeQuery(queryP);
+			while(resP.next()) {
+				papers.add(newPaper(resP.getInt("paperid")));
+			}
+			
+			ResultSet resC = stmt.executeQuery(queryC);			
+			resC.next();
+			cardinality = resC.getInt(1);
+			
+			corpusInstance = new Corpus(authors, papers, cardinality);
+			
 		}
-		if (N > 0 && m > 0) {
-			idf = Math.log((double)N/m);
-		}
-		return idf;
+		return corpusInstance;
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		throw new CloneNotSupportedException();
+	}
+	
+	
+	/**
+	 * istanzia un paper a partire dal relativo id
+	 * @param paperID   id del paper
+	 * @return paper	paper
+	 */
+	public static Paper newPaper(int paperID) throws SQLException, IOException {
+		final String title;
+		final int year;
+		final String publisher;
+		final String paperAbstract;
+		final ArrayList<String> keywords;
+		final ArrayList<String> keywordsTitle;
+		final ArrayList<String> authorsNames = new ArrayList<String>();
+		final ArrayList<Integer> authors = new ArrayList<Integer>();
+		String query = "SELECT authors.*,papers.* FROM authors,papers,writtenby WHERE papers.paperid = "
+				+ paperID
+				+ " AND writtenby.personid=authors.personid AND writtenby.paperid=papers.paperid;";
+		stmt = (Statement) conn.createStatement();		
+		ResultSet res = stmt.executeQuery(query);
+		
+		res.next();
+		title = res.getString("title");
+		year = res.getInt("year");
+		publisher = res.getString("publisher");
+		paperAbstract = res.getString("abstract");
+		
+		keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
+		keywordsTitle = TextProcessor.removeStopWordsAndStem(title);
+		
+		authorsNames.add(res.getString("name"));
+		authors.add(res.getInt("personid"));
+		
+		while(res.next()) {
+			authorsNames.add(res.getString("name"));
+			authors.add(res.getInt("personid"));	
+		}
+		
+		Paper p = new Paper(paperID, title, year, publisher, paperAbstract, authorsNames, authors, keywords, keywordsTitle);	
+		return p;
+	}
+	
+	/**
+	 * istanzia un autore a partire dal relativo id
+	 * @param personID   id dell'autore
+	 * @return author	 autore
+	 */
+	public static Author newAuthor(int personID) throws SQLException, IOException {
+		final ArrayList<Paper> papers = new ArrayList<Paper>();
+		final String name;
+		
+		String query = "SELECT authors.name,papers.paperid FROM authors left outer join writtenby on writtenby.personid=authors.personid left outer join papers on  writtenby.paperid=papers.paperid where authors.personid = " + personID;
+		stmt = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);		
+		ResultSet res = stmt.executeQuery(query);
+		
+		if(res.next()) {			
+			name = res.getString("name");
+			//Questo caso cattura l'eventualita' che esista un author senza papers
+			//e quindi la query restituisce paperid = null
+			if(res.getInt("paperid") != 0) {
+				papers.add(newPaper(res.getInt("paperid")));
+			}
+			while(res.next()) {
+				int id = res.getInt("paperid");
+				Paper p = newPaper(id);
+				papers.add(p);
+			}
+		}
+		else throw new SQLException("An author with paperID " + personID + " is not in the DB.");
+
+		Author a = new Author(personID, name, papers);	
+		return a;
+	}
+	
+
+	
+
+
 	
 	/**
 	 * Restituisce l'oggetto Author associato al nome dato.
@@ -85,40 +214,39 @@ public class Corpus {
 		//FIXME: sistemare con eccezione appropriata
 		throw new Exception();
 	}
-		
-	/**
-	 * Estrae i coautori di un autore dato.
-	 * 
-	 * @param a
-	 * @return lista di Author: coautori di un autore dato
-	 * @throws Exception
-	 */
-	//FIXME: sostituire con exception appropriata
-	public List<Author> getCoAuthors(Author a) throws Exception {
-		List<Author> coAuthors = new ArrayList<Author>();
-		List<Integer> coAuthorsIDs = a.getCoAuthorsIDs();
-		
-		for (int coA : coAuthorsIDs) {
-			coAuthors.add(this.getAuthorByID(coA));
-		}
-			
-		return coAuthors;
-	}
 	
 	/**
-	 * Estrae i coautori di un autore dato, insieme all'autore stesso.
+	 * Restituisce l'idf di una keyword.
 	 * 
-	 * @param a
-	 * @return lista di Author: coautori di un autore dato + autore stesso
+	 * @param keyword
+	 * @return idf di una keyword
 	 * @throws Exception
 	 */
-	//FIXME: sostituire con exception appropriata
-	public List<Author> getCoAuthorsAndSelf(Author a) throws Exception {
-		List<Author> coAuthorsAndSelf = this.getCoAuthors(a);
-		coAuthorsAndSelf.add(a);
+	//FIXME Sostituire con eccezione appropriata
+	public double getIDF(String keyword) throws Exception {
+		double idf = 0;
+		int m = 0;
+		
+		//FIXME 
+		Corpus dblp = Corpus.getCorpus();
+		int N = dblp.getCardinality();
 
-		return coAuthorsAndSelf;
+		// conta il numero di occorrenze della keyword s nel corpus
+		for(Paper p : papers) {
+			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
+			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
+				if (k.getKey().equals(keyword)) {
+					m++;
+				}
+			}				
+		}
+		if (N > 0 && m > 0) {
+			idf = Math.log((double)N/m);
+		}
+		return idf;
 	}
+		
+
 	
 	/**
 	 * Estrae la lista dei paper comuni ad una lista di autori (corpus ristretto).
@@ -126,322 +254,24 @@ public class Corpus {
 	 * @param authors: i coautori dell'autore in esame
 	 * @return lista di Paper: paper comuni ad una lista di autori
 	 */
-	public List<Paper> getRestrictedCorpus(List<Author> authors) {
-		List<Paper> papers = new ArrayList<Paper>();
-		
-		for (Author a : authors) {
-			for (Paper p : a.getPapers()) {
-				if (!papers.contains(p)) {
-					papers.add(p);
-				}
-			}
-		}
-		
-//		System.out.println("xxxxxxxxxxxx");
+	
+	//FIXME
+	//vedere dove va piazzato (forse author e statico)
+//	public List<Paper> getRestrictedCorpus(List<Author> authors) {
+//		List<Paper> restrictedCorpus = new ArrayList<Paper>();
 //		
-//		for (Paper pp : papers) {
-//			System.out.println(pp);
-//		}
-		
-		return papers;
-	} 
-	
-	/**
-	 * Calcola il numero di occorrenze di una keyword nel corpus ristretto,
-	 * ovvero il corpus formato dai paper di un autore e dei suoi coautori.
-	 * 
-	 * @param keyword
-	 * @param author
-	 * @param authors
-	 * @return IDF calcolato in base al corpus ristretto
-	 * @throws Exception 
-	 */
-	public double getRestrictedIDF(String keyword, Author author) throws Exception {
-		double idf = 0;
-		int m = 0; // conta il numero di articoli in cui la keyword compare
-		
-		List<Author> coAuthorsAndSelf = this.getCoAuthorsAndSelf(author);
-		List<Paper> rc = getRestrictedCorpus(coAuthorsAndSelf);
-		int N = rc.size();
-		
-		for(Paper p : rc) {
-			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
-			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				if (k.getKey().equals(keyword)) {
-					m++;
-				}
-			}				
-		}		
-		if (N > 0 && m > 0) {
-			idf = Math.log((double)N/m);
-		}
-		
-		return idf;
-	}
-	
-	/**
-	 * Calcola il tfidf2:
-	 * tf2 - tutti gli articoli dell'autore
-	 * idf2 - tutti gli articoli del corpus ristretto
-	 *  (ovvvero dell'autore e i suoi coautori) 
-	 * 
-	 * @param keyword
-	 * @param author
-	 * @return double tfidf2
-	 * @throws Exception
-	 */
-	public double getTFIDF2(String keyword, Author author) throws Exception {
-		double tfidf2 = 0.0;		
-		double tf2 = author.getRestrictedTF(keyword);
-		double idf2 = this.getRestrictedIDF(keyword, author);
-		
-		tfidf2 = tf2 * idf2;
-		
-		return tfidf2;
-	}
-	
-	/**
-	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
-	 * rispetto al modello di pesi TFIDF2, che per il calcolo del tf considera
-	 * l'insieme di tutti gli articoli scritti dall'autore dato e per il calcolo dell'idf
-	 * considera l'insieme degli articoli scritti dall'autore e dai suoi coautori.
-	 * 
-	 * @param c
-	 * @return keywordVector pesato in base al modello TFIDF2
-	 * @throws Exception
-	 */	
-//FIXME
-	public Map<String, Double> getTFIDF2Vector(Author author) throws Exception {
-		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
-		
-		List<Paper> papers = author.getPapers();
-		for (Paper p : papers){
-			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
-			double tfidf2;
-			String key;
-			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				key = k.getKey();
-				tfidf2 = this.getTFIDF2(key, author);
-				TFIDF2Vector.put(key, tfidf2);
-			}
-		}
-		
-		Map<String, Double> normalizedTFIDF2Vector = Normalization.normalizeTreeMap(TFIDF2Vector);
-		
-		return normalizedTFIDF2Vector;
-		
-	}
-		
-	/**
-	 * Estrae gli articoli dei coautori di un autore dato.
-	 * 
-	 * @param a
-	 * @return lista di Paper: elenco dei paper dei coautori di un autore dato
-	 * @throws Exception
-	 */
-	//FIXME: sostituire con exception appropriata
-	public List<Paper> getCoAuthorsPapers(Author a) throws Exception {
-		List<Author> coAuthors = this.getCoAuthors(a);
-		List<Paper> coAuthorsPapers = new ArrayList<Paper>();
-		
-//		List<Paper> authorsPapers = new ArrayList<Paper>();
-//		for (Author coA : coAuthors) {
-//			authorsPapers = coA.getPapers();
-//			for (Paper p : authorsPapers) {
-//				if(!coAuthorsPapers.contains(p)) {
-//					coAuthorsPapers.add(p);
+//		for (Author a : authors) {
+//			for (Paper p : a.getPapers()) {
+//				if (!restrictedCorpus.contains(p)) {
+//					restrictedCorpus.add(p);
 //				}
 //			}
 //		}
-		
-		if (this.getRestrictedCorpus(coAuthors) != null) {
-			coAuthorsPapers = this.getRestrictedCorpus(coAuthors);
-		}
-		return coAuthorsPapers;
-	}
+//		
+//		return restrictedCorpus;
+//	} 
 	
-	/**
-	 * Estrae gli articoli dei coautori di un autore dato, insieme a quelli dell'autore stesso.
-	 * 
-	 * @param a
-	 * @return lista di Paper: elenco degli articoli di un autore dato insieme a quelli dell'autore stesso
-	 * @throws Exception
-	 */
-	//FIXME: sostituire con exception appropriata
-	public List<Paper> getCoAuthorsAndSelfPapers(Author a) throws Exception {
-//		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(a);		
-//		List<Paper> selfPapers = a.getPapers();
-//		for (Paper p : selfPapers) {
-//			if(!coAuthorsAndSelfPapers.contains(p)) {
-//				coAuthorsAndSelfPapers.add(p);
-//			}
-//		}
-		
-		//coAuthorsAndSelfPapers.addAll(a.getPapers());
-		
-		List<Author> coAuthors = this.getCoAuthorsAndSelf(a);
-		List<Paper> coAuthorsAndSelfPapers = new ArrayList<Paper>();
-		
-		if (this.getRestrictedCorpus(coAuthors) != null) {
-			coAuthorsAndSelfPapers = this.getRestrictedCorpus(coAuthors);
-		}
-
-		return coAuthorsAndSelfPapers;
-	}
 	
-	/**
-	 * Calcola il numero di articoli dei soli coautori dell'autore a_i che non contengono la chiave k_j.
-	 * 
-	 * @param a_i
-	 * @param k_j
-	 * @return numero di articoli dei soli coautori dell'autore a_i che non contengono la chiave k_j
-	 * @throws Exception
-	 */
-	//FIXME: sostituire con exception appropriata
-	public int r_withoutKey(Author a_i, String k_j) throws Exception {
-		List<Paper> coAuthorsPapers = this.getCoAuthorsPapers(a_i);
-		int r_ij = 0;
-		
-		for (Paper p : coAuthorsPapers) {
-			if(!p.containsKeyword(k_j)) {
-				r_ij++;
-			}
-		}		
-		
-		return r_ij;
-	}
-	
-	/** Calcola il numero di articoli dell'autore a_i e dei suoi coautori che non contengono la chiave k_j.
-	 * 
-	 * @param a_i
-	 * @param k_j
-	 * @return numero intero: gli articoli dell'autore a_i e dei suoi coautori che non contengono la chiave k_j
-	 * @throws Exception
-	 */
-	public int n_withoutKey(Author a_i, String k_j) throws Exception {
-		List<Paper> coAuthorsPapers = this.getCoAuthorsAndSelfPapers(a_i);
-		int n_ij = 0;
-		
-		for (Paper p : coAuthorsPapers) {
-			if(!p.containsKeyword(k_j)) {
-				n_ij++;
-			}
-		}		
-		
-		return n_ij;
-	}
-	
-	/**
-	 * Calcola il peso u_ij della keyword k_j per l'autore a_i.
-	 * 
-	 * @param a_i
-	 * @param k_j
-	 * @return peso u_ij della keyword k_j per l'autore a_i
-	 * @throws Exception
-	 */
-	//FIXME: sostituire con eccezione appropriata...
-	public double getU_ij(Author a_i, String k_j) throws Exception{
-		double u_ij = 0.0;
-		double epsilon = 0.1; // costante che non fa andare a zero		
-		double numLog = 0.0;
-		double denLog = 0.0;
-		double resLog = 0.0;
-		double resAbs = 0.0;
-		
-		int r_ij = this.r_withoutKey(a_i,  k_j);
-		int n_ij = this.n_withoutKey(a_i, k_j);
-		int R_i = this.getCoAuthorsPapers(a_i).size();
-		int N_i = this.getCoAuthorsAndSelfPapers(a_i).size();
-		
-		numLog = (double) (r_ij)/ (R_i - r_ij + epsilon);
-		denLog = (double) (n_ij - r_ij + epsilon) / (N_i - n_ij - R_i + r_ij + epsilon);
-		//FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2 maggio a lezione)
-		resLog = Math.log(1 + (numLog / denLog));
-		
-		resAbs = Math.abs((double)(r_ij + epsilon / R_i + epsilon) - (double)((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
-		
-		u_ij = resLog * resAbs;
-		
-		return u_ij;
-	}
-	
-	/**
-	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
-	 * rispetto al modello di pesi PF, che per il calcolo dei pesi considera
-	 * l'insieme di tutti gli articoli scritti dall'autore dato e
-	 * l'insieme degli articoli scritti dall'autore e dai suoi coautori.
-	 * Utilizza il meccanismo di feedback probabilistico (PF).
-	 * 
-	 * @param c
-	 * @return keywordVector pesato in base al modello PF
-	 * @throws Exception
-	 */	
-//FIXME
-	public Map<String, Double> getPFVector(Author author) throws Exception {
-		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
-		
-		List<Paper> papers = author.getPapers();
-		for (Paper p : papers){
-			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
-			double pf;
-			String key;
-			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				key = k.getKey();
-				pf = this.getU_ij(author,key);
-				PFVector.put(key, pf);
-			}
-		}
-		
-		Map<String, Double> normalizedPFVector = Normalization.normalizeTreeMap(PFVector);
-		
-		return normalizedPFVector;
-	}
-	
-	/**
-	 * Restituisce la matrice document-term relativa all'autore selezionato
-	 * @param a autore
-	 * @return ArrayList<TreeMap<String, Double>> matrice document-term
-	 * @throws Exception
-	 */	
-	public ArrayList<TreeMap<String, Double>> getDocumentTermMatrix(Author a) throws Exception {
-		ArrayList<TreeMap<String, Double>> documentTermMatrix = new ArrayList<TreeMap<String, Double>>();
-		
-		ArrayList<String> keywordSet = a.getKeywordSet();
-		ArrayList<Paper> documents = a.getPapers();
-		
-		int m = documents.size();
-		//int n = keywordSet.size();
-				
-		//inizializziamo la matrice con tutti valori a 0
-		for(int doc = 0; doc < m; doc++) {
-			TreeMap<String, Double> row = new TreeMap<String, Double>();
-			for(String s : keywordSet) {
-				row.put(s, 0.0);
-			}
-			documentTermMatrix.add(row);
-		}
-		
-		//inseriamo i valori di tfidf relativi al vettore dei vari documenti 
-		Map<String, Double> currentWeightedTFIDFVector = new HashMap<String, Double>();
-		for(int doc = 0; doc < m; doc++) {
-			//recupera il paper corrente...
-			Paper currentPaper = documents.get(doc);
-			//System.out.println("Paper: \'" + currentPaper.getTitle() + "\', peso: " + currentPaper.getWeightBasedOnAge());
-			//... e ne calcola il vettore di tfidf pesato
-			currentWeightedTFIDFVector = currentPaper.getWeightedTFIDFVector(currentPaper.getWeightBasedOnAge(), this);
-			//System.out.println("WeightedTFIDFVector: \'" + currentWeightedTFIDFVector);
-			//modifica la riga relativa al documento corrente, sostituendo gli zeri con i valori
-			TreeMap<String, Double> row = documentTermMatrix.get(doc);
-			for(Map.Entry<String, Double> entry : currentWeightedTFIDFVector.entrySet()) {
-				row.put(entry.getKey(), entry.getValue());
-				//documentTermMatrix.set(doc, documentTermMatrix.get(doc).put(entry.getKey(), entry.getValue()))
-			}
-			documentTermMatrix.set(doc, row);
-		}
-		
-		return documentTermMatrix;
-	}
-		
 	public ArrayList<Author> getAuthors() {
 		return authors;
 	}
