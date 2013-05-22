@@ -9,39 +9,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import utils.DBEngine;
+
+
 
 public class AuthorTest {
-	static DBEngine db = new DBEngine();
-	@BeforeClass
-	public static void testSetup() throws SQLException {
-		db.init();
-	}
-
-	@AfterClass
-	public static void testCleanup() throws SQLException {
-		db.shutdown();
-	}
-	
-	@Test
-	public void testAuthor() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetWTFVector() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetWTFIDFVector() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetCombinedKeywordSet() {
-//		fail("Not yet implemented");
-	}
 
 	/**
 	 * 1 autore, 2 paper, la keyword "algorithm" compare in
