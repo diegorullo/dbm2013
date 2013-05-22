@@ -1,10 +1,12 @@
 package lab1;
 
+import utils.DBEngine;
+
 public class Main {	
 
 	public static void main(String args[]) throws Exception {
-//		DBEngine db = new DBEngine();
-//		db.init();
+		DBEngine db = new DBEngine();
+		db.init();
 
 //		Scanner input = new Scanner(System.in);
 //		

@@ -10,61 +10,27 @@ import java.util.TreeMap;
 
 import utils.Normalization;
 
+
 public class Author {
-	// FIXME
+	//FIXME
 	final static int titleWeight = 3;
 	private int authorID;
 	private String name;
 	private ArrayList<Paper> papers;
-	// FIXME
-	// sostituire la chiamata al metodo statico con dblp
-//	private Corpus dblp = Corpus.getCorpus();
-
+	
+	
 	public Author(int personID, String name, ArrayList<Paper> papers) {
 		super();
 		this.authorID = personID;
 		this.name = name;
 		this.papers = papers;
 	}
-
+	
 	/**
-	 * Estrae i coautori di un autore dato.
-	 * 
-	 * @param a
-	 * @return lista di Author: coautori di un autore dato
-	 * @throws Exception
-	 */
-	// FIXME: sostituire con exception appropriata
-	public List<Author> getCoAuthors() throws Exception {
-		List<Author> coAuthors = new ArrayList<Author>();
-		List<Integer> coAuthorsIDs = this.getCoAuthorsIDs();
-
-		for (int coA : coAuthorsIDs) {
-			coAuthors.add(Corpus.getCorpus().getAuthorByID(coA));
-		}
-
-		return coAuthors;
-	}
-
-	/**
-	 * Estrae i coautori di un autore dato, insieme all'autore stesso.
-	 * 
-	 * @param a
-	 * @return lista di Author: coautori di un autore dato + autore stesso
-	 * @throws Exception
-	 */
-	// FIXME: sostituire con exception appropriata
-	public List<Author> getCoAuthorsAndSelf() throws Exception {
-		List<Author> coAuthorsAndSelf = this.getCoAuthors();
-		coAuthorsAndSelf.add(this);
-		return coAuthorsAndSelf;
-	}
-
-	/**
-	 * Considera tutti gli articoli scritti da un certo autore per creare un
-	 * ”combined keyword vector” dei tf per quell’autore. Nei ”combined keyword
-	 * vector”, gli articoli piu’ recenti devono pesare di piu’ di quelli piu’
-	 * vecchi.
+	 * Considera tutti gli articoli scritti da un certo autore per creare
+	 * un ”combined keyword vector” dei tf per quell’autore.
+	 * Nei ”combined keyword vector”, gli articoli piu’ recenti devono
+	 * pesare di piu’ di quelli piu’ vecchi.
 	 * 
 	 * @return treemap dei tf di un autore, pesando gli articoli per eta'
 	 * @throws IOException
@@ -72,130 +38,122 @@ public class Author {
 	public Map<String, Double> getWeightedTFVector() throws IOException {
 		Map<String, Double> wtfv;
 		double weight = 0;
-		// double weightNormalizationFactor = 0;
+//		double weightNormalizationFactor = 0;
 		TreeMap<String, Double> weightedTFVector = new TreeMap<String, Double>();
-		// FIXME controllare - aggiustare il metodo
-
-		/*
-		 * - vettore di tf per ogni paper dell'autore - età del paper - peso
-		 * usando l'età - tfrkey[r] = sum(peso[i]*tfkey[i])/sum(peso[i]);
+		//FIXME controllare - aggiustare il metodo
+		
+		/* - vettore di tf per ogni paper dell'autore
+		 * - età del paper
+		 * - peso usando l'età
+		 * - tfrkey[r] = sum(peso[i]*tfkey[i])/sum(peso[i]);
 		 */
-
-		// for (Paper p : papers) {
-		// weight += p.getWeightBasedOnAge();
-		// }
-		// weightNormalizationFactor = 1 / weight;
-
+		
+//		for (Paper p : papers) {
+//			weight += p.getWeightBasedOnAge();			
+//		}
+//		weightNormalizationFactor = 1 / weight;
+		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfv = p.getWeightedTFVector(weight);
-			for (Map.Entry<String, Double> k : wtfv.entrySet()) {
+			wtfv = p.getWeightedTFVector(weight);	
+			for(Map.Entry<String, Double> k : wtfv.entrySet()) {
 				if (!weightedTFVector.containsKey(k.getKey())) {
-					weightedTFVector.put(k.getKey(), k.getValue());
-				} else {
-					weightedTFVector.put(k.getKey(),
-							weightedTFVector.get(k.getKey()) + k.getValue());
+					weightedTFVector.put(k.getKey(), k.getValue());			
 				}
-			}
+				else {
+					weightedTFVector.put(k.getKey(), weightedTFVector.get(k.getKey()) + k.getValue());
+				}
+			}			
 		}
-
-		// FIXME
-		/*
-		 * escluso i for di normalizzazione e passato vettore al metodo
-		 * normalizaTreeMap implementato metodo
-		 * NormalizationTest.testNormalizedWeightedTFVectorDummy Esito negativo.
+		
+		//FIXME
+		/* escluso i for di normalizzazione e passato vettore al metodo normalizaTreeMap
+		 * implementato metodo NormalizationTest.testNormalizedWeightedTFVectorDummy
+		 * Esito negativo.
 		 */
-
-		Map<String, Double> normalizedWeightedTFVector = Normalization
-				.normalizeTreeMap(weightedTFVector);
+		
+		Map<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);		
 		return normalizedWeightedTFVector;
-		//
-		// for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
-		// weightNormalizationFactor+=k.getValue();
-		// }
-		//
-		// Double testUno = 0.0;
-		// for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
-		// weightedTFVector.put(k.getKey(),
-		// k.getValue()/weightNormalizationFactor);
-		// testUno+=k.getValue();
-		// }
-		//
-		// return weightedTFVector;
+//		
+//		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
+//			weightNormalizationFactor+=k.getValue();
+//		}
+//		
+//		Double testUno = 0.0;
+//		for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
+//			weightedTFVector.put(k.getKey(), k.getValue()/weightNormalizationFactor);
+//			testUno+=k.getValue();
+//		}
+//		
+//		return weightedTFVector;
 	}
-
+	
 	/**
-	 * Considera tutti gli articoli scritti da un certo autore per creare un
-	 * ”combined keyword vector” dei tfidf per quell’autore. Nei ”combined
-	 * keyword vector”, gli articoli piu’ recenti devono pesare di piu’ di
-	 * quelli piu’ vecchi.
+	 * Considera tutti gli articoli scritti da un certo autore per creare
+	 * un ”combined keyword vector” dei tfidf per quell’autore.
+	 * Nei ”combined keyword vector”, gli articoli piu’ recenti devono
+	 * pesare di piu’ di quelli piu’ vecchi.
 	 * 
 	 * @return treemap dei tfidf di un autore, pesando gli articoli per eta'
 	 * @throws Exception
 	 */
-	// FIXME: sistemare l'eccezione
-	public Map<String, Double> getWeightedTFIDFVector(Corpus c)
-			throws Exception {
+	//FIXME: sistemare l'eccezione
+	public Map<String, Double> getWeightedTFIDFVector(Corpus c) throws Exception {
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 
 		Map<String, Double> wtfidfv;
 		double weight = 0;
-
-		/*
-		 * - vettore di tfidf per ogni paper dell'autore - età del paper - peso
-		 * usando l'età - tfidfrkey[r] = sum(peso[i]*tfidfkey[i])/sum(peso[i]);
+		
+		/* - vettore di tfidf per ogni paper dell'autore
+		 * - età del paper
+		 * - peso usando l'età
+		 * - tfidfrkey[r] = sum(peso[i]*tfidfkey[i])/sum(peso[i]);
 		 */
-
-		// for (Paper p : papers) {
-		// weight += p.getWeightBasedOnAge();
-		// }
-		// weightNormalizationFactor = 1 / weight;
-		//
-		// for (Paper p : papers) {
-		// weight = p.getWeightBasedOnAge();
-		// wtfidfv = (TreeMap<String, Double>) p.getWeightedTFIDFVector(weight,
-		// c);
-		// //FIXME
-		// //System.out.println("Il vettore wtfidfv del paper " + p.getPaperID()
-		// + " è normalizzato? " + Normalization.isNormalized(wtfidfv, 0.0));
-		// for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
-		// if (!weightedTFIDFVector.containsKey(k.getKey())) {
-		// weightedTFIDFVector.put(k.getKey(), k.getValue() *
-		// weightNormalizationFactor);
-		// }
-		// else {
-		// weightedTFIDFVector.put(k.getKey(),
-		// weightedTFIDFVector.get(k.getKey()) + k.getValue() *
-		// weightNormalizationFactor);
-		// }
-		// }
-		// }
-
+		
+//		for (Paper p : papers) {
+//			weight += p.getWeightBasedOnAge();			
+//		}
+//		weightNormalizationFactor = 1 / weight;
+//		
+//		for (Paper p : papers) {
+//			weight = p.getWeightBasedOnAge();
+//			wtfidfv = (TreeMap<String, Double>) p.getWeightedTFIDFVector(weight, c);
+//			//FIXME
+//			//System.out.println("Il vettore wtfidfv del paper " + p.getPaperID() +  " è normalizzato? " + Normalization.isNormalized(wtfidfv, 0.0));
+//			for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
+//				if (!weightedTFIDFVector.containsKey(k.getKey())) {
+//					weightedTFIDFVector.put(k.getKey(), k.getValue() * weightNormalizationFactor);
+//				}
+//				else {
+//					weightedTFIDFVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue() * weightNormalizationFactor);
+//				}
+//			}
+//		}
+		
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfidfv = p.getWeightedTFVector(weight);
-			for (Map.Entry<String, Double> k : wtfidfv.entrySet()) {
+			wtfidfv = p.getWeightedTFVector(weight);	
+			for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
 				if (!weightedTFIDFVector.containsKey(k.getKey())) {
-					weightedTFIDFVector.put(k.getKey(), k.getValue());
-				} else {
-					weightedTFIDFVector.put(k.getKey(),
-							weightedTFIDFVector.get(k.getKey()) + k.getValue());
+					weightedTFIDFVector.put(k.getKey(), k.getValue());			
 				}
-			}
+				else {
+					weightedTFIDFVector.put(k.getKey(), weightedTFIDFVector.get(k.getKey()) + k.getValue());
+				}
+			}			
 		}
-
-		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization
-				.normalizeTreeMap(weightedTFIDFVector);
-
+			
+		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalizeTreeMap(weightedTFIDFVector);
+		
+		
 		return normalizedWeightedTFIDFVector;
 	}
-
+	
 	/**
-	 * Estrae l'insieme delle keyword presenti in tutti gli articoli
-	 * dell'autore, con il rispettivo numero di occorrenze.
+	 * Estrae l'insieme delle keyword presenti in tutti gli articoli dell'autore,
+	 * con il rispettivo numero di occorrenze.
 	 * 
-	 * @return hashmap delle keyword in tutti gli articoli dell'autore, con
-	 *         occorrenze
+	 * @return hashmap delle keyword in tutti gli articoli dell'autore, con occorrenze
 	 */
 	public HashMap<String, Integer> getCombinedKeywordSet() {
 		HashMap<String, Integer> combinedKeywordSet = new HashMap<String, Integer>();
@@ -203,19 +161,19 @@ public class Author {
 
 		for (Paper p : papers) {
 			keywordSet = p.getKeywordSetWithOccurrences();
-			// System.out.println(keywordSet);
-			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
+			//System.out.println(keywordSet);
+			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (!combinedKeywordSet.containsKey(k)) {
 					combinedKeywordSet.put(k.getKey(), k.getValue());
-				} else {
-					combinedKeywordSet.put(k.getKey(),
-							combinedKeywordSet.get(k) + k.getValue());
 				}
-			}
+				else {
+					combinedKeywordSet.put(k.getKey(), combinedKeywordSet.get(k) + k.getValue());
+				}
+			}			
 		}
 		return combinedKeywordSet;
 	}
-
+	
 	/**
 	 * Estrae i nomi dei coautori dell'autore corrente.
 	 * 
@@ -223,18 +181,17 @@ public class Author {
 	 */
 	public List<String> getCoAuthorsNames() {
 		List<String> coAuthorsNames = new ArrayList<String>();
-
+		
 		for (Paper p : this.getPapers()) {
 			for (String coA : p.getAuthorsNames()) {
-				if (!coAuthorsNames.contains(coA)
-						&& !this.getName().equals(coA)) {
+				if(!coAuthorsNames.contains(coA) && !this.getName().equals(coA)) {
 					coAuthorsNames.add(coA);
 				}
 			}
-		}
+		}		
 		return coAuthorsNames;
 	}
-
+	
 	/**
 	 * Estrae gli id dei coautori dell'autore corrente.
 	 * 
@@ -242,195 +199,44 @@ public class Author {
 	 */
 	public List<Integer> getCoAuthorsIDs() {
 		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
-
+		
 		for (Paper p : this.getPapers()) {
 			for (int coA : p.getAuthors()) {
-				if (!coAuthorsIDs.contains(coA) && this.getAuthorID() != (coA)) {
+				if(!coAuthorsIDs.contains(coA) && this.getAuthorID()!=(coA)) {
 					coAuthorsIDs.add(coA);
 				}
 			}
-		}
+		}		
 		return coAuthorsIDs;
 	}
-
+	
 	/**
-	 * Calcola il tf della keyword basandosi sull’insieme di tutti gli articoli
-	 * scritti dall’autore dato.
+	 * Calcola il tf della keyword basandosi sull’insieme
+	 * di tutti gli articoli scritti dall’autore dato.
 	 * 
 	 * @param keyword
 	 * @return tf della keyword basandosi sugli articoli dell'autore
-	 */
+	 */	
 	public double getRestrictedTF(String keyword) {
 		double tf = 0.0;
-		List<Paper> rc = this.getPapers();
-		// conta il numero di occorrenze della keyword nei papers di author
+		List<Paper> rc = this.getPapers();		
+		// conta il numero di occorrenze della keyword nei papers di author	
 		int n = 0;
 		int K = 0;
-		for (Paper p : rc) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
+		for(Paper p : rc) {
+			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 
 			if (keywordSet.get(keyword) != null) {
 				n += keywordSet.get(keyword);
 			}
 			if (keywordSet != null) {
-				K += p.getKeywords().size() + p.getTitlesKeywords().size()
-						* titleWeight;
-			}
+				K += p.getKeywords().size() + p.getTitlesKeywords().size() * titleWeight;
+			}				
 		}
-		tf = (double) n / K;
+		tf =(double) n / K;
 		return tf;
 	}
-
-	/**
-	 * Calcola il numero di occorrenze di una keyword nel corpus ristretto,
-	 * ovvero il corpus formato dai paper di un autore e dei suoi coautori.
-	 * 
-	 * @param keyword
-	 * @param author
-	 * @param authors
-	 * @return IDF calcolato in base al corpus ristretto
-	 * @throws Exception
-	 */
-	public double getRestrictedIDF(String keyword) throws Exception {
-		double idf = 0;
-		int m = 0; // conta il numero di articoli in cui la keyword compare
-
-		List<Author> coAuthorsAndSelf = this.getCoAuthorsAndSelf();
-		List<Paper> restrictedCorpus = new ArrayList<Paper>();
-
-		/*
-		 * estrae il corpus ristretto papers di autore+relativi coautori)
-		 */
-		for (Author a : coAuthorsAndSelf) {
-			for (Paper p : a.getPapers()) {
-				if (!restrictedCorpus.contains(p)) {
-					restrictedCorpus.add(p);
-				}
-			}
-		}
-		int N = restrictedCorpus.size();
-
-		for (Paper p : restrictedCorpus) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
-			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				if (k.getKey().equals(keyword)) {
-					m++;
-				}
-			}
-		}
-		if (N > 0 && m > 0) {
-			idf = Math.log((double) N / m);
-		}
-
-		return idf;
-	}
-
-	/**
-	 * Calcola il tfidf2 dato un autore: tf2 - tutti gli articoli dell'autore
-	 * idf2 - tutti gli articoli del corpus ristretto (ovvvero dell'autore e i
-	 * suoi coautori)
-	 * 
-	 * @param keyword
-	 * @param author
-	 * @return double tfidf2
-	 * @throws Exception
-	 */
-	public double getTFIDF2(String keyword) throws Exception {
-		double tfidf2 = 0.0;
-		double tf2 = this.getRestrictedTF(keyword);
-		double idf2 = this.getRestrictedIDF(keyword);
-
-		tfidf2 = tf2 * idf2;
-
-		return tfidf2;
-	}
-
-	/**
-	 * Restituisce il keyword vector sotto forma di sequenza di coppie
-	 * <keyword,weight> rispetto al modello di pesi TFIDF2, che per il calcolo
-	 * del tf considera l'insieme di tutti gli articoli scritti dall'autore dato
-	 * e per il calcolo dell'idf considera l'insieme degli articoli scritti
-	 * dall'autore e dai suoi coautori.
-	 * 
-	 * @param c
-	 * @return keywordVector pesato in base al modello TFIDF2
-	 * @throws Exception
-	 */
-	// FIXME
-	public Map<String, Double> getTFIDF2Vector() throws Exception {
-		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
-
-		List<Paper> papers = this.getPapers();
-		for (Paper p : papers) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
-			double tfidf2;
-			String key;
-			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				key = k.getKey();
-				tfidf2 = this.getTFIDF2(key);
-				TFIDF2Vector.put(key, tfidf2);
-			}
-		}
-
-		Map<String, Double> normalizedTFIDF2Vector = Normalization
-				.normalizeTreeMap(TFIDF2Vector);
-
-		return normalizedTFIDF2Vector;
-
-	}
-
-	/**
-	 * Estrae gli articoli dei coautori di un autore dato.
-	 * 
-	 * @param a
-	 * @return lista di Paper: elenco dei paper dei coautori di un autore dato
-	 * @throws Exception
-	 */
-	// FIXME: sostituire con exception appropriata
-	public List<Paper> getCoAuthorsPapers() throws Exception {
-		List<Author> coAuthors = this.getCoAuthors();
-		List<Paper> coAuthorsPapers = new ArrayList<Paper>();
-
-		List<Paper> authorsPapers = new ArrayList<Paper>();
-		for (Author coA : coAuthors) {
-			authorsPapers = coA.getPapers();
-			for (Paper p : authorsPapers) {
-				if (!coAuthorsPapers.contains(p)) {
-					coAuthorsPapers.add(p);
-				}
-			}
-		}
-
-		return coAuthorsPapers;
-	}
-
-	/**
-	 * Estrae gli articoli dei coautori di un autore dato, insieme a quelli
-	 * dell'autore stesso.
-	 * 
-	 * @param a
-	 * @return lista di Paper: elenco degli articoli di un autore dato insieme a
-	 *         quelli dell'autore stesso
-	 * @throws Exception
-	 */
-	// FIXME: sostituire con exception appropriata
-	public List<Paper> getCoAuthorsAndSelfPapers() throws Exception {
-
-		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers();
-		List<Paper> selfPapers = this.getPapers();
-		
-		for (Paper p : selfPapers) {
-			if (!coAuthorsAndSelfPapers.contains(p)) {
-				coAuthorsAndSelfPapers.add(p);
-			}
-		}
-
-		return coAuthorsAndSelfPapers;
-	}
-
+	
 	/**
 	 * Restituisce l'insieme delle keyword relativo a tutti i paper dell'autore,
 	 * ordinato lessicograficamente.
@@ -439,201 +245,27 @@ public class Author {
 	 */
 	public ArrayList<String> getKeywordSet() {
 		ArrayList<String> keywordSet = new ArrayList<String>();
-
+		
 		ArrayList<String> ks = new ArrayList<String>();
-		for (Paper p : papers) {
+		for(Paper p : papers) {
 			ks = p.getKeywordSet();
-			for (String k : ks) {
-				if (!keywordSet.contains(k)) {
+			for(String k : ks) {
+				if(!keywordSet.contains(k)) {
 					keywordSet.add(k);
 				}
 			}
 		}
-
+		
 		Collections.sort(keywordSet);
-
+		
 		return keywordSet;
 	}
-
-	/**
-	 * Calcola il numero di articoli dei soli coautori dell'autore a_i che non
-	 * contengono la chiave k_j.
-	 * 
-	 * @param a_i
-	 * @param k_j
-	 * @return numero di articoli dei soli coautori dell'autore a_i che non
-	 *         contengono la chiave k_j
-	 * @throws Exception
-	 */
-	// FIXME: sostituire con exception appropriata
-	public int r_withoutKey(String k_j) throws Exception {
-		List<Paper> coAuthorsPapers = this.getCoAuthorsPapers();
-		int r_ij = 0;
-
-		for (Paper p : coAuthorsPapers) {
-			if (!p.containsKeyword(k_j)) {
-				r_ij++;
-			}
-		}
-
-		return r_ij;
-	}
-
-	/**
-	 * Calcola il numero di articoli dell'autore a_i e dei suoi coautori che non
-	 * contengono la chiave k_j.
-	 * 
-	 * @param a_i
-	 * @param k_j
-	 * @return numero intero: gli articoli dell'autore a_i e dei suoi coautori
-	 *         che non contengono la chiave k_j
-	 * @throws Exception
-	 */
-	public int n_withoutKey(String k_j) throws Exception {
-		List<Paper> coAuthorsPapers = this.getCoAuthorsAndSelfPapers();
-		int n_ij = 0;
-
-		for (Paper p : coAuthorsPapers) {
-			if (!p.containsKeyword(k_j)) {
-				n_ij++;
-			}
-		}
-
-		return n_ij;
-	}
-
-	/**
-	 * Calcola il peso u_ij della keyword k_j per l'autore a_i.
-	 * 
-	 * @param a_i
-	 * @param k_j
-	 * @return peso u_ij della keyword k_j per l'autore a_i
-	 * @throws Exception
-	 */
-	// FIXME: sostituire con eccezione appropriata...
-	public double getU_ij(String k_j) throws Exception {
-		double u_ij = 0.0;
-		double epsilon = 0.1; // costante che non fa andare a zero
-		double numLog = 0.0;
-		double denLog = 0.0;
-		double resLog = 0.0;
-		double resAbs = 0.0;
-
-		int r_ij = this.r_withoutKey(k_j);
-		int n_ij = this.n_withoutKey(k_j);
-		int R_i = this.getCoAuthorsPapers().size();
-		int N_i = this.getCoAuthorsAndSelfPapers().size();
-
-		numLog = (double) (r_ij) / (R_i - r_ij + epsilon);
-		denLog = (double) (n_ij - r_ij + epsilon)
-				/ (N_i - n_ij - R_i + r_ij + epsilon);
-		// FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2
-		// maggio a lezione)
-		resLog = Math.log(1 + (numLog / denLog));
-
-		resAbs = Math.abs((double) (r_ij + epsilon / R_i + epsilon)
-				- (double) ((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
-
-		u_ij = resLog * resAbs;
-
-		return u_ij;
-	}
-
-	/**
-	 * Restituisce il keyword vector sotto forma di sequenza di coppie
-	 * <keyword,weight> rispetto al modello di pesi PF, che per il calcolo dei
-	 * pesi considera l'insieme di tutti gli articoli scritti dall'autore dato e
-	 * l'insieme degli articoli scritti dall'autore e dai suoi coautori.
-	 * Utilizza il meccanismo di feedback probabilistico (PF).
-	 * 
-	 * @param c
-	 * @return keywordVector pesato in base al modello PF
-	 * @throws Exception
-	 */
-	// FIXME
-	public Map<String, Double> getPFVector() throws Exception {
-		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
-
-		List<Paper> papers = this.getPapers();
-		for (Paper p : papers) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
-			double pf;
-			String key;
-			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				key = k.getKey();
-				pf = this.getU_ij(key);
-				PFVector.put(key, pf);
-			}
-		}
-
-		Map<String, Double> normalizedPFVector = Normalization
-				.normalizeTreeMap(PFVector);
-
-		return normalizedPFVector;
-	}
-
-	/**
-	 * Restituisce la matrice document-term relativa all'autore selezionato
-	 * 
-	 * @param a
-	 *            autore
-	 * @return ArrayList<TreeMap<String, Double>> matrice document-term
-	 * @throws Exception
-	 */
-	public ArrayList<TreeMap<String, Double>> getDocumentTermMatrix()
-			throws Exception {
-		ArrayList<TreeMap<String, Double>> documentTermMatrix = new ArrayList<TreeMap<String, Double>>();
-
-		ArrayList<String> keywordSet = this.getKeywordSet();
-		ArrayList<Paper> documents = this.getPapers();
-
-		int m = documents.size();
-		// int n = keywordSet.size();
-
-		// inizializziamo la matrice con tutti valori a 0
-		for (int doc = 0; doc < m; doc++) {
-			TreeMap<String, Double> row = new TreeMap<String, Double>();
-			for (String s : keywordSet) {
-				row.put(s, 0.0);
-			}
-			documentTermMatrix.add(row);
-		}
-
-		// inseriamo i valori di tfidf relativi al vettore dei vari documenti
-		Map<String, Double> currentWeightedTFIDFVector = new HashMap<String, Double>();
-		for (int doc = 0; doc < m; doc++) {
-			// recupera il paper corrente...
-			Paper currentPaper = documents.get(doc);
-			// System.out.println("Paper: \'" + currentPaper.getTitle() +
-			// "\', peso: " + currentPaper.getWeightBasedOnAge());
-			// ... e ne calcola il vettore di tfidf pesato
-			currentWeightedTFIDFVector = currentPaper.getWeightedTFIDFVector(
-					currentPaper.getWeightBasedOnAge(), Corpus.getCorpus());
-			// System.out.println("WeightedTFIDFVector: \'" +
-			// currentWeightedTFIDFVector);
-			// modifica la riga relativa al documento corrente, sostituendo gli
-			// zeri con i valori
-			TreeMap<String, Double> row = documentTermMatrix.get(doc);
-			for (Map.Entry<String, Double> entry : currentWeightedTFIDFVector
-					.entrySet()) {
-				row.put(entry.getKey(), entry.getValue());
-				// documentTermMatrix.set(doc,
-				// documentTermMatrix.get(doc).put(entry.getKey(),
-				// entry.getValue()))
-			}
-			documentTermMatrix.set(doc, row);
-		}
-
-		return documentTermMatrix;
-	}
-
-	// FIXME - not yet implemented
+	//FIXME - not yet implemented
 	public ArrayList<ArrayList<Double>> getSVD() {
 		ArrayList<ArrayList<Double>> svd = new ArrayList<ArrayList<Double>>();
 		return svd;
 	}
-
+	
 	public int getAuthorID() {
 		return authorID;
 	}
@@ -658,9 +290,7 @@ public class Author {
 		this.papers = papers;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -669,9 +299,7 @@ public class Author {
 				+ papers + "]";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -682,9 +310,7 @@ public class Author {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -700,5 +326,7 @@ public class Author {
 			return false;
 		return true;
 	}
+	
+	
 
 }
