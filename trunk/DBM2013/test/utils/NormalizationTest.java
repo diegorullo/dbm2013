@@ -418,10 +418,9 @@ public class NormalizationTest {
 		listaPaperNelCorpus.add(paper2);
 		listaPaperNelCorpus.add(paper3);
 
-		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,
-				listaPaperNelCorpus, listaPaperNelCorpus.size());
+//		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		TreeMap<String, Double> vettore = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus);
+		TreeMap<String, Double> vettore = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector();
 //		System.out.println("ciao: " + vettore);
 		double epsilon = (double)1/1000000000;
 		assertTrue(Normalization.isNormalized(vettore, epsilon));
@@ -544,7 +543,7 @@ public class NormalizationTest {
 
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
-		Map<String, Double> tfidf2VectorStefania = dummyCorpus.getTFIDF2Vector(authorStefania);
+		Map<String, Double> tfidf2VectorStefania = authorStefania.getTFIDF2Vector(dummyCorpus);
 		double epsilon = (double)1/1000000000;
 		assertTrue(Normalization.isNormalized(tfidf2VectorStefania, epsilon));
 	}
@@ -666,7 +665,7 @@ public class NormalizationTest {
 
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
-		Map<String, Double> pfVectorStefania = dummyCorpus.getPFVector(authorStefania);
+		Map<String, Double> pfVectorStefania = authorStefania.getPFVector(dummyCorpus);
 		double epsilon = (double)1/1000000000;
 		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));
 	}

@@ -15,11 +15,13 @@ import dblp.Paper;
 
 public class DBEngine {
 	private static Connection conn;
-	private Statement stmt;
+	private static Statement stmt;
 	private static final String dbAddress = "jdbc:mysql://localhost:3306/dblp";
 	private static final String username = "root";
 	private static final String password = "root";
-
+	
+	private static DBEngine dbe;
+	
 	/**
 	 * inizializza la connessione al db
 	 */
@@ -34,6 +36,34 @@ public class DBEngine {
 	public void shutdown() throws SQLException{
 		if(conn!=null)
 			conn.close();
+	}	
+	
+	public DBEngine() {	
+		dbe = this;
+		try {
+			dbe.init();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Errore DB - init [Factory]");
+			e.printStackTrace();
+		}
+	}
+	
+	protected void finalize() {
+		try {
+			dbe.shutdown();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Errore DB - shutdown [Factory]");
+			e.printStackTrace();
+		}
+	}
+	
+	public static DBEngine getDBEngine() {
+		if(dbe == null) {
+			dbe = new DBEngine();
+		}
+		return dbe;
 	}
 	
 	/**
@@ -142,7 +172,9 @@ public class DBEngine {
 		resC.next();
 		cardinality = resC.getInt(1);
 		
-		Corpus c = new Corpus(authors, papers, cardinality);		
-		return c;
+		Corpus corpus = new Corpus(authors, papers, cardinality);
+		
+		return corpus;
 	}
+	
 }

@@ -13,23 +13,21 @@ import org.junit.Test;
 
 import dblp.Author;
 import dblp.Corpus;
+import dblp.Factory;
 import dblp.Paper;
 
 public class MatlabEngineTest {
 	
 	private final static boolean DEBUG = true;
-	
-	static DBEngine db = new DBEngine();
 	static MatlabEngine me = new MatlabEngine();
+	
 	@BeforeClass
 	public static void testSetup() throws SQLException, MatlabConnectionException, MatlabInvocationException {
-		db.init();
 		me.init();
 	}
 
 	@AfterClass
 	public static void testCleanup() throws SQLException, MatlabInvocationException {
-		db.shutdown();
 		me.shutdown();
 	}
 	
@@ -105,10 +103,10 @@ public class MatlabEngineTest {
 		listaPaperNelCorpus.add(paper1);
 		listaPaperNelCorpus.add(paper2);
 		listaPaperNelCorpus.add(paper3);
-
-		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
-		ArrayList<TreeMap<String, Double>> documentTermMatrix = dummyCorpus.getDocumentTermMatrix(authorStefania);
+		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
+
+		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania.getDocumentTermMatrix(dummyCorpus);
 		if(DEBUG) {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/Stefania.csv");
 		}
@@ -122,11 +120,13 @@ public class MatlabEngineTest {
 	@Test
 	public void evalTestSVD() throws Exception {
 		if(DEBUG) {
-			Corpus dblp = db.newCorpus();
-			Author testAuthor = dblp.getAuthorByID(2390072);
+			
+			Factory f = new Factory();
+        	Corpus c = f.getCorpus();
+			Author testAuthor = c.getAuthorByID(2390072);
 			
 			String fileName = testAuthor.getAuthorID() + ".csv";
-			ArrayList<TreeMap<String, Double>> documentTermMatrix = dblp.getDocumentTermMatrix(testAuthor);
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(c);
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 			//System.out.println("Scritto su file: " + fileName);

@@ -7,24 +7,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import utils.DBEngine;
 
 public class PaperTestAdvanced {
 	
-	static DBEngine db = new DBEngine();
-	@BeforeClass
-	public static void testSetup() throws SQLException {
-		db.init();
-	}
+	private final static boolean DEBUG = true;
 
-	@AfterClass
-	public static void testCleanup() throws SQLException {
-		db.shutdown();
-	}
+
 	
 	/**
 	 * Versione dummy test del metodo getTF:
@@ -84,8 +73,9 @@ public class PaperTestAdvanced {
 	 */
 	@Test
 	public void testGetTFAUno() throws SQLException, IOException {
-		//Paper paper = db.newPaper(1279177);
-		Paper paper = db.newPaper(943390);
+		Factory f = new Factory();
+		//Paper paper = f.newPaper(1279177);
+		Paper paper = f.newPaper(943390);
 		double uno = 0.0;
 		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 		for(Map.Entry<String, Integer> k : ks.entrySet()) {
@@ -94,7 +84,7 @@ public class PaperTestAdvanced {
 		
 		double epsilon = (double)1/1000000000;
 		assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, epsilon);
-	}
+	}	
 	
 	/**
 	 * Test del metodo getTF:
@@ -106,21 +96,24 @@ public class PaperTestAdvanced {
 	 */
 	@Test
 	public void testGetTFAUnoTuttiIPaper() throws SQLException, IOException {
-		Corpus dblp = db.newCorpus();
-		for (Paper paper : dblp.getPapers()) {
-			double uno = 0.0;
-			Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
-			for(Map.Entry<String, Integer> k : ks.entrySet()) {
-				uno += paper.getTF(k.getKey());
+		if (DEBUG) {
+			Factory f = new Factory();
+			Corpus dblp = f.getCorpus();
+			for (Paper paper : dblp.getPapers()) {
+				double uno = 0.0;
+				Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
+				for (Map.Entry<String, Integer> k : ks.entrySet()) {
+					uno += paper.getTF(k.getKey());
+				}
+
+				double epsilon = (double) 1 / 1000000000;
+				assertEquals("La somma dei tf per le varie keyword vale 1.",
+						1.0, uno, epsilon);
+
+				paper.getTFVector();
 			}
-			
-			double epsilon = (double)1/1000000000;
-			assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, epsilon);
-			
-			paper.getTFVector();
 		}
 	}
-	
 	
 	/**
 	 * Test del metodo getTFVector:
@@ -132,7 +125,8 @@ public class PaperTestAdvanced {
 	 */
 	@Test
 	public void testGetTFVectorAUno() throws SQLException, IOException {
-		Paper paper = db.newPaper(943390);
+		Factory f = new Factory();
+		Paper paper = f.newPaper(943390);
 		double uno = 0.0;
 		//FIXME: da implementare
 		Map<String, Double> tfv = paper.getTFVector();
@@ -143,4 +137,5 @@ public class PaperTestAdvanced {
 		double epsilon = (double)1/1000000000;
 		assertEquals("La somma dei tf per le varie keyword vale 1.", 1.0, uno, epsilon);
 	}
+
 }

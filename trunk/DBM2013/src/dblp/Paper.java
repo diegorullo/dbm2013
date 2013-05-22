@@ -179,18 +179,18 @@ public class Paper {
 	 * Calcola il tfidf di una keyword su tutto il corpus.
 	 * 
 	 * @param keyword
-	 * @param c
+	 * @param corpus
 	 * @return tfidf d
 	 * @throws Exception
 	 */
-	public double getTFIDF(String keyword, Corpus c) throws Exception {
+	public double getTFIDF(String keyword, Corpus corpus) throws Exception {
 		
 		double tf = 0;
 		double idf = 0;
 		double tfidf = 0;
 				
 		tf = this.getTF(keyword);
-		idf = c.getIDF(keyword);
+		idf = corpus.getIDF(keyword);
 		tfidf = tf * idf;
 		
 		return tfidf; 
@@ -223,9 +223,10 @@ public class Paper {
 	 * Restituisce il keyword vector sotto forma di sequenza di coppie <keyword,weight>
 	 * rispetto al modello di pesi tfidf.
 	 * 
+	 * @param corpus
 	 * @return keywordVector pesato in base al tfidf
 	 */
-	public Map<String, Double> getTFIDFVector(Corpus c) throws Exception {
+	public Map<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
 		
 		HashMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFIDFVector = new TreeMap<String, Double>();
@@ -234,7 +235,7 @@ public class Paper {
 		
 		for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 			key = k.getKey();
-			tfidf = this.getTFIDF(key, c);
+			tfidf = this.getTFIDF(key, corpus);
 			TFIDFVector.put(key, tfidf);
 		}
 		
