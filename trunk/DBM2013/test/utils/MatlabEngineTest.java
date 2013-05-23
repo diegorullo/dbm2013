@@ -132,7 +132,7 @@ public class MatlabEngineTest {
 			//System.out.println("Scritto su file: " + fileName);
 			
 			me.eval("svd_IR",fileName);
-			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + testAuthor.getAuthorID() + ".csv");
+			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
 
 			//System.out.println("Letta matrice V da file:");
 			Printer.printMatrix(matrix_v);
