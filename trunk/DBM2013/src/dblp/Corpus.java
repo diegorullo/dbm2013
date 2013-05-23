@@ -22,14 +22,31 @@ public class Corpus {
 	}
 	
 	/**
+	 * Restituisce l'oggetto paper associato all'id dato.
+	 * 
+	 * @param id
+	 * @return oggetto Paper associato all'id dato
+	 * @throws Exception
+	 */
+	public Paper getPaperByID(int id) throws Exception {
+		for (Paper p : this.papers) {
+			if (id==p.getPaperID()) {
+				return p;
+			}
+		}
+		//FIXME: sistemare con eccezione appropriata
+		throw new Exception();
+	}
+	
+	/**
 	 * Restituisce l'oggetto Author associato all'id dato.
 	 * 
 	 * @param id
-	 * @return oggetto Author associato all`id dato
+	 * @return oggetto Author associato all'id dato
 	 * @throws Exception
 	 */
 	public Author getAuthorByID(int id) throws Exception {
-		for (Author a : authors) {
+		for (Author a : this.authors) {
 			if (id==a.getAuthorID()) {
 				return a;
 			}
@@ -46,7 +63,7 @@ public class Corpus {
 	 * @throws NameNotFoundException
 	 */
 	public Author getAuthorByName(String name) throws NameNotFoundException {
-		for (Author a : authors) {
+		for (Author a : this.authors) {
 			if (name.equals(a.getName())) {
 				return a;
 			}

@@ -1035,12 +1035,12 @@ public class CorpusTest {
 	public void testGetDocumentTermMatrix() throws Exception {
 		if (DEBUG) {
 			Factory f = new Factory();
-			Corpus c = f.getCorpus();
-			Author testAuthor = c.getAuthorByID(2390072);
+			Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(2390072);
 
 			String fileName = testAuthor.getAuthorID() + ".csv";
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor
-					.getDocumentTermMatrix(c);
+					.getDocumentTermMatrix(dblp);
 
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"
 					+ fileName);

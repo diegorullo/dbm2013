@@ -8,29 +8,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import utils.DBEngine;
 
 public class PaperTest {
 
-	static DBEngine db = new DBEngine();
-	@BeforeClass
-	public static void testSetup() throws SQLException {
-		db.init();
-	}
-
-	@AfterClass
-	public static void testCleanup() throws SQLException {
-		db.shutdown();
-	}
-
 	@Test
-	public void testGetKeywordSetDummy() throws SQLException, IOException {		
+	public void testGetKeywordSetOnePaper() throws Exception {
+		Factory f = new Factory();
+		Corpus dblp = f.getCorpus();
 		int paperid = 943390;
-		Paper paper = db.newPaper(paperid);
+		Paper paper = dblp.getPaperByID(paperid);
 		ArrayList<String> ks = paper.getKeywordSet();
 		//System.out.println(ks);
 		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);		
@@ -41,14 +28,14 @@ public class PaperTest {
 	 * verifica la mera creazione dell'HashMap di keyword.
 	 * In realtà, se il paper ha titolo ed abstract nullo, 
 	 * il test fallisce: l'HashMap viene creato ma rimane nullo.
-	 * 
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGetKeywordSetWithOccurrencesDummy() throws SQLException, IOException {		
+	public void testGetKeywordSetWithOccurrencesOnePaper() throws Exception {
+		Factory f = new Factory();
+		Corpus dblp = f.getCorpus();
 		int paperid = 943390;
-		Paper paper = db.newPaper(paperid);
+		Paper paper = dblp.getPaperByID(paperid);
 		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);		
 	}
