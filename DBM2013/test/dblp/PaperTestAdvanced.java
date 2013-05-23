@@ -12,8 +12,6 @@ import org.junit.Test;
 public class PaperTestAdvanced {
 	
 	private final static boolean DEBUG = true;
-
-
 	
 	/**
 	 * Versione dummy test del metodo getTF:

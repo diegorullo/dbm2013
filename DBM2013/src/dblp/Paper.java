@@ -304,12 +304,12 @@ public class Paper {
 	 * Restituisce il vettore dei tfidf, pesati secondo l`età degli articoli.
 	 * 
 	 * @param weight    
-	 * @param c         Corpus degli articoli
+	 * @param corpus         Corpus degli articoli
 	 * @return vettore dei tfidf pesati
 	 * @throws Exception
 	 */
-	public Map<String, Double> getWeightedTFIDFVector(double weight, Corpus c) throws Exception {
-		Map<String, Double> TFIDFVector = this.getTFIDFVector(c);
+	public Map<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
+		Map<String, Double> TFIDFVector = this.getTFIDFVector(corpus);
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 		String key;
 		Double wtfidf;
