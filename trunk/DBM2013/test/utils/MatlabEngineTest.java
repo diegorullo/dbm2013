@@ -118,7 +118,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void evalTestSVD() throws Exception {
+	public void evalTestSVDOn2390072() throws Exception {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -138,4 +138,29 @@ public class MatlabEngineTest {
 			Printer.printMatrix(matrix_v);
 		}
 	}
+	
+	@Test
+	public void evalTestPCAOn2390072() throws Exception {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(2390072);
+			
+			//System.out.println("Numero di keyword di " + testAuthor.getAuthorID() + "= " + testAuthor.getKeywordSet().size());
+			
+			String fileName = testAuthor.getAuthorID() + ".csv";
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
+			
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
+			//System.out.println("Scritto su file: " + fileName);
+			
+			me.eval("pca_IR",fileName);
+			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+
+			//System.out.println("Letta matrice V da file:");
+			Printer.printMatrix(matrix_v);
+		}
+	}
+	
 }
