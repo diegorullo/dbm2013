@@ -134,7 +134,7 @@ public class MatlabEngineTest {
 			me.eval("svd_IR",fileName);
 			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
 
-			//System.out.println("Letta matrice V da file:");
+			System.out.println("Letta matrice V da file:");
 			Printer.printMatrix(matrix_v);
 		}
 	}
@@ -156,11 +156,40 @@ public class MatlabEngineTest {
 			//System.out.println("Scritto su file: " + fileName);
 			
 			me.eval("pca_IR",fileName);
-			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+			ArrayList<ArrayList<Double>> score = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
 
-			//System.out.println("Letta matrice V da file:");
+			System.out.println("Letta matrice score da file:");
+			Printer.printMatrix(score);
+		}
+	}
+	
+	@Test
+	public void testGetSVDOn2390072() throws Exception {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(2390072);
+		
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);			
+
+			System.out.println("Letta matrice V da file:");
 			Printer.printMatrix(matrix_v);
 		}
 	}
 	
+	@Test
+	public void testGetPCAOn2390072() throws Exception {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(2390072);
+		
+			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);			
+
+			System.out.println("Letta matrice score da file:");
+			Printer.printMatrix(score);
+		}
+	}
 }

@@ -577,8 +577,7 @@ public class Author {
 	/**
 	 * Restituisce la matrice document-term relativa all'autore selezionato
 	 * 
-	 * @param a
-	 *            autore
+	 * @param a autore
 	 * @return ArrayList<TreeMap<String, Double>> matrice document-term
 	 * @throws Exception
 	 */
@@ -634,16 +633,17 @@ public class Author {
 	 * @return matrice SVD per l'autore corrente
 	 * @throws Exception
 	 */
-	public ArrayList<ArrayList<Double>> getSVD(ArrayList<TreeMap<String, Double>> documentTermMatrix) throws Exception {
+	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus) throws Exception {
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File("../data/" + fileName);
 		MatlabEngine me = new MatlabEngine();
-		me.init();
+		me.init();		
 		if (!csvFile.isFile()) {
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"	+ fileName);
 		}
 		me.eval("svd_IR", fileName);
-		ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+		ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile("../data/V_" + fileName);
 		return svd;
 	}
 
@@ -653,16 +653,18 @@ public class Author {
 	 * @return matrice PCA per l'autore corrente
 	 * @throws Exception
 	 */
-	public ArrayList<ArrayList<Double>> getPCA(ArrayList<TreeMap<String, Double>> documentTermMatrix) throws Exception {
+	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws Exception {
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File("../data/" + fileName);
 		MatlabEngine me = new MatlabEngine();
 		me.init();
 		if (!csvFile.isFile()) {
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"	+ fileName);
 		}
 		me.eval("pca_IR", fileName);
-		ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+		//FIXME: controllare che la matrice corretta sia "score_..."
+		ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/score_" + fileName);
 		return pca;
 	}
 
