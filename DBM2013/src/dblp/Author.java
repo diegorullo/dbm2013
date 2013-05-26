@@ -254,7 +254,7 @@ public class Author {
 
 	/**
 	 * Calcola il tf della keyword basandosi sull'insieme di tutti gli articoli
-	 * scritti dallautore dato.
+	 * scritti dall' autore dato.
 	 * 
 	 * @param keyword
 	 * @return tf della keyword basandosi sugli articoli dell'autore
@@ -273,8 +273,7 @@ public class Author {
 				n += keywordSet.get(keyword);
 			}
 			if (keywordSet != null) {
-				K += p.getKeywords().size() + p.getTitlesKeywords().size()
-						* titleWeight;
+				K += p.getKeywords().size() + p.getTitlesKeywords().size() * titleWeight;
 			}
 		}
 		tf = (double) n / K;
@@ -668,6 +667,72 @@ public class Author {
 		return pca;
 	}
 
+	/**
+	 *   similarity(A,B) = cos θ = (A ⋅ B) / (|A| * |B|)
+	 *   dove:
+	 *     A ⋅ B = Σ Ai * Bi
+	 *    |A| = sqrt(Σ Ai^2)
+	 *    |B| = sqrt(Σ Bi^2)
+	 *    per i = [0..n-1], dove n = numero di termini nella term-document matrix.
+	 * @return similarita' coseno tra due documenti
+	 * @throws Exception 
+	 */
+	public double cosenSimilarity(Corpus corpus, Author b_Author) throws Exception
+	{
+		double scalarProd = 0.0;
+		double a_magnitudo = 0.0;
+		double b_magnitudo = 0.0;
+		double cosSim = 0.0;
+		
+		ArrayList<TreeMap<String, Double>> a_Matrix = this.getDocumentTermMatrix(corpus);
+		ArrayList<TreeMap<String, Double>> b_Matrix = b_Author.getDocumentTermMatrix(corpus);
+		
+		ArrayList<String> a_keywordSet = this.getKeywordSet();
+		ArrayList<String> b_keywordSet = b_Author.getKeywordSet();
+		ArrayList<String> restrictTerm = new ArrayList<String>();
+		
+		for(String term : a_keywordSet)
+		{
+			if(b_keywordSet.contains(term)) restrictTerm.add(term); 
+		}
+				
+		for (TreeMap<String, Double> a_doc : a_Matrix) 
+		{
+			for (TreeMap<String, Double> b_doc : b_Matrix)
+			{
+				for(String term : restrictTerm)
+				{
+					// A ⋅ B = Σ Ai * Bi
+					scalarProd += (a_doc.get(term) * b_doc.get(term));
+				}
+				
+				a_magnitudo = doc_magnitudo(a_doc);
+				b_magnitudo = doc_magnitudo(b_doc);				
+			} 
+			cosSim = scalarProd / (a_magnitudo * b_magnitudo);
+		}
+		
+		return cosSim;
+	}
+	
+	/**
+	 * Calcola la magnitudo di un vettore come :  |A| = sqrt(Σ Ai^2)
+	 * @param doc il vettore dei termini pesati del documento
+	 * @return magnitudo di un vettore di termini pesati
+	 */
+	public double doc_magnitudo(TreeMap<String, Double> doc)
+	{
+		double magnitudo = 0.0;
+		for (Map.Entry<String, Double> term : doc.entrySet())
+		{
+			// |A| = sqrt(Σ Ai^2)
+			magnitudo += Math.pow(term.getValue(),2);
+		}
+
+		return Math.sqrt(magnitudo);
+	}
+	
+	
 	public int getAuthorID() {
 		return authorID;
 	}
