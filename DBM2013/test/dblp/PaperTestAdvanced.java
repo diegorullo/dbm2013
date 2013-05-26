@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
 import org.junit.Test;
 
 public class PaperTestAdvanced {
@@ -68,9 +71,11 @@ public class PaperTestAdvanced {
 	 * 
 	 * @throws SQLException
 	 * @throws IOException
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
 	 */
 	@Test
-	public void testGetTFAUno() throws SQLException, IOException {
+	public void testGetTFAUno() throws SQLException, IOException, MatlabConnectionException, MatlabInvocationException {
 		Factory f = new Factory();
 		//Paper paper = f.newPaper(1279177);
 		Paper paper = f.newPaper(943390);
@@ -91,9 +96,11 @@ public class PaperTestAdvanced {
 	 * 
 	 * @throws SQLException
 	 * @throws IOException
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
 	 */
 	@Test
-	public void testGetTFAUnoTuttiIPaper() throws SQLException, IOException {
+	public void testGetTFAUnoTuttiIPaper() throws SQLException, IOException, MatlabConnectionException, MatlabInvocationException {
 		if (DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
@@ -120,9 +127,11 @@ public class PaperTestAdvanced {
 	 * 
 	 * @throws SQLException
 	 * @throws IOException
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
 	 */
 	@Test
-	public void testGetTFVectorAUno() throws SQLException, IOException {
+	public void testGetTFVectorAUno() throws SQLException, IOException, MatlabConnectionException, MatlabInvocationException {
 		Factory f = new Factory();
 		Paper paper = f.newPaper(943390);
 		double uno = 0.0;

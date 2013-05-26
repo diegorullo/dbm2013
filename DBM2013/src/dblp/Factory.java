@@ -3,19 +3,25 @@ package dblp;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
 import utils.DBEngine;
 
 public class Factory {
-	private static DBEngine db = DBEngine.getDBEngine();
+	private static DBEngine dbe;
 	private static Corpus dblp;
+	
+	public Factory() throws SQLException, MatlabConnectionException, MatlabInvocationException {
+		dbe = getDBEngine();
+	}
 		
 	public Paper newPaper(int paperID) throws SQLException, IOException {		
-		Paper p = db.newPaper(paperID);
+		Paper p = dbe.newPaper(paperID);
 		return p;
 	}
 	
 	public Author newAuthor(int personID) throws SQLException, IOException {
-		Author a = db.newAuthor(personID);
+		Author a = dbe.newAuthor(personID);
 		return a;
 	}
 	
@@ -27,9 +33,16 @@ public class Factory {
 	 */
 	public Corpus getCorpus() throws SQLException, IOException {
 		if(dblp == null) {
-			dblp = db.newCorpus();
+			dblp = dbe.newCorpus();
 		}
 		return dblp;
 	}
-
+	
+	public DBEngine getDBEngine() throws SQLException {
+		if(dbe == null) {
+			dbe = DBEngine.getDBEngine();
+		}
+		return dbe;
+	}
+	
 }

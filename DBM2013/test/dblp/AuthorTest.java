@@ -1,27 +1,12 @@
 package dblp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import utils.DBEngine;
-
 public class AuthorTest {
-	static DBEngine db = new DBEngine();
-	@BeforeClass
-	public static void testSetup() throws SQLException {
-		db.init();
-	}
-
-	@AfterClass
-	public static void testCleanup() throws SQLException {
-		db.shutdown();
-	}
 	
 	@Test
 	public void testAuthor() {
