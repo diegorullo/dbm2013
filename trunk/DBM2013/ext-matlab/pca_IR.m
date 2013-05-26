@@ -1,4 +1,5 @@
 function pca_IR(filename)
+%pwd
 functionpath = strcat('../data/',filename);
 X = csvread(functionpath);
 [pc,score,latent] = princomp(X);

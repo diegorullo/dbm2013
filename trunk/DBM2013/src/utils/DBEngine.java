@@ -26,8 +26,9 @@ public class DBEngine {
 	 * inizializza la connessione al db
 	 */
 	public void init() throws SQLException {
-		if (conn == null)
+		if (conn == null) {
 			conn = DriverManager.getConnection(dbAddress, username, password);
+		}
 	}
 	
 	/**
@@ -38,28 +39,16 @@ public class DBEngine {
 			conn.close();
 	}	
 	
-	public DBEngine() {	
+	private DBEngine() throws SQLException {	
 		dbe = this;
-		try {
-			dbe.init();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Errore DB - init [Factory]");
-			e.printStackTrace();
-		}
+		dbe.init();
 	}
 	
-	protected void finalize() {
-		try {
-			dbe.shutdown();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Errore DB - shutdown [Factory]");
-			e.printStackTrace();
-		}
+	protected void finalize() throws SQLException {
+		dbe.shutdown();
 	}
 	
-	public static DBEngine getDBEngine() {
+	public static DBEngine getDBEngine() throws SQLException {
 		if(dbe == null) {
 			dbe = new DBEngine();
 		}

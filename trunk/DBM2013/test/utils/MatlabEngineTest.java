@@ -1,14 +1,8 @@
 package utils;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-import matlabcontrol.MatlabConnectionException;
-import matlabcontrol.MatlabInvocationException;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dblp.Author;
@@ -19,17 +13,6 @@ import dblp.Paper;
 public class MatlabEngineTest {
 	
 	private final static boolean DEBUG = true;
-	static MatlabEngine me = new MatlabEngine();
-	
-	@BeforeClass
-	public static void testSetup() throws SQLException, MatlabConnectionException, MatlabInvocationException {
-		me.init();
-	}
-
-	@AfterClass
-	public static void testCleanup() throws SQLException, MatlabInvocationException {
-		me.shutdown();
-	}
 	
 	@Test
 	public void evalTestDummy() throws Exception {
@@ -105,24 +88,23 @@ public class MatlabEngineTest {
 		listaPaperNelCorpus.add(paper3);
 		
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
+		MatlabEngine mle = MatlabEngine.getMatlabEngine();
 
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania.getDocumentTermMatrix(dummyCorpus);
 		if(DEBUG) {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/Stefania.csv");
-		}
-		
-		if(DEBUG) {
-			me.eval("svd_IR","Stefania.csv");
-			me.eval("pca_IR","Stefania.csv");
+			mle.eval("svd_IR","Stefania.csv");
+			mle.eval("pca_IR","Stefania.csv");
 		}
 	}
 	
 	@Test
 	public void evalTestSVDOn2390072() throws Exception {
 		if(DEBUG) {
-			
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
+        	MatlabEngine mle = MatlabEngine.getMatlabEngine();
+        	
 			Author testAuthor = dblp.getAuthorByID(2390072);
 			
 			String fileName = testAuthor.getAuthorID() + ".csv";
@@ -131,7 +113,7 @@ public class MatlabEngineTest {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 			//System.out.println("Scritto su file: " + fileName);
 			
-			me.eval("svd_IR",fileName);
+			mle.eval("svd_IR",fileName);
 			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
 
 			System.out.println("Letta matrice V da file:");
@@ -141,10 +123,11 @@ public class MatlabEngineTest {
 	
 	@Test
 	public void evalTestPCAOn2390072() throws Exception {
-		if(DEBUG) {
-			
+		if(DEBUG) {			
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
+        	MatlabEngine mle = MatlabEngine.getMatlabEngine();
+        	
 			Author testAuthor = dblp.getAuthorByID(2390072);
 			
 			//System.out.println("Numero di keyword di " + testAuthor.getAuthorID() + "= " + testAuthor.getKeywordSet().size());
@@ -155,7 +138,7 @@ public class MatlabEngineTest {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 			//System.out.println("Scritto su file: " + fileName);
 			
-			me.eval("pca_IR",fileName);
+			mle.eval("pca_IR",fileName);
 			ArrayList<ArrayList<Double>> score = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
 
 			System.out.println("Letta matrice score da file:");

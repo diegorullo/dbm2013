@@ -3,17 +3,13 @@ package dblp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import utils.DBEngine;
 import utils.IO;
 import utils.Normalization;
 import utils.Printer;
@@ -21,18 +17,6 @@ import utils.Printer;
 public class CorpusTest {
 
 	private final static boolean DEBUG = false;
-
-	static DBEngine db = new DBEngine();
-
-	@BeforeClass
-	public static void testSetup() throws SQLException {
-		db.init();
-	}
-
-	@AfterClass
-	public static void testCleanup() throws SQLException {
-		db.shutdown();
-	}
 
 	@Test
 	public void testCorpus() {
