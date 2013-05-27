@@ -1,7 +1,5 @@
 package dblp;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -9,7 +7,6 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import utils.Normalization;
 import utils.Similarity;
 
 public class AuthorTestAdvanced {
