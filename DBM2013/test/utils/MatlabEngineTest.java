@@ -114,10 +114,11 @@ public class MatlabEngineTest {
 			//System.out.println("Scritto su file: " + fileName);
 			
 			mle.eval("svd_IR",fileName);
+			@SuppressWarnings("unused")
 			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
 
-			System.out.println("Letta matrice V da file:");
-			Printer.printMatrix(matrix_v);
+//			System.out.println("Letta matrice V da file:");
+//			Printer.printMatrix(matrix_v);
 		}
 	}
 	
@@ -139,10 +140,11 @@ public class MatlabEngineTest {
 			//System.out.println("Scritto su file: " + fileName);
 			
 			mle.eval("pca_IR",fileName);
+			@SuppressWarnings("unused")
 			ArrayList<ArrayList<Double>> score = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
 
-			System.out.println("Letta matrice score da file:");
-			Printer.printMatrix(score);
+//			System.out.println("Letta matrice score da file:");
+//			Printer.printMatrix(score);
 		}
 	}
 	
@@ -154,10 +156,11 @@ public class MatlabEngineTest {
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(2390072);
 		
+			@SuppressWarnings("unused")
 			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);			
 
-			System.out.println("Letta matrice V da file:");
-			Printer.printMatrix(matrix_v);
+//			System.out.println("Letta matrice V da file:");
+//			Printer.printMatrix(matrix_v);
 		}
 	}
 	
@@ -169,10 +172,11 @@ public class MatlabEngineTest {
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(2390072);
 		
+			@SuppressWarnings("unused")
 			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);			
 
-			System.out.println("Letta matrice score da file:");
-			Printer.printMatrix(score);
+//			System.out.println("Letta matrice score da file:");
+//			Printer.printMatrix(score);
 		}
 	}
 }

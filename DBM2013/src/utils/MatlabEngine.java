@@ -22,7 +22,7 @@ public class MatlabEngine {
 		if (options == null) {
 			String user_dir = System.getProperty("user.dir");
 			File matlabStartingDirectory = new File(user_dir);
-			System.out.println("user_dir: " + user_dir);
+			//System.out.println("user_dir: " + user_dir);
 			options = new MatlabProxyFactoryOptions.Builder().
 					setHidden(true).
 					setMatlabStartingDirectory(matlabStartingDirectory).
