@@ -667,6 +667,7 @@ public class NormalizationTest {
 		
 		Map<String, Double> pfVectorStefania = authorStefania.getPFVector(dummyCorpus);
 		double epsilon = (double)1/1000000000;
+		System.out.println(pfVectorStefania);
 		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));
 	}
 	

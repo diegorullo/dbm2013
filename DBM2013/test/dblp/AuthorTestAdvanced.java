@@ -1,8 +1,11 @@
 package dblp;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import org.junit.Test;
+
+import utils.Similarity;
 
 public class AuthorTestAdvanced {
 
@@ -160,10 +163,16 @@ public class AuthorTestAdvanced {
 
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
-		System.out.println("Similarità Stefania-Stefania: " + authorStefania.getCosineSimilarity(authorStefania, dummyCorpus));
-		System.out.println("Similarità Luca-Luca: " + authorLuca.getCosineSimilarity(authorLuca, dummyCorpus));
-		System.out.println("Similarità Stefania-Luca: " + authorStefania.getCosineSimilarity(authorLuca, dummyCorpus));
-		System.out.println("Similarità Luca-Stefania: " + authorLuca.getCosineSimilarity(authorStefania, dummyCorpus));
+		
+		System.out.println("Similarità Stefania-Stefania: " + 
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector()));
+		System.out.println("Similarità Luca-Luca: " + 
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector()));
+		System.out.println("Similarità Stefania-Luca: " + 
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector()));
+		System.out.println("Similarità Luca-Stefania: " + 
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector()));
+		//System.out.println("Similarità Luca-Stefania: " + authorLuca.getCosineSimilarity(authorStefania, dummyCorpus));
 
 	} 
 	

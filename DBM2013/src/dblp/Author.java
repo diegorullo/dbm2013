@@ -358,7 +358,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME
-	public Map<String, Double> getTFIDF2Vector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> getTFIDF2Vector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
 
 		List<Paper> papers = this.getPapers();
@@ -374,7 +374,7 @@ public class Author {
 			}
 		}
 
-		Map<String, Double> normalizedTFIDF2Vector = Normalization
+		TreeMap<String, Double> normalizedTFIDF2Vector = Normalization
 				.normalizeTreeMap(TFIDF2Vector);
 
 		return normalizedTFIDF2Vector;
@@ -551,7 +551,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME
-	public Map<String, Double> getPFVector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> getPFVector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
 
 		List<Paper> papers = this.getPapers();
@@ -567,7 +567,7 @@ public class Author {
 			}
 		}
 
-		Map<String, Double> normalizedPFVector = Normalization
+		TreeMap<String, Double> normalizedPFVector = Normalization
 				.normalizeTreeMap(PFVector);
 
 		return normalizedPFVector;
@@ -666,73 +666,6 @@ public class Author {
 		ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/score_" + fileName);
 		return pca;
 	}
-
-	/**
-	 *   similarity(A,B) = cos θ = (A ⋅ B) / (|A| * |B|)
-	 *   dove:
-	 *     A ⋅ B = Σ Ai * Bi
-	 *    |A| = sqrt(Σ Ai^2)
-	 *    |B| = sqrt(Σ Bi^2)
-	 *    per i = [0..n-1], dove n = numero di termini nella term-document matrix.
-	 * @return similarita' coseno tra due documenti
-	 * @throws Exception 
-	 */
-	public double getCosineSimilarity(Author b_Author, Corpus corpus) throws Exception
-	{
-		double scalarProd = 0.0;
-		double a_magnitudo = 0.0;
-		double b_magnitudo = 0.0;
-		double cosSim = 0.0;
-		
-		ArrayList<TreeMap<String, Double>> a_Matrix = this.getDocumentTermMatrix(corpus);
-		ArrayList<TreeMap<String, Double>> b_Matrix = b_Author.getDocumentTermMatrix(corpus);
-		
-		ArrayList<String> a_keywordSet = this.getKeywordSet();
-		ArrayList<String> b_keywordSet = b_Author.getKeywordSet();
-		ArrayList<String> restrictTerm = new ArrayList<String>();
-		
-		for(String term : a_keywordSet)
-		{
-			if(b_keywordSet.contains(term)) restrictTerm.add(term); 
-		}
-				
-		for (TreeMap<String, Double> a_doc : a_Matrix) 
-		{
-			for (TreeMap<String, Double> b_doc : b_Matrix)
-			{
-				for(String term : restrictTerm)
-				{
-					// A ⋅ B = Σ Ai * Bi
-					scalarProd += (a_doc.get(term) * b_doc.get(term));
-				}
-				
-				a_magnitudo = doc_magnitudo(a_doc);
-				b_magnitudo = doc_magnitudo(b_doc);				
-			} 
-			cosSim = scalarProd / (a_magnitudo * b_magnitudo);
-		}
-		
-		return cosSim;
-	}
-	
-	/**
-	 * Calcola la magnitudo di un vettore come :  |A| = sqrt(Σ Ai^2)
-	 * @param doc il vettore dei termini pesati del documento
-	 * @return magnitudo di un vettore di termini pesati
-	 */
-	public double doc_magnitudo(TreeMap<String, Double> doc)
-	{
-		double magnitudo = 0.0;
-		for (Map.Entry<String, Double> term : doc.entrySet())
-		{
-			// |A| = sqrt(Σ Ai^2)
-			magnitudo += Math.pow(term.getValue(),2);
-		}
-
-		return Math.sqrt(magnitudo);
-	}
-	
-	
 	public int getAuthorID() {
 		return authorID;
 	}
