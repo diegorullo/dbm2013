@@ -418,9 +418,9 @@ public class NormalizationTest {
 		listaPaperNelCorpus.add(paper2);
 		listaPaperNelCorpus.add(paper3);
 
-//		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
+		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		TreeMap<String, Double> vettore = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector();
+		TreeMap<String, Double> vettore = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus);
 //		System.out.println("ciao: " + vettore);
 		double epsilon = (double)1/1000000000;
 		assertTrue(Normalization.isNormalized(vettore, epsilon));
