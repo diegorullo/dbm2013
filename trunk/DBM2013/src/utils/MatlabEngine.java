@@ -19,14 +19,16 @@ public class MatlabEngine {
 	 * @throws MatlabInvocationException
 	 */
 	public void init() throws MatlabConnectionException, MatlabInvocationException {
-//		if (options == null) {
-//			File matlabStartingDirectory = new File("D:\\eclipse_workspace\\DBM2013\\ext-matlab");
-//			options = new MatlabProxyFactoryOptions.Builder().
-//					setHidden(true).
-//					setMatlabStartingDirectory(matlabStartingDirectory).
-//					setUsePreviouslyControlledSession(true).
-//					build();
-//		}
+		if (options == null) {
+			String user_dir = System.getProperty("user.dir");
+			File matlabStartingDirectory = new File(user_dir);
+			System.out.println("user_dir: " + user_dir);
+			options = new MatlabProxyFactoryOptions.Builder().
+					setHidden(true).
+					setMatlabStartingDirectory(matlabStartingDirectory).
+					setUsePreviouslyControlledSession(true).
+					build();
+		}
 		if (factory == null) {
 //			factory = new MatlabProxyFactory(options);
 			factory = new MatlabProxyFactory();
@@ -46,7 +48,7 @@ public class MatlabEngine {
 		proxy.disconnect();
 	}
 	
-	public MatlabEngine() throws MatlabConnectionException, MatlabInvocationException {	
+	private MatlabEngine() throws MatlabConnectionException, MatlabInvocationException {	
 		mle = this;
 		mle.init();
 	}
