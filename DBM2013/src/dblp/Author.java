@@ -677,7 +677,7 @@ public class Author {
 	 * @return similarita' coseno tra due documenti
 	 * @throws Exception 
 	 */
-	public double cosenSimilarity(Corpus corpus, Author b_Author) throws Exception
+	public double getCosineSimilarity(Author b_Author, Corpus corpus) throws Exception
 	{
 		double scalarProd = 0.0;
 		double a_magnitudo = 0.0;
