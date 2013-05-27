@@ -165,13 +165,13 @@ public class AuthorTestAdvanced {
 		
 		
 		System.out.println("Similarità Stefania-Stefania: " + 
-		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector()));
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus)));
 		System.out.println("Similarità Luca-Luca: " + 
-		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector()));
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus)));
 		System.out.println("Similarità Stefania-Luca: " + 
-		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector()));
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus)));
 		System.out.println("Similarità Luca-Stefania: " + 
-		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector() ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector()));
+		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus)));
 		//System.out.println("Similarità Luca-Stefania: " + authorLuca.getCosineSimilarity(authorStefania, dummyCorpus));
 
 	} 
