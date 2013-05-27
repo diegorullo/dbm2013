@@ -45,17 +45,15 @@ public class Normalization {
 		double debug = 0.0;
 		
 		if(Normalization.isNormalized(treemap, epsilon)) {
-			System.out.println("La map in input è già normalizzata!");
+			//System.out.println("La map in input è già normalizzata!");
 			normalizedTreeMap = treemap;
 		}
 		else 
 		{
 			
 			for (Entry<String, Double> entry : treemap.entrySet()) {
-				//denominatore += entry.getValue();
-				denominatore += Math.pow(entry.getValue(), 2.0);
+				denominatore += entry.getValue();
 			}
-			denominatore = Math.sqrt(denominatore);
 			for (Entry<String, Double> entry : treemap.entrySet()) {
 				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
 				debug += entry.getValue() / denominatore;
