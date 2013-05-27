@@ -161,13 +161,8 @@ public class CorpusTest {
 		List<Paper> listaPaperCoautoriLuca = new ArrayList<Paper>();
 		listaPaperCoautoriLuca = authorLuca.getCoAuthorsPapers(dummyCorpus);
 
-		assertEquals("L'insieme degli articoli dei coautori di "
-				+ authorStefania.getName() + ".", 0,
-				listaPaperCoautoriStefania.size());
-		assertEquals(
-				"L'insieme degli articoli dei coautori di "
-						+ authorLuca.getName() + ".", 0,
-				listaPaperCoautoriLuca.size());
+		assertEquals("L'insieme degli articoli dei coautori di " + authorStefania.getName() + ".", 0, listaPaperCoautoriStefania.size());
+		assertEquals("L'insieme degli articoli dei coautori di " + authorLuca.getName() + ".", 0, listaPaperCoautoriLuca.size());
 	}
 
 	/**
