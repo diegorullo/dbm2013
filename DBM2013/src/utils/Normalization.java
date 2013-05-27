@@ -40,21 +40,22 @@ public class Normalization {
 		TreeMap<String, Double> normalizedTreeMap = new TreeMap<String, Double>();
 		
 		double epsilon = (double) 1/1000000;
-		
+		double denominatore = 0.0;
 		@SuppressWarnings("unused")
 		double debug = 0.0;
 		
 		if(Normalization.isNormalized(treemap, epsilon)) {
-			//System.out.println("La map in input è già normalizzata!");
+			System.out.println("La map in input è già normalizzata!");
 			normalizedTreeMap = treemap;
 		}
-		else {
-			double denominatore = 0.0;
+		else 
+		{
+			
 			for (Entry<String, Double> entry : treemap.entrySet()) {
-				denominatore += entry.getValue();
-				//denominatore += Math.pow(entry.getValue(), 2.0);
+				//denominatore += entry.getValue();
+				denominatore += Math.pow(entry.getValue(), 2.0);
 			}
-			//denominatore = Math.sqrt(denominatore);
+			denominatore = Math.sqrt(denominatore);
 			for (Entry<String, Double> entry : treemap.entrySet()) {
 				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
 				debug += entry.getValue() / denominatore;
@@ -65,7 +66,6 @@ public class Normalization {
 			//System.out.println("normalizedTreeMap.size(): " + normalizedTreeMap.size());
 		}
 
-		
 		return normalizedTreeMap;
 	}
 	
@@ -77,6 +77,7 @@ public class Normalization {
 		HashMap<String, Double> normalizedHashMap = new HashMap<String, Double>();
 		
 		double epsilon = (double) 1/1000000;
+		double denominatore = 0.0;
 		
 		@SuppressWarnings("unused")
 		double debug = 0.0;
@@ -86,10 +87,12 @@ public class Normalization {
 			normalizedHashMap = hashmap;
 		}
 		else {
-			double denominatore = 0.0;
+			
 			for (Entry<String, Double> entry : hashmap.entrySet()) {
-				denominatore += entry.getValue();
+				//denominatore += entry.getValue();
+				denominatore += Math.pow(entry.getValue(), 2.0);
 			}
+			denominatore = Math.sqrt(denominatore);
 			for (Entry<String, Double> entry : hashmap.entrySet()) {
 				normalizedHashMap.put(entry.getKey(), entry.getValue() / denominatore);
 				debug += entry.getValue() / denominatore;
