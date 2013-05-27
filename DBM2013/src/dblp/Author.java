@@ -584,7 +584,7 @@ public class Author {
 		String ioDirectory = startingDirectory + "/../data/";
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File(ioDirectory + fileName);
-		MatlabEngine me = new MatlabEngine();
+		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();		
 		if (!csvFile.isFile()) {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
@@ -604,7 +604,7 @@ public class Author {
 	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws Exception {
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File("../data/" + fileName);
-		MatlabEngine me = new MatlabEngine();
+		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();
 		if (!csvFile.isFile()) {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
