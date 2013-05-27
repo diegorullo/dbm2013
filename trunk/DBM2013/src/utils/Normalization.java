@@ -51,8 +51,9 @@ public class Normalization {
 		else {
 			double denominatore = 0.0;
 			for (Entry<String, Double> entry : treemap.entrySet()) {
-				denominatore += entry.getValue();
+				denominatore += Math.pow(entry.getValue(), 2.0);
 			}
+			denominatore = Math.sqrt(denominatore);
 			for (Entry<String, Double> entry : treemap.entrySet()) {
 				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
 				debug += entry.getValue() / denominatore;
