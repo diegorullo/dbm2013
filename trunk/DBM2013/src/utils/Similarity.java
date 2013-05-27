@@ -28,14 +28,18 @@ public class Similarity {
         double cosSim = 0.0;
 		double epsilon = 1.0/100000.0;
 		
+		System.out.println("a_vector_prima" + a_vector);
 		if(!Normalization.isNormalized(a_vector,epsilon)) 
 			a_vector = Normalization.normalizeTreeMap(a_vector);
-		
+		System.out.println("a_vector" + a_vector);
+		System.out.println("b_vector_prima" + b_vector);
 		if(!Normalization.isNormalized(b_vector,epsilon)) 
-			b_vector = Normalization.normalizeTreeMap(a_vector);
-			
+			b_vector = Normalization.normalizeTreeMap(b_vector);
+		System.out.println("b_vector" + b_vector);
 		a_magnitudo = doc_magnitudo(a_vector);
+		System.out.println("a_magnitudo" + a_magnitudo);
         b_magnitudo = doc_magnitudo(b_vector);  
+        System.out.println("b_magnitudo" + b_magnitudo);
         
 		for(Map.Entry<String, Double> term : a_vector.entrySet())
 		{
@@ -43,6 +47,7 @@ public class Similarity {
 			{	
 				// (prodotto scalare)
 				scalarProd += (a_vector.get(term.getKey()) * b_vector.get(term.getKey()));
+				System.out.println("scalarProd" + scalarProd);
 			}
 		}	
 		

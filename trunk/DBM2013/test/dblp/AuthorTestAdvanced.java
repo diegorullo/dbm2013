@@ -164,18 +164,17 @@ public class AuthorTestAdvanced {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
 		
-		System.out.println("Similarità Stefania-Stefania: " + 
-		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus)));
-		System.out.println("Similarità Luca-Luca: " + 
-		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus)));
-		System.out.println("Similarità Stefania-Luca: " + 
-		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus)));
+		//System.out.println("Similarità Stefania-Stefania: " + 
+		//Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus)));
+//		System.out.println("Similarità Luca-Luca: " + 
+//		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus)));
+//		System.out.println("Similarità Stefania-Luca: " + 
+//		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus)));
 		System.out.println("Similarità Luca-Stefania: " + 
 		Similarity.getCosineSimilarity((TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus) ,(TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus)));
 		//System.out.println("Similarità Luca-Stefania: " + authorLuca.getCosineSimilarity(authorStefania, dummyCorpus));
 
 	} 
-	
 
 	@Test
 	public void testEqualsObject() {
