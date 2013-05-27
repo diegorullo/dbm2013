@@ -81,11 +81,6 @@ public class Author {
 		 * usando l'età - tfrkey[r] = sum(peso[i]*tfkey[i])/sum(peso[i]);
 		 */
 
-		// for (Paper p : papers) {
-		// weight += p.getWeightBasedOnAge();
-		// }
-		// weightNormalizationFactor = 1 / weight;
-
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
 			wtfv = p.getWeightedTFVector(weight);
@@ -99,29 +94,9 @@ public class Author {
 			}
 		}
 
-		// FIXME
-		/*
-		 * escluso i for di normalizzazione e passato vettore al metodo
-		 * normalizaTreeMap implementato metodo
-		 * NormalizationTest.testNormalizedWeightedTFVectorDummy Esito negativo.
-		 */
-
-		Map<String, Double> normalizedWeightedTFVector = Normalization
-				.normalizeTreeMap(weightedTFVector);
+		Map<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
 		return normalizedWeightedTFVector;
-		//
-		// for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
-		// weightNormalizationFactor+=k.getValue();
-		// }
-		//
-		// Double testUno = 0.0;
-		// for(Map.Entry<String, Double> k : weightedTFVector.entrySet()) {
-		// weightedTFVector.put(k.getKey(),
-		// k.getValue()/weightNormalizationFactor);
-		// testUno+=k.getValue();
-		// }
-		//
-		// return weightedTFVector;
+
 	}
 
 	/**
@@ -134,7 +109,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sistemare l'eccezione
-	public Map<String, Double> getWeightedTFIDFVector() throws Exception {
+	public Map<String, Double> getWeightedTFIDFVector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 
 		Map<String, Double> wtfidfv;
@@ -145,34 +120,9 @@ public class Author {
 		 * usando l'età - tfidfrkey[r] = sum(peso[i]*tfidfkey[i])/sum(peso[i]);
 		 */
 
-		// for (Paper p : papers) {
-		// weight += p.getWeightBasedOnAge();
-		// }
-		// weightNormalizationFactor = 1 / weight;
-		//
-		// for (Paper p : papers) {
-		// weight = p.getWeightBasedOnAge();
-		// wtfidfv = (TreeMap<String, Double>) p.getWeightedTFIDFVector(weight,
-		// c);
-		// //FIXME
-		// //System.out.println("Il vettore wtfidfv del paper " + p.getPaperID()
-		// + " è normalizzato? " + Normalization.isNormalized(wtfidfv, 0.0));
-		// for(Map.Entry<String, Double> k : wtfidfv.entrySet()) {
-		// if (!weightedTFIDFVector.containsKey(k.getKey())) {
-		// weightedTFIDFVector.put(k.getKey(), k.getValue() *
-		// weightNormalizationFactor);
-		// }
-		// else {
-		// weightedTFIDFVector.put(k.getKey(),
-		// weightedTFIDFVector.get(k.getKey()) + k.getValue() *
-		// weightNormalizationFactor);
-		// }
-		// }
-		// }
-
 		for (Paper p : papers) {
 			weight = p.getWeightBasedOnAge();
-			wtfidfv = p.getWeightedTFVector(weight);
+			wtfidfv = p.getWeightedTFIDFVector(weight, corpus);
 			for (Map.Entry<String, Double> k : wtfidfv.entrySet()) {
 				if (!weightedTFIDFVector.containsKey(k.getKey())) {
 					weightedTFIDFVector.put(k.getKey(), k.getValue());
@@ -183,8 +133,7 @@ public class Author {
 			}
 		}
 
-		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization
-				.normalizeTreeMap(weightedTFIDFVector);
+		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalizeTreeMap(weightedTFIDFVector);
 
 		return normalizedWeightedTFIDFVector;
 	}
@@ -207,8 +156,7 @@ public class Author {
 				if (!combinedKeywordSet.containsKey(k)) {
 					combinedKeywordSet.put(k.getKey(), k.getValue());
 				} else {
-					combinedKeywordSet.put(k.getKey(),
-							combinedKeywordSet.get(k) + k.getValue());
+					combinedKeywordSet.put(k.getKey(), combinedKeywordSet.get(k) + k.getValue());
 				}
 			}
 		}
@@ -225,8 +173,7 @@ public class Author {
 
 		for (Paper p : this.getPapers()) {
 			for (String coA : p.getAuthorsNames()) {
-				if (!coAuthorsNames.contains(coA)
-						&& !this.getName().equals(coA)) {
+				if (!coAuthorsNames.contains(coA) && !this.getName().equals(coA)) {
 					coAuthorsNames.add(coA);
 				}
 			}
@@ -633,16 +580,18 @@ public class Author {
 	 * @throws Exception
 	 */
 	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus) throws Exception {
+		String startingDirectory = System.getProperty("user.dir");
+		String ioDirectory = startingDirectory + "/../data/";
 		String fileName = this.getAuthorID() + ".csv";
-		File csvFile = new File("../data/" + fileName);
+		File csvFile = new File(ioDirectory + fileName);
 		MatlabEngine me = new MatlabEngine();
 		me.init();		
 		if (!csvFile.isFile()) {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
-			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"	+ fileName);
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
 		}
-		me.eval("svd_IR", fileName);
-		ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile("../data/V_" + fileName);
+		me.eval("svd_IR", fileName, startingDirectory);
+		ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName);
 		return svd;
 	}
 
@@ -653,6 +602,8 @@ public class Author {
 	 * @throws Exception
 	 */
 	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws Exception {
+		String startingDirectory = System.getProperty("user.dir") + "/ext-matlab/";
+		String ioDirectory = startingDirectory + "/../data/";
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File("../data/" + fileName);
 		MatlabEngine me = new MatlabEngine();
@@ -661,7 +612,7 @@ public class Author {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"	+ fileName);
 		}
-		me.eval("pca_IR", fileName);
+		me.eval("pca_IR", ioDirectory, fileName);
 		//FIXME: controllare che la matrice corretta sia "score_..."
 		ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/score_" + fileName);
 		return pca;
