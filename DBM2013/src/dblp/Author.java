@@ -514,9 +514,10 @@ public class Author {
 				PFVector.put(key, pf);
 			}
 		}
-
-		TreeMap<String, Double> normalizedPFVector = Normalization
-				.normalizeTreeMap(PFVector);
+		
+//		System.out.println("PFVector: " + PFVector);
+		TreeMap<String, Double> normalizedPFVector = Normalization.normalizeTreeMap(PFVector);
+//		System.out.println("normalizedPFVector: " + normalizedPFVector);
 
 		return normalizedPFVector;
 	}
