@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import exceptions.AuthorWithoutPapersException;
+
 import utils.IO;
 import utils.MatlabEngine;
 import utils.Normalization;
+import utils.Similarity;
 
 public class Author {
 	// FIXME
@@ -166,8 +169,9 @@ public class Author {
 	 * Estrae i nomi dei coautori dell'autore corrente.
 	 * 
 	 * @return lista di stringhe: nomi dei coautori dell'autore corrente
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public List<String> getCoAuthorsNames() {
+	public List<String> getCoAuthorsNames() throws AuthorWithoutPapersException {
 		List<String> coAuthorsNames = new ArrayList<String>();
 
 		for (Paper p : this.getPapers()) {
@@ -184,8 +188,9 @@ public class Author {
 	 * Estrae gli id dei coautori dell'autore corrente.
 	 * 
 	 * @return lista di interi: id dei coautori dell'autore corrente
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public List<Integer> getCoAuthorsIDs() {
+	public List<Integer> getCoAuthorsIDs() throws AuthorWithoutPapersException {
 		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
 
 		for (Paper p : this.getPapers()) {
@@ -204,8 +209,9 @@ public class Author {
 	 * 
 	 * @param keyword
 	 * @return tf della keyword basandosi sugli articoli dell'autore
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public double getRestrictedTF(String keyword) {
+	public double getRestrictedTF(String keyword) throws AuthorWithoutPapersException {
 		double tf = 0.0;
 		List<Paper> rc = this.getPapers();
 		// conta il numero di occorrenze della keyword nei papers di author
@@ -610,10 +616,23 @@ public class Author {
 		return pca;
 	}
 	
-	public double getSimilarityOnKeywordVector(Author other_author) {
+	/**
+	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return double similarita'
+	 * @throws Exception
+	 */
+	public double getSimilarityOnKeywordVector(Author otherAuthor, Corpus corpus) throws Exception {
 		Double similarity = 0.0;
 		
-		getCombinedKeywordSet();
+		TreeMap<String, Double> myKeywordVector = this.getWeightedTFIDFVector(corpus);
+		System.out.println("myKeywordVector: " + myKeywordVector);
+		TreeMap<String, Double> otherKeywordVector = otherAuthor.getWeightedTFIDFVector(corpus);
+		System.out.println("otherKeywordVector: " + otherKeywordVector);
+		
+		similarity = Similarity.getCosineSimilarity(myKeywordVector, otherKeywordVector);
 		
 		return similarity;
 	}
@@ -626,7 +645,10 @@ public class Author {
 		return name;
 	}
 
-	public ArrayList<Paper> getPapers() {
+	public ArrayList<Paper> getPapers() throws AuthorWithoutPapersException {
+		if(papers.size() == 0) {
+			throw new AuthorWithoutPapersException("L'autore selezionato non ha papers.");
+		}
 		return papers;
 	}
 

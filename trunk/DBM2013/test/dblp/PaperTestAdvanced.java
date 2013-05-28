@@ -12,6 +12,8 @@ import matlabcontrol.MatlabInvocationException;
 
 import org.junit.Test;
 
+import exceptions.AuthorWithoutPapersException;
+
 public class PaperTestAdvanced {
 	
 	private final static boolean DEBUG = true;
@@ -23,9 +25,10 @@ public class PaperTestAdvanced {
 	 * 
 	 * @throws SQLException
 	 * @throws IOException
+	 * @throws AuthorWithoutPapersException 
 	 */
 	@Test
-	public void testGetTFAUnoDummy() throws IOException {
+	public void testGetTFAUnoDummy() throws IOException, AuthorWithoutPapersException {
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();

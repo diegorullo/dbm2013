@@ -1,16 +1,6 @@
 package utils;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.TreeMap;
-
-import junit.framework.Assert;
-
-import matlabcontrol.MatlabConnectionException;
-import matlabcontrol.MatlabInvocationException;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -20,7 +10,7 @@ import dblp.Factory;
 
 public class SimilarityTest {
 	
-	private final static boolean DEBUG = false;
+	private final static boolean DEBUG = true;
 	
 	@Test
 	public void testGetCosineSimilarity() throws Exception {
@@ -34,22 +24,14 @@ public class SimilarityTest {
 			//"K. Selcuk Candan"
 			Author authorCandan2 = dblp.getAuthorByID(1636579);
 			
-//			Similarity.getCosineSimilarity(a_vector, b_vector)
-
-//			String fileName = testAuthor.getAuthorID() + ".csv";
-//			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor
-//					.getDocumentTermMatrix(dblp);
-//
-//			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"
-//					+ fileName);
-//			// IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" +
-//			// "X" + ".csv");
-//
-//			ArrayList<ArrayList<Double>> matrixFromFile = IO
-//					.readDocumentTermMatrixFromFile("../data/" + fileName);
-//			// ArrayList<ArrayList<Double>> matrixFromFile
-//			// =IO.readDocumentTermMatrixFromFile("../data/" +"X" + ".csv");
-//			Printer.printMatrix(matrixFromFile);
+			double similarity12 = authorCandan1.getSimilarityOnKeywordVector(authorCandan2, dblp);
+			double similarity21 = authorCandan2.getSimilarityOnKeywordVector(authorCandan1, dblp);
+			
+			double epsilon = 0.0;
+			
+			System.out.println("Candan1 vs Candan2: " + similarity12);
+			System.out.println("Candan2 vs Candan1: " + similarity21);
+			//assertEquals(similarity12, similarity21, epsilon);
 		}
 	}
 }
