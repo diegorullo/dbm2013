@@ -217,8 +217,8 @@ public class AuthorTestAdvanced {
 	
 	@Test
 	public void testGetCosineSimilarityReflexive() throws Exception {		
-		TreeMap<String, Double> weightedTFIDFVectorCandan = (TreeMap<String, Double>) authorCandan.getWeightedTFIDFVector(dummyCorpus);
-		TreeMap<String, Double> weightedTFIDFVectorSapino = (TreeMap<String, Double>) authorSapino.getWeightedTFIDFVector(dummyCorpus);
+		TreeMap<String, Double> weightedTFIDFVectorCandan = (TreeMap<String, Double>) authorCandan.getWeightedTFIDFVector(dblp);
+		TreeMap<String, Double> weightedTFIDFVectorSapino = (TreeMap<String, Double>) authorSapino.getWeightedTFIDFVector(dblp);
 		
 //		System.out.println("Similarità Candan-Sapino: " + Similarity.getCosineSimilarity(weightedTFIDFVectorCandan, weightedTFIDFVectorSapino));
 //		System.out.println("Similarità Sapino-Candan: " + Similarity.getCosineSimilarity(weightedTFIDFVectorSapino, weightedTFIDFVectorCandan));	
@@ -228,11 +228,11 @@ public class AuthorTestAdvanced {
 	@Test
 	public void testGetCosineSimilarityKeywordVectorWithSelf() throws Exception {
 		// 1b.1 keyword vectors	
-		Double similarityCandanCandan = authorCandan.getSimilarityOnKeywordVector(authorCandan, dummyCorpus);
-		Double similaritySapinoSapino = authorSapino.getSimilarityOnKeywordVector(authorSapino, dummyCorpus);
+		Double similarityCandanCandan = authorCandan.getSimilarityOnKeywordVector(authorCandan, dblp);
+		Double similaritySapinoSapino = authorSapino.getSimilarityOnKeywordVector(authorSapino, dblp);
 		
-//		System.out.println("Similarità Candan-Candan: " + similarityCandanCandan);
-//		System.out.println("Similarità Sapino-Sapino: " + similaritySapinoSapino);
+		System.out.println("Similarità Candan-Candan: " + similarityCandanCandan);
+		System.out.println("Similarità Sapino-Sapino: " + similaritySapinoSapino);
 		assertEquals(1.0, similarityCandanCandan, epsilon);
 		assertEquals(1.0, similaritySapinoSapino, epsilon);
 	}
@@ -240,8 +240,8 @@ public class AuthorTestAdvanced {
 	@Test
 	public void testGetCosineSimilarityKeywordVectorReflexive() throws Exception {
 		// 1b.1 keyword vectors	
-		Double similarityCandanSapino = authorCandan.getSimilarityOnKeywordVector(authorSapino, dummyCorpus);
-		Double similaritySapinoCandan = authorSapino.getSimilarityOnKeywordVector(authorCandan, dummyCorpus);
+		Double similarityCandanSapino = authorCandan.getSimilarityOnKeywordVector(authorSapino, dblp);
+		Double similaritySapinoCandan = authorSapino.getSimilarityOnKeywordVector(authorCandan, dblp);
 		
 //		System.out.println("Similarità Candan-Sapino: " + similarityCandanSapino);
 //		System.out.println("Similarità Sapino-Candan: " + similaritySapinoCandan);
@@ -251,8 +251,8 @@ public class AuthorTestAdvanced {
 	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityTFIDF2VectorWithSelf() throws Exception {
 		// 1b.2 TF-IDF2
-		Double similarityCandanCandan = authorCandan.getSimilarityOnTFIDF2Vector(authorCandan, dummyCorpus);
-		Double similaritySapinoSapino = authorSapino.getSimilarityOnTFIDF2Vector(authorSapino, dummyCorpus);
+		Double similarityCandanCandan = authorCandan.getSimilarityOnTFIDF2Vector(authorCandan, dblp);
+		Double similaritySapinoSapino = authorSapino.getSimilarityOnTFIDF2Vector(authorSapino, dblp);
 		
 //		System.out.println("Similarità Candan-Candan: " + similarityCandanCandan);
 //		System.out.println("Similarità Sapino-Sapino: " + similaritySapinoSapino);
@@ -263,8 +263,8 @@ public class AuthorTestAdvanced {
 	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityTFIDF2VectorReflexive() throws Exception {
 		// 1b.2 TF-IDF2		
-		Double similarityCandanSapino = authorCandan.getSimilarityOnTFIDF2Vector(authorSapino, dummyCorpus);
-		Double similaritySapinoCandan = authorSapino.getSimilarityOnTFIDF2Vector(authorCandan, dummyCorpus);
+		Double similarityCandanSapino = authorCandan.getSimilarityOnTFIDF2Vector(authorSapino, dblp);
+		Double similaritySapinoCandan = authorSapino.getSimilarityOnTFIDF2Vector(authorCandan, dblp);
 		
 //		System.out.println("Similarità Candan-Sapino: " + similarityCandanSapino);
 //		System.out.println("Similarità Sapino-Candan: " + similaritySapinoCandan);
@@ -274,8 +274,8 @@ public class AuthorTestAdvanced {
 	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityPFVectorWithSelf() throws Exception {
 		// 1b.3 PF
-		Double similarityCandanCandan = authorCandan.getSimilarityOnPFVector(authorCandan, dummyCorpus);
-		Double similaritySapinoSapino = authorSapino.getSimilarityOnPFVector(authorSapino, dummyCorpus);
+		Double similarityCandanCandan = authorCandan.getSimilarityOnPFVector(authorCandan, dblp);
+		Double similaritySapinoSapino = authorSapino.getSimilarityOnPFVector(authorSapino, dblp);
 		
 //		System.out.println("Similarità Candan-Candan: " + similarityCandanCandan);
 //		System.out.println("Similarità Sapino-Sapino: " + similaritySapinoSapino);
@@ -286,8 +286,8 @@ public class AuthorTestAdvanced {
 	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityPFVectorReflexive() throws Exception {
 		// 1b.3 PF
-		Double similarityCandanSapino = authorCandan.getSimilarityOnPFVector(authorSapino, dummyCorpus);
-		Double similaritySapinoCandan = authorSapino.getSimilarityOnPFVector(authorCandan, dummyCorpus);
+		Double similarityCandanSapino = authorCandan.getSimilarityOnPFVector(authorSapino, dblp);
+		Double similaritySapinoCandan = authorSapino.getSimilarityOnPFVector(authorCandan, dblp);
 		
 //		System.out.println("Similarità Candan-Sapino: " + similarityCandanSapino);
 //		System.out.println("Similarità Sapino-Candan: " + similaritySapinoCandan);

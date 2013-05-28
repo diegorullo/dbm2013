@@ -329,8 +329,8 @@ public class Author {
 			}
 		}
 
-		TreeMap<String, Double> normalizedTFIDF2Vector = Normalization
-				.normalizeTreeMap(TFIDF2Vector);
+		System.out.println("TFIDF2Vector: " + TFIDF2Vector);
+		TreeMap<String, Double> normalizedTFIDF2Vector = Normalization.normalizeTreeMap(TFIDF2Vector);
 
 		return normalizedTFIDF2Vector;
 
