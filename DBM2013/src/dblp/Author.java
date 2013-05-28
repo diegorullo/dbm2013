@@ -660,8 +660,8 @@ public class Author {
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myKeywordVector = this.getWeightedTFIDFVector(corpus);
-//		System.out.println("myKeywordVector: " + myKeywordVector);
 		TreeMap<String, Double> otherKeywordVector = otherAuthor.getWeightedTFIDFVector(corpus);
+//		System.out.println("myKeywordVector: " + myKeywordVector);
 //		System.out.println("otherKeywordVector: " + otherKeywordVector);
 		
 		similarity = Similarity.getCosineSimilarity(myKeywordVector, otherKeywordVector);
@@ -681,9 +681,9 @@ public class Author {
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myTFIDF2Vector = this.getTFIDF2Vector(corpus);
-		System.out.println("myTFIDF2Vector: " + myTFIDF2Vector);
 		TreeMap<String, Double> otherTFIDF2Vector = otherAuthor.getTFIDF2Vector(corpus);
-		System.out.println("otherTFIDF2Vector: " + otherTFIDF2Vector);
+//		System.out.println("myTFIDF2Vector: " + myTFIDF2Vector);
+//		System.out.println("otherTFIDF2Vector: " + otherTFIDF2Vector);
 		
 		similarity = Similarity.getCosineSimilarity(myTFIDF2Vector, otherTFIDF2Vector);	
 		
@@ -702,8 +702,8 @@ public class Author {
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myPFVector = this.getPFVector(corpus);
-		System.out.println("myPFVector: " + myPFVector);
 		TreeMap<String, Double> otherPFVector = otherAuthor.getPFVector(corpus);
+		System.out.println("myPFVector: " + myPFVector);
 		System.out.println("otherPFVector: " + otherPFVector);
 		
 		similarity = Similarity.getCosineSimilarity(myPFVector, otherPFVector);	
