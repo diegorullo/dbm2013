@@ -164,15 +164,65 @@ public class AuthorTestAdvanced {
 		listaPaperNelCorpus.add(paper4);
 
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
-		
+// 1b.1 keyword vectors	
 		TreeMap<String, Double> weightedTFIDFVectorStefania = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus);
 		TreeMap<String, Double> weightedTFIDFVectorLuca = (TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus);
 		
 //		System.out.println("Similarità Stefania-Stefania: " + Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorStefania));
-		Assert.assertEquals(Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorStefania), 1.0);
+//		Assert.assertEquals(Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorStefania), 1.0);
 		
 //		System.out.println("Similarità Luca-Luca: " + Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorLuca));
-		Assert.assertEquals(Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorLuca), 1.0);
+//		Assert.assertEquals(Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorLuca), 1.0);
+
+//		System.out.println("Similarità (keyword vectors) Stefania-Stefania: " + authorStefania.getSimilarityOnKeywordVector(authorStefania, dummyCorpus));
+//		Assert.assertEquals(authorStefania.getSimilarityOnKeywordVector(authorStefania, dummyCorpus), 1.0);
+		
+//		System.out.println("Similarità (keyword vectors) Luca-Luca: " + authorLuca.getSimilarityOnKeywordVector(authorLuca, dummyCorpus));
+//		Assert.assertEquals(authorLuca.getSimilarityOnKeywordVector(authorLuca, dummyCorpus), 1.0);
+		
+//		System.out.println("Similarità (keyword vectors) Luca-Stefania: " + authorLuca.getSimilarityOnKeywordVector(authorStefania, dummyCorpus));
+//		Assert.assertEquals(authorLuca.getSimilarityOnKeywordVector(authorStefania, dummyCorpus), 1.0);
+		
+// 1b.2 TF-IDF2
+//		TreeMap<String, Double> TFIDF2VectorStefania = (TreeMap<String, Double>) authorStefania.getTFIDF2Vector(dummyCorpus);
+//		TreeMap<String, Double> TFIDF2VectorLuca = (TreeMap<String, Double>) authorLuca.getTFIDF2Vector(dummyCorpus);
+//		
+//		System.out.println("Similarità Stefania-Stefania: " + Similarity.getCosineSimilarity(TFIDF2VectorStefania, TFIDF2VectorStefania));
+//		Assert.assertEquals(Similarity.getCosineSimilarity(TFIDF2VectorStefania, TFIDF2VectorStefania), 1.0);
+//		
+//		System.out.println("Similarità Luca-Luca: " + Similarity.getCosineSimilarity(TFIDF2VectorLuca, TFIDF2VectorLuca));
+//		Assert.assertEquals(Similarity.getCosineSimilarit(TFIDF2VectorLuca, TFIDF2VectorLuca), 1.0);
+		
+//		System.out.println("Similarità (TFIDF2) Stefania-Stefania: " + authorStefania.getSimilarityOnTFIDF2(authorStefania, dummyCorpus));
+//		Assert.assertEquals(authorStefania.getSimilarityOnTFIDF2(authorStefania, dummyCorpus), 1.0);
+//		
+//		System.out.println("Similarità (TFIDF2) Luca-Luca: " + authorLuca.getSimilarityOnTFIDF2(authorLuca, dummyCorpus));
+//		Assert.assertEquals(authorLuca.getSimilarityOnTFIDF2(authorLuca, dummyCorpus), 1.0);
+		
+//		System.out.println("Similarità (TFIDF2) Luca-Stefania: " + authorLuca.getSimilarityOnTFIDF2(authorStefania, dummyCorpus));
+//		Assert.assertEquals(authorLuca.getSimilarityOnTFIDF2(authorStefania, dummyCorpus), 1.0);
+		
+		
+
+		
+// 1b.3 PF
+//		TreeMap<String, Double> PFVectorStefania = (TreeMap<String, Double>) authorStefania.getPFVector(dummyCorpus);
+//		TreeMap<String, Double> PFVectorLuca = (TreeMap<String, Double>) authorLuca.getPFVector(dummyCorpus);
+//		
+//		System.out.println("Similarità Stefania-Stefania: " + Similarity.getCosineSimilarity(PFVectorStefania, PFVectorStefania));
+//		Assert.assertEquals(Similarity.getCosineSimilarity(PFVectorStefania, PFVectorStefania), 1.0);
+//		
+//		System.out.println("Similarità Luca-Luca: " + Similarity.getCosineSimilarity(PFVectorLuca, PFVectorLuca));
+//		Assert.assertEquals(Similarity.getCosineSimilarity(PFVectorLuca, PFVectorLuca), 1.0);
+
+//		System.out.println("Similarità (PF) Stefania-Stefania: " + authorStefania.getSimilarityOnPF(authorStefania, dummyCorpus));
+//		Assert.assertEquals(authorStefania.getSimilarityOnPF(authorStefania, dummyCorpus), 1.0);
+//		
+//		System.out.println("Similarità (PF) Luca-Luca: " + authorLuca.getSimilarityOnPF(authorLuca, dummyCorpus));
+//		Assert.assertEquals(authorLuca.getSimilarityOnPF(authorLuca, dummyCorpus), 1.0);
+//		
+		System.out.println("Similarità (PF) Luca-Stefania: " + authorLuca.getSimilarityOnPF(authorStefania, dummyCorpus));
+		Assert.assertEquals(authorLuca.getSimilarityOnPF(authorStefania, dummyCorpus), 1.0);
 	}
 	
 	@Test
@@ -280,6 +330,9 @@ public class AuthorTestAdvanced {
 //		System.out.println("Similarità Stefania-Luca: " + Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorLuca));
 //		System.out.println("Similarità Luca-Stefania: " + Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorStefania));	
 		Assert.assertEquals(Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorLuca), Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorStefania));
+	
+	
+	
 	}
 
 	@Test
