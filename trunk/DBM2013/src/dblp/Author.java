@@ -660,9 +660,9 @@ public class Author {
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myKeywordVector = this.getWeightedTFIDFVector(corpus);
-		System.out.println("myKeywordVector: " + myKeywordVector);
+//		System.out.println("myKeywordVector: " + myKeywordVector);
 		TreeMap<String, Double> otherKeywordVector = otherAuthor.getWeightedTFIDFVector(corpus);
-		System.out.println("otherKeywordVector: " + otherKeywordVector);
+//		System.out.println("otherKeywordVector: " + otherKeywordVector);
 		
 		similarity = Similarity.getCosineSimilarity(myKeywordVector, otherKeywordVector);
 		
