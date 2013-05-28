@@ -810,7 +810,7 @@ public class CorpusTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		Map<String, Double> pfVectorStefania = authorStefania
+		TreeMap<String, Double> pfVectorStefania = authorStefania
 				.getPFVector(dummyCorpus);
 
 		// Printer.printVector(pfVectorStefania, 1);

@@ -1,7 +1,6 @@
 package utils;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -9,15 +8,15 @@ public class Normalization {
 	
 	/**
 	 * Controlla che la somma degli elementi di map sia uno (a meno di un epsilon)
-	 * @param map
+	 * @param treemap
 	 * @param epsilon
 	 * @return boolean true/false
 	 */
-	public static boolean isNormalized(Map<String, Double> map, double epsilon) {
+	public static boolean isNormalized(TreeMap<String, Double> treemap, double epsilon) {
 		boolean result = false;
 		double uno = 0.0;
 			
-		for (Entry<String, Double> entry : map.entrySet()) {
+		for (Entry<String, Double> entry : treemap.entrySet()) {
 			uno += entry.getValue();
 		}
 		
@@ -66,38 +65,5 @@ public class Normalization {
 
 		return normalizedTreeMap;
 	}
-	
-	/**
-	 * Normalizza la hashmap data in input;
-	 * se l'input è già normalizzato, non fa nulla
-	 */
-	public static HashMap<String, Double> normalizeHashMap(HashMap<String, Double> hashmap) {
-		HashMap<String, Double> normalizedHashMap = new HashMap<String, Double>();
-		
-		double epsilon = (double) 1/1000000;
-		double denominatore = 0.0;
-		
-		@SuppressWarnings("unused")
-		double debug = 0.0;
-		
-		if(Normalization.isNormalized(hashmap, epsilon)) {
-			//System.out.println("La map in input è già normalizzata!");
-			normalizedHashMap = hashmap;
-		}
-		else {
-			
-			for (Entry<String, Double> entry : hashmap.entrySet()) {
-				//denominatore += entry.getValue();
-				denominatore += Math.pow(entry.getValue(), 2.0);
-			}
-			denominatore = Math.sqrt(denominatore);
-			for (Entry<String, Double> entry : hashmap.entrySet()) {
-				normalizedHashMap.put(entry.getKey(), entry.getValue() / denominatore);
-				debug += entry.getValue() / denominatore;
-			}
-		}
-		//System.out.println("Debug: " + debug);
-		
-		return normalizedHashMap;
-	}
+
 }
