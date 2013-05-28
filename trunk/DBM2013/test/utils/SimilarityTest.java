@@ -13,25 +13,42 @@ public class SimilarityTest {
 	private final static boolean DEBUG = true;
 	
 	@Test
-	public void testGetCosineSimilarity() throws Exception {
+	public void testGetCosineSimilarityWithSelf() throws Exception {
+		if (!DEBUG) {
+			Factory f = new Factory();
+			Corpus dblp = f.getCorpus();
+			
+			//Autore "K. Selcuk Candan" (esiste anche un "K.S. Candan", che pero' non ha papers)
+			Author authorCandan = dblp.getAuthorByID(1636579);
+			
+			double similarity = authorCandan.getSimilarityOnKeywordVector(authorCandan, dblp);
+			
+			double epsilon = 1/1000000;			
+			assertEquals(similarity, 1.0, epsilon);
+		}
+	}
+	
+	@Test
+	public void testGetCosineSimilarityReflexiveCandanSapino() throws Exception {
 		if (DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
-			//"K.S. Candan"
-			Author authorCandan1 = dblp.getAuthorByID(2540868);
-			//Author authorCandan1 = dblp.getAuthorByName("K.S. Candan");
+			//Autore "Maria Luisa Sapino"
+			Author authorSapino = dblp.getAuthorByID(1677020);
+			System.out.println("KS di Sapino (" + authorSapino.getKeywordSet().size() + "): " + authorSapino.getKeywordSet());
 			
-			//"K. Selcuk Candan"
-			Author authorCandan2 = dblp.getAuthorByID(1636579);
+			//Autore "K. Selcuk Candan" (esiste anche un "K.S. Candan" che pero' non ha papers)
+			Author authorCandan = dblp.getAuthorByID(1636579);
+			System.out.println("KS di Candan (" + authorCandan.getKeywordSet().size() + "): " + authorCandan.getKeywordSet());
 			
-			double similarity12 = authorCandan1.getSimilarityOnKeywordVector(authorCandan2, dblp);
-			double similarity21 = authorCandan2.getSimilarityOnKeywordVector(authorCandan1, dblp);
+			double similarityCS = authorCandan.getSimilarityOnKeywordVector(authorSapino, dblp);
+			double similaritySC = authorSapino.getSimilarityOnKeywordVector(authorCandan, dblp);
 			
-			double epsilon = 0.0;
+			System.out.println("Similarità Candan-Sapino: " + similarityCS);
+			System.out.println("Similarità Sapino-Candan: " + similaritySC);
 			
-			System.out.println("Candan1 vs Candan2: " + similarity12);
-			System.out.println("Candan2 vs Candan1: " + similarity21);
-			//assertEquals(similarity12, similarity21, epsilon);
+			double epsilon = 1/1000000;			
+			assertEquals(similarityCS, similaritySC, epsilon);
 		}
 	}
 }
