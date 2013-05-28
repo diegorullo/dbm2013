@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -69,8 +68,8 @@ public class Author {
 	 * @return treemap dei tf di un autore, pesando gli articoli per eta'
 	 * @throws IOException
 	 */
-	public Map<String, Double> getWeightedTFVector() throws IOException {
-		Map<String, Double> wtfv;
+	public TreeMap<String, Double> getWeightedTFVector() throws IOException {
+		TreeMap<String, Double> wtfv;
 		double weight = 0;
 		// double weightNormalizationFactor = 0;
 		TreeMap<String, Double> weightedTFVector = new TreeMap<String, Double>();
@@ -94,7 +93,7 @@ public class Author {
 			}
 		}
 
-		Map<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
+		TreeMap<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
 		return normalizedWeightedTFVector;
 
 	}
@@ -109,10 +108,10 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sistemare l'eccezione
-	public Map<String, Double> getWeightedTFIDFVector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> getWeightedTFIDFVector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 
-		Map<String, Double> wtfidfv;
+		TreeMap<String, Double> wtfidfv;
 		double weight = 0;
 
 		/*
@@ -145,9 +144,9 @@ public class Author {
 	 * @return hashmap delle keyword in tutti gli articoli dell'autore, con
 	 *         occorrenze
 	 */
-	public HashMap<String, Integer> getCombinedKeywordSet() {
-		HashMap<String, Integer> combinedKeywordSet = new HashMap<String, Integer>();
-		HashMap<String, Integer> keywordSet = new HashMap<String, Integer>();
+	public TreeMap<String, Integer> getCombinedKeywordSet() {
+		TreeMap<String, Integer> combinedKeywordSet = new TreeMap<String, Integer>();
+		TreeMap<String, Integer> keywordSet = new TreeMap<String, Integer>();
 
 		for (Paper p : papers) {
 			keywordSet = p.getKeywordSetWithOccurrences();
@@ -213,8 +212,7 @@ public class Author {
 		int n = 0;
 		int K = 0;
 		for (Paper p : rc) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
+			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 
 			if (keywordSet.get(keyword) != null) {
 				n += keywordSet.get(keyword);
@@ -258,8 +256,7 @@ public class Author {
 		int N = restrictedCorpus.size();
 
 		for (Paper p : restrictedCorpus) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
+			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {
 					m++;
@@ -310,8 +307,7 @@ public class Author {
 
 		List<Paper> papers = this.getPapers();
 		for (Paper p : papers) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
+			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			double tfidf2;
 			String key;
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
@@ -503,8 +499,7 @@ public class Author {
 
 		List<Paper> papers = this.getPapers();
 		for (Paper p : papers) {
-			HashMap<String, Integer> keywordSet = p
-					.getKeywordSetWithOccurrences();
+			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			double pf;
 			String key;
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
@@ -546,15 +541,14 @@ public class Author {
 		}
 
 		// inseriamo i valori di tfidf relativi al vettore dei vari documenti
-		Map<String, Double> currentWeightedTFIDFVector = new HashMap<String, Double>();
+		TreeMap<String, Double> currentWeightedTFIDFVector = new TreeMap<String, Double>();
 		for (int doc = 0; doc < m; doc++) {
 			// recupera il paper corrente...
 			Paper currentPaper = documents.get(doc);
 			// System.out.println("Paper: \'" + currentPaper.getTitle() +
 			// "\', peso: " + currentPaper.getWeightBasedOnAge());
 			// ... e ne calcola il vettore di tfidf pesato
-			currentWeightedTFIDFVector = currentPaper.getWeightedTFIDFVector(
-					currentPaper.getWeightBasedOnAge(), corpus);
+			currentWeightedTFIDFVector = currentPaper.getWeightedTFIDFVector(currentPaper.getWeightBasedOnAge(), corpus);
 			// System.out.println("WeightedTFIDFVector: \'" +
 			// currentWeightedTFIDFVector);
 			// modifica la riga relativa al documento corrente, sostituendo gli
@@ -615,6 +609,15 @@ public class Author {
 		ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/score_" + fileName);
 		return pca;
 	}
+	
+	public double getSimilarityOnKeywordVector(Author other_author) {
+		Double similarity = 0.0;
+		
+		getCombinedKeywordSet();
+		
+		return similarity;
+	}
+	
 	public int getAuthorID() {
 		return authorID;
 	}

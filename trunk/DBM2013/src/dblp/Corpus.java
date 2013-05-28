@@ -1,8 +1,8 @@
 package dblp;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
@@ -86,7 +86,7 @@ public class Corpus {
 
 		// conta il numero di occorrenze della keyword s nel corpus
 		for(Paper p : papers) {
-			HashMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
+			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {
 					m++;

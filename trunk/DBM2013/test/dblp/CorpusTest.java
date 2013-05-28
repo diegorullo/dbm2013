@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.naming.NameNotFoundException;
+
 import org.junit.Test;
 
 import utils.IO;
@@ -29,8 +31,14 @@ public class CorpusTest {
 	}
 
 	@Test
-	public void testGetAuthorByName() {
-		// fail("Not yet implemented");
+	public void testGetAuthorByName() throws Exception {
+		Factory f = new Factory();
+		Corpus dblp = f.getCorpus();
+		//"K.S. Candan"
+		Author authorCandan1ID = dblp.getAuthorByID(2540868);
+		Author authorCandan1Name = dblp.getAuthorByName("K.S. Candan");
+		
+		assertEquals(authorCandan1ID, authorCandan1Name);
 	}
 
 	@Test
