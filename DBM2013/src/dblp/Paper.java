@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -47,8 +46,8 @@ public class Paper {
 	 * @param weight: peso parametrizzato
 	 * @return hasmap delle keyword del titolo pesate n.occ * weight
 	 */
-	public HashMap<String, Integer> getTitleKeywordSetWithOccurrences(int weight) {
-		HashMap<String, Integer> titlesKeywordSetWithOccurrences = new HashMap<String, Integer>();
+	public TreeMap<String, Integer> getTitleKeywordSetWithOccurrences(int weight) {
+		TreeMap<String, Integer> titlesKeywordSetWithOccurrences = new TreeMap<String, Integer>();
 		
 		for(String k : titlesKeywords) {
 			if (!titlesKeywordSetWithOccurrences.containsKey(k)) {
@@ -68,11 +67,11 @@ public class Paper {
 	 * 
 	 * @return l'hashmap delle keyword e rispettivo numero di occorrenze
 	 */
-	public HashMap<String, Integer> getKeywordSetWithOccurrences() {
+	public TreeMap<String, Integer> getKeywordSetWithOccurrences() {
 		
-		HashMap<String, Integer> keywordSetWithOccurrences = new HashMap<String, Integer>();
+		TreeMap<String, Integer> keywordSetWithOccurrences = new TreeMap<String, Integer>();
 		//FIXME documentare correttamente la scelta
-		HashMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSetWithOccurrences(titleWeight);
+		TreeMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSetWithOccurrences(titleWeight);
 		
 		// keywords provenienti dall'abstract
 		for(String k : keywords) {
@@ -158,7 +157,7 @@ public class Paper {
 	 */	
 	public double getTF(String keyword) {
 		
-		HashMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
+		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		double tf = 0;
 		int n = 0;
 		int K = 0;		
@@ -202,9 +201,9 @@ public class Paper {
 	 * 
 	 * @return keywordVector pesato in base al tf
 	 */
-	public Map<String, Double> getTFVector() throws IOException {
+	public TreeMap<String, Double> getTFVector() throws IOException {
 		
-		HashMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
+		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFVector = new TreeMap<String, Double>();		
 		double tf = 0.0;		
 		
@@ -214,7 +213,7 @@ public class Paper {
 		}
 		
 		//Superfluo, poichè il vettore dei tf è normalizzato
-		Map<String, Double> normalizedTFVector = Normalization.normalizeTreeMap(TFVector);
+		TreeMap<String, Double> normalizedTFVector = Normalization.normalizeTreeMap(TFVector);
 		
 		return normalizedTFVector;
 	}
@@ -226,9 +225,9 @@ public class Paper {
 	 * @param corpus
 	 * @return keywordVector pesato in base al tfidf
 	 */
-	public Map<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
 		
-		HashMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
+		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFIDFVector = new TreeMap<String, Double>();
 		double tfidf;
 		String key;
@@ -239,7 +238,7 @@ public class Paper {
 			TFIDFVector.put(key, tfidf);
 		}
 		
-		Map<String, Double> normalizedTFIDFVector = Normalization.normalizeTreeMap(TFIDFVector);
+		TreeMap<String, Double> normalizedTFIDFVector = Normalization.normalizeTreeMap(TFIDFVector);
 		
 		return normalizedTFIDFVector;
 	}
@@ -283,8 +282,8 @@ public class Paper {
 	 * @return vettore dei TF pesati
 	 * @throws IOException
 	 */
-	public Map<String, Double> getWeightedTFVector(double weight) throws IOException {
-		Map<String, Double> TFVector = this.getTFVector();
+	public TreeMap<String, Double> getWeightedTFVector(double weight) throws IOException {
+		TreeMap<String, Double> TFVector = this.getTFVector();
 		TreeMap<String, Double> weightedTFVector = new TreeMap<String, Double>();
 		String key;
 		Double wtf;
@@ -295,7 +294,7 @@ public class Paper {
 			weightedTFVector.put(key,wtf);
 		}
 		
-		Map<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
+		TreeMap<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
 		
 		return normalizedWeightedTFVector;
 	}
@@ -308,8 +307,8 @@ public class Paper {
 	 * @return vettore dei tfidf pesati
 	 * @throws Exception
 	 */
-	public Map<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
-		Map<String, Double> TFIDFVector = this.getTFIDFVector(corpus);
+	public TreeMap<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
+		TreeMap<String, Double> TFIDFVector = this.getTFIDFVector(corpus);
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 		String key;
 		Double wtfidf;
@@ -320,7 +319,7 @@ public class Paper {
 			weightedTFIDFVector.put(key,wtfidf);
 		}
 
-		Map<String, Double> normalizedWeightedTFIDFVector = Normalization.normalizeTreeMap(weightedTFIDFVector);
+		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalizeTreeMap(weightedTFIDFVector);
 		
 		return normalizedWeightedTFIDFVector;
 	}
