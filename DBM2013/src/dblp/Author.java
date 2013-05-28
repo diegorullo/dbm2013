@@ -668,6 +668,50 @@ public class Author {
 		
 		return similarity;
 	}
+		
+	/**
+	 *  Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return
+	 * @throws Exception
+	 */
+	public double getSimilarityOnTFIDF2(Author otherAuthor, Corpus corpus) throws Exception {
+		Double similarity = 0.0;
+		
+		TreeMap<String, Double> myTFIDF2Vector = this.getTFIDF2Vector(corpus);
+		System.out.println("myTFIDF2Vector: " + myTFIDF2Vector);
+		TreeMap<String, Double> otherTFIDF2Vector = otherAuthor.getTFIDF2Vector(corpus);
+		System.out.println("otherTFIDF2Vector: " + otherTFIDF2Vector);
+		
+		similarity = Similarity.getCosineSimilarity(myTFIDF2Vector, otherTFIDF2Vector);	
+		
+		return similarity;
+	}
+	
+	/**
+	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return
+	 * @throws Exception
+	 */
+	public double getSimilarityOnPF(Author otherAuthor, Corpus corpus) throws Exception {
+		Double similarity = 0.0;
+		
+		TreeMap<String, Double> myPFVector = this.getPFVector(corpus);
+		System.out.println("myPFVector: " + myPFVector);
+		TreeMap<String, Double> otherPFVector = otherAuthor.getPFVector(corpus);
+		System.out.println("otherPFVector: " + otherPFVector);
+		
+		similarity = Similarity.getCosineSimilarity(myPFVector, otherPFVector);	
+		
+		return similarity;
+	}
+	
+	
 	
 	public int getAuthorID() {
 		return authorID;
