@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import exceptions.AuthorWithoutPapersException;
+import exceptions.AuthorWithoutCoAuthorsException;
 
 import utils.IO;
 import utils.MatlabEngine;
@@ -192,7 +193,7 @@ public class Author {
 	 * @return lista di interi: id dei coautori dell'autore corrente
 	 * @throws AuthorWithoutPapersException 
 	 */
-	public List<Integer> getCoAuthorsIDs() throws AuthorWithoutPapersException {
+	public List<Integer> getCoAuthorsIDs() throws AuthorWithoutCoAuthorsException, AuthorWithoutPapersException {
 		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
 
 		for (Paper p : this.getPapers()) {
@@ -202,8 +203,12 @@ public class Author {
 				}
 			}
 		}
+		if (coAuthorsIDs.size()==0) {
+			throw new AuthorWithoutCoAuthorsException("L`autore id " + this.getAuthorID() + " non ha coautori.");
+		}
 		return coAuthorsIDs;
 	}
+	
 
 	/**
 	 * Calcola il tf della keyword basandosi sull'insieme di tutti gli articoli
@@ -474,8 +479,7 @@ public class Author {
 		double N_i = (double) this.getCoAuthorsAndSelfPapers(corpus).size();
 		
 		numLog = (r_ij) / (R_i - r_ij + epsilon);
-		denLog = (n_ij - r_ij + epsilon)
-				/ (N_i - n_ij - R_i + r_ij + epsilon);
+		denLog = (n_ij - r_ij + epsilon) / (N_i - n_ij - R_i + r_ij + epsilon);
 		// FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2
 		// maggio a lezione)
 		resLog = Math.log(1 + (numLog / denLog));
@@ -516,9 +520,9 @@ public class Author {
 			}
 		}
 		
-//		System.out.println("PFVector: " + PFVector);
+		System.out.println("PFVector: " + PFVector);
 		TreeMap<String, Double> normalizedPFVector = Normalization.normalizeTreeMap(PFVector);
-//		System.out.println("normalizedPFVector: " + normalizedPFVector);
+		System.out.println("normalizedPFVector: " + normalizedPFVector);
 
 		return normalizedPFVector;
 	}
