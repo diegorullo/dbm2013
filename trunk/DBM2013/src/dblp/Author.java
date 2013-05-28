@@ -468,23 +468,24 @@ public class Author {
 		double resLog = 0.0;
 		double resAbs = 0.0;
 
-		int r_ij = this.r_withoutKey(k_j, corpus);
-		int n_ij = this.n_withoutKey(k_j, corpus);
-		int R_i = this.getCoAuthorsPapers(corpus).size();
-		int N_i = this.getCoAuthorsAndSelfPapers(corpus).size();
-
-		numLog = (double) (r_ij) / (R_i - r_ij + epsilon);
-		denLog = (double) (n_ij - r_ij + epsilon)
+		double r_ij = (double) this.r_withoutKey(k_j, corpus);
+		double n_ij = (double) this.n_withoutKey(k_j, corpus);		
+		double R_i = (double) this.getCoAuthorsPapers(corpus).size();
+		double N_i = (double) this.getCoAuthorsAndSelfPapers(corpus).size();
+		
+		numLog = (r_ij) / (R_i - r_ij + epsilon);
+		denLog = (n_ij - r_ij + epsilon)
 				/ (N_i - n_ij - R_i + r_ij + epsilon);
 		// FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2
 		// maggio a lezione)
 		resLog = Math.log(1 + (numLog / denLog));
 
-		resAbs = Math.abs((double) (r_ij + epsilon / R_i + epsilon)
-				- (double) ((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
+		resAbs = Math.abs(((r_ij + epsilon) / (R_i + epsilon)) - ((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
 
 		u_ij = resLog * resAbs;
-
+		//System.out.println("r_ij: " + r_ij + ", n_ij: " + n_ij + ", R_i: " + r_ij + ", N_i: " + n_ij);
+		//System.out.println("den1: " + (R_i + epsilon) + ", den2: "  + (N_i - R_i + epsilon));
+		//System.out.println("numLog: " + numLog + ", denLog: " + denLog + ", resLog: " + resLog + ", resAbs: " + resAbs);
 		return u_ij;
 	}
 
