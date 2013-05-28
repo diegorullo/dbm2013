@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import dblp.Author;
+import exceptions.AuthorWithoutPapersException;
 
 public class Printer {
 	
@@ -62,8 +63,9 @@ public class Printer {
 	 * 
 	 * @param documentTermMatrix matrice
 	 * @param author autore
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public static void printDocumentTermMatrix(ArrayList<TreeMap<String, Double>> documentTermMatrix, Author author) {
+	public static void printDocumentTermMatrix(ArrayList<TreeMap<String, Double>> documentTermMatrix, Author author) throws AuthorWithoutPapersException {
 
 		System.out.println("Document-term matrix");
 		for (String s : author.getKeywordSet()) {
