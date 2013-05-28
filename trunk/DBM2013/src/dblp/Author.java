@@ -677,7 +677,7 @@ public class Author {
 	 * @return
 	 * @throws Exception
 	 */
-	public double getSimilarityOnTFIDF2(Author otherAuthor, Corpus corpus) throws Exception {
+	public double getSimilarityOnTFIDF2Vector(Author otherAuthor, Corpus corpus) throws Exception {
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myTFIDF2Vector = this.getTFIDF2Vector(corpus);
@@ -698,7 +698,7 @@ public class Author {
 	 * @return
 	 * @throws Exception
 	 */
-	public double getSimilarityOnPF(Author otherAuthor, Corpus corpus) throws Exception {
+	public double getSimilarityOnPFVector(Author otherAuthor, Corpus corpus) throws Exception {
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myPFVector = this.getPFVector(corpus);

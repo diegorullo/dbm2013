@@ -221,8 +221,8 @@ public class AuthorTestAdvanced {
 //		System.out.println("Similarità (PF) Luca-Luca: " + authorLuca.getSimilarityOnPF(authorLuca, dummyCorpus));
 //		Assert.assertEquals(authorLuca.getSimilarityOnPF(authorLuca, dummyCorpus), 1.0);
 //		
-		System.out.println("Similarità (PF) Luca-Stefania: " + authorLuca.getSimilarityOnPF(authorStefania, dummyCorpus));
-		Assert.assertEquals(authorLuca.getSimilarityOnPF(authorStefania, dummyCorpus), 1.0);
+		System.out.println("Similarità (PF) Luca-Stefania: " + authorLuca.getSimilarityOnPFVector(authorStefania, dummyCorpus));
+		Assert.assertEquals(authorLuca.getSimilarityOnPFVector(authorStefania, dummyCorpus), 1.0);
 	}
 	
 	@Test
