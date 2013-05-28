@@ -5,6 +5,21 @@ import java.util.TreeMap;
 
 public class Similarity {
 	
+    /**
+     * Calcola la magnitudo di un vettore
+     * @param doc il vettore di termini pesati 
+     * @return magnitudo di un vettore di termini pesati
+     */
+    public static double doc_magnitudo(TreeMap<String, Double> doc)
+    {
+            double magnitudo = 0.0;
+            for (Map.Entry<String, Double> term : doc.entrySet())
+            {
+                    magnitudo += Math.pow(term.getValue(),2);
+            }
+
+            return Math.sqrt(magnitudo);
+    }
 
 	/**
 	 * Calcola la similarita' coseno tra due vettori (normalizzati)
@@ -34,6 +49,9 @@ public class Similarity {
 		if(!Normalization.isNormalized(b_vector,epsilon)) {
 			b_vector = Normalization.normalizeTreeMap(b_vector);
 		}
+		// A questo punto i vettori sono normalizzati in norma1
+		
+		// Le magnitudo vengono utilizzate per normalizzare in norma2
 		a_magnitudo = doc_magnitudo(a_vector);
         b_magnitudo = doc_magnitudo(b_vector); 
         
@@ -50,20 +68,5 @@ public class Similarity {
 		cosSim = scalarProd / (a_magnitudo * b_magnitudo);
 		return cosSim;
 	}
-	
-    /**
-     * Calcola la magnitudo di un vettore
-     * @param doc il vettore di termini pesati 
-     * @return magnitudo di un vettore di termini pesati
-     */
-    public static double doc_magnitudo(TreeMap<String, Double> doc)
-    {
-            double magnitudo = 0.0;
-            for (Map.Entry<String, Double> term : doc.entrySet())
-            {
-                    magnitudo += Math.pow(term.getValue(),2);
-            }
 
-            return Math.sqrt(magnitudo);
-    }
 }
