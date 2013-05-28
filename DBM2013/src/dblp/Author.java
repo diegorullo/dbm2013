@@ -70,8 +70,9 @@ public class Author {
 	 * 
 	 * @return treemap dei tf di un autore, pesando gli articoli per eta'
 	 * @throws IOException
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public TreeMap<String, Double> getWeightedTFVector() throws IOException {
+	public TreeMap<String, Double> getWeightedTFVector() throws IOException, AuthorWithoutPapersException {
 		TreeMap<String, Double> wtfv;
 		double weight = 0;
 		// double weightNormalizationFactor = 0;
@@ -83,7 +84,7 @@ public class Author {
 		 * usando l'età - tfrkey[r] = sum(peso[i]*tfkey[i])/sum(peso[i]);
 		 */
 
-		for (Paper p : papers) {
+		for (Paper p : this.getPapers()) {
 			weight = p.getWeightBasedOnAge();
 			wtfv = p.getWeightedTFVector(weight);
 			for (Map.Entry<String, Double> k : wtfv.entrySet()) {
@@ -122,7 +123,7 @@ public class Author {
 		 * usando l'età - tfidfrkey[r] = sum(peso[i]*tfidfkey[i])/sum(peso[i]);
 		 */
 
-		for (Paper p : papers) {
+		for (Paper p : this.getPapers()) {
 			weight = p.getWeightBasedOnAge();
 			wtfidfv = p.getWeightedTFIDFVector(weight, corpus);
 			for (Map.Entry<String, Double> k : wtfidfv.entrySet()) {
@@ -146,12 +147,13 @@ public class Author {
 	 * 
 	 * @return hashmap delle keyword in tutti gli articoli dell'autore, con
 	 *         occorrenze
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public TreeMap<String, Integer> getCombinedKeywordSet() {
+	public TreeMap<String, Integer> getCombinedKeywordSet() throws AuthorWithoutPapersException {
 		TreeMap<String, Integer> combinedKeywordSet = new TreeMap<String, Integer>();
 		TreeMap<String, Integer> keywordSet = new TreeMap<String, Integer>();
 
-		for (Paper p : papers) {
+		for (Paper p : this.getPapers()) {
 			keywordSet = p.getKeywordSetWithOccurrences();
 			// System.out.println(keywordSet);
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
@@ -311,8 +313,7 @@ public class Author {
 	public TreeMap<String, Double> getTFIDF2Vector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
 
-		List<Paper> papers = this.getPapers();
-		for (Paper p : papers) {
+		for (Paper p : this.getPapers()) {
 			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			double tfidf2;
 			String key;
@@ -365,13 +366,11 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sostituire con exception appropriata
-	public List<Paper> getCoAuthorsAndSelfPapers(Corpus corpus)
-			throws Exception {
+	public List<Paper> getCoAuthorsAndSelfPapers(Corpus corpus)	throws Exception {
 
 		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(corpus);
-		List<Paper> selfPapers = this.getPapers();
 
-		for (Paper p : selfPapers) {
+		for (Paper p : this.getPapers()) {
 			if (!coAuthorsAndSelfPapers.contains(p)) {
 				coAuthorsAndSelfPapers.add(p);
 			}
@@ -385,12 +384,13 @@ public class Author {
 	 * ordinato lessicograficamente.
 	 * 
 	 * @return arraylist delle keyword dell'autore, ordinato
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public ArrayList<String> getKeywordSet() {
+	public ArrayList<String> getKeywordSet() throws AuthorWithoutPapersException {
 		ArrayList<String> keywordSet = new ArrayList<String>();
 
 		ArrayList<String> ks = new ArrayList<String>();
-		for (Paper p : papers) {
+		for (Paper p : this.getPapers()) {
 			ks = p.getKeywordSet();
 			for (String k : ks) {
 				if (!keywordSet.contains(k)) {
