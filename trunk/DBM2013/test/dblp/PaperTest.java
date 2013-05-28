@@ -5,9 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-
+import java.util.TreeMap;
 import org.junit.Test;
 
 public class PaperTest {
@@ -25,9 +24,9 @@ public class PaperTest {
 	
 	/**
 	 * Versione dummy test del metodo getKeywordSet
-	 * verifica la mera creazione dell'HashMap di keyword.
+	 * verifica la mera creazione del TreeMap di keyword.
 	 * In realtà, se il paper ha titolo ed abstract nullo, 
-	 * il test fallisce: l'HashMap viene creato ma rimane nullo.
+	 * il test fallisce: il TreeMap viene creato ma rimane nullo.
 	 * @throws Exception 
 	 */
 	@Test
@@ -36,7 +35,7 @@ public class PaperTest {
 		Corpus dblp = f.getCorpus();
 		int paperid = 943390;
 		Paper paper = dblp.getPaperByID(paperid);
-		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
+		TreeMap<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 		org.junit.Assert.assertNotNull("keywordset paper "+ paperid + "creato correttamente", ks);		
 	}
 	
@@ -64,8 +63,8 @@ public class PaperTest {
 		titlesKeywords.add("TF");
 		titlesKeywords.add("uno");
 		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
-		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences(); 
-		Map<String, Integer> mapAtteso = new HashMap<String, Integer>() {
+		TreeMap<String, Integer> ks = paper.getKeywordSetWithOccurrences(); 
+		TreeMap<String, Integer> treemapAtteso = new TreeMap<String, Integer>() {
 		private static final long serialVersionUID = 1L;
 		{		    
 		    put("TF", 1*3);
@@ -74,7 +73,7 @@ public class PaperTest {
 		    put("uno", 1*3);
 		    put("testare", 1*3);
 		}};
-		org.junit.Assert.assertEquals(mapAtteso, ks);	
+		org.junit.Assert.assertEquals(treemapAtteso, ks);	
 	}
 
 	/**
@@ -100,7 +99,7 @@ public class PaperTest {
 		titlesKeywords.add("TF");
 		titlesKeywords.add("uno");
 		Paper paper = new Paper(1, "Testare i TF a uno", 2013, "Gruppo DBM DLS", "media media keyword keyword keyword", authorsNames, authors, keywords, titlesKeywords);
-		//Map<String, Integer> ks = paper.getKeywordSet(); 	
+		//TreeMap<String, Integer> ks = paper.getKeywordSet(); 	
 		
 		String testKeyword = "media";
 		Double testTf = paper.getTF(testKeyword);

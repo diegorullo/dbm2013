@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
 
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
@@ -51,7 +52,7 @@ public class PaperTestAdvanced {
 		for (Paper p : a.getPapers()) {
 			//System.out.println("#kw = " + p.getKeywordSet().size() + "  " + p);
 			double uno = 0.0;
-			Map<String, Integer> ks = p.getKeywordSetWithOccurrences();
+			TreeMap<String, Integer> ks = p.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : ks.entrySet()) {
 				//System.out.println(p.getTF(k.getKey()));
 				uno += p.getTF(k.getKey());
@@ -83,7 +84,7 @@ public class PaperTestAdvanced {
 		//Paper paper = f.newPaper(1279177);
 		Paper paper = f.newPaper(943390);
 		double uno = 0.0;
-		Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
+		TreeMap<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 		for(Map.Entry<String, Integer> k : ks.entrySet()) {
 			uno += paper.getTF(k.getKey());
 		}
@@ -109,7 +110,7 @@ public class PaperTestAdvanced {
 			Corpus dblp = f.getCorpus();
 			for (Paper paper : dblp.getPapers()) {
 				double uno = 0.0;
-				Map<String, Integer> ks = paper.getKeywordSetWithOccurrences();
+				TreeMap<String, Integer> ks = paper.getKeywordSetWithOccurrences();
 				for (Map.Entry<String, Integer> k : ks.entrySet()) {
 					uno += paper.getTF(k.getKey());
 				}
@@ -139,7 +140,7 @@ public class PaperTestAdvanced {
 		Paper paper = f.newPaper(943390);
 		double uno = 0.0;
 		//FIXME: da implementare
-		Map<String, Double> tfv = paper.getTFVector();
+		TreeMap<String, Double> tfv = paper.getTFVector();
 		for(Map.Entry<String, Double> k : tfv.entrySet()) {
 			uno += paper.getTF(k.getKey());
 		}

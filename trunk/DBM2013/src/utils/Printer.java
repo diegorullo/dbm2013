@@ -16,7 +16,7 @@ public class Printer {
 	// Stampa del vettore TFIDF (Paper):
 	// prtType=0 tipo ordinamento: alfabetico
 	// prtType=1 tipo ordinamento: indice numerico
-	public static void printVector(Map<String, Double> m, int prtType)
+	public static void printVector(TreeMap<String, Double> m, int prtType)
 			throws IOException {
 
 		if (prtType == 0) {
@@ -26,7 +26,7 @@ public class Printer {
 						+ entry.getValue() + ">");
 			}
 		} else {
-			ArrayList<Map.Entry<String, Double>> ordV = orderVectorMap(m);
+			ArrayList<Map.Entry<String, Double>> ordV = orderVectorTreeMap(m);
 			System.out
 					.println("<Vettore TF(Paper) [ordinamento: value decrescente]>");
 
@@ -39,8 +39,8 @@ public class Printer {
 		}
 	}
 
-	public static ArrayList<Map.Entry<String, Double>> orderVectorMap(
-			Map<String, Double> m) {
+	public static ArrayList<Map.Entry<String, Double>> orderVectorTreeMap(
+			TreeMap<String, Double> m) {
 
 		ArrayList<Map.Entry<String, Double>> ordVector = new ArrayList<Map.Entry<String, Double>>(
 				m.entrySet());
