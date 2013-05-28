@@ -10,6 +10,8 @@ import junit.framework.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import exceptions.AuthorWithoutCoAuthorsException;
+
 import utils.Similarity;
 
 public class AuthorTestAdvanced {
@@ -140,7 +142,7 @@ public class AuthorTestAdvanced {
 		assertEquals(similarityStefaniaLuca, similarityLucaStefania, epsilon);
 	}
 	
-	@Test
+	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityTFIDF2VectorWithSelf() throws Exception {
 		// 1b.2 TF-IDF2
 		Double similarityStefaniaStefania = authorStefania.getSimilarityOnTFIDF2Vector(authorStefania, dummyCorpus);
@@ -152,7 +154,7 @@ public class AuthorTestAdvanced {
 		assertEquals(1.0, similarityLucaLuca, epsilon);
 	}
 	
-	@Test
+	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityTFIDF2VectorReflexive() throws Exception {
 		// 1b.2 TF-IDF2		
 		Double similarityStefaniaLuca = authorStefania.getSimilarityOnTFIDF2Vector(authorLuca, dummyCorpus);
@@ -163,7 +165,7 @@ public class AuthorTestAdvanced {
 		assertEquals(similarityStefaniaLuca, similarityLucaStefania, epsilon);
 	}
 	
-	@Test
+	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityPFVectorWithSelf() throws Exception {
 		// 1b.3 PF
 		Double similarityStefaniaStefania = authorStefania.getSimilarityOnPFVector(authorStefania, dummyCorpus);
@@ -175,7 +177,7 @@ public class AuthorTestAdvanced {
 		assertEquals(1.0, similarityLucaLuca, epsilon);
 	}	
 
-	@Test
+	@Test(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityPFVectorReflexive() throws Exception {
 		// 1b.3 PF
 		Double similarityStefaniaLuca = authorStefania.getSimilarityOnPFVector(authorLuca, dummyCorpus);
