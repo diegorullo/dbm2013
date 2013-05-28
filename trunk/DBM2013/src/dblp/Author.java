@@ -574,6 +574,38 @@ public class Author {
 	}
 
 	/**
+	 * Ricostruisce l'associazione Key-value delle top PCA/SVD
+	 * @param n_matrix matrice di soli valori double
+	 * @param n_top numero di top desiderati
+	 * @return matrice delle n top con associazione delle keyword
+	 * @throws Exception
+	 */
+	public ArrayList<TreeMap<String, Double>> getTopN(ArrayList<ArrayList<Double>> n_matrix,int n_top) throws Exception 
+	{
+		ArrayList<TreeMap<String, Double>> n_TopMatrix = new ArrayList<TreeMap<String, Double>>();
+		ArrayList<String> keywordSet = this.getKeywordSet();
+		if(n_top > n_matrix.size())
+		{
+			n_top = n_matrix.size();
+		}
+		for(int i=0;i<n_top;i++)
+		{
+			ArrayList<Double> curr_row = n_matrix.get(i);
+			TreeMap<String, Double> new_row = new TreeMap<String, Double>();
+			int j = 0;
+			for (String s : keywordSet) 
+			{
+				new_row.put(s, curr_row.get(j));
+				j++;
+			}
+			n_TopMatrix.add(new_row);
+		}
+		
+		return n_TopMatrix;
+	}
+	
+	
+	/**
 	 * Calcola la matrice SVD per l'autore corrente
 	 * @param documentTermMatrix
 	 * @return matrice SVD per l'autore corrente
