@@ -248,7 +248,7 @@ public class AuthorTestAdvanced {
 		assertEquals(similarityCandanSapino, similaritySapinoCandan, epsilon);
 	}
 	
-	@Test(expected=AuthorWithoutCoAuthorsException.class)
+	@Test
 	public void testGetCosineSimilarityTFIDF2VectorWithSelf() throws Exception {
 		// 1b.2 TF-IDF2
 		Double similarityCandanCandan = authorCandan.getSimilarityOnTFIDF2Vector(authorCandan, dblp);
@@ -260,7 +260,7 @@ public class AuthorTestAdvanced {
 		assertEquals(1.0, similaritySapinoSapino, epsilon);
 	}
 	
-	@Test(expected=AuthorWithoutCoAuthorsException.class)
+	@Test
 	public void testGetCosineSimilarityTFIDF2VectorReflexive() throws Exception {
 		// 1b.2 TF-IDF2		
 		Double similarityCandanSapino = authorCandan.getSimilarityOnTFIDF2Vector(authorSapino, dblp);
