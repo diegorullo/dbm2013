@@ -28,7 +28,7 @@ public class AuthorTestAdvanced {
 	static Corpus dblp;
 	
 	@BeforeClass	
-	public static void getDummyEnvironment() {
+	public static void getDummyEnvironment() throws Exception {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
