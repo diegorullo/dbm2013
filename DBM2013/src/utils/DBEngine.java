@@ -143,7 +143,8 @@ public class DBEngine {
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final int cardinality;		
 				
-		String queryA = "SELECT personid FROM authors;";
+		//String queryA = "SELECT personid FROM authors;";
+		String queryA = "SELECT personid FROM authors WHERE personid IN (SELECT distinct personid FROM writtenby);";
 		String queryP = "SELECT paperid FROM papers;";
 		String queryC = "SELECT COUNT(*) FROM papers;";
 
