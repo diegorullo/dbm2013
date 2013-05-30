@@ -87,7 +87,7 @@ public class Author {
 
 		for (Paper p : this.getPapers()) {
 			weight = p.getWeightBasedOnAge();
-			wtfv = p.getWeightedTFVector(weight);
+			wtfv = p.getWeightedTFVector();
 			for (Map.Entry<String, Double> k : wtfv.entrySet()) {
 				if (!weightedTFVector.containsKey(k.getKey())) {
 					weightedTFVector.put(k.getKey(), k.getValue());
@@ -329,7 +329,7 @@ public class Author {
 			}
 		}
 
-		System.out.println("TFIDF2Vector: " + TFIDF2Vector);
+		//System.out.println("TFIDF2Vector: " + TFIDF2Vector);
 		TreeMap<String, Double> normalizedTFIDF2Vector = Normalization.normalizeTreeMap(TFIDF2Vector);
 
 		return normalizedTFIDF2Vector;
@@ -520,9 +520,9 @@ public class Author {
 			}
 		}
 		
-		System.out.println("PFVector: " + PFVector);
+		//System.out.println("PFVector: " + PFVector);
 		TreeMap<String, Double> normalizedPFVector = Normalization.normalizeTreeMap(PFVector);
-		System.out.println("normalizedPFVector: " + normalizedPFVector);
+		//System.out.println("normalizedPFVector: " + normalizedPFVector);
 
 		return normalizedPFVector;
 	}
@@ -709,8 +709,8 @@ public class Author {
 		
 		TreeMap<String, Double> myPFVector = this.getPFVector(corpus);
 		TreeMap<String, Double> otherPFVector = otherAuthor.getPFVector(corpus);
-		System.out.println("myPFVector: " + myPFVector);
-		System.out.println("otherPFVector: " + otherPFVector);
+//		System.out.println("myPFVector: " + myPFVector);
+//		System.out.println("otherPFVector: " + otherPFVector);
 		
 		similarity = Similarity.getCosineSimilarity(myPFVector, otherPFVector);	
 		

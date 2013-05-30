@@ -259,8 +259,8 @@ public class AuthorTestAdvanced {
 			Double similarityCandanCandan = authorCandan.getSimilarityOnKeywordVector(authorCandan, dblp);
 			Double similaritySapinoSapino = authorSapino.getSimilarityOnKeywordVector(authorSapino, dblp);
 			
-			System.out.println("Similarità Candan-Candan: " + similarityCandanCandan);
-			System.out.println("Similarità Sapino-Sapino: " + similaritySapinoSapino);
+//			System.out.println("Similarità Candan-Candan: " + similarityCandanCandan);
+//			System.out.println("Similarità Sapino-Sapino: " + similaritySapinoSapino);
 			assertEquals(1.0, similarityCandanCandan, epsilon);
 			assertEquals(1.0, similaritySapinoSapino, epsilon);
 		}
