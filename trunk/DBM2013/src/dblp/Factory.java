@@ -15,12 +15,12 @@ public class Factory {
 		dbe = getDBEngine();
 	}
 		
-	public Paper newPaper(int paperID) throws SQLException, IOException {		
+	public Paper newPaper(int paperID) throws Exception {		
 		Paper p = dbe.newPaper(paperID);
 		return p;
 	}
 	
-	public Author newAuthor(int personID) throws SQLException, IOException {
+	public Author newAuthor(int personID) throws Exception {
 		Author a = dbe.newAuthor(personID);
 		return a;
 	}
@@ -28,10 +28,9 @@ public class Factory {
 	/**
 	 * Ritorna l'unica istanza di dblp
 	 * @return Corpus dblp
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public Corpus getCorpus() throws SQLException, IOException {
+	public Corpus getCorpus() throws Exception {
 		if(dblp == null) {
 			dblp = dbe.newCorpus();
 		}

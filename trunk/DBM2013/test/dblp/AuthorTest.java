@@ -34,10 +34,10 @@ public class AuthorTest {
 	 * 1 autore, 2 paper, la keyword "algorithm" compare in
 	 * entrambi i paper;
 	 * (vedi commento interno per il valore atteso)
-	 * @throws AuthorWithoutPapersException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGetRestrictedTF() throws AuthorWithoutPapersException {
+	public void testGetRestrictedTF() throws Exception {
 		
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
 		authorsNames1.add("Stefania");

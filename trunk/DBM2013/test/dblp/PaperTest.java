@@ -42,12 +42,10 @@ public class PaperTest {
 	/**
 	 * Testa il metodo getKeywordSetWithOccurrences istanziando un paper
 	 * di keyword note.
-	 * 
-	 * @throws SQLException
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGetKeywordSetWithOccurrences() throws SQLException, IOException {		
+	public void testGetKeywordSetWithOccurrences() throws Exception {		
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();
@@ -81,9 +79,10 @@ public class PaperTest {
 	 * di una keyword prefissata.
 	 * Confronta il TF calcolato dal metodo con
 	 * il TF atteso, calcolato a mano.
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTF() {
+	public void testGetTF() throws Exception {
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();

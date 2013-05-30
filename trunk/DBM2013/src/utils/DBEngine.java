@@ -59,8 +59,9 @@ public class DBEngine {
 	 * istanzia un paper a partire dal relativo id
 	 * @param paperID   id del paper
 	 * @return paper	paper
+	 * @throws Exception 
 	 */
-	public Paper newPaper(int paperID) throws SQLException, IOException {
+	public Paper newPaper(int paperID) throws Exception {
 		final String title;
 		final int year;
 		final String publisher;
@@ -100,8 +101,9 @@ public class DBEngine {
 	 * istanzia un autore a partire dal relativo id
 	 * @param personID   id dell'autore
 	 * @return author	 autore
+	 * @throws Exception 
 	 */
-	public Author newAuthor(int personID) throws SQLException, IOException {
+	public Author newAuthor(int personID) throws Exception {
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final String name;
 		
@@ -135,8 +137,9 @@ public class DBEngine {
 	 * - la cardinalità, numero di papers del corpus.
 	 * 
 	 * @return corpus	corpus con autori, papers e cardinalità
+	 * @throws Exception 
 	 */
-	public Corpus newCorpus() throws SQLException, IOException {
+	public Corpus newCorpus() throws Exception {
 		final ArrayList<Author> authors = new ArrayList<Author>();
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final int cardinality;		

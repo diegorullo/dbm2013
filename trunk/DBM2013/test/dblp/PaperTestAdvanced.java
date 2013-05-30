@@ -23,13 +23,12 @@ public class PaperTestAdvanced {
 	 * Versione dummy test del metodo getTF:
 	 * controlla che, con dati ad hoc, la somma dei tf delle
 	 * varie keyword (calcolati singolarmente) sia 1.
+	 * @throws Exception 
 	 * 
 	 * @throws SQLException
-	 * @throws IOException
-	 * @throws AuthorWithoutPapersException 
 	 */
 	@Test
-	public void testGetTFAUnoDummy() throws IOException, AuthorWithoutPapersException {
+	public void testGetTFAUnoDummy() throws Exception {
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();
@@ -72,14 +71,10 @@ public class PaperTestAdvanced {
 	 * Test del metodo getTF:
 	 * controlla che, con dati del database reale,
 	 * la somma dei tf delle varie keyword (calcolati singolarmente) sia 1.
-	 * 
-	 * @throws SQLException
-	 * @throws IOException
-	 * @throws MatlabInvocationException 
-	 * @throws MatlabConnectionException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTFAUno() throws SQLException, IOException, MatlabConnectionException, MatlabInvocationException {
+	public void testGetTFAUno() throws Exception {
 		Factory f = new Factory();
 		//Paper paper = f.newPaper(1279177);
 		Paper paper = f.newPaper(943390);
@@ -97,14 +92,10 @@ public class PaperTestAdvanced {
 	 * Test del metodo getTF:
 	 * controlla che, con dati del database reale,
 	 * la somma dei tf delle varie keyword (calcolati singolarmente) sia 1.
-	 * 
-	 * @throws SQLException
-	 * @throws IOException
-	 * @throws MatlabInvocationException 
-	 * @throws MatlabConnectionException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTFAUnoTuttiIPaper() throws SQLException, IOException, MatlabConnectionException, MatlabInvocationException {
+	public void testGetTFAUnoTuttiIPaper() throws Exception {
 		if (DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
@@ -128,14 +119,10 @@ public class PaperTestAdvanced {
 	 * Test del metodo getTFVector:
 	 * controlla che, con dati del database reale,
 	 * la somma dei tf delle varie keyword sia 1.
-	 * 
-	 * @throws SQLException
-	 * @throws IOException
-	 * @throws MatlabInvocationException 
-	 * @throws MatlabConnectionException 
+	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTFVectorAUno() throws SQLException, IOException, MatlabConnectionException, MatlabInvocationException {
+	public void testGetTFVectorAUno() throws Exception {
 		Factory f = new Factory();
 		Paper paper = f.newPaper(943390);
 		double uno = 0.0;

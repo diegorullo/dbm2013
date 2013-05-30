@@ -22,11 +22,16 @@ public class Paper {
 	private ArrayList<Integer> authors;
 	private ArrayList<String> keywords;
 	private ArrayList<String> titlesKeywords;
+	private TreeMap<String, Double> tFVector;
 	
 	
+	public TreeMap<String, Double> getTFVector() {
+		return tFVector;
+	}
+
 	public Paper(int paperID, String title, int year, String publisher,
 			String paperAbstract, ArrayList<String> authorsNames, ArrayList<Integer> authors,
-			ArrayList<String> keywords, ArrayList<String> titlesKeywords) {
+			ArrayList<String> keywords, ArrayList<String> titlesKeywords) throws Exception {
 		super();
 		this.paperID = paperID;
 		this.title = title;
@@ -37,6 +42,7 @@ public class Paper {
 		this.authors = authors;
 		this.keywords = keywords;
 		this.titlesKeywords = titlesKeywords;
+		this.tFVector = this.calculateTFVector();
 	}
 	
 	/**
@@ -201,7 +207,7 @@ public class Paper {
 	 * 
 	 * @return keywordVector pesato in base al tf
 	 */
-	public TreeMap<String, Double> getTFVector() throws IOException {
+	public TreeMap<String, Double> calculateTFVector() throws IOException {
 		
 		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFVector = new TreeMap<String, Double>();		
