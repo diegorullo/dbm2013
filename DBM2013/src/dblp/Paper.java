@@ -23,12 +23,20 @@ public class Paper {
 	private ArrayList<String> keywords;
 	private ArrayList<String> titlesKeywords;
 	private TreeMap<String, Double> tFVector;
-	
+	private TreeMap<String, Integer> keywordSetWithOccurrences;
+	private TreeMap<String, Integer> titleKeywordSetWithOccurrences;
 	
 	public TreeMap<String, Double> getTFVector() {
 		return tFVector;
 	}
-
+	
+	public TreeMap<String, Integer> getKeywordSetWithOccurrences() {
+		return keywordSetWithOccurrences;
+	}
+	
+	public TreeMap<String, Integer> getTitleKeywordSetWithOccurrences() {
+		return titleKeywordSetWithOccurrences;
+	}
 	public Paper(int paperID, String title, int year, String publisher,
 			String paperAbstract, ArrayList<String> authorsNames, ArrayList<Integer> authors,
 			ArrayList<String> keywords, ArrayList<String> titlesKeywords) throws Exception {
@@ -42,7 +50,11 @@ public class Paper {
 		this.authors = authors;
 		this.keywords = keywords;
 		this.titlesKeywords = titlesKeywords;
+
+		this.titleKeywordSetWithOccurrences = this.calculateTitleKeywordSetWithOccurrences(titleWeight);
+		this.keywordSetWithOccurrences = this.calculateKeywordSetWithOccurrences();
 		this.tFVector = this.calculateTFVector();
+
 	}
 	
 	/**
@@ -52,7 +64,7 @@ public class Paper {
 	 * @param weight: peso parametrizzato
 	 * @return hasmap delle keyword del titolo pesate n.occ * weight
 	 */
-	public TreeMap<String, Integer> getTitleKeywordSetWithOccurrences(int weight) {
+	public TreeMap<String, Integer> calculateTitleKeywordSetWithOccurrences(int weight) {
 		TreeMap<String, Integer> titlesKeywordSetWithOccurrences = new TreeMap<String, Integer>();
 		
 		for(String k : titlesKeywords) {
@@ -73,11 +85,11 @@ public class Paper {
 	 * 
 	 * @return l'hashmap delle keyword e rispettivo numero di occorrenze
 	 */
-	public TreeMap<String, Integer> getKeywordSetWithOccurrences() {
+	public TreeMap<String, Integer> calculateKeywordSetWithOccurrences() {
 		
 		TreeMap<String, Integer> keywordSetWithOccurrences = new TreeMap<String, Integer>();
 		//FIXME documentare correttamente la scelta
-		TreeMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSetWithOccurrences(titleWeight);
+		TreeMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSetWithOccurrences();
 		
 		// keywords provenienti dall'abstract
 		for(String k : keywords) {
@@ -212,7 +224,7 @@ public class Paper {
 		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFVector = new TreeMap<String, Double>();		
 		double tf = 0.0;		
-		
+		System.out.println(keywordSet);
 		for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 			tf = getTF(k.getKey());
 			TFVector.put(k.getKey(), tf);
