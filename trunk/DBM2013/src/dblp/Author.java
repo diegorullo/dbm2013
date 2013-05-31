@@ -24,7 +24,11 @@ public class Author {
 	private ArrayList<String> keywordSet;
 //	private TreeMap<String, Integer> combinedKeywordSet;
 	private TreeMap<String, Double> weightedTFVector;
-
+	private TreeMap<String, Double> weightedTFIDFVector;
+	private TreeMap<String, Integer> combinedKeywordSet;
+	private TreeMap<String, Double> TFIDF2Vector;
+	private TreeMap<String, Double> PFVector;
+	
 	public Author(int personID, String name, ArrayList<Paper> papers) throws Exception {
 		super();
 		this.authorID = personID;
@@ -32,6 +36,7 @@ public class Author {
 		this.papers = papers;
 //		this.combinedKeywordSet = this.calculateCombinedKeywordSet();
 		this.weightedTFVector = this.calculateWeightedTFVector();
+		this.combinedKeywordSet = this.calculateCombinedKeywordSet();
 	}
 
 	/**
@@ -77,7 +82,7 @@ public class Author {
 	 * @throws IOException
 	 * @throws AuthorWithoutPapersException 
 	 */
-	public TreeMap<String, Double> calculateWeightedTFVector() throws IOException, AuthorWithoutPapersException {
+	private TreeMap<String, Double> calculateWeightedTFVector() throws IOException, AuthorWithoutPapersException {
 		TreeMap<String, Double> wtfv;
 		@SuppressWarnings("unused")
 		double weight = 0;
@@ -119,7 +124,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sistemare l'eccezione
-	public TreeMap<String, Double> getWeightedTFIDFVector(Corpus corpus) throws Exception {
+	private TreeMap<String, Double> calculateWeightedTFIDFVector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 		TreeMap<String, Double> wtfidfv;
 		double weight = 0;
@@ -156,24 +161,26 @@ public class Author {
 	 *         occorrenze
 	 * @throws AuthorWithoutPapersException 
 	 */
-	public TreeMap<String, Integer> getCombinedKeywordSet() throws AuthorWithoutPapersException {
+	private TreeMap<String, Integer> calculateCombinedKeywordSet() throws AuthorWithoutPapersException {
 		TreeMap<String, Integer> combinedKeywordSet = new TreeMap<String, Integer>();
 		TreeMap<String, Integer> keywordSet = new TreeMap<String, Integer>();
 		ArrayList<Paper> paperList = this.getPapers();
 
 		for (Paper p : paperList) {
 			keywordSet = p.getKeywordSetWithOccurrences();
-			System.out.println(keywordSet);
+			//System.out.println(keywordSet);
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
-				if (!combinedKeywordSet.containsKey(k)) {
+				if (!combinedKeywordSet.containsKey(k.getKey())) {
 					combinedKeywordSet.put(k.getKey(), k.getValue());
 				} else {
-					combinedKeywordSet.put(k.getKey(), combinedKeywordSet.get(k) + k.getValue());
+					combinedKeywordSet.put(k.getKey(), combinedKeywordSet.get(k.getKey()) + k.getValue());
 				}
 			}
 		}
 		return combinedKeywordSet;
 	}
+	
+
 
 	/**
 	 * Estrae i nomi dei coautori dell'autore corrente.
@@ -324,7 +331,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME
-	public TreeMap<String, Double> getTFIDF2Vector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> calculateTFIDF2Vector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
 		ArrayList<Paper> paperList = this.getPapers();
 		
@@ -516,7 +523,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME
-	public TreeMap<String, Double> getPFVector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> calculatePFVector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
 		List<Paper> papers = this.getPapers();
 		
@@ -761,12 +768,33 @@ public class Author {
 		return this.keywordSet;
 	}
 	
-//	public TreeMap<String, Integer> getCombinedKeywordSet() {
-//		return this.combinedKeywordSet;
-//	}
+	public TreeMap<String, Integer> getCombinedKeywordSet() {
+		return this.combinedKeywordSet;
+	}
 	
 	public TreeMap<String, Double> getWeightedTFVector() {
 		return this.weightedTFVector;
+	}
+	
+	public TreeMap<String, Double> getWeightedTFIDFVector(Corpus corpus) throws Exception{
+		if (weightedTFIDFVector==null){
+			weightedTFIDFVector = calculateWeightedTFIDFVector(corpus);
+		}
+		return weightedTFIDFVector;		
+	}
+	
+	public TreeMap<String, Double>getTFIDF2Vector(Corpus corpus) throws Exception{
+		if (TFIDF2Vector==null){
+			TFIDF2Vector = calculateTFIDF2Vector(corpus);
+		}
+		return TFIDF2Vector;		
+	}
+	
+	public TreeMap<String, Double>getPFVector(Corpus corpus) throws Exception{
+		if (PFVector==null){
+			PFVector = calculatePFVector(corpus);
+		}
+		return PFVector;		
 	}
 
 	/*

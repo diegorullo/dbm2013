@@ -140,7 +140,7 @@ public class Paper {
 		//FIXME documentare correttamente la scelta
 		ArrayList<String> titlesKeywordSet = this.getTitleKeywordSet();
 		
-		// keywords provenienti dall'abstract
+		//  keywords provenienti dall'abstract
 		for(String k : keywords) {
 			if (!keywordSet.contains(k)) {
 				keywordSet.add(k);

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.mysql.jdbc.Statement;
 
@@ -82,6 +83,7 @@ public class DBEngine {
 		paperAbstract = res.getString("abstract");
 		
 		keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
+	    Collections.sort(keywords);
 		keywordsTitle = TextProcessor.removeStopWordsAndStem(title);
 		
 		authorsNames.add(res.getString("name"));
