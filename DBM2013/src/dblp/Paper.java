@@ -60,8 +60,8 @@ public class Paper {
 	 */
 	public TreeMap<String, Integer> calculateTitleKeywordSetWithOccurrences(int weight) {
 		TreeMap<String, Integer> titlesKeywordSetWithOccurrences = new TreeMap<String, Integer>();
-		
-		for(String k : titlesKeywords) {
+		ArrayList<String> titlesKeywordsList = this.getTitlesKeywords();
+		for(String k : titlesKeywordsList) {
 			if (!titlesKeywordSetWithOccurrences.containsKey(k)) {
 				titlesKeywordSetWithOccurrences.put(k, weight);
 			}
@@ -84,9 +84,9 @@ public class Paper {
 		TreeMap<String, Integer> keywordSetWithOccurrences = new TreeMap<String, Integer>();
 		//FIXME documentare correttamente la scelta
 		TreeMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSetWithOccurrences();
-		
+		ArrayList<String> keywordsList = this.getKeywords();
 		// keywords provenienti dall'abstract
-		for(String k : keywords) {
+		for(String k : keywordsList) {
 			if (!keywordSetWithOccurrences.containsKey(k)) {
 				keywordSetWithOccurrences.put(k, 1);
 			}
@@ -116,8 +116,8 @@ public class Paper {
 	 */
 	public ArrayList<String> getTitleKeywordSet() {
 		ArrayList<String> titlesKeywordSet = new  ArrayList<String>();
-		
-		for(String k : titlesKeywords) {
+		ArrayList<String> titlesKeywordsList = this.getTitlesKeywords();
+		for(String k : titlesKeywordsList) {
 			if (!titlesKeywordSet.contains(k)) {
 				titlesKeywordSet.add(k);
 			}
@@ -139,9 +139,9 @@ public class Paper {
 		ArrayList<String> keywordSet = new ArrayList<String>();
 		//FIXME documentare correttamente la scelta
 		ArrayList<String> titlesKeywordSet = this.getTitleKeywordSet();
-		
+		ArrayList<String> keywordsList = this.getKeywords();
 		//  keywords provenienti dall'abstract
-		for(String k : keywords) {
+		for(String k : keywordsList) {
 			if (!keywordSet.contains(k)) {
 				keywordSet.add(k);
 			}
@@ -177,7 +177,7 @@ public class Paper {
 			n = keywordSet.get(keyword);
 		}
 		if (keywordSet != null) {
-			K = keywords.size() + titlesKeywords.size() * titleWeight;
+			K = this.getKeywords().size() + this.getTitlesKeywords().size() * titleWeight;
 		}
 		if(keywordSet.containsKey(keyword)) {
 			tf = (double) n / K;
@@ -263,7 +263,7 @@ public class Paper {
 	 */
 	public int getAge() {
 		int currentYear = Integer.parseInt(new SimpleDateFormat("yyyy").format(Calendar.getInstance().getTime()));
-		return currentYear - this.year; 
+		return currentYear - this.getYear(); 
 	}
 	
 	/**
@@ -283,7 +283,7 @@ public class Paper {
 	 * @return tf pesato della keyword
 	 */
 	public double getWeightedTF(String keyword, double weight) {
-		double tf = getTF(keyword);
+		double tf = this.getTF(keyword);
 		return  weight * tf;
 	}
 	
@@ -343,7 +343,7 @@ public class Paper {
 	 * @return true se la keyword è presente, false altrimenti
 	 */
 	public boolean containsKeyword(String keyword){
-		return this.keywords.contains(keyword);
+		return this.getKeywords().contains(keyword);
 	}
 	
 	public int getPaperID() {
