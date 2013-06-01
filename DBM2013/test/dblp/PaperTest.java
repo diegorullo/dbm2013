@@ -2,8 +2,6 @@ package dblp;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 

@@ -2,18 +2,12 @@ package dblp;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import matlabcontrol.MatlabConnectionException;
-import matlabcontrol.MatlabInvocationException;
-
 import org.junit.Test;
-
-import exceptions.AuthorWithoutPapersException;
 
 public class PaperTestAdvanced {
 	

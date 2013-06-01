@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import exceptions.AuthorWithoutPapersException;
-
 public class AuthorTest {
 	
 	@Test
