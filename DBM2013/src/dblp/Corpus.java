@@ -29,7 +29,8 @@ public class Corpus {
 	 * @throws Exception
 	 */
 	public Paper getPaperByID(int id) throws Exception {
-		for (Paper p : this.papers) {
+		ArrayList<Paper> papersList = this.getPapers();
+		for (Paper p : papersList) {
 			if (id==p.getPaperID()) {
 				return p;
 			}
@@ -46,8 +47,9 @@ public class Corpus {
 	 * @throws Exception
 	 */
 	public Author getAuthorByID(int id) throws Exception {
-		for (Author a : this.authors) {
-			if (id==a.getAuthorID()) {
+		ArrayList<Author> authorsList = this.getAuthors();
+		for (Author a : authorsList) {
+			if (id == a.getAuthorID()) {
 				return a;
 			}
 		}
@@ -63,7 +65,8 @@ public class Corpus {
 	 * @throws NameNotFoundException
 	 */
 	public Author getAuthorByName(String name) throws NameNotFoundException {
-		for (Author a : this.authors) {
+		ArrayList<Author> authorsList = this.getAuthors();
+		for (Author a : authorsList) {
 			if (name.equals(a.getName())) {
 				return a;
 			}
@@ -83,9 +86,11 @@ public class Corpus {
 		double idf = 0;
 		int m = 0;
 		int N = this.getCardinality();
+		ArrayList<Paper> papersList = this.getPapers();
 
 		// conta il numero di occorrenze della keyword s nel corpus
-		for(Paper p : papers) {
+		for(Paper p : papersList) {
+			//TODO: verificare se sia "safe" spostare la dichiarazione fuori dal ciclo
 			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {
