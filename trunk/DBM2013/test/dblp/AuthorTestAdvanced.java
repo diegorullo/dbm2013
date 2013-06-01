@@ -332,6 +332,57 @@ public class AuthorTestAdvanced {
 			assertEquals(similarityCandanSapino, similaritySapinoCandan, epsilon);
 		}
 	}
+	
+	@Test
+	public void testGetCosineSimilarityTFIDF2VectorBigData() throws Exception {
+		if(DEBUG) {		
+			ArrayList<Author> authors1 = dblp.getAuthors();
+			ArrayList<Author> authors2 = dblp.getAuthors();
+			int a1ID, a2ID;
+			for(Author a1 : authors1) {
+				a1ID = a1.getAuthorID();
+				for(Author a2 : authors2) {
+					a2ID = a2.getAuthorID();
+					System.out.println("S(" + a1ID + "," + a2ID + ")=" + a1.getSimilarityOnTFIDF2Vector(a2, dblp));
+					System.out.println("S(" + a2ID + "," + a1ID + ")=" + a2.getSimilarityOnTFIDF2Vector(a1, dblp));
+				}
+			}
+		}
+	}
+	
+	@Test
+	public void testGetCosineSimilarityPFVectorBigData() throws Exception {
+		if(DEBUG) {		
+			ArrayList<Author> authors1 = dblp.getAuthors();
+			ArrayList<Author> authors2 = dblp.getAuthors();
+			int a1ID, a2ID;
+			for(Author a1 : authors1) {
+				a1ID = a1.getAuthorID();
+				for(Author a2 : authors2) {
+					a2ID = a2.getAuthorID();
+					System.out.println("S(" + a1ID + "," + a2ID + ")=" + a1.getSimilarityOnPFVector(a2, dblp));
+					System.out.println("S(" + a2ID + "," + a1ID + ")=" + a2.getSimilarityOnPFVector(a1, dblp));
+				}
+			}
+		}
+	}
+	
+	@Test
+	public void testGetCosineSimilarityKeywordVectorBigData() throws Exception {
+		if(DEBUG) {		
+			ArrayList<Author> authors1 = dblp.getAuthors();
+			ArrayList<Author> authors2 = dblp.getAuthors();
+			int a1ID, a2ID;
+			for(Author a1 : authors1) {
+				a1ID = a1.getAuthorID();
+				for(Author a2 : authors2) {
+					a2ID = a2.getAuthorID();
+					System.out.println("S(" + a1ID + "," + a2ID + ")=" + a1.getSimilarityOnKeywordVector(a2, dblp));
+					System.out.println("S(" + a2ID + "," + a1ID + ")=" + a2.getSimilarityOnKeywordVector(a1, dblp));
+				}
+			}
+		}
+	}
 
 	@Test
 	public void testEqualsObject() {
