@@ -16,7 +16,8 @@ import utils.Similarity;
 
 public class AuthorTestAdvanced {
 	
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
+	private final static boolean BIG_DATA = true;
 	
 	static Author authorStefania;
 	static Author authorLuca;
@@ -335,16 +336,21 @@ public class AuthorTestAdvanced {
 	
 	@Test
 	public void testGetCosineSimilarityTFIDF2VectorBigData() throws Exception {
-		if(DEBUG) {		
+		if(BIG_DATA) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
+			double s12, s21;
 			for(Author a1 : authors1) {
 				a1ID = a1.getAuthorID();
 				for(Author a2 : authors2) {
 					a2ID = a2.getAuthorID();
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + a1.getSimilarityOnTFIDF2Vector(a2, dblp));
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + a2.getSimilarityOnTFIDF2Vector(a1, dblp));
+					s12 = a1.getSimilarityOnTFIDF2Vector(a2, dblp);
+					s21 = a2.getSimilarityOnTFIDF2Vector(a1, dblp);
+					
+//					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
+//					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
+					assertEquals(s12, s21, 0);
 				}
 			}
 		}
@@ -352,16 +358,21 @@ public class AuthorTestAdvanced {
 	
 	@Test
 	public void testGetCosineSimilarityPFVectorBigData() throws Exception {
-		if(DEBUG) {		
+		if(BIG_DATA) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
+			double s12, s21;
 			for(Author a1 : authors1) {
 				a1ID = a1.getAuthorID();
 				for(Author a2 : authors2) {
 					a2ID = a2.getAuthorID();
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + a1.getSimilarityOnPFVector(a2, dblp));
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + a2.getSimilarityOnPFVector(a1, dblp));
+					s12 = a1.getSimilarityOnPFVector(a2, dblp);
+					s21 = a2.getSimilarityOnPFVector(a1, dblp);
+					
+//					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
+//					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
+					assertEquals(s12, s21, 0);
 				}
 			}
 		}
@@ -369,24 +380,23 @@ public class AuthorTestAdvanced {
 	
 	@Test
 	public void testGetCosineSimilarityKeywordVectorBigData() throws Exception {
-		if(DEBUG) {		
+		if(BIG_DATA) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
+			double s12, s21;
 			for(Author a1 : authors1) {
 				a1ID = a1.getAuthorID();
 				for(Author a2 : authors2) {
 					a2ID = a2.getAuthorID();
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + a1.getSimilarityOnKeywordVector(a2, dblp));
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + a2.getSimilarityOnKeywordVector(a1, dblp));
+					s12 = a1.getSimilarityOnKeywordVector(a2, dblp);
+					s21 = a2.getSimilarityOnKeywordVector(a1, dblp);
+					
+//					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
+//					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
+					assertEquals(s12, s21, 0);
 				}
 			}
 		}
 	}
-
-	@Test
-	public void testEqualsObject() {
-//		fail("Not yet implemented");
-	}
-
 }
