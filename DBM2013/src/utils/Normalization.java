@@ -46,8 +46,7 @@ public class Normalization {
 			//System.out.println("La map in input è già normalizzata!");
 			normalizedTreeMap = treemap;
 		}
-		else 
-		{
+		else {
 			
 			for (Entry<String, Double> entry : treemap.entrySet()) {
 				denominatore += entry.getValue();
