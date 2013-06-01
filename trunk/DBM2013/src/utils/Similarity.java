@@ -52,8 +52,8 @@ public class Similarity {
 		// A questo punto i vettori sono normalizzati in norma1
 		
 		// Le magnitudo vengono utilizzate per normalizzare in norma2
-		a_magnitudo = doc_magnitudo(a_vector);
-        b_magnitudo = doc_magnitudo(b_vector); 
+		a_magnitudo = Similarity.doc_magnitudo(a_vector);
+        b_magnitudo = Similarity.doc_magnitudo(b_vector); 
         
 		for(Map.Entry<String, Double> term : a_vector.entrySet())
 		{

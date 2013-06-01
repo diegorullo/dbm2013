@@ -236,7 +236,7 @@ public class Author {
 	 */
 	public double getRestrictedTF(String keyword) throws AuthorWithoutPapersException {
 		double tf = 0.0;
-		List<Paper> rc = this.getPapers();
+		ArrayList<Paper> rc = this.getPapers();
 		// conta il numero di occorrenze della keyword nei papers di author
 		int n = 0;
 		int K = 0;
@@ -264,19 +264,19 @@ public class Author {
 	 * @return IDF calcolato in base al corpus ristretto
 	 * @throws Exception
 	 */
-	public double getRestrictedIDF(String keyword, Corpus corpus)
-			throws Exception {
+	public double getRestrictedIDF(String keyword, Corpus corpus) throws Exception {
 		double idf = 0;
 		int m = 0; // conta il numero di articoli in cui la keyword compare
 
 		List<Author> coAuthorsAndSelf = this.getCoAuthorsAndSelf(corpus);
-		List<Paper> restrictedCorpus = new ArrayList<Paper>();
+		ArrayList<Paper> restrictedCorpus = new ArrayList<Paper>();
 
 		/*
 		 * estrae il corpus ristretto papers di autore+relativi coautori)
 		 */
 		for (Author a : coAuthorsAndSelf) {
-			for (Paper p : a.getPapers()) {
+			ArrayList<Paper> papersList = a.getPapers();
+			for (Paper p : papersList) {
 				if (!restrictedCorpus.contains(p)) {
 					restrictedCorpus.add(p);
 				}
@@ -334,11 +334,10 @@ public class Author {
 	public TreeMap<String, Double> calculateTFIDF2Vector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
 		ArrayList<Paper> paperList = this.getPapers();
-		
+		double tfidf2;
+		String key;
 		for (Paper p : paperList) {
 			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
-			double tfidf2;
-			String key;
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				key = k.getKey();
 				tfidf2 = this.getTFIDF2(key, corpus);
@@ -365,9 +364,8 @@ public class Author {
 		List<Author> coAuthors = this.getCoAuthors(corpus);
 		List<Paper> coAuthorsPapers = new ArrayList<Paper>();
 
-		List<Paper> authorsPapers = new ArrayList<Paper>();
 		for (Author coA : coAuthors) {
-			authorsPapers = coA.getPapers();
+			List<Paper> authorsPapers = coA.getPapers();
 			for (Paper p : authorsPapers) {
 				if (!coAuthorsPapers.contains(p)) {
 					coAuthorsPapers.add(p);
@@ -410,11 +408,10 @@ public class Author {
 	 */
 	public ArrayList<String> calculateKeywordSet() throws AuthorWithoutPapersException {
 		ArrayList<String> keywordSet = new ArrayList<String>();
-		ArrayList<String> ks = new ArrayList<String>();
 		ArrayList<Paper> paperList = this.getPapers();
 		
 		for (Paper p : paperList) {
-			ks = p.getKeywordSet();
+			ArrayList<String> ks = p.getKeywordSet();
 			for (String k : ks) {
 				if (!keywordSet.contains(k)) {
 					keywordSet.add(k);
@@ -525,12 +522,12 @@ public class Author {
 	// FIXME
 	public TreeMap<String, Double> calculatePFVector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
-		List<Paper> papers = this.getPapers();
+		ArrayList<Paper> papersList = this.getPapers();
+		double pf;
+		String key;
 		
-		for (Paper p : papers) {
+		for (Paper p : papersList) {
 			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
-			double pf;
-			String key;
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				key = k.getKey();
 				pf = this.getU_ij(key, corpus);
@@ -584,8 +581,7 @@ public class Author {
 			// modifica la riga relativa al documento corrente, sostituendo gli
 			// zeri con i valori
 			TreeMap<String, Double> row = documentTermMatrix.get(doc);
-			for (Map.Entry<String, Double> entry : currentWeightedTFIDFVector
-					.entrySet()) {
+			for (Map.Entry<String, Double> entry : currentWeightedTFIDFVector.entrySet()) {
 				row.put(entry.getKey(), entry.getValue());
 				// documentTermMatrix.set(doc,
 				// documentTermMatrix.get(doc).put(entry.getKey(),
@@ -777,21 +773,21 @@ public class Author {
 	}
 	
 	public TreeMap<String, Double> getWeightedTFIDFVector(Corpus corpus) throws Exception{
-		if (weightedTFIDFVector==null){
+		if (weightedTFIDFVector == null){
 			weightedTFIDFVector = calculateWeightedTFIDFVector(corpus);
 		}
 		return weightedTFIDFVector;		
 	}
 	
-	public TreeMap<String, Double>getTFIDF2Vector(Corpus corpus) throws Exception{
-		if (TFIDF2Vector==null){
+	public TreeMap<String, Double> getTFIDF2Vector(Corpus corpus) throws Exception{
+		if (TFIDF2Vector == null){
 			TFIDF2Vector = calculateTFIDF2Vector(corpus);
 		}
 		return TFIDF2Vector;		
 	}
 	
-	public TreeMap<String, Double>getPFVector(Corpus corpus) throws Exception{
-		if (PFVector==null){
+	public TreeMap<String, Double> getPFVector(Corpus corpus) throws Exception{
+		if (PFVector == null){
 			PFVector = calculatePFVector(corpus);
 		}
 		return PFVector;		
