@@ -54,7 +54,7 @@ public class Paper {
 	 * @param weight: peso parametrizzato
 	 * @return hasmap delle keyword del titolo pesate n.occ * weight
 	 */
-	public TreeMap<String, Integer> calculateTitleKeywordSetWithOccurrences(int weight) {
+	private TreeMap<String, Integer> calculateTitleKeywordSetWithOccurrences(int weight) {
 		TreeMap<String, Integer> titlesKeywordSetWithOccurrences = new TreeMap<String, Integer>();
 		ArrayList<String> titlesKeywordsList = this.getTitlesKeywords();
 		for(String k : titlesKeywordsList) {
@@ -75,7 +75,7 @@ public class Paper {
 	 * 
 	 * @return l'hashmap delle keyword e rispettivo numero di occorrenze
 	 */
-	public TreeMap<String, Integer> calculateKeywordSetWithOccurrences() {
+	private TreeMap<String, Integer> calculateKeywordSetWithOccurrences() {
 		
 		TreeMap<String, Integer> keywordSetWithOccurrences = new TreeMap<String, Integer>();
 		//FIXME documentare correttamente la scelta
@@ -110,7 +110,7 @@ public class Paper {
 	 * 
 	 * @return arraylist delle keyword del titolo, ordinato
 	 */
-	public ArrayList<String> calculateTitleKeywordSet() {
+	private ArrayList<String> calculateTitleKeywordSet() {
 		ArrayList<String> titlesKeywordSet = new  ArrayList<String>();
 		ArrayList<String> titlesKeywordsList = this.getTitlesKeywords();
 		for(String k : titlesKeywordsList) {
@@ -130,7 +130,7 @@ public class Paper {
 	 * 
 	 * @return l'arraylist delle keyword e rispettivo numero di occorrenze, ordinato
 	 */
-	public ArrayList<String> calculateKeywordSet() {
+	private ArrayList<String> calculateKeywordSet() {
 		
 		ArrayList<String> keywordSet = new ArrayList<String>();
 		//FIXME documentare correttamente la scelta
@@ -209,7 +209,7 @@ public class Paper {
 	 * 
 	 * @return keywordVector pesato in base al tf
 	 */
-	public TreeMap<String, Double> calculateTFVector() throws IOException {
+	private TreeMap<String, Double> calculateTFVector() throws IOException {
 		
 		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFVector = new TreeMap<String, Double>();		
@@ -233,7 +233,7 @@ public class Paper {
 	 * @param corpus
 	 * @return keywordVector pesato in base al tfidf
 	 */
-	public TreeMap<String, Double> calculateTFIDFVector(Corpus corpus) throws Exception {
+	private TreeMap<String, Double> calculateTFIDFVector(Corpus corpus) throws Exception {
 		
 		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFIDFVector = new TreeMap<String, Double>();
@@ -290,7 +290,7 @@ public class Paper {
 	 * @return vettore dei TF pesati
 	 * @throws IOException
 	 */
-	public TreeMap<String, Double> calculateWeightedTFVector(double weight) throws IOException {
+	private TreeMap<String, Double> calculateWeightedTFVector(double weight) throws IOException {
 		TreeMap<String, Double> TFVector = this.getTFVector();
 		TreeMap<String, Double> weightedTFVector = new TreeMap<String, Double>();
 		String key;
@@ -315,7 +315,7 @@ public class Paper {
 	 * @return vettore dei tfidf pesati
 	 * @throws Exception
 	 */
-	public TreeMap<String, Double> calculateWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
+	private TreeMap<String, Double> calculateWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
 		TreeMap<String, Double> TFIDFVector = this.getTFIDFVector(corpus);
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 		String key;
