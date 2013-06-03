@@ -498,14 +498,17 @@ public class Author {
 		denLog = (n_ij - r_ij + epsilon) / (N_i - n_ij - R_i + r_ij + epsilon);
 		// FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2
 		// maggio a lezione)
-		resLog = Math.log(1 + (numLog / denLog));
+		
+		// FIXME: modificato inserendo la frazione all'interno di un valore assoluto
+		// per evitare casi in cui l'argomento del logaritmo usciva dal dominio
+		resLog = Math.log(1 + Math.abs((numLog / denLog)));
 
 		resAbs = Math.abs(((r_ij + epsilon) / (R_i + epsilon)) - ((n_ij - r_ij + epsilon) / (N_i - R_i + epsilon)));
 
 		u_ij = resLog * resAbs;
-		//System.out.println("r_ij: " + r_ij + ", n_ij: " + n_ij + ", R_i: " + r_ij + ", N_i: " + n_ij);
-		//System.out.println("den1: " + (R_i + epsilon) + ", den2: "  + (N_i - R_i + epsilon));
-		//System.out.println("numLog: " + numLog + ", denLog: " + denLog + ", resLog: " + resLog + ", resAbs: " + resAbs);
+//		System.out.println(">>>>r_ij: " + r_ij + ", n_ij: " + n_ij + ", R_i: " + R_i + ", N_i: " + N_i);
+//		System.out.println(">>>>den1: " + (R_i + epsilon) + ", den2: "  + (N_i - R_i + epsilon));
+//		System.out.println(">>>>numLog: " + numLog + ", denLog: " + denLog + ", resLog: " + resLog + ", resAbs: " + resAbs);
 		return u_ij;
 	}
 
@@ -529,9 +532,11 @@ public class Author {
 		
 		for (Paper p : papersList) {
 			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
+//			System.out.println(">>>>>>>>>>>>>Paper=" + p.getPaperID() + ": " + keywordSet);
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				key = k.getKey();
 				pf = this.getU_ij(key, corpus);
+//				System.out.println(">>>>>>>k="+key + ", pf=" + pf);
 				PFVector.put(key, pf);
 			}
 		}

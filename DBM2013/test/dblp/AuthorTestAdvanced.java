@@ -411,7 +411,9 @@ public class AuthorTestAdvanced {
 			int a1ID, a2ID;
 			double s12, s21;
 			a1ID = authorSapino.getAuthorID();
-			System.out.println("Sapino (" + a1ID + "):");
+			if(PRINT) {
+				System.out.println("Sapino (" + a1ID + "):");
+			}
 			for(Author a2 : authors2) {
 				a2ID = a2.getAuthorID();
 				s12 = authorSapino.getSimilarityOnKeywordVector(a2, dblp);
@@ -433,7 +435,9 @@ public class AuthorTestAdvanced {
 			int a1ID, a2ID;
 			double s12, s21;
 			a1ID = authorCandan.getAuthorID();
-			System.out.println("Candan(" + a1ID + "):");
+			if(PRINT) {
+				System.out.println("Candan(" + a1ID + "):");
+			}
 			for(Author a2 : authors2) {
 				a2ID = a2.getAuthorID();
 				s12 = authorCandan.getSimilarityOnKeywordVector(a2, dblp);
@@ -455,7 +459,9 @@ public class AuthorTestAdvanced {
 			int a1ID, a2ID;
 			double s12, s21;
 			a1ID = authorSapino.getAuthorID();
-			System.out.println("Sapino (" + a1ID + "):");
+			if(PRINT) {
+				System.out.println("Sapino (" + a1ID + "):");
+			}
 			for(Author a2 : authors2) {
 				a2ID = a2.getAuthorID();
 				s12 = authorSapino.getSimilarityOnTFIDF2Vector(a2, dblp);
@@ -477,7 +483,9 @@ public class AuthorTestAdvanced {
 			int a1ID, a2ID;
 			double s12, s21;
 			a1ID = authorCandan.getAuthorID();
-			System.out.println("Candan(" + a1ID + "):");
+			if(PRINT) {
+				System.out.println("Candan(" + a1ID + "):");
+			}
 			for(Author a2 : authors2) {
 				a2ID = a2.getAuthorID();
 				s12 = authorCandan.getSimilarityOnTFIDF2Vector(a2, dblp);
@@ -499,7 +507,9 @@ public class AuthorTestAdvanced {
 			int a1ID, a2ID;
 			double s12, s21;
 			a1ID = authorSapino.getAuthorID();
-			System.out.println("Sapino (" + a1ID + "):");
+			if(PRINT) {
+				System.out.println("Sapino (" + a1ID + "):");
+			}
 			for(Author a2 : authors2) {
 				a2ID = a2.getAuthorID();
 				s12 = authorSapino.getSimilarityOnPFVector(a2, dblp);
@@ -521,7 +531,9 @@ public class AuthorTestAdvanced {
 			int a1ID, a2ID;
 			double s12, s21;
 			a1ID = authorCandan.getAuthorID();
-			System.out.println("Candan(" + a1ID + "):");
+			if(PRINT) {
+				System.out.println("Candan(" + a1ID + "):");
+			}
 			for(Author a2 : authors2) {
 				a2ID = a2.getAuthorID();
 				s12 = authorCandan.getSimilarityOnPFVector(a2, dblp);
