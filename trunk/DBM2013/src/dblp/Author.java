@@ -12,7 +12,6 @@ import utils.IO;
 import utils.MatlabEngine;
 import utils.Normalization;
 import utils.Similarity;
-import exceptions.AuthorWithoutCoAuthorsException;
 import exceptions.AuthorWithoutPapersException;
 
 public class Author {
@@ -762,7 +761,10 @@ public class Author {
 		this.papers = papers;
 	}
 	
-	public ArrayList<String> getKeywordSet() {
+	public ArrayList<String> getKeywordSet() throws AuthorWithoutPapersException {
+		if(keywordSet == null) {
+			keywordSet = calculateKeywordSet();
+		}
 		return this.keywordSet;
 	}
 	
