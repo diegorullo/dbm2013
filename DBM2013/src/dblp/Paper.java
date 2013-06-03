@@ -24,7 +24,6 @@ public class Paper {
 	private ArrayList<String> titlesKeywords;
 	private TreeMap<String, Integer> keywordSetWithOccurrences;
 	private TreeMap<String, Integer> titleKeywordSetWithOccurrences;
-	private double weightBasedOnAge;
 	private ArrayList<String> keywordSet;
 	private ArrayList<String> titleKeywordSet;
 	private TreeMap<String, Double> tFVector;
@@ -45,14 +44,7 @@ public class Paper {
 		this.authorsNames = authorsNames;
 		this.authors = authors;
 		this.keywords = keywords;
-		this.titlesKeywords = titlesKeywords;
-		
-		this.keywordSet = this.calculateKeywordSet();
-		this.weightBasedOnAge = this.calculateWeightBasedOnAge();		
-		this.titleKeywordSetWithOccurrences = this.calculateTitleKeywordSetWithOccurrences(titleWeight);
-		this.keywordSetWithOccurrences = this.calculateKeywordSetWithOccurrences();
-		this.tFVector = this.calculateTFVector();
-		this.weightedTFVector = this.calculateWeightedTFVector(this.weightBasedOnAge);
+		this.titlesKeywords = titlesKeywords;		
 	}
 	
 	/**
@@ -275,7 +267,7 @@ public class Paper {
 	 * 
 	 * @return peso dell'articolo
 	 */
-	public double calculateWeightBasedOnAge() {
+	public double getWeightBasedOnAge() {
 		return (double) 1 / (1 + this.getAge());
 	}
 	
@@ -422,46 +414,57 @@ public class Paper {
 		this.titlesKeywords = titlesKeywords;
 	}
 	
-	public double getWeightBasedOnAge() {
-		return weightBasedOnAge;
-	}
-	
 	public ArrayList<String> getKeywordSet() {
+		if(keywordSet == null) {
+			keywordSet = calculateKeywordSet();
+		}
 		return keywordSet;
 	}
 	
-	public TreeMap<String, Double> getTFVector() {
+	public TreeMap<String, Double> getTFVector() throws IOException {
+		if(tFVector == null) {
+			tFVector = calculateTFVector();
+		}
 		return tFVector;
 	}
 	
 	public TreeMap<String, Integer> getKeywordSetWithOccurrences() {
+		if(keywordSetWithOccurrences == null) {
+			keywordSetWithOccurrences = calculateKeywordSetWithOccurrences();
+		}
 		return keywordSetWithOccurrences;
 	}
 	
 	public TreeMap<String, Integer> getTitleKeywordSetWithOccurrences() {
+		if(titleKeywordSetWithOccurrences == null) {
+			titleKeywordSetWithOccurrences = calculateTitleKeywordSetWithOccurrences(titleWeight);
+		}
 		return titleKeywordSetWithOccurrences;
 	}
 	
-	public TreeMap<String, Double> getWeightedTFVector() {
+	public TreeMap<String, Double> getWeightedTFVector(double weight) throws IOException {
+		if(weightedTFVector == null){
+			weightedTFVector = calculateWeightedTFVector(weight);
+		}
 		return weightedTFVector;
 	}
 	
 	public TreeMap<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
-		if (tFIDFVector == null){
+		if(tFIDFVector == null){
 			tFIDFVector = calculateTFIDFVector(corpus);
 		}
 		return tFIDFVector;	
 	}
 	
 	public TreeMap<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
-		if (weightedTFIDFVector == null) {
-			weightedTFIDFVector = calculateTFIDFVector(corpus);
+		if(weightedTFIDFVector == null) {
+			weightedTFIDFVector = calculateWeightedTFIDFVector(weight, corpus);
 		}
 		return weightedTFIDFVector;	
 	}
 
 	public ArrayList<String> getTitleKeywordSet() {
-		if (titleKeywordSet == null) {
+		if(titleKeywordSet == null) {
 			titleKeywordSet = calculateTitleKeywordSet();
 		}
 		return titleKeywordSet;
