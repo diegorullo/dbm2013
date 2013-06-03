@@ -15,42 +15,20 @@ import utils.Printer;
 
 public class CorpusTest {
 
-	private final static boolean DEBUG = false;
-
-	@Test
-	public void testCorpus() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetIDF() {
-		// fail("Not yet implemented");
-	}
+	private final static boolean DEBUG = true;
+	private final static boolean PRINT = false;
 
 	@Test
 	public void testGetAuthorByName() throws Exception {
-		Factory f = new Factory();
-		Corpus dblp = f.getCorpus();
-		//"K.S. Candan"
-		Author authorCandan1ID = dblp.getAuthorByID(2540868);
-		Author authorCandan1Name = dblp.getAuthorByName("K.S. Candan");
-		
-		assertEquals(authorCandan1ID, authorCandan1Name);
-	}
-
-	@Test
-	public void testGetAuthorByID() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetCoAuthors() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetCoAuthorsAndSelf() {
-		// fail("Not yet implemented");
+		if(DEBUG) {
+			Factory f = new Factory();
+			Corpus dblp = f.getCorpus();
+			//"Maria Luisa Sapino"
+			Author authorCandan1ID = dblp.getAuthorByID(1677020);
+			Author authorCandan1Name = dblp.getAuthorByName("Maria Luisa Sapino");
+			
+			assertEquals(authorCandan1ID, authorCandan1Name);
+		}
 	}
 
 	/**
@@ -61,7 +39,7 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetCoAuthorsPapersSenzaPaperInComune() throws Exception {
-
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -168,6 +146,7 @@ public class CorpusTest {
 
 		assertEquals("L'insieme degli articoli dei coautori di " + authorStefania.getName() + ".", 0, listaPaperCoautoriStefania.size());
 		assertEquals("L'insieme degli articoli dei coautori di " + authorLuca.getName() + ".", 0, listaPaperCoautoriLuca.size());
+		}
 	}
 
 	/**
@@ -178,7 +157,7 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetCoAuthorsPapersConUnPaperInComune() throws Exception {
-
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -312,6 +291,7 @@ public class CorpusTest {
 				"L'insieme degli articoli dei coautori di "
 						+ authorLuca.getName() + ".", 3,
 				listaPaperCoautoriLuca.size());
+		}
 	}
 
 	/**
@@ -324,7 +304,7 @@ public class CorpusTest {
 	@Test
 	public void testGetCoAuthorsAndSelfPapersSenzaPaperInComune()
 			throws Exception {
-
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -438,6 +418,7 @@ public class CorpusTest {
 						+ listaPapersAuthorsAndSelfLuca.size() + ".",
 				authorLuca.getPapers().size(),
 				listaPapersAuthorsAndSelfLuca.size());
+		}
 	}
 
 	/**
@@ -450,7 +431,7 @@ public class CorpusTest {
 	@Test
 	public void testGetCoAuthorsAndSelfPapersConUnPaperInComune()
 			throws Exception {
-
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -583,6 +564,7 @@ public class CorpusTest {
 				+ " e dei suoi coautori conta "
 				+ dummyCorpus.getPapers().size() + ".", dummyCorpus.getPapers()
 				.size(), listaPapersAuthorsAndSelfLuca.size());
+		}
 	}
 
 	/**
@@ -592,7 +574,7 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetRestrictedIDF() throws Exception {
-
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -696,21 +678,7 @@ public class CorpusTest {
 		double epsilon = (double) 1 / 1000000000;
 		assertEquals("Keyword: " + keyword + ", IDF = " + idf, valAttesoIDF,
 				idf, epsilon);
-	}
-
-	@Test
-	public void testR_withoutKey() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testN_withoutKey() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetU_ij() {
-		// fail("Not yet implemented");
+		}
 	}
 
 	/**
@@ -720,6 +688,7 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetPFVector() throws Exception {
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -809,33 +778,15 @@ public class CorpusTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		TreeMap<String, Double> pfVectorStefania = authorStefania
-				.getPFVector(dummyCorpus);
+		TreeMap<String, Double> pfVectorStefania = authorStefania.getPFVector(dummyCorpus);
 
 		// Printer.printVector(pfVectorStefania, 1);
-		double epsilon = (double) 1 / 1000000000;
+		double epsilon = (double) 1 / 10000000;
+		
 		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));
+		}
 	}
 
-	@Test
-	public void testGetAuthors() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetPapers() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetCardinality() {
-		// fail("Not yet implemented");
-	}
-
-	@Test
-	public void testToString() {
-		// fail("Not yet implemented");
-	}
 
 	/**
 	 * 1 autore, 3 paper
@@ -844,7 +795,7 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testGetDocumentTermMatrixDummy() throws Exception {
-
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -917,11 +868,11 @@ public class CorpusTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania
-				.getDocumentTermMatrix(dummyCorpus);
-
-		if (DEBUG) {
-			Printer.printDocumentTermMatrix(documentTermMatrix, authorStefania);
+		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania.getDocumentTermMatrix(dummyCorpus);
+		
+			if(PRINT) {
+				Printer.printDocumentTermMatrix(documentTermMatrix, authorStefania);
+			}
 		}
 	}
 
@@ -932,7 +883,7 @@ public class CorpusTest {
 	 */
 	@Test
 	public void testPrintDocumentTermMatrixDummy() throws Exception {
-
+		if(DEBUG) {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -1007,9 +958,11 @@ public class CorpusTest {
 
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania
 				.getDocumentTermMatrix(dummyCorpus);
-		if (DEBUG) {
-			IO.printDocumentTermMatrixOnFile(documentTermMatrix,
-					"../data/Stefania.csv");
+
+
+				IO.printDocumentTermMatrixOnFile(documentTermMatrix,
+						"../data/Stefania.csv");
+
 		}
 
 		// System.out.println(dummyCorpus.getDocumentTermMatrix(authorStefania));
@@ -1035,7 +988,10 @@ public class CorpusTest {
 					.readDocumentTermMatrixFromFile("../data/" + fileName);
 			// ArrayList<ArrayList<Double>> matrixFromFile
 			// =IO.readDocumentTermMatrixFromFile("../data/" +"X" + ".csv");
-			Printer.printMatrix(matrixFromFile);
+			
+			if(PRINT) {
+				Printer.printMatrix(matrixFromFile);
+			}
 		}
 	}
 
