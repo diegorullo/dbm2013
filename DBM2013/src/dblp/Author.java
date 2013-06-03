@@ -21,13 +21,16 @@ public class Author {
 	private String name;
 	private ArrayList<Paper> papers;
 	private ArrayList<String> keywordSet;
+	
+	private List<Integer> coAuthorsIDs;
+	
 	private TreeMap<String, Double> weightedTFVector;
 	private TreeMap<String, Double> weightedTFIDFVector;
 	private TreeMap<String, Integer> combinedKeywordSet;
-	private TreeMap<String, Double> TFIDF2Vector;
-	private TreeMap<String, Double> PFVector;
-	private List<Paper> CoAuthorsPapers;
-	private List<Paper> CoAuthorsAndSelfPapers;
+	private TreeMap<String, Double> tFIDF2Vector;
+	private TreeMap<String, Double> pFVector;
+	private List<Paper> coAuthorsPapers;
+	private List<Paper> coAuthorsAndSelfPapers;
 	
 	public Author(int personID, String name, ArrayList<Paper> papers) throws Exception {
 		super();
@@ -202,7 +205,7 @@ public class Author {
 	 * @return lista di interi: id dei coautori dell'autore corrente
 	 * @throws AuthorWithoutPapersException 
 	 */
-	public List<Integer> getCoAuthorsIDs() { //throws AuthorWithoutCoAuthorsException, AuthorWithoutPapersException {
+	private List<Integer> calculateCoAuthorsIDs() { //throws AuthorWithoutCoAuthorsException, AuthorWithoutPapersException {
 		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
 		ArrayList<Paper> paperList = this.getPapers();
 		
@@ -325,7 +328,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME
-	public TreeMap<String, Double> calculateTFIDF2Vector(Corpus corpus) throws Exception {
+	private TreeMap<String, Double> calculateTFIDF2Vector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
 		ArrayList<Paper> paperList = this.getPapers();
 		double tfidf2;
@@ -354,7 +357,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sostituire con exception appropriata
-	public List<Paper> calculateCoAuthorsPapers(Corpus corpus) throws Exception {
+	private List<Paper> calculateCoAuthorsPapers(Corpus corpus) throws Exception {
 		List<Author> coAuthors = this.getCoAuthors(corpus);
 		List<Paper> coAuthorsPapers = new ArrayList<Paper>();
 
@@ -380,7 +383,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sostituire con exception appropriata
-	public List<Paper> calculateCoAuthorsAndSelfPapers(Corpus corpus)	throws Exception {
+	private List<Paper> calculateCoAuthorsAndSelfPapers(Corpus corpus)	throws Exception {
 		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(corpus);
 		ArrayList<Paper> paperList = this.getPapers();
 		
@@ -400,7 +403,7 @@ public class Author {
 	 * @return arraylist delle keyword dell'autore, ordinato
 	 * @throws AuthorWithoutPapersException 
 	 */
-	public ArrayList<String> calculateKeywordSet() throws AuthorWithoutPapersException {
+	private ArrayList<String> calculateKeywordSet() throws AuthorWithoutPapersException {
 		ArrayList<String> keywordSet = new ArrayList<String>();
 		ArrayList<Paper> paperList = this.getPapers();
 		
@@ -517,7 +520,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME
-	public TreeMap<String, Double> calculatePFVector(Corpus corpus) throws Exception {
+	private TreeMap<String, Double> calculatePFVector(Corpus corpus) throws Exception {
 		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
 		ArrayList<Paper> papersList = this.getPapers();
 		double pf;
@@ -788,31 +791,38 @@ public class Author {
 	}
 	
 	public TreeMap<String, Double> getTFIDF2Vector(Corpus corpus) throws Exception{
-		if (TFIDF2Vector == null){
-			TFIDF2Vector = calculateTFIDF2Vector(corpus);
+		if (tFIDF2Vector == null){
+			tFIDF2Vector = calculateTFIDF2Vector(corpus);
 		}
-		return TFIDF2Vector;		
+		return tFIDF2Vector;		
 	}
 	
 	public TreeMap<String, Double> getPFVector(Corpus corpus) throws Exception{
-		if (PFVector == null){
-			PFVector = calculatePFVector(corpus);
+		if (pFVector == null){
+			pFVector = calculatePFVector(corpus);
 		}
-		return PFVector;		
+		return pFVector;		
 	}
 	
 	public List<Paper> getCoAuthorsPapers(Corpus corpus) throws Exception {
-		if (CoAuthorsPapers == null) {
-			CoAuthorsPapers = calculateCoAuthorsPapers(corpus);
+		if (coAuthorsPapers == null) {
+			coAuthorsPapers = calculateCoAuthorsPapers(corpus);
 		}
-		return CoAuthorsPapers;
+		return coAuthorsPapers;
 	}
 	
 	public List<Paper> getCoAuthorsAndSelfPapers(Corpus corpus)	throws Exception {
-		if (CoAuthorsAndSelfPapers == null) {
-			CoAuthorsAndSelfPapers = calculateCoAuthorsAndSelfPapers(corpus);
+		if (coAuthorsAndSelfPapers == null) {
+			coAuthorsAndSelfPapers = calculateCoAuthorsAndSelfPapers(corpus);
 		}
-		return CoAuthorsAndSelfPapers;
+		return coAuthorsAndSelfPapers;
+	}
+	
+	public List<Integer> getCoAuthorsIDs() {
+		if(coAuthorsIDs == null) {
+			coAuthorsIDs = calculateCoAuthorsIDs();
+		}
+		return coAuthorsIDs;
 	}
 
 	/*

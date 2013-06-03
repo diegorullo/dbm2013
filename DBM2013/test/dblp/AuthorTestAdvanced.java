@@ -17,7 +17,7 @@ public class AuthorTestAdvanced {
 	private final static boolean DEBUG = true;
 	private final static boolean BIG_DATA_ALL = true;
 	private final static boolean BIG_DATA_ONE = true;
-	private final static boolean PRINT = false;
+	private final static boolean PRINT = true;
 	
 	static Author authorStefania;
 	static Author authorLuca;
