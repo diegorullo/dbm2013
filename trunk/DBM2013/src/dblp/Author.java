@@ -606,6 +606,7 @@ public class Author {
 	{
 		ArrayList<TreeMap<String, Double>> n_TopMatrix = new ArrayList<TreeMap<String, Double>>();
 		ArrayList<String> keywordSet = this.getKeywordSet();
+		
 		if(n_top > n_matrix.size())
 		{
 			n_top = n_matrix.size();
@@ -626,14 +627,13 @@ public class Author {
 		return n_TopMatrix;
 	}
 	
-	
 	/**
 	 * Calcola la matrice SVD per l'autore corrente
-	 * @param documentTermMatrix
+	 * @param n_top numero degli n vettori della V'
 	 * @return matrice SVD per l'autore corrente
 	 * @throws Exception
 	 */
-	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus) throws Exception {
+	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus,int n_top) throws Exception {
 		String startingDirectory = System.getProperty("user.dir");
 		String ioDirectory = startingDirectory + "/../data/";
 		String fileName = this.getAuthorID() + ".csv";
@@ -645,17 +645,17 @@ public class Author {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
 		}
 		me.eval("svd_IR", fileName);
-		ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName);
+		ArrayList<ArrayList<Double>> svd = IO.read_N_TOP_DocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName,n_top);
 		return svd;
 	}
 
 	/**
-	 * Calcola la matrice PCA per l'autore corrente
-	 * @param documentTermMatrix
+	 * Calcola la matrice PCA per l'autore corrente	 
+	 * @param n_top numero degli autovalori della latent
 	 * @return matrice PCA per l'autore corrente
 	 * @throws Exception
 	 */
-	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws Exception {
+	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus,int n_top) throws Exception {
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File("../data/" + fileName);
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
@@ -666,9 +666,46 @@ public class Author {
 		}
 		me.eval("pca_IR", fileName);
 		//FIXME: controllare che la matrice corretta sia "score_..."
-		ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/score_" + fileName);
+		ArrayList<ArrayList<Double>> pca = new ArrayList<ArrayList<Double>>();
+		ArrayList<ArrayList<Double>> pca_score = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/score_" + fileName,n_top);
+		ArrayList<ArrayList<Double>> pca_latent = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/latent_" + fileName,n_top);
+		
+		if(n_top > pca_score.size())
+		{
+			n_top = pca_score.size();
+		}
+			
+		for(int i=0;i<n_top;i++)
+		{
+			ArrayList<Double> curr_lat = pca_latent.get(i);
+			ArrayList<Double> curr_score = pca_score.get(i);
+			ArrayList<Double> curr_pca = new ArrayList<Double>();
+			
+			for(Double pcl : curr_score)
+			{
+				curr_pca.add(pcl*curr_lat.get(0));
+			}
+			
+			pca.add(curr_pca);
+		}
 		return pca;
 	}
+	
+	/**
+	 * Restituisce n_top fattori di latent 
+	 * @param n_top numero degli autovalori della latent
+	 * @return valori degli n_top autovalori latent
+	 * @throws Exception
+	 */
+	public ArrayList<ArrayList<Double>> getLatentPca(int n_top) throws Exception
+	{
+		String fileName = this.getAuthorID() + ".csv";
+		
+		ArrayList<ArrayList<Double>> pca_latent = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/latent_" + fileName,n_top);
+		
+		return pca_latent;
+	}
+	
 	
 	/**
 	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore

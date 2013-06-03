@@ -46,10 +46,7 @@ public class IO {
 	}
 
 	/**
-	 * FIXME: legge da file, percorso e nome statici, la matrice
-	 * DocumentTermMatrix
-	 * 
-	 * @param documentTermMatrix	matrice
+	 * FIXME: legge da file, percorso e nome statici, la matrice DocumentTermMatrix
 	 * @param path		path della sorgente
 	 * @throws Exception
 	 */
@@ -73,6 +70,7 @@ public class IO {
 					riga.add(Double.valueOf(v));
 				}
 				documentTermMatrix.add(riga);
+
 			}
 			sc.close();
 			
@@ -85,6 +83,48 @@ public class IO {
 //				
 //			}
 //			csvReader.close();
+
+		} catch (IOException e) {
+			System.out.println("Errore: " + e);
+			System.exit(1);
+		}
+
+		return documentTermMatrix;
+
+	}
+	
+	/**
+	 * FIXME: legge da file, percorso e nome statici, la matrice
+	 * DocumentTermMatrix
+	 * 
+	 * @param path		path della sorgente
+	 * @param n_top	numero di righe della matrice da leggere
+	 * @throws Exception
+	 */
+	public static ArrayList<ArrayList<Double>> read_N_TOP_DocumentTermMatrixFromFile(String path,int n_top) throws Exception {
+		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
+		
+		try {
+			FileInputStream file = new FileInputStream(path);
+
+			Scanner sc = new Scanner(file);
+			
+			String val;
+			String[] elem ;
+			int n=0;
+			while (sc.hasNextLine() && n < n_top) 
+			{
+				val = sc.nextLine();
+				elem = val.split(",");
+				ArrayList<Double> riga = new ArrayList<Double>();
+				for(String v : elem)
+				{
+					riga.add(Double.valueOf(v));
+				}
+				documentTermMatrix.add(riga);
+				n++;
+			}
+			sc.close();
 
 		} catch (IOException e) {
 			System.out.println("Errore: " + e);
