@@ -21,7 +21,6 @@ public class Author {
 	private String name;
 	private ArrayList<Paper> papers;
 	private ArrayList<String> keywordSet;
-//	private TreeMap<String, Integer> combinedKeywordSet;
 	private TreeMap<String, Double> weightedTFVector;
 	private TreeMap<String, Double> weightedTFIDFVector;
 	private TreeMap<String, Integer> combinedKeywordSet;
@@ -35,9 +34,6 @@ public class Author {
 		this.authorID = personID;
 		this.name = name;
 		this.papers = papers;
-//		this.combinedKeywordSet = this.calculateCombinedKeywordSet();
-		this.weightedTFVector = this.calculateWeightedTFVector();
-		this.combinedKeywordSet = this.calculateCombinedKeywordSet();
 	}
 
 	/**
@@ -85,11 +81,8 @@ public class Author {
 	 */
 	private TreeMap<String, Double> calculateWeightedTFVector() throws IOException, AuthorWithoutPapersException {
 		TreeMap<String, Double> wtfv;
-		@SuppressWarnings("unused")
 		double weight = 0;
-		// double weightNormalizationFactor = 0;
 		TreeMap<String, Double> weightedTFVector = new TreeMap<String, Double>();
-		// FIXME controllare - aggiustare il metodo
 
 		/*
 		 * - vettore di tf per ogni paper dell'autore - età del paper - peso
@@ -99,7 +92,7 @@ public class Author {
 		
 		for (Paper p : paperList) {
 			weight = p.getWeightBasedOnAge();
-			wtfv = p.getWeightedTFVector();
+			wtfv = p.getWeightedTFVector(weight);
 			for (Map.Entry<String, Double> k : wtfv.entrySet()) {
 				if (!weightedTFVector.containsKey(k.getKey())) {
 					weightedTFVector.put(k.getKey(), k.getValue());
@@ -773,11 +766,17 @@ public class Author {
 		return this.keywordSet;
 	}
 	
-	public TreeMap<String, Integer> getCombinedKeywordSet() {
+	public TreeMap<String, Integer> getCombinedKeywordSet() throws AuthorWithoutPapersException {
+		if(combinedKeywordSet == null) {
+			combinedKeywordSet = calculateCombinedKeywordSet();
+		}
 		return this.combinedKeywordSet;
 	}
 	
-	public TreeMap<String, Double> getWeightedTFVector() {
+	public TreeMap<String, Double> getWeightedTFVector() throws IOException, AuthorWithoutPapersException {
+		if(weightedTFVector == null) {
+			weightedTFVector = calculateWeightedTFVector();
+		}
 		return this.weightedTFVector;
 	}
 	
