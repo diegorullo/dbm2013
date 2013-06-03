@@ -22,7 +22,6 @@ public class Author {
 	private String name;
 	private ArrayList<Paper> papers;
 	private ArrayList<String> keywordSet;
-//	private TreeMap<String, Integer> combinedKeywordSet;
 	private TreeMap<String, Double> weightedTFVector;
 	private TreeMap<String, Double> weightedTFIDFVector;
 	private TreeMap<String, Integer> combinedKeywordSet;
@@ -39,9 +38,11 @@ public class Author {
 		this.authorID = personID;
 		this.name = name;
 		this.papers = papers;
-//		this.combinedKeywordSet = this.calculateCombinedKeywordSet();
 		this.weightedTFVector = this.calculateWeightedTFVector();
 		this.combinedKeywordSet = this.calculateCombinedKeywordSet();
+
+		this.coAuthorsIDs = this.calculateCoAuthorsIDs(); 
+		this.coAuthorsNames = this.calculateCoAuthorsNames();
 	}
 
 	/**
@@ -213,7 +214,7 @@ public class Author {
 	 * @return lista di interi: id dei coautori dell'autore corrente
 	 * @throws AuthorWithoutPapersException 
 	 */
-	public List<Integer> calculateCoAuthorsIDs() throws AuthorWithoutCoAuthorsException, AuthorWithoutPapersException {
+	public List<Integer> calculateCoAuthorsIDs() { //throws AuthorWithoutCoAuthorsException, AuthorWithoutPapersException {
 		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
 		ArrayList<Paper> paperList = this.getPapers();
 		
@@ -224,9 +225,9 @@ public class Author {
 				}
 			}
 		}
-		if (coAuthorsIDs.size()==0) {
-			throw new AuthorWithoutCoAuthorsException("L`autore id " + this.getAuthorID() + " non ha coautori.");
-		}
+//		if (coAuthorsIDs.size()==0) {
+//			throw new AuthorWithoutCoAuthorsException("L`autore id " + this.getAuthorID() + " non ha coautori.");
+//		}
 		return coAuthorsIDs;
 	}
 	
@@ -342,6 +343,12 @@ public class Author {
 		double tfidf2;
 		String key;
 		for (Paper p : paperList) {
+			//FIXME
+			//FIXME
+			//FIXME
+			//FIXME
+			//FIXME
+			//System.out.println(p.getPaperID());
 			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			for (Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				key = k.getKey();
@@ -746,10 +753,10 @@ public class Author {
 		return name;
 	}
 
-	public ArrayList<Paper> getPapers() throws AuthorWithoutPapersException {
-		if(papers.size() == 0) {
-			throw new AuthorWithoutPapersException("L'autore selezionato non ha papers.");
-		}
+	public ArrayList<Paper> getPapers() {// throws AuthorWithoutPapersException {
+//		if(papers.size() == 0) {
+//			throw new AuthorWithoutPapersException("L'autore selezionato non ha papers.");
+//		}
 		return papers;
 	}
 
