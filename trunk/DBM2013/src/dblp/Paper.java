@@ -28,7 +28,10 @@ public class Paper {
 	private ArrayList<String> keywordSet;
 	private TreeMap<String, Double> tFVector;
 	private TreeMap<String, Double> weightedTFVector;
-		
+	private TreeMap<String, Double> TFIDFVector;
+	private TreeMap<String, Double> WeightedTFIDFVector;	
+	
+	
 	public Paper(int paperID, String title, int year, String publisher,
 			String paperAbstract, ArrayList<String> authorsNames, ArrayList<Integer> authors,
 			ArrayList<String> keywords, ArrayList<String> titlesKeywords) throws Exception {
@@ -237,7 +240,7 @@ public class Paper {
 	 * @param corpus
 	 * @return keywordVector pesato in base al tfidf
 	 */
-	public TreeMap<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> calculateTFIDFVector(Corpus corpus) throws Exception {
 		
 		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFIDFVector = new TreeMap<String, Double>();
@@ -319,7 +322,7 @@ public class Paper {
 	 * @return vettore dei tfidf pesati
 	 * @throws Exception
 	 */
-	public TreeMap<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
+	public TreeMap<String, Double> calculateWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
 		TreeMap<String, Double> TFIDFVector = this.getTFIDFVector(corpus);
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 		String key;
@@ -440,6 +443,20 @@ public class Paper {
 	
 	public TreeMap<String, Double> getWeightedTFVector() {
 		return weightedTFVector;
+	}
+	
+	public TreeMap<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
+		if (TFIDFVector == null){
+			TFIDFVector = calculateTFIDFVector(corpus);
+		}
+		return TFIDFVector;	
+	}
+	
+	public TreeMap<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
+		if (WeightedTFIDFVector == null){
+			WeightedTFIDFVector = calculateTFIDFVector(corpus);
+		}
+		return WeightedTFIDFVector;	
 	}
 
 	/* (non-Javadoc)

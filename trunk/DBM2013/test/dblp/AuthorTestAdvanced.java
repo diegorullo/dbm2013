@@ -16,7 +16,7 @@ import utils.Similarity;
 
 public class AuthorTestAdvanced {
 	
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
 	private final static boolean BIG_DATA = true;
 	
 	static Author authorStefania;
@@ -140,25 +140,29 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityReflexiveDummy() throws Exception {		
-		TreeMap<String, Double> weightedTFIDFVectorStefania = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus);
-		TreeMap<String, Double> weightedTFIDFVectorLuca = (TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus);
-		
-//		System.out.println("Similarità Stefania-Luca: " + Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorLuca));
-//		System.out.println("Similarità Luca-Stefania: " + Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorStefania));	
-		Assert.assertEquals(Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorLuca), Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorStefania));
+	public void testGetCosineSimilarityReflexiveDummy() throws Exception {
+		if(DEBUG) {
+			TreeMap<String, Double> weightedTFIDFVectorStefania = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus);
+			TreeMap<String, Double> weightedTFIDFVectorLuca = (TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus);
+			
+	//		System.out.println("Similarità Stefania-Luca: " + Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorLuca));
+	//		System.out.println("Similarità Luca-Stefania: " + Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorStefania));	
+			Assert.assertEquals(Similarity.getCosineSimilarity(weightedTFIDFVectorStefania, weightedTFIDFVectorLuca), Similarity.getCosineSimilarity(weightedTFIDFVectorLuca, weightedTFIDFVectorStefania));
+		}
 	}
 	
 	@Test
 	public void testGetCosineSimilarityKeywordVectorWithSelfDummy() throws Exception {
 		// 1b.1 keyword vectors	
-		Double similarityStefaniaStefania = authorStefania.getSimilarityOnKeywordVector(authorStefania, dummyCorpus);
-		Double similarityLucaLuca = authorLuca.getSimilarityOnKeywordVector(authorLuca, dummyCorpus);
-		
-//		System.out.println("Similarità Stefania-Stefania: " + similarityStefaniaStefania);
-//		System.out.println("Similarità Luca-Luca: " + similarityLucaLuca);
-		assertEquals(1.0, similarityStefaniaStefania, epsilon);
-		assertEquals(1.0, similarityLucaLuca, epsilon);
+		if(DEBUG) {
+			Double similarityStefaniaStefania = authorStefania.getSimilarityOnKeywordVector(authorStefania, dummyCorpus);
+			Double similarityLucaLuca = authorLuca.getSimilarityOnKeywordVector(authorLuca, dummyCorpus);
+			
+	//		System.out.println("Similarità Stefania-Stefania: " + similarityStefaniaStefania);
+	//		System.out.println("Similarità Luca-Luca: " + similarityLucaLuca);
+			assertEquals(1.0, similarityStefaniaStefania, epsilon);
+			assertEquals(1.0, similarityLucaLuca, epsilon);
+		}
 	}
 	
 	@Test

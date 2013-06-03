@@ -28,6 +28,7 @@ public class Author {
 	private TreeMap<String, Integer> combinedKeywordSet;
 	private TreeMap<String, Double> TFIDF2Vector;
 	private TreeMap<String, Double> PFVector;
+	private List<Paper> CoAuthorsAndSelfPapers;
 	
 	public Author(int personID, String name, ArrayList<Paper> papers) throws Exception {
 		super();
@@ -386,7 +387,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sostituire con exception appropriata
-	public List<Paper> getCoAuthorsAndSelfPapers(Corpus corpus)	throws Exception {
+	public List<Paper> calculateCoAuthorsAndSelfPapers(Corpus corpus)	throws Exception {
 		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(corpus);
 		ArrayList<Paper> paperList = this.getPapers();
 		
@@ -791,6 +792,13 @@ public class Author {
 			PFVector = calculatePFVector(corpus);
 		}
 		return PFVector;		
+	}
+	
+	public List<Paper> getCoAuthorsAndSelfPapers(Corpus corpus)	throws Exception {
+		if (CoAuthorsAndSelfPapers == null) {
+			CoAuthorsAndSelfPapers = calculateCoAuthorsAndSelfPapers(corpus);
+		}
+		return CoAuthorsAndSelfPapers;
 	}
 
 	/*
