@@ -780,7 +780,7 @@ public class CorpusTest {
 
 		TreeMap<String, Double> pfVectorStefania = authorStefania.getPFVector(dummyCorpus);
 
-		// Printer.printVector(pfVectorStefania, 1);
+		Printer.printVector(pfVectorStefania, 1);
 		double epsilon = (double) 1 / 10000000;
 		
 		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));

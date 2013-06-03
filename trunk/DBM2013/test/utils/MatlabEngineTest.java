@@ -179,4 +179,86 @@ public class MatlabEngineTest {
 //			Printer.printMatrix(score);
 		}
 	}
+	
+	@Test
+	public void evalTestSVDOn1636579() throws Exception {
+		if(DEBUG) {
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+        	MatlabEngine mle = MatlabEngine.getMatlabEngine();
+        	
+			Author testAuthor = dblp.getAuthorByID(1636579);
+			
+			String fileName = testAuthor.getAuthorID() + ".csv";
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
+			
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
+			//System.out.println("Scritto su file: " + fileName);
+			
+			mle.eval("svd_IR",fileName);
+			@SuppressWarnings("unused")
+			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+
+//			System.out.println("Letta matrice V da file:");
+//			Printer.printMatrix(matrix_v);
+		}
+	}
+	
+	@Test
+	public void evalTestPCAOn1636579() throws Exception {
+		if(DEBUG) {			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+        	MatlabEngine mle = MatlabEngine.getMatlabEngine();
+        	
+			Author testAuthor = dblp.getAuthorByID(1636579);
+			
+			//System.out.println("Numero di keyword di " + testAuthor.getAuthorID() + "= " + testAuthor.getKeywordSet().size());
+			
+			String fileName = testAuthor.getAuthorID() + ".csv";
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
+			
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
+			//System.out.println("Scritto su file: " + fileName);
+			
+			mle.eval("pca_IR",fileName);
+			@SuppressWarnings("unused")
+			ArrayList<ArrayList<Double>> score = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+
+//			System.out.println("Letta matrice score da file:");
+//			Printer.printMatrix(score);
+		}
+	}
+	
+	@Test
+	public void testGetSVDOn1636579() throws Exception {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(1636579);
+		
+			@SuppressWarnings("unused")
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);			
+
+//			System.out.println("Letta matrice V da file:");
+//			Printer.printMatrix(matrix_v);
+		}
+	}
+	
+	@Test
+	public void testGetPCAOn1636579() throws Exception {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(1636579);
+		
+			@SuppressWarnings("unused")
+			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);			
+
+//			System.out.println("Letta matrice score da file:");
+//			Printer.printMatrix(score);
+		}
+	}
 }
