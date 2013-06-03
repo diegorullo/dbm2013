@@ -16,8 +16,8 @@ import utils.Similarity;
 
 public class AuthorTestAdvanced {
 	
-	private final static boolean DEBUG = false;
-	private final static boolean BIG_DATA = true;
+	private final static boolean DEBUG = true;
+	private final static boolean BIG_DATA = false;
 	
 	static Author authorStefania;
 	static Author authorLuca;
@@ -178,7 +178,7 @@ public class AuthorTestAdvanced {
 		}
 	}
 	
-	@Test(expected=AuthorWithoutCoAuthorsException.class)
+	@Test//(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityTFIDF2VectorWithSelfDummy() throws Exception {
 		if(DEBUG) {
 			// 1b.2 TF-IDF2
@@ -190,12 +190,12 @@ public class AuthorTestAdvanced {
 			assertEquals(1.0, similarityStefaniaStefania, epsilon);
 			assertEquals(1.0, similarityLucaLuca, epsilon);
 		}
-		else {
-			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
-		}
+//		else {
+//			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
+//		}
 	}
 	
-	@Test(expected=AuthorWithoutCoAuthorsException.class)
+	@Test//(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityTFIDF2VectorReflexiveDummy() throws Exception {
 		if(DEBUG) {
 			// 1b.2 TF-IDF2		
@@ -206,12 +206,12 @@ public class AuthorTestAdvanced {
 	//		System.out.println("Similarità Luca-Stefania: " + similarityLucaStefania);
 			assertEquals(similarityStefaniaLuca, similarityLucaStefania, epsilon);
 		}
-		else {
-			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
-		}
+//		else {
+//			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
+//		}
 	}
 	
-	@Test(expected=AuthorWithoutCoAuthorsException.class)
+	@Test//(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityPFVectorWithSelfDummy() throws Exception {
 		if(DEBUG) {
 			// 1b.3 PF
@@ -223,12 +223,12 @@ public class AuthorTestAdvanced {
 			assertEquals(1.0, similarityStefaniaStefania, epsilon);
 			assertEquals(1.0, similarityLucaLuca, epsilon);
 		}
-		else {
-			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
-		}
+//		else {
+//			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
+//		}
 	}	
 
-	@Test(expected=AuthorWithoutCoAuthorsException.class)
+	@Test//(expected=AuthorWithoutCoAuthorsException.class)
 	public void testGetCosineSimilarityPFVectorReflexiveDummy() throws Exception {
 		if(DEBUG) {
 			// 1b.3 PF
@@ -239,9 +239,9 @@ public class AuthorTestAdvanced {
 	//		System.out.println("Similarità Luca-Stefania: " + similarityLucaStefania);
 			assertEquals(similarityStefaniaLuca, similarityLucaStefania, epsilon);
 		}
-		else {
-			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
-		}
+//		else {
+//			throw new AuthorWithoutCoAuthorsException("Autore senza coautori");
+//		}
 	}
 	
 	
