@@ -157,7 +157,7 @@ public class MatlabEngineTest {
 			Author testAuthor = dblp.getAuthorByID(2390072);
 		
 			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);			
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp,5);			
 
 //			System.out.println("Letta matrice V da file:");
 //			Printer.printMatrix(matrix_v);
@@ -173,7 +173,7 @@ public class MatlabEngineTest {
 			Author testAuthor = dblp.getAuthorByID(2390072);
 		
 			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);			
+			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp,5);			
 
 //			System.out.println("Letta matrice score da file:");
 //			Printer.printMatrix(score);
@@ -239,7 +239,7 @@ public class MatlabEngineTest {
 			Author testAuthor = dblp.getAuthorByID(1636579);
 		
 			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);			
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp,5);			
 
 //			System.out.println("Letta matrice V da file:");
 //			Printer.printMatrix(matrix_v);
@@ -255,7 +255,7 @@ public class MatlabEngineTest {
 			Author testAuthor = dblp.getAuthorByID(1636579);
 		
 			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);			
+			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp,5);			
 
 //			System.out.println("Letta matrice score da file:");
 //			Printer.printMatrix(score);
