@@ -17,7 +17,7 @@ import utils.Similarity;
 public class AuthorTestAdvanced {
 	
 	private final static boolean DEBUG = true;
-	private final static boolean BIG_DATA = false;
+	private final static boolean BIG_DATA = true;
 	
 	static Author authorStefania;
 	static Author authorLuca;
