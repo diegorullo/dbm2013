@@ -26,10 +26,11 @@ public class Paper {
 	private TreeMap<String, Integer> titleKeywordSetWithOccurrences;
 	private double weightBasedOnAge;
 	private ArrayList<String> keywordSet;
+	private ArrayList<String> titleKeywordSet;
 	private TreeMap<String, Double> tFVector;
 	private TreeMap<String, Double> weightedTFVector;
-	private TreeMap<String, Double> TFIDFVector;
-	private TreeMap<String, Double> WeightedTFIDFVector;	
+	private TreeMap<String, Double> tFIDFVector;
+	private TreeMap<String, Double> weightedTFIDFVector;	
 	
 	
 	public Paper(int paperID, String title, int year, String publisher,
@@ -45,9 +46,9 @@ public class Paper {
 		this.authors = authors;
 		this.keywords = keywords;
 		this.titlesKeywords = titlesKeywords;
-		this.keywordSet = this.calculateKeywordSet();
-		this.weightBasedOnAge = this.calculateWeightBasedOnAge();
 		
+		this.keywordSet = this.calculateKeywordSet();
+		this.weightBasedOnAge = this.calculateWeightBasedOnAge();		
 		this.titleKeywordSetWithOccurrences = this.calculateTitleKeywordSetWithOccurrences(titleWeight);
 		this.keywordSetWithOccurrences = this.calculateKeywordSetWithOccurrences();
 		this.tFVector = this.calculateTFVector();
@@ -117,7 +118,7 @@ public class Paper {
 	 * 
 	 * @return arraylist delle keyword del titolo, ordinato
 	 */
-	public ArrayList<String> getTitleKeywordSet() {
+	public ArrayList<String> calculateTitleKeywordSet() {
 		ArrayList<String> titlesKeywordSet = new  ArrayList<String>();
 		ArrayList<String> titlesKeywordsList = this.getTitlesKeywords();
 		for(String k : titlesKeywordsList) {
@@ -446,19 +447,26 @@ public class Paper {
 	}
 	
 	public TreeMap<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
-		if (TFIDFVector == null){
-			TFIDFVector = calculateTFIDFVector(corpus);
+		if (tFIDFVector == null){
+			tFIDFVector = calculateTFIDFVector(corpus);
 		}
-		return TFIDFVector;	
+		return tFIDFVector;	
 	}
 	
 	public TreeMap<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
-		if (WeightedTFIDFVector == null){
-			WeightedTFIDFVector = calculateTFIDFVector(corpus);
+		if (weightedTFIDFVector == null) {
+			weightedTFIDFVector = calculateTFIDFVector(corpus);
 		}
-		return WeightedTFIDFVector;	
+		return weightedTFIDFVector;	
 	}
 
+	public ArrayList<String> getTitleKeywordSet() {
+		if (titleKeywordSet == null) {
+			titleKeywordSet = calculateTitleKeywordSet();
+		}
+		return titleKeywordSet;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
