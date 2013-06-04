@@ -149,7 +149,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetSVDOn2390072() throws Exception {
+	public void testGetSVDOn2390072Top5() throws Exception {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -165,7 +165,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetPCAOn2390072() throws Exception {
+	public void testGetPCAOn2390072Top5() throws Exception {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -231,7 +231,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetSVDOn1636579() throws Exception {
+	public void testGetSVDOn1636579Top5() throws Exception {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -247,7 +247,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetPCAOn1636579() throws Exception {
+	public void testGetPCAOn1636579Top5() throws Exception {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
