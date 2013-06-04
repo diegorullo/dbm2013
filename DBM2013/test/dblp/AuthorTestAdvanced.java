@@ -352,7 +352,6 @@ public class AuthorTestAdvanced {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
-			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -375,7 +374,6 @@ public class AuthorTestAdvanced {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
-			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -398,7 +396,6 @@ public class AuthorTestAdvanced {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
-			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
