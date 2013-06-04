@@ -2,18 +2,25 @@ package utils;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
 import org.junit.Test;
 
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Factory;
+import exceptions.NoAuthorsWithSuchIDException;
 
 public class SimilarityTest {
 	
 	private final static boolean DEBUG = true;
 	
 	@Test
-	public void testGetCosineSimilarityWithSelf() throws Exception {
+	public void testGetCosineSimilarityWithSelf() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
 		if (DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
@@ -29,7 +36,7 @@ public class SimilarityTest {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityReflexiveCandanSapino() throws Exception {
+	public void testGetCosineSimilarityReflexiveCandanSapino() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
 		if (DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();

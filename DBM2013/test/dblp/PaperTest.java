@@ -2,15 +2,22 @@ package dblp;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
 import org.junit.Test;
+
+import exceptions.NoPaperWithSuchIDException;
 
 public class PaperTest {
 
 	@Test
-	public void testGetKeywordSetOnePaper() throws Exception {
+	public void testGetKeywordSetOnePaper() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoPaperWithSuchIDException {
 		Factory f = new Factory();
 		Corpus dblp = f.getCorpus();
 		int paperid = 943390;
@@ -25,10 +32,15 @@ public class PaperTest {
 	 * verifica la mera creazione del TreeMap di keyword.
 	 * In realtà, se il paper ha titolo ed abstract nullo, 
 	 * il test fallisce: il TreeMap viene creato ma rimane nullo.
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws SQLException 
+	 * @throws IOException 
+	 * @throws NoPaperWithSuchIDException 
 	 * @throws Exception 
 	 */
 	@Test
-	public void testGetKeywordSetWithOccurrencesOnePaper() throws Exception {
+	public void testGetKeywordSetWithOccurrencesOnePaper() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoPaperWithSuchIDException {
 		Factory f = new Factory();
 		Corpus dblp = f.getCorpus();
 		int paperid = 943390;
@@ -43,7 +55,7 @@ public class PaperTest {
 	 * @throws Exception 
 	 */
 	@Test
-	public void testGetKeywordSetWithOccurrences() throws Exception {		
+	public void testGetKeywordSetWithOccurrences() {		
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();
@@ -80,7 +92,7 @@ public class PaperTest {
 	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTF() throws Exception {
+	public void testGetTF() {
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();

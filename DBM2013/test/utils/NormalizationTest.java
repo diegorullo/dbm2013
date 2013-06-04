@@ -2,6 +2,7 @@ package utils;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -10,6 +11,8 @@ import org.junit.Test;
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Paper;
+import exceptions.AuthorWithoutPapersException;
+import exceptions.NoAuthorsWithSuchIDException;
 
 public class NormalizationTest {
 
@@ -19,7 +22,7 @@ public class NormalizationTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testNormalizedTFIDFVectorDummy() throws Exception {
+	public void testNormalizedTFIDFVectorDummy() {
 
 		// -- PAPER --
 
@@ -117,11 +120,12 @@ public class NormalizationTest {
 
 	/**
 	 * 2 autori, 3 paper, 1 in comune
+	 * @throws IOException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testNormalizedTFVectorDummy() throws Exception {
+	public void testNormalizedTFVectorDummy() throws IOException {
 
 		// -- PAPER --
 
@@ -225,11 +229,13 @@ public class NormalizationTest {
 	
 	/**
 	 * 2 autori, 3 paper, 1 in comune
+	 * @throws AuthorWithoutPapersException 
+	 * @throws IOException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testNormalizedWeightedTFVectorDummy() throws Exception {
+	public void testNormalizedWeightedTFVectorDummy() throws IOException, AuthorWithoutPapersException {
 
 		// -- PAPER --
 
@@ -329,7 +335,7 @@ public class NormalizationTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testNormalizedWeightedTFIDFVectorDummy() throws Exception {
+	public void testNormalizedWeightedTFIDFVectorDummy() {
 
 		// -- PAPER --
 
@@ -427,10 +433,12 @@ public class NormalizationTest {
 	
 	/**
 	 * Caso 2 autori, 5 paper (3 a testa), 1 in comune
+	 * @throws NoAuthorsWithSuchIDException 
+	 * @throws AuthorWithoutPapersException 
 	 * @throws Exception 
 	 */	
 	@Test
-	public void testNormalizedTFIDF2VectorDummy() throws Exception {
+	public void testNormalizedTFIDF2VectorDummy() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 
 		// -- PAPER --
 		
@@ -549,10 +557,11 @@ public class NormalizationTest {
 
 	/**
 	 * Caso 2 autori, 5 paper (3 a testa), 1 in comune
+	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws Exception 
 	 */	
 	@Test
-	public void testNormalizedPFVectorDummy() throws Exception {
+	public void testNormalizedPFVectorDummy() throws NoAuthorsWithSuchIDException {
 
 		// -- PAPER --
 		

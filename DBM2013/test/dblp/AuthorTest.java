@@ -6,36 +6,19 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import exceptions.AuthorWithoutPapersException;
+
 public class AuthorTest {
 	
-	@Test
-	public void testAuthor() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetWTFVector() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetWTFIDFVector() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetCombinedKeywordSet() {
-//		fail("Not yet implemented");
-	}
-
 	/**
 	 * 1 autore, 2 paper, la keyword "algorithm" compare in
 	 * entrambi i paper;
 	 * (vedi commento interno per il valore atteso)
+	 * @throws AuthorWithoutPapersException 
 	 * @throws Exception 
 	 */
 	@Test
-	public void testGetRestrictedTF() throws Exception {
+	public void testGetRestrictedTF() throws AuthorWithoutPapersException {
 		
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
 		authorsNames1.add("Stefania");
@@ -86,41 +69,6 @@ public class AuthorTest {
 		tf = a.getRestrictedTF(keyword);
 		double epsilon = (double)1/1000000000;
 		assertEquals ("Keyword: " + keyword +", TF = "+ tf, valAtteso, tf, epsilon);
-	}
-
-	@Test
-	public void testGetAuthorID() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetName() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetPapers() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetAuthorID() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetName() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetPapers() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testEqualsObject() {
-//		fail("Not yet implemented");
 	}
 
 }

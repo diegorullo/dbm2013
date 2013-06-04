@@ -3,22 +3,29 @@ package utils;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
 import org.junit.Test;
 
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Paper;
+import exceptions.AuthorWithoutPapersException;
 
 public class PcaSvdTest 
 {
 	
 	/**
 	 * 1 autore, 3 paper
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetTop5SVDDummy() throws Exception {
+	public void testGetTop5SVDDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 
 		// -- PAPER --
 
@@ -99,11 +106,14 @@ public class PcaSvdTest
 	}
 	/**
 	 * 1 autore, 3 paper
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetTop5PCADummy() throws Exception {
+	public void testGetTop5PCADummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 
 		// -- PAPER --
 
