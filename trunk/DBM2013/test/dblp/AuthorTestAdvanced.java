@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import junit.framework.Assert;
@@ -22,9 +23,9 @@ import utils.Similarity;
 
 public class AuthorTestAdvanced {
 	
-	private final static boolean DEBUG = true;
-	private final static boolean BIG_DATA_ALL = true;
-	private final static boolean BIG_DATA_ONE = true;
+	private final static boolean DEBUG = false;
+	private final static boolean BIG_DATA_ALL = false;
+	private final static boolean BIG_DATA_ONE = false;
 	private final static boolean PRINT = true;
 	
 	static Author authorStefania;
@@ -558,4 +559,20 @@ public class AuthorTestAdvanced {
 			
 		}
 	}
+	
+	@Test
+	public void testGetSimilarityRankOnKeywordVectorOneVSAllSapinoBigData() throws NoAuthorsWithSuchIDException {
+		if(!BIG_DATA_ONE) {
+			ArrayList<Author> authors2 = dblp.getAuthors();
+			
+			HashMap<String,Double> top10 = authorSapino.getSimilarityRankOnKeywordVector(authors2, dblp);
+			
+			if(PRINT) 
+			{
+				System.out.println("top10 (" + top10 + "):");
+			}
+			
+		}
+	}
+	
 }

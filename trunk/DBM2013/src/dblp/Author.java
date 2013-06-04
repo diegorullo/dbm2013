@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
@@ -14,6 +17,7 @@ import matlabcontrol.MatlabInvocationException;
 import utils.IO;
 import utils.MatlabEngine;
 import utils.Normalization;
+import utils.Printer;
 import utils.Similarity;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
@@ -624,7 +628,6 @@ public class Author {
 	public ArrayList<TreeMap<String, Double>> getTopN(ArrayList<ArrayList<Double>> nMatrix,int topN) throws AuthorWithoutPapersException {
 		ArrayList<TreeMap<String, Double>> topNMatrix = new ArrayList<TreeMap<String, Double>>();
 		ArrayList<String> keywordSet = this.getKeywordSet();
-		
 		if(topN > nMatrix.size())
 		{
 			topN = nMatrix.size();
@@ -865,7 +868,39 @@ public class Author {
 		return similarity;
 	}
 	
-	
+	/**
+	 * Resituisce la classifica dei 10 autori per similarita'(coseno) rispetto all'autore corrente 
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return
+	 * @throws NoAuthorsWithSuchIDException 
+	 * @throws Exception
+	 */
+	public LinkedHashMap<String,Double> getSimilarityRankOnKeywordVector(ArrayList<Author> otherAuthor, Corpus corpus) throws NoAuthorsWithSuchIDException {
+		
+		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
+		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		
+		for(Author a1 : otherAuthor)
+		{
+			similarity = this.getSimilarityOnKeywordVector(a1, corpus);
+			similarityVector.put(a1.getName(), similarity);
+		}
+		
+		ArrayList<Map.Entry<String, Double>> ordV = Printer.orderVectorTreeMap(similarityVector);
+
+		int i = 0;
+		for (Entry<String, Double> entry : ordV) 
+		{
+			top10.put(entry.getKey(), entry.getValue());
+			i++;
+			
+			if(i == 10) return top10;
+		}
+		return top10;
+	}	
 	
 	public int getAuthorID() {
 		return authorID;
