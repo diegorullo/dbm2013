@@ -43,8 +43,7 @@ public class Printer {
 		ArrayList<Map.Entry<String, Double>> ordVector = new ArrayList<Map.Entry<String, Double>>(
 				m.entrySet());
 
-		Collections.sort(ordVector,
-				new Comparator<Map.Entry<String, Double>>() {
+		Collections.sort(ordVector, new Comparator<Map.Entry<String, Double>>() {
 					public int compare(Map.Entry<String, Double> o1,
 							Map.Entry<String, Double> o2) {
 						Double first = (Double) o1.getValue();

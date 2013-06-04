@@ -23,9 +23,9 @@ import utils.Similarity;
 
 public class AuthorTestAdvanced {
 	
-	private final static boolean DEBUG = false;
-	private final static boolean BIG_DATA_ALL = false;
-	private final static boolean BIG_DATA_ONE = false;
+	private final static boolean DEBUG = true;
+	private final static boolean BIG_DATA_ALL = true;
+	private final static boolean BIG_DATA_ONE = true;
 	private final static boolean PRINT = true;
 	
 	static Author authorStefania;
@@ -352,6 +352,7 @@ public class AuthorTestAdvanced {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
+			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -374,6 +375,7 @@ public class AuthorTestAdvanced {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
+			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -396,6 +398,7 @@ public class AuthorTestAdvanced {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
+			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -552,23 +555,79 @@ public class AuthorTestAdvanced {
 					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
 				}
 				assertEquals(s12, s21, 0);
-			}
-			
+			}			
 		}
 	}
 	
 	@Test
-	public void testGetSimilarityRankOnKeywordVectorOneVSAllSapinoBigData() throws NoAuthorsWithSuchIDException {
-		if(!BIG_DATA_ONE) {
-			ArrayList<Author> authors2 = dblp.getAuthors();
+	public void testGetSimilarAuthorsRankedByKeywordVectorSapino() throws NoAuthorsWithSuchIDException {
+		if(BIG_DATA_ONE) {
 			
-			HashMap<String,Double> top10 = authorSapino.getSimilarityRankOnKeywordVector(authors2, dblp);
+			HashMap<String,Double> top10 = authorSapino.getSimilarAuthorsRankedByKeywordVector(dblp);
 			
-			if(PRINT) 
-			{
-				System.out.println("top10 (" + top10 + "):");
-			}
+			if(PRINT) {
+				System.out.println("10 autori più simili a Sapino (Keyword Vector):\n" + top10);
+			}			
+		}
+	}
+	
+	@Test
+	public void testGetSimilarAuthorsRankedByKeywordVectorCandan() throws NoAuthorsWithSuchIDException {
+		if(BIG_DATA_ONE) {
 			
+			HashMap<String,Double> top10 = authorCandan.getSimilarAuthorsRankedByKeywordVector(dblp);
+			
+			if(PRINT) {
+				System.out.println("10 autori più simili a Candan (Keyword Vector):\n" + top10);
+			}			
+		}
+	}
+	
+	@Test
+	public void testGetSimilarAuthorsRankedByPFVectorSapino() throws NoAuthorsWithSuchIDException {
+		if(BIG_DATA_ONE) {
+			
+			HashMap<String,Double> top10 = authorSapino.getSimilarAuthorsRankedByPFVector(dblp);
+			
+			if(PRINT) {
+				System.out.println("10 autori più simili a Sapino (PF Vector):\n" + top10);
+			}			
+		}
+	}
+	
+	@Test
+	public void testGetSimilarAuthorsRankedByPFVectorCandan() throws NoAuthorsWithSuchIDException {
+		if(BIG_DATA_ONE) {
+			
+			HashMap<String,Double> top10 = authorCandan.getSimilarAuthorsRankedByPFVector(dblp);
+			
+			if(PRINT) {
+				System.out.println("10 autori più simili a Candan (PF Vector):\n" + top10);
+			}			
+		}
+	}
+	
+	@Test
+	public void testGetSimilarAuthorsRankedByTFIDF2VectorSapino() throws NoAuthorsWithSuchIDException {
+		if(BIG_DATA_ONE) {
+			
+			HashMap<String,Double> top10 = authorSapino.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
+			
+			if(PRINT) {
+				System.out.println("10 autori più simili a Sapino (TFIDF2 Vector):\n" + top10);
+			}			
+		}
+	}
+	
+	@Test
+	public void testGetSimilarAuthorsRankedByTFIDF2VectorCandan() throws NoAuthorsWithSuchIDException {
+		if(BIG_DATA_ONE) {
+			
+			HashMap<String,Double> top10 = authorCandan.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
+			
+			if(PRINT) {
+				System.out.println("10 autori più simili a Candan (TFIDF2 Vector):\n" + top10);
+			}			
 		}
 	}
 	

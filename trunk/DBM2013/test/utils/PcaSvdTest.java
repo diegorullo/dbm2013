@@ -142,14 +142,6 @@ public class PcaSvdTest {
 		
 	}
 	
-	/**
-	 * 1 autore, 3 paper
-	 * @throws AuthorWithoutPapersException 
-	 * @throws MatlabInvocationException 
-	 * @throws MatlabConnectionException 
-	 * 
-	 * @throws Exception
-	 */
 	@Test
 	public void testGetTop5SVDDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
@@ -161,14 +153,6 @@ public class PcaSvdTest {
 		}
 	}
 	
-	/**
-	 * 1 autore, 3 paper
-	 * @throws AuthorWithoutPapersException 
-	 * @throws MatlabInvocationException 
-	 * @throws MatlabConnectionException 
-	 * 
-	 * @throws Exception
-	 */
 	@Test
 	public void testGetTop5PCADummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 
@@ -188,7 +172,7 @@ public class PcaSvdTest {
 		System.out.println("Matrice V (" + authorCandan.getAuthorID() + "):");
 		Printer.printMatrix(vMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorCandan.getTopN(vMatrix, 5);
-		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/CANDAN_5_SVDTopMatrix.csv");
+		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorCandan.getAuthorID() + ".csv");
 		System.out.println("Matrice top 5 SVD (" + authorCandan.getAuthorID() + "): " + topNMatrix);
 		}
 	}
@@ -201,7 +185,7 @@ public class PcaSvdTest {
 		System.out.println("Matrice Score(" + authorCandan.getAuthorID() + "): " );
 		Printer.printMatrix(scoreLatentMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorCandan.getTopN(scoreLatentMatrix, 5);
-		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/CANDAN_5_PCATopMatrix.csv");
+		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorCandan.getAuthorID() + ".csv");
 		System.out.println("Matrice top 5 PCA (" + authorCandan.getAuthorID() + "): " + topNMatrix);
 		}
 	}
