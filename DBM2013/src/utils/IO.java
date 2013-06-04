@@ -101,7 +101,7 @@ public class IO {
 	 * @param nTop	numero di righe della matrice da leggere
 	 * @throws Exception
 	 */
-	public static ArrayList<ArrayList<Double>> readNTOPDocumentTermMatrixFromFile(String path,int nTop) throws Exception {
+	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path,int nTop) throws Exception {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
 		
 		try {
