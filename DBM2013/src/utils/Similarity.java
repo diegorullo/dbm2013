@@ -10,8 +10,7 @@ public class Similarity {
      * @param doc il vettore di termini pesati 
      * @return magnitudo di un vettore di termini pesati
      */
-    public static double doc_magnitudo(TreeMap<String, Double> doc)
-    {
+    public static double doc_magnitudo(TreeMap<String, Double> doc) {
             double magnitudo = 0.0;
             for (Map.Entry<String, Double> term : doc.entrySet())
             {
@@ -35,8 +34,7 @@ public class Similarity {
 	 * @return similarita' coseno tra due vettori
 	 * @throws Exception 
 	 */
-	public static double getCosineSimilarity(TreeMap<String, Double> a_vector , TreeMap<String, Double> b_vector) throws Exception
-	{
+	public static double getCosineSimilarity(TreeMap<String, Double> a_vector , TreeMap<String, Double> b_vector) {
 		double scalarProd = 0.0;
         double a_magnitudo = 0.0;
         double b_magnitudo = 0.0;

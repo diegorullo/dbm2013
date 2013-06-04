@@ -34,7 +34,7 @@ public class Paper {
 	
 	public Paper(int paperID, String title, int year, String publisher,
 			String paperAbstract, ArrayList<String> authorsNames, ArrayList<Integer> authors,
-			ArrayList<String> keywords, ArrayList<String> titlesKeywords) throws Exception {
+			ArrayList<String> keywords, ArrayList<String> titlesKeywords) {
 		super();
 		this.paperID = paperID;
 		this.title = title;
@@ -190,7 +190,7 @@ public class Paper {
 	 * @return tfidf d
 	 * @throws Exception
 	 */
-	public double getTFIDF(String keyword, Corpus corpus) throws Exception {
+	public double getTFIDF(String keyword, Corpus corpus) {
 		
 		double tf = 0;
 		double idf = 0;
@@ -233,7 +233,7 @@ public class Paper {
 	 * @param corpus
 	 * @return keywordVector pesato in base al tfidf
 	 */
-	private TreeMap<String, Double> calculateTFIDFVector(Corpus corpus) throws Exception {
+	private TreeMap<String, Double> calculateTFIDFVector(Corpus corpus) {
 		
 		TreeMap<String, Integer> keywordSet = this.getKeywordSetWithOccurrences();
 		TreeMap<String, Double> TFIDFVector = new TreeMap<String, Double>();
@@ -315,7 +315,7 @@ public class Paper {
 	 * @return vettore dei tfidf pesati
 	 * @throws Exception
 	 */
-	private TreeMap<String, Double> calculateWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
+	private TreeMap<String, Double> calculateWeightedTFIDFVector(double weight, Corpus corpus) {
 		TreeMap<String, Double> TFIDFVector = this.getTFIDFVector(corpus);
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 		String key;
@@ -449,14 +449,14 @@ public class Paper {
 		return weightedTFVector;
 	}
 	
-	public TreeMap<String, Double> getTFIDFVector(Corpus corpus) throws Exception {
+	public TreeMap<String, Double> getTFIDFVector(Corpus corpus) {
 		if(tFIDFVector == null){
 			tFIDFVector = calculateTFIDFVector(corpus);
 		}
 		return tFIDFVector;	
 	}
 	
-	public TreeMap<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) throws Exception {
+	public TreeMap<String, Double> getWeightedTFIDFVector(double weight, Corpus corpus) {
 		if(weightedTFIDFVector == null) {
 			weightedTFIDFVector = calculateWeightedTFIDFVector(weight, corpus);
 		}

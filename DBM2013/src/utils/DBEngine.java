@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class DBEngine {
 	/**
 	 * chiude la connessione al db
 	 */
-	public void shutdown() throws SQLException{
+	public void shutdown() throws SQLException {
 		if(conn!=null)
 			conn.close();
 	}	
@@ -59,9 +60,11 @@ public class DBEngine {
 	 * istanzia un paper a partire dal relativo id
 	 * @param paperID   id del paper
 	 * @return paper	paper
+	 * @throws SQLException 
+	 * @throws IOException 
 	 * @throws Exception 
 	 */
-	public Paper newPaper(int paperID) throws Exception {
+	public Paper newPaper(int paperID) throws SQLException, IOException {
 		final String title;
 		final int year;
 		final String publisher;
@@ -102,9 +105,11 @@ public class DBEngine {
 	 * istanzia un autore a partire dal relativo id
 	 * @param personID   id dell'autore
 	 * @return author	 autore
+	 * @throws SQLException 
+	 * @throws IOException 
 	 * @throws Exception 
 	 */
-	public Author newAuthor(int personID) throws Exception {
+	public Author newAuthor(int personID) throws SQLException, IOException {
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final String name;
 		
@@ -138,9 +143,11 @@ public class DBEngine {
 	 * - la cardinalità, numero di papers del corpus.
 	 * 
 	 * @return corpus	corpus con autori, papers e cardinalità
+	 * @throws SQLException 
+	 * @throws IOException 
 	 * @throws Exception 
 	 */
-	public Corpus newCorpus() throws Exception {
+	public Corpus newCorpus() throws SQLException, IOException {
 		final ArrayList<Author> authors = new ArrayList<Author>();
 		final ArrayList<Paper> papers = new ArrayList<Paper>();
 		final int cardinality;		
