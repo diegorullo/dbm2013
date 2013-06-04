@@ -2,10 +2,14 @@ package dblp;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
 
 import org.junit.Test;
 
@@ -17,12 +21,13 @@ public class PaperTestAdvanced {
 	 * Versione dummy test del metodo getTF:
 	 * controlla che, con dati ad hoc, la somma dei tf delle
 	 * varie keyword (calcolati singolarmente) sia 1.
+	 * @throws IOException 
 	 * @throws Exception 
 	 * 
 	 * @throws SQLException
 	 */
 	@Test
-	public void testGetTFAUnoDummy() throws Exception {
+	public void testGetTFAUnoDummy() throws IOException {
 		ArrayList<String> authorsNames = new ArrayList<String>();
 		authorsNames.add("Stefania");
 		ArrayList<Integer> authors = new ArrayList<Integer>();
@@ -65,10 +70,14 @@ public class PaperTestAdvanced {
 	 * Test del metodo getTF:
 	 * controlla che, con dati del database reale,
 	 * la somma dei tf delle varie keyword (calcolati singolarmente) sia 1.
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws SQLException 
+	 * @throws IOException 
 	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTFAUno() throws Exception {
+	public void testGetTFAUno() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
 		Factory f = new Factory();
 		//Paper paper = f.newPaper(1279177);
 		Paper paper = f.newPaper(943390);
@@ -86,10 +95,14 @@ public class PaperTestAdvanced {
 	 * Test del metodo getTF:
 	 * controlla che, con dati del database reale,
 	 * la somma dei tf delle varie keyword (calcolati singolarmente) sia 1.
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws SQLException 
+	 * @throws IOException 
 	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTFAUnoTuttiIPaper() throws Exception {
+	public void testGetTFAUnoTuttiIPaper() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
 		if (DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
@@ -113,10 +126,14 @@ public class PaperTestAdvanced {
 	 * Test del metodo getTFVector:
 	 * controlla che, con dati del database reale,
 	 * la somma dei tf delle varie keyword sia 1.
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws SQLException 
+	 * @throws IOException 
 	 * @throws Exception 
 	 */
 	@Test
-	public void testGetTFVectorAUno() throws Exception {
+	public void testGetTFVectorAUno() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
 		Factory f = new Factory();
 		Paper paper = f.newPaper(943390);
 		double uno = 0.0;

@@ -2,13 +2,21 @@ package dblp;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
 import junit.framework.Assert;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import exceptions.AuthorWithoutPapersException;
+import exceptions.NoAuthorsWithSuchIDException;
 
 import utils.Similarity;
 
@@ -29,7 +37,7 @@ public class AuthorTestAdvanced {
 	static Corpus dblp;
 	
 	@BeforeClass	
-	public static void getDummyEnvironment() throws Exception {
+	public static void getDummyEnvironment() {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -128,7 +136,7 @@ public class AuthorTestAdvanced {
 	}
 		
 	@BeforeClass
-	public static void getEnvironment() throws Exception{
+	public static void getEnvironment() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
 		Factory f = new Factory();
 		dblp = f.getCorpus();
 		//Autore "Maria Luisa Sapino"
@@ -140,7 +148,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityReflexiveDummy() throws Exception {
+	public void testGetCosineSimilarityReflexiveDummy() {
 		if(DEBUG) {
 			TreeMap<String, Double> weightedTFIDFVectorStefania = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus);
 			TreeMap<String, Double> weightedTFIDFVectorLuca = (TreeMap<String, Double>) authorLuca.getWeightedTFIDFVector(dummyCorpus);
@@ -152,7 +160,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityKeywordVectorWithSelfDummy() throws Exception {
+	public void testGetCosineSimilarityKeywordVectorWithSelfDummy() {
 		// 1b.1 keyword vectors	
 		if(DEBUG) {
 			Double similarityStefaniaStefania = authorStefania.getSimilarityOnKeywordVector(authorStefania, dummyCorpus);
@@ -166,7 +174,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityKeywordVectorReflexiveDummy() throws Exception {
+	public void testGetCosineSimilarityKeywordVectorReflexiveDummy() {
 		if(DEBUG) {
 			// 1b.1 keyword vectors	
 			Double similarityStefaniaLuca = authorStefania.getSimilarityOnKeywordVector(authorLuca, dummyCorpus);
@@ -179,7 +187,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test//(expected=AuthorWithoutCoAuthorsException.class)
-	public void testGetCosineSimilarityTFIDF2VectorWithSelfDummy() throws Exception {
+	public void testGetCosineSimilarityTFIDF2VectorWithSelfDummy() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.2 TF-IDF2
 			Double similarityStefaniaStefania = authorStefania.getSimilarityOnTFIDF2Vector(authorStefania, dummyCorpus);
@@ -196,7 +204,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test//(expected=AuthorWithoutCoAuthorsException.class)
-	public void testGetCosineSimilarityTFIDF2VectorReflexiveDummy() throws Exception {
+	public void testGetCosineSimilarityTFIDF2VectorReflexiveDummy() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.2 TF-IDF2		
 			Double similarityStefaniaLuca = authorStefania.getSimilarityOnTFIDF2Vector(authorLuca, dummyCorpus);
@@ -212,7 +220,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test//(expected=AuthorWithoutCoAuthorsException.class)
-	public void testGetCosineSimilarityPFVectorWithSelfDummy() throws Exception {
+	public void testGetCosineSimilarityPFVectorWithSelfDummy() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.3 PF
 			Double similarityStefaniaStefania = authorStefania.getSimilarityOnPFVector(authorStefania, dummyCorpus);
@@ -229,7 +237,7 @@ public class AuthorTestAdvanced {
 	}	
 
 	@Test//(expected=AuthorWithoutCoAuthorsException.class)
-	public void testGetCosineSimilarityPFVectorReflexiveDummy() throws Exception {
+	public void testGetCosineSimilarityPFVectorReflexiveDummy() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.3 PF
 			Double similarityStefaniaLuca = authorStefania.getSimilarityOnPFVector(authorLuca, dummyCorpus);
@@ -246,7 +254,7 @@ public class AuthorTestAdvanced {
 	
 	
 	@Test
-	public void testGetCosineSimilarityReflexive() throws Exception {	
+	public void testGetCosineSimilarityReflexive() {	
 		if(DEBUG) {
 			TreeMap<String, Double> weightedTFIDFVectorCandan = (TreeMap<String, Double>) authorCandan.getWeightedTFIDFVector(dblp);
 			TreeMap<String, Double> weightedTFIDFVectorSapino = (TreeMap<String, Double>) authorSapino.getWeightedTFIDFVector(dblp);
@@ -258,7 +266,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityKeywordVectorWithSelf() throws Exception {
+	public void testGetCosineSimilarityKeywordVectorWithSelf() {
 		if(DEBUG) {
 			// 1b.1 keyword vectors	
 			Double similarityCandanCandan = authorCandan.getSimilarityOnKeywordVector(authorCandan, dblp);
@@ -272,7 +280,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityKeywordVectorReflexive() throws Exception {
+	public void testGetCosineSimilarityKeywordVectorReflexive() {
 		if(DEBUG) {
 			// 1b.1 keyword vectors	
 			Double similarityCandanSapino = authorCandan.getSimilarityOnKeywordVector(authorSapino, dblp);
@@ -285,7 +293,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityTFIDF2VectorWithSelf() throws Exception {
+	public void testGetCosineSimilarityTFIDF2VectorWithSelf() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.2 TF-IDF2
 			Double similarityCandanCandan = authorCandan.getSimilarityOnTFIDF2Vector(authorCandan, dblp);
@@ -299,7 +307,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityTFIDF2VectorReflexive() throws Exception {
+	public void testGetCosineSimilarityTFIDF2VectorReflexive() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.2 TF-IDF2		
 			Double similarityCandanSapino = authorCandan.getSimilarityOnTFIDF2Vector(authorSapino, dblp);
@@ -312,7 +320,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityPFVectorWithSelf() throws Exception {
+	public void testGetCosineSimilarityPFVectorWithSelf() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.3 PF
 			Double similarityCandanCandan = authorCandan.getSimilarityOnPFVector(authorCandan, dblp);
@@ -326,7 +334,7 @@ public class AuthorTestAdvanced {
 	}	
 
 	@Test
-	public void testGetCosineSimilarityPFVectorReflexive() throws Exception {
+	public void testGetCosineSimilarityPFVectorReflexive() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			// 1b.3 PF
 			Double similarityCandanSapino = authorCandan.getSimilarityOnPFVector(authorSapino, dblp);
@@ -339,10 +347,11 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityTFIDF2VectorAllVSAllBigData() throws Exception {
+	public void testGetCosineSimilarityTFIDF2VectorAllVSAllBigData() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
+			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -361,10 +370,11 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityPFVectorAllVSAllBigData() throws Exception {
+	public void testGetCosineSimilarityPFVectorAllVSAllBigData() throws NoAuthorsWithSuchIDException {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
+			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -383,10 +393,11 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityKeywordVectorAllVSAllBigData() throws Exception {
+	public void testGetCosineSimilarityKeywordVectorAllVSAllBigData() {
 		if(BIG_DATA_ALL) {		
 			ArrayList<Author> authors1 = dblp.getAuthors();
 			ArrayList<Author> authors2 = dblp.getAuthors();
+			@SuppressWarnings("unused")
 			int a1ID, a2ID;
 			double s12, s21;
 			for(Author a1 : authors1) {
@@ -405,7 +416,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityKeywordVectorOneVSAllSapinoBigData() throws Exception {
+	public void testGetCosineSimilarityKeywordVectorOneVSAllSapinoBigData() {
 		if(BIG_DATA_ONE) {
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
@@ -429,7 +440,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityKeywordVectorOneVSAllCandanBigData() throws Exception {
+	public void testGetCosineSimilarityKeywordVectorOneVSAllCandanBigData() {
 		if(BIG_DATA_ONE) {		
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
@@ -453,7 +464,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityTFIDF2VectorOneVSAllSapinoBigData() throws Exception {
+	public void testGetCosineSimilarityTFIDF2VectorOneVSAllSapinoBigData() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(BIG_DATA_ONE) {
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
@@ -477,7 +488,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityTFIDF2VectorOneVSAllCandanBigData() throws Exception {
+	public void testGetCosineSimilarityTFIDF2VectorOneVSAllCandanBigData() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(BIG_DATA_ONE) {		
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
@@ -501,7 +512,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityPFVectorOneVSAllSapinoBigData() throws Exception {
+	public void testGetCosineSimilarityPFVectorOneVSAllSapinoBigData() throws NoAuthorsWithSuchIDException {
 		if(BIG_DATA_ONE) {
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;
@@ -525,7 +536,7 @@ public class AuthorTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCosineSimilarityPFVectorOneVSAllCandanBigData() throws Exception {
+	public void testGetCosineSimilarityPFVectorOneVSAllCandanBigData() throws NoAuthorsWithSuchIDException {
 		if(BIG_DATA_ONE) {		
 			ArrayList<Author> authors2 = dblp.getAuthors();
 			int a1ID, a2ID;

@@ -1,7 +1,12 @@
 package utils;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.TreeMap;
+
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
 
 import org.junit.Test;
 
@@ -9,13 +14,15 @@ import dblp.Author;
 import dblp.Corpus;
 import dblp.Factory;
 import dblp.Paper;
+import exceptions.AuthorWithoutPapersException;
+import exceptions.NoAuthorsWithSuchIDException;
 
 public class MatlabEngineTest {
 	
 	private final static boolean DEBUG = true;
 	
 	@Test
-	public void evalTestDummy() throws Exception {
+	public void evalTestDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 
 		// -- PAPER --
 
@@ -99,7 +106,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void evalTestSVDOn2390072() throws Exception {
+	public void evalTestSVDOn2390072() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
@@ -123,7 +130,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void evalTestPCAOn2390072() throws Exception {
+	public void evalTestPCAOn2390072() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(DEBUG) {			
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
@@ -149,7 +156,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetSVDOn2390072Top5() throws Exception {
+	public void testGetSVDOn2390072Top5() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -165,7 +172,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetPCAOn2390072Top5() throws Exception {
+	public void testGetPCAOn2390072Top5() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -181,7 +188,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void evalTestSVDOn1636579() throws Exception {
+	public void evalTestSVDOn1636579() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
@@ -205,7 +212,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void evalTestPCAOn1636579() throws Exception {
+	public void evalTestPCAOn1636579() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(DEBUG) {			
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
@@ -231,7 +238,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetSVDOn1636579Top5() throws Exception {
+	public void testGetSVDOn1636579Top5() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -247,7 +254,7 @@ public class MatlabEngineTest {
 	}
 	
 	@Test
-	public void testGetPCAOn1636579Top5() throws Exception {
+	public void testGetPCAOn1636579Top5() throws SQLException, MatlabConnectionException, MatlabInvocationException, NoAuthorsWithSuchIDException, IOException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			
 			Factory f = new Factory();
@@ -263,11 +270,10 @@ public class MatlabEngineTest {
 	}
 	
     @Test
-    public void testGetSVDOn2390072() throws Exception {
-            if(DEBUG) {
-                   
+    public void testGetSVDOn2390072() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+            if(DEBUG) {                   
                     Factory f = new Factory();
-            Corpus dblp = f.getCorpus();
+                    Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(2390072);
            
                     @SuppressWarnings("unused")
@@ -279,11 +285,10 @@ public class MatlabEngineTest {
     }
    
     @Test
-    public void testGetPCAOn2390072() throws Exception {
-            if(DEBUG) {
-                   
+    public void testGetPCAOn2390072() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+            if(DEBUG) {                   
                     Factory f = new Factory();
-            Corpus dblp = f.getCorpus();
+                    Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(2390072);
            
                     @SuppressWarnings("unused")
@@ -296,11 +301,10 @@ public class MatlabEngineTest {
 
 
     @Test
-    public void testGetSVDOn1636579() throws Exception {
-            if(DEBUG) {
-                   
+    public void testGetSVDOn1636579() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+            if(DEBUG) {                   
                     Factory f = new Factory();
-            Corpus dblp = f.getCorpus();
+                    Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
            
                     @SuppressWarnings("unused")
@@ -312,11 +316,10 @@ public class MatlabEngineTest {
     }
    
     @Test
-    public void testGetPCAOn1636579() throws Exception {
-            if(DEBUG) {
-                   
+    public void testGetPCAOn1636579() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+            if(DEBUG) {                   
                     Factory f = new Factory();
-            Corpus dblp = f.getCorpus();
+                    Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
            
                     @SuppressWarnings("unused")

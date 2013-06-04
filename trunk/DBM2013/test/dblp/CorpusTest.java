@@ -3,11 +3,20 @@ package dblp;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
 import org.junit.Test;
+
+import exceptions.AuthorWithoutPapersException;
+import exceptions.NoAuthorsWithSuchIDException;
+import exceptions.NoAuthorsWithSuchNameException;
 
 import utils.IO;
 import utils.Normalization;
@@ -19,7 +28,7 @@ public class CorpusTest {
 	private final static boolean PRINT = false;
 
 	@Test
-	public void testGetAuthorByName() throws Exception {
+	public void testGetAuthorByName() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, NoAuthorsWithSuchNameException {
 		if(DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
@@ -34,11 +43,12 @@ public class CorpusTest {
 	/**
 	 * Recupera i paper dei coautori, senza il self. In questo caso, non ci sono
 	 * paper in comune.
+	 * @throws NoAuthorsWithSuchIDException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetCoAuthorsPapersSenzaPaperInComune() throws Exception {
+	public void testGetCoAuthorsPapersSenzaPaperInComune() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 		// -- PAPER --
 
@@ -138,8 +148,7 @@ public class CorpusTest {
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
 		List<Paper> listaPaperCoautoriStefania = new ArrayList<Paper>();
-		listaPaperCoautoriStefania = authorStefania
-				.getCoAuthorsPapers(dummyCorpus);
+		listaPaperCoautoriStefania = authorStefania.getCoAuthorsPapers(dummyCorpus);
 
 		List<Paper> listaPaperCoautoriLuca = new ArrayList<Paper>();
 		listaPaperCoautoriLuca = authorLuca.getCoAuthorsPapers(dummyCorpus);
@@ -152,11 +161,12 @@ public class CorpusTest {
 	/**
 	 * Recupera i paper dei coautori, senza il self. In questo caso, paper 3, 4,
 	 * 5.
+	 * @throws NoAuthorsWithSuchIDException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetCoAuthorsPapersConUnPaperInComune() throws Exception {
+	public void testGetCoAuthorsPapersConUnPaperInComune() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 		// -- PAPER --
 
@@ -278,8 +288,7 @@ public class CorpusTest {
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
 		List<Paper> listaPaperCoautoriStefania = new ArrayList<Paper>();
-		listaPaperCoautoriStefania = authorStefania
-				.getCoAuthorsPapers(dummyCorpus);
+		listaPaperCoautoriStefania = authorStefania.getCoAuthorsPapers(dummyCorpus);
 
 		List<Paper> listaPaperCoautoriLuca = new ArrayList<Paper>();
 		listaPaperCoautoriLuca = authorLuca.getCoAuthorsPapers(dummyCorpus);
@@ -569,11 +578,12 @@ public class CorpusTest {
 
 	/**
 	 * 2 autori, 3 paper, 1 in comune
+	 * @throws NoAuthorsWithSuchIDException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetRestrictedIDF() throws Exception {
+	public void testGetRestrictedIDF() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 		// -- PAPER --
 
@@ -683,11 +693,12 @@ public class CorpusTest {
 
 	/**
 	 * 2 autori, 3 paper, 1 in comune
+	 * @throws NoAuthorsWithSuchIDException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetPFVector() throws Exception {
+	public void testGetPFVector() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 		// -- PAPER --
 
@@ -790,11 +801,12 @@ public class CorpusTest {
 
 	/**
 	 * 1 autore, 3 paper
+	 * @throws AuthorWithoutPapersException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetDocumentTermMatrixDummy() throws Exception {
+	public void testGetDocumentTermMatrixDummy() throws AuthorWithoutPapersException {
 		if(DEBUG) {
 		// -- PAPER --
 
@@ -878,11 +890,12 @@ public class CorpusTest {
 
 	/**
 	 * 1 autore, 3 paper
+	 * @throws AuthorWithoutPapersException 
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testPrintDocumentTermMatrixDummy() throws Exception {
+	public void testPrintDocumentTermMatrixDummy() throws AuthorWithoutPapersException {
 		if(DEBUG) {
 		// -- PAPER --
 
@@ -956,12 +969,10 @@ public class CorpusTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania
-				.getDocumentTermMatrix(dummyCorpus);
+		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania.getDocumentTermMatrix(dummyCorpus);
 
 
-				IO.printDocumentTermMatrixOnFile(documentTermMatrix,
-						"../data/Stefania.csv");
+				IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/Stefania.csv");
 
 		}
 
@@ -969,15 +980,14 @@ public class CorpusTest {
 	}
 
 	@Test
-	public void testGetDocumentTermMatrix() throws Exception {
+	public void testGetDocumentTermMatrix() throws NoAuthorsWithSuchIDException, SQLException, MatlabConnectionException, MatlabInvocationException, IOException, AuthorWithoutPapersException {
 		if (DEBUG) {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(2390072);
 
 			String fileName = testAuthor.getAuthorID() + ".csv";
-			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor
-					.getDocumentTermMatrix(dblp);
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
 
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"
 					+ fileName);
