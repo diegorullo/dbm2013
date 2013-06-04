@@ -627,6 +627,50 @@ public class Author {
 		return n_TopMatrix;
 	}
 	
+    /**
+     * Calcola la matrice SVD per l'autore corrente
+     * @param documentTermMatrix
+     * @return matrice SVD per l'autore corrente
+     * @throws Exception
+     */
+    public ArrayList<ArrayList<Double>> getSVD(Corpus corpus) throws Exception {
+            String startingDirectory = System.getProperty("user.dir");
+            String ioDirectory = startingDirectory + "/../data/";
+            String fileName = this.getAuthorID() + ".csv";
+            File csvFile = new File(ioDirectory + fileName);
+            MatlabEngine me = MatlabEngine.getMatlabEngine();
+            me.init();              
+            if (!csvFile.isFile()) {
+                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
+                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
+            }
+            me.eval("svd_IR", fileName);
+            ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName);
+            return svd;
+    }
+
+    /**
+     * Calcola la matrice PCA per l'autore corrente
+     * @param documentTermMatrix
+     * @return matrice PCA per l'autore corrente
+     * @throws Exception
+     */
+    public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws Exception {
+            String fileName = this.getAuthorID() + ".csv";
+            File csvFile = new File("../data/" + fileName);
+            MatlabEngine me = MatlabEngine.getMatlabEngine();
+            me.init();
+            if (!csvFile.isFile()) {
+                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
+                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
+            }
+            me.eval("pca_IR", fileName);
+            //FIXME: controllare che la matrice corretta sia "score_..."
+            ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/score_" + fileName);
+            return pca;
+    }
+
+	
 	/**
 	 * Calcola la matrice SVD per l'autore corrente
 	 * @param n_top numero degli n vettori della V'
