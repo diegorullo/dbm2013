@@ -1,5 +1,6 @@
 package dblp;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import matlabcontrol.MatlabConnectionException;
@@ -14,12 +15,12 @@ public class Factory {
 		dbe = getDBEngine();
 	}
 		
-	public Paper newPaper(int paperID) throws Exception {		
+	public Paper newPaper(int paperID) throws SQLException, IOException {		
 		Paper p = dbe.newPaper(paperID);
 		return p;
 	}
 	
-	public Author newAuthor(int personID) throws Exception {
+	public Author newAuthor(int personID) throws SQLException, IOException {
 		Author a = dbe.newAuthor(personID);
 		return a;
 	}
@@ -27,9 +28,11 @@ public class Factory {
 	/**
 	 * Ritorna l'unica istanza di dblp
 	 * @return Corpus dblp
+	 * @throws IOException 
+	 * @throws SQLException 
 	 * @throws Exception 
 	 */
-	public Corpus getCorpus() throws Exception {
+	public Corpus getCorpus() throws SQLException, IOException {
 		if(dblp == null) {
 			dblp = dbe.newCorpus();
 		}

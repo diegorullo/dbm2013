@@ -16,8 +16,7 @@ public class Printer {
 	// Stampa del vettore TFIDF (Paper):
 	// prtType=0 tipo ordinamento: alfabetico
 	// prtType=1 tipo ordinamento: indice numerico
-	public static void printVector(TreeMap<String, Double> m, int prtType)
-			throws IOException {
+	public static void printVector(TreeMap<String, Double> m, int prtType) throws IOException {
 
 		if (prtType == 0) {
 			System.out.println("<Vettore TF(Paper) [ordinamento: alfabetico]>");
@@ -39,8 +38,7 @@ public class Printer {
 		}
 	}
 
-	public static ArrayList<Map.Entry<String, Double>> orderVectorTreeMap(
-			TreeMap<String, Double> m) {
+	public static ArrayList<Map.Entry<String, Double>> orderVectorTreeMap(TreeMap<String, Double> m) {
 
 		ArrayList<Map.Entry<String, Double>> ordVector = new ArrayList<Map.Entry<String, Double>>(
 				m.entrySet());
@@ -89,8 +87,7 @@ public class Printer {
 	 * @param matrix matrice
 	 * 
 	 */
-	public static void printMatrix(ArrayList<ArrayList<Double>> matrix) 
-	{
+	public static void printMatrix(ArrayList<ArrayList<Double>> matrix) {
 		for (ArrayList<Double> riga : matrix) {
 			for (Double cella : riga) {
 				System.out.printf("\t%.7f", cella);

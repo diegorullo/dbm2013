@@ -19,9 +19,7 @@ public class IO {
 	 * @param path		path della destinazione
 	 * @throws Exception
 	 */
-	public static void printDocumentTermMatrixOnFile(
-			ArrayList<TreeMap<String, Double>> documentTermMatrix, String path)
-			throws Exception {
+	public static void printDocumentTermMatrixOnFile(ArrayList<TreeMap<String, Double>> documentTermMatrix, String path) {
 		try {
 			FileOutputStream file = new FileOutputStream(path);
 			PrintStream Output = new PrintStream(file);
@@ -50,7 +48,7 @@ public class IO {
 	 * @param path		path della sorgente
 	 * @throws Exception
 	 */
-	public static ArrayList<ArrayList<Double>> readDocumentTermMatrixFromFile(String path) throws Exception {
+	public static ArrayList<ArrayList<Double>> readDocumentTermMatrixFromFile(String path) {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
 		
 		try {
@@ -101,7 +99,7 @@ public class IO {
 	 * @param nTop	numero di righe della matrice da leggere
 	 * @throws Exception
 	 */
-	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path,int nTop) throws Exception {
+	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path,int nTop) {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
 		
 		try {
