@@ -261,4 +261,70 @@ public class MatlabEngineTest {
 //			Printer.printMatrix(score);
 		}
 	}
+	
+    @Test
+    public void testGetSVDOn2390072() throws Exception {
+            if(DEBUG) {
+                   
+                    Factory f = new Factory();
+            Corpus dblp = f.getCorpus();
+                    Author testAuthor = dblp.getAuthorByID(2390072);
+           
+                    @SuppressWarnings("unused")
+                    ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);                        
+
+//                  System.out.println("Letta matrice V da file:");
+//                  Printer.printMatrix(matrix_v);
+            }
+    }
+   
+    @Test
+    public void testGetPCAOn2390072() throws Exception {
+            if(DEBUG) {
+                   
+                    Factory f = new Factory();
+            Corpus dblp = f.getCorpus();
+                    Author testAuthor = dblp.getAuthorByID(2390072);
+           
+                    @SuppressWarnings("unused")
+                    ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
+
+//                  System.out.println("Letta matrice score da file:");
+//                  Printer.printMatrix(score);
+            }
+    }
+
+
+    @Test
+    public void testGetSVDOn1636579() throws Exception {
+            if(DEBUG) {
+                   
+                    Factory f = new Factory();
+            Corpus dblp = f.getCorpus();
+                    Author testAuthor = dblp.getAuthorByID(1636579);
+           
+                    @SuppressWarnings("unused")
+                    ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);                        
+
+//                  System.out.println("Letta matrice V da file:");
+//                  Printer.printMatrix(matrix_v);
+            }
+    }
+   
+    @Test
+    public void testGetPCAOn1636579() throws Exception {
+            if(DEBUG) {
+                   
+                    Factory f = new Factory();
+            Corpus dblp = f.getCorpus();
+                    Author testAuthor = dblp.getAuthorByID(1636579);
+           
+                    @SuppressWarnings("unused")
+                    ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
+
+//                  System.out.println("Letta matrice score da file:");
+//                  Printer.printMatrix(score);
+            }
+    }
+	
 }

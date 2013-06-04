@@ -299,7 +299,7 @@ public class Paper {
 		for(Map.Entry<String, Double> k : TFVector.entrySet()) {
 			key = k.getKey();
 			wtf = (Double) k.getValue() * weight;
-			weightedTFVector.put(key,wtf);
+			weightedTFVector.put(key, wtf);
 		}
 		
 		TreeMap<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
