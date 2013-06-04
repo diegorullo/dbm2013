@@ -6,6 +6,10 @@ import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
+import exceptions.NoAuthorsWithSuchIDException;
+import exceptions.NoAuthorsWithSuchNameException;
+import exceptions.NoPaperWithSuchIDException;
+
 public class Corpus {
 
 	//private static Corpus instance = null; // riferimento all' istanza
@@ -26,9 +30,10 @@ public class Corpus {
 	 * 
 	 * @param id
 	 * @return oggetto Paper associato all'id dato
+	 * @throws NoPaperWithSuchIDException 
 	 * @throws Exception
 	 */
-	public Paper getPaperByID(int id) throws Exception {
+	public Paper getPaperByID(int id) throws NoPaperWithSuchIDException {
 		ArrayList<Paper> papersList = this.getPapers();
 		for (Paper p : papersList) {
 			if (id==p.getPaperID()) {
@@ -36,7 +41,7 @@ public class Corpus {
 			}
 		}
 		//FIXME: sistemare con eccezione appropriata
-		throw new Exception();
+		throw new NoPaperWithSuchIDException("ID: " + id);
 	}
 	
 	/**
@@ -44,9 +49,10 @@ public class Corpus {
 	 * 
 	 * @param id
 	 * @return oggetto Author associato all'id dato
+	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws Exception
 	 */
-	public Author getAuthorByID(int id) throws Exception {
+	public Author getAuthorByID(int id) throws NoAuthorsWithSuchIDException {
 		ArrayList<Author> authorsList = this.getAuthors();
 		for (Author a : authorsList) {
 			if (id == a.getAuthorID()) {
@@ -54,7 +60,7 @@ public class Corpus {
 			}
 		}
 		//FIXME: sistemare con eccezione appropriata
-		throw new Exception();
+		throw new NoAuthorsWithSuchIDException("ID: " + id);
 	}
 	
 	/**
@@ -63,15 +69,16 @@ public class Corpus {
 	 * @param name
 	 * @return oggetto Author associato al nome dato
 	 * @throws NameNotFoundException
+	 * @throws NoAuthorsWithSuchNameException 
 	 */
-	public Author getAuthorByName(String name) throws NameNotFoundException {
+	public Author getAuthorByName(String name) throws NoAuthorsWithSuchNameException {
 		ArrayList<Author> authorsList = this.getAuthors();
 		for (Author a : authorsList) {
 			if (name.equals(a.getName())) {
 				return a;
 			}
 		}
-		throw new NameNotFoundException("There is no author named '" + name + "' in the Corpus.");
+		throw new NoAuthorsWithSuchNameException("There is no author named '" + name + "' in the Corpus.");
 	}
 	
 	/**
@@ -82,7 +89,7 @@ public class Corpus {
 	 * @throws Exception
 	 */
 	//FIXME Sostituire con eccezione appropriata
-	public double getIDF(String keyword) throws Exception {
+	public double getIDF(String keyword) {
 		double idf = 0;
 		int m = 0;
 		int N = this.getCardinality();
