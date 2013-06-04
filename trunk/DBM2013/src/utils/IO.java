@@ -98,10 +98,10 @@ public class IO {
 	 * DocumentTermMatrix
 	 * 
 	 * @param path		path della sorgente
-	 * @param n_top	numero di righe della matrice da leggere
+	 * @param nTop	numero di righe della matrice da leggere
 	 * @throws Exception
 	 */
-	public static ArrayList<ArrayList<Double>> read_N_TOP_DocumentTermMatrixFromFile(String path,int n_top) throws Exception {
+	public static ArrayList<ArrayList<Double>> readNTOPDocumentTermMatrixFromFile(String path,int nTop) throws Exception {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
 		
 		try {
@@ -112,7 +112,7 @@ public class IO {
 			String val;
 			String[] elem ;
 			int n=0;
-			while (sc.hasNextLine() && n < n_top) 
+			while (sc.hasNextLine() && n < nTop) 
 			{
 				val = sc.nextLine();
 				elem = val.split(",");

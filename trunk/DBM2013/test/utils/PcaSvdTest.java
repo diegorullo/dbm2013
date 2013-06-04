@@ -92,10 +92,10 @@ public class PcaSvdTest
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		ArrayList<ArrayList<Double>> v_matrix = authorStefania.getSVD(dummyCorpus,5);
-		System.out.println("v_matrix" + v_matrix);
-		ArrayList<TreeMap<String, Double>> n_TopMatrix = authorStefania.getTopN(v_matrix, 5);
-		System.out.println("5_SVDTopMatrix"+n_TopMatrix);
+		ArrayList<ArrayList<Double>> vMatrix = authorStefania.getSVD(dummyCorpus, 5);
+		System.out.println("v_matrix" + vMatrix);
+		ArrayList<TreeMap<String, Double>> topNMatrix = authorStefania.getTopN(vMatrix, 5);
+		System.out.println("5_SVDTopMatrix" + topNMatrix);
 	}
 	/**
 	 * 1 autore, 3 paper
@@ -177,9 +177,9 @@ public class PcaSvdTest
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
-		ArrayList<ArrayList<Double>> score_latent_matrix = authorStefania.getPCA(dummyCorpus,5);
-		System.out.println("score_latent_matrix" + score_latent_matrix);
-		ArrayList<TreeMap<String, Double>> n_TopMatrix = authorStefania.getTopN(score_latent_matrix, 5);
-		System.out.println("5_PCATopMatrix"+n_TopMatrix);
+		ArrayList<ArrayList<Double>> scoreLatentMatrix = authorStefania.getPCA(dummyCorpus,5);
+		System.out.println("score_latent_matrix" + scoreLatentMatrix);
+		ArrayList<TreeMap<String, Double>> topNMatrix = authorStefania.getTopN(scoreLatentMatrix, 5);
+		System.out.println("5_PCATopMatrix" + topNMatrix);
 	}
 }

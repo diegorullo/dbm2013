@@ -432,7 +432,7 @@ public class Author {
 	 * @throws Exception
 	 */
 	// FIXME: sostituire con exception appropriata
-	public int r_withoutKey(String k_j, Corpus corpus) throws Exception {
+	public int rWithoutKey(String k_j, Corpus corpus) throws Exception {
 		List<Paper> coAuthorsPapers = this.getCoAuthorsPapers(corpus);
 		int r_ij = 0;
 
@@ -455,7 +455,7 @@ public class Author {
 	 *         che non contengono la chiave k_j
 	 * @throws Exception
 	 */
-	public int n_withoutKey(String k_j, Corpus corpus) throws Exception {
+	public int nWithoutKey(String k_j, Corpus corpus) throws Exception {
 		List<Paper> coAuthorsPapers = this.getCoAuthorsAndSelfPapers(corpus);
 		int n_ij = 0;
 
@@ -485,8 +485,8 @@ public class Author {
 		double resLog = 0.0;
 		double resAbs = 0.0;
 
-		double r_ij = (double) this.r_withoutKey(k_j, corpus);
-		double n_ij = (double) this.n_withoutKey(k_j, corpus);		
+		double r_ij = (double) this.rWithoutKey(k_j, corpus);
+		double n_ij = (double) this.nWithoutKey(k_j, corpus);		
 		double R_i = (double) this.getCoAuthorsPapers(corpus).size();
 		double N_i = (double) this.getCoAuthorsAndSelfPapers(corpus).size();
 		
@@ -597,34 +597,34 @@ public class Author {
 
 	/**
 	 * Ricostruisce l'associazione Key-value delle top PCA/SVD
-	 * @param n_matrix matrice di soli valori double
-	 * @param n_top numero di top desiderati
+	 * @param nMatrix matrice di soli valori double
+	 * @param nTop numero di top desiderati
 	 * @return matrice delle n top con associazione delle keyword
 	 * @throws Exception
 	 */
-	public ArrayList<TreeMap<String, Double>> getTopN(ArrayList<ArrayList<Double>> n_matrix,int n_top) throws Exception 
+	public ArrayList<TreeMap<String, Double>> getTopN(ArrayList<ArrayList<Double>> nMatrix,int nTop) throws Exception 
 	{
-		ArrayList<TreeMap<String, Double>> n_TopMatrix = new ArrayList<TreeMap<String, Double>>();
+		ArrayList<TreeMap<String, Double>> nTopMatrix = new ArrayList<TreeMap<String, Double>>();
 		ArrayList<String> keywordSet = this.getKeywordSet();
 		
-		if(n_top > n_matrix.size())
+		if(nTop > nMatrix.size())
 		{
-			n_top = n_matrix.size();
+			nTop = nMatrix.size();
 		}
-		for(int i=0;i<n_top;i++)
+		for(int i=0;i<nTop;i++)
 		{
-			ArrayList<Double> curr_row = n_matrix.get(i);
-			TreeMap<String, Double> new_row = new TreeMap<String, Double>();
+			ArrayList<Double> currRow = nMatrix.get(i);
+			TreeMap<String, Double> newRow = new TreeMap<String, Double>();
 			int j = 0;
 			for (String s : keywordSet) 
 			{
-				new_row.put(s, curr_row.get(j));
+				newRow.put(s, currRow.get(j));
 				j++;
 			}
-			n_TopMatrix.add(new_row);
+			nTopMatrix.add(newRow);
 		}
 		
-		return n_TopMatrix;
+		return nTopMatrix;
 	}
 	
     /**
@@ -673,11 +673,11 @@ public class Author {
 	
 	/**
 	 * Calcola la matrice SVD per l'autore corrente
-	 * @param n_top numero degli n vettori della V'
+	 * @param nTop numero degli n vettori della V'
 	 * @return matrice SVD per l'autore corrente
 	 * @throws Exception
 	 */
-	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus,int n_top) throws Exception {
+	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus,int nTop) throws Exception {
 		String startingDirectory = System.getProperty("user.dir");
 		String ioDirectory = startingDirectory + "/../data/";
 		String fileName = this.getAuthorID() + ".csv";
@@ -689,17 +689,17 @@ public class Author {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
 		}
 		me.eval("svd_IR", fileName);
-		ArrayList<ArrayList<Double>> svd = IO.read_N_TOP_DocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName,n_top);
+		ArrayList<ArrayList<Double>> svd = IO.readNTOPDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName,nTop);
 		return svd;
 	}
 
 	/**
 	 * Calcola la matrice PCA per l'autore corrente	 
-	 * @param n_top numero degli autovalori della latent
+	 * @param nTop numero degli autovalori della latent
 	 * @return matrice PCA per l'autore corrente
 	 * @throws Exception
 	 */
-	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus,int n_top) throws Exception {
+	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus,int nTop) throws Exception {
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File("../data/" + fileName);
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
@@ -710,14 +710,14 @@ public class Author {
 		}
 		me.eval("pca_IR", fileName);
 		//FIXME: controllare che la matrice corretta sia "score_..."
-		ArrayList<ArrayList<Double>> pca_score = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/score_" + fileName,n_top);
+		ArrayList<ArrayList<Double>> pcaScore = IO.readNTOPDocumentTermMatrixFromFile("../data/score_" + fileName,nTop);
 		
-		if(n_top > pca_score.size())
+		if(nTop > pcaScore.size())
 		{
-			n_top = pca_score.size();
+			nTop = pcaScore.size();
 		}
 
-		return pca_score;
+		return pcaScore;
 	}
 	
 	/**
@@ -729,45 +729,45 @@ public class Author {
 	{
 		String fileName = this.getAuthorID() + ".csv";
 		
-		ArrayList<ArrayList<Double>> pca_latent = IO.readDocumentTermMatrixFromFile("../data/latent_" + fileName);
-		ArrayList<Double> pca_latent_vector = new ArrayList<Double>();
+		ArrayList<ArrayList<Double>> pcaLatent = IO.readDocumentTermMatrixFromFile("../data/latent_" + fileName);
+		ArrayList<Double> pcaLatentVector = new ArrayList<Double>();
 
-		for(int i=0;i<pca_latent.size();i++)
+		for(int i=0;i<pcaLatent.size();i++)
 		{
-			ArrayList<Double> latent_curr = pca_latent.get(i);
+			ArrayList<Double> latentCurr = pcaLatent.get(i);
 			
-			pca_latent_vector.add(latent_curr.get(0));
+			pcaLatentVector.add(latentCurr.get(0));
 		}
 		
-		return pca_latent_vector;
+		return pcaLatentVector;
 	}
 	
 	/**
 	 * Restituisce n_top fattori di latent 
-	 * @param n_top numero degli autovalori della latent
+	 * @param topN numero degli autovalori della latent
 	 * @return valori degli n_top autovalori latent
 	 * @throws Exception
 	 */
-	public ArrayList<Double> getLatentPcaTopN(int n_top) throws Exception
+	public ArrayList<Double> getLatentPcaTopN(int topN) throws Exception
 	{
 		String fileName = this.getAuthorID() + ".csv";
 		
-		ArrayList<ArrayList<Double>> pca_latent = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/latent_" + fileName,n_top);
-		ArrayList<Double> pca_latent_vector = new ArrayList<Double>();
+		ArrayList<ArrayList<Double>> pcaLatent = IO.readNTOPDocumentTermMatrixFromFile("../data/latent_" + fileName,topN);
+		ArrayList<Double> pcaLatentVector = new ArrayList<Double>();
 		
-		if(n_top > pca_latent.size())
+		if(topN > pcaLatent.size())
 		{
-			n_top = pca_latent.size();
+			topN = pcaLatent.size();
 		}
 		
-		for(int i=0;i<n_top;i++)
+		for(int i=0;i<topN;i++)
 		{
-			ArrayList<Double> latent_curr = pca_latent.get(i);
+			ArrayList<Double> latentCurr = pcaLatent.get(i);
 			
-			pca_latent_vector.add(latent_curr.get(0));
+			pcaLatentVector.add(latentCurr.get(0));
 		}
 		
-		return pca_latent_vector;
+		return pcaLatentVector;
 	}
 	
 	
