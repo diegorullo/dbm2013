@@ -1,5 +1,5 @@
 function svd_IR(filename)
-pwd
+%pwd
 functionpath = strcat('../data/',filename);
 X = csvread(functionpath);
 [U,S,V] = svd(X,'econ');

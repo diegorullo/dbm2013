@@ -710,29 +710,36 @@ public class Author {
 		}
 		me.eval("pca_IR", fileName);
 		//FIXME: controllare che la matrice corretta sia "score_..."
-		ArrayList<ArrayList<Double>> pca = new ArrayList<ArrayList<Double>>();
 		ArrayList<ArrayList<Double>> pca_score = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/score_" + fileName,n_top);
-		ArrayList<ArrayList<Double>> pca_latent = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/latent_" + fileName,n_top);
 		
 		if(n_top > pca_score.size())
 		{
 			n_top = pca_score.size();
 		}
-			
-		for(int i=0;i<n_top;i++)
+
+		return pca_score;
+	}
+	
+	/**
+	 * Restituisce tutti i fattori di latent 
+	 * @return valori degli autovalori latent
+	 * @throws Exception
+	 */
+	public ArrayList<Double> getLatentPca() throws Exception
+	{
+		String fileName = this.getAuthorID() + ".csv";
+		
+		ArrayList<ArrayList<Double>> pca_latent = IO.readDocumentTermMatrixFromFile("../data/latent_" + fileName);
+		ArrayList<Double> pca_latent_vector = new ArrayList<Double>();
+
+		for(int i=0;i<pca_latent.size();i++)
 		{
-			ArrayList<Double> curr_lat = pca_latent.get(i);
-			ArrayList<Double> curr_score = pca_score.get(i);
-			ArrayList<Double> curr_pca = new ArrayList<Double>();
+			ArrayList<Double> latent_curr = pca_latent.get(i);
 			
-			for(Double pcl : curr_score)
-			{
-				curr_pca.add(pcl*curr_lat.get(0));
-			}
-			
-			pca.add(curr_pca);
+			pca_latent_vector.add(latent_curr.get(0));
 		}
-		return pca;
+		
+		return pca_latent_vector;
 	}
 	
 	/**
@@ -741,13 +748,26 @@ public class Author {
 	 * @return valori degli n_top autovalori latent
 	 * @throws Exception
 	 */
-	public ArrayList<ArrayList<Double>> getLatentPca(int n_top) throws Exception
+	public ArrayList<Double> getLatentPcaTopN(int n_top) throws Exception
 	{
 		String fileName = this.getAuthorID() + ".csv";
 		
 		ArrayList<ArrayList<Double>> pca_latent = IO.read_N_TOP_DocumentTermMatrixFromFile("../data/latent_" + fileName,n_top);
+		ArrayList<Double> pca_latent_vector = new ArrayList<Double>();
 		
-		return pca_latent;
+		if(n_top > pca_latent.size())
+		{
+			n_top = pca_latent.size();
+		}
+		
+		for(int i=0;i<n_top;i++)
+		{
+			ArrayList<Double> latent_curr = pca_latent.get(i);
+			
+			pca_latent_vector.add(latent_curr.get(0));
+		}
+		
+		return pca_latent_vector;
 	}
 	
 	
