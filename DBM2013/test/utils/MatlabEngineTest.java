@@ -19,7 +19,7 @@ import exceptions.NoAuthorsWithSuchIDException;
 
 public class MatlabEngineTest {
 	
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
 	
 	@Test
 	public void evalTestDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
@@ -317,10 +317,25 @@ public class MatlabEngineTest {
    
     @Test
     public void testGetPCAOn1636579() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
-            if(DEBUG) {                   
+            if(!DEBUG) {                   
                     Factory f = new Factory();
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
+           
+                    @SuppressWarnings("unused")
+                    ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
+
+//                  System.out.println("Letta matrice score da file:");
+//                  Printer.printMatrix(score);
+            }
+    }
+    
+    @Test
+    public void testGetPCAOn1677020() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+            if(!DEBUG) {                   
+                    Factory f = new Factory();
+                    Corpus dblp = f.getCorpus();
+                    Author testAuthor = dblp.getAuthorByID(1677020);
            
                     @SuppressWarnings("unused")
                     ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  

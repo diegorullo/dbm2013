@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import matlabcontrol.MatlabConnectionException;
@@ -867,7 +866,8 @@ public class Author {
 	}
 	
 	/**
-	 * Resituisce la classifica dei 10 autori per similarita'(coseno) rispetto all'autore corrente 
+	 * Resituisce la classifica dei 10 autori per similarita' (coseno) rispetto all'autore corrente
+	 * misurando le similarita' basandosi sul keyword vector.
 	 * 
 	 * @param otherAuthor
 	 * @param corpus
@@ -875,30 +875,94 @@ public class Author {
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws Exception
 	 */
-	public LinkedHashMap<String,Double> getSimilarityRankOnKeywordVector(ArrayList<Author> otherAuthor, Corpus corpus) throws NoAuthorsWithSuchIDException {
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByKeywordVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		
 		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
 		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
+		ArrayList<Author> authors = corpus.getAuthors();
 		
-		for(Author a1 : otherAuthor) {
-			similarity = this.getSimilarityOnKeywordVector(a1, corpus);
-			similarityVector.put(a1.getName(), similarity);
-		}
-		
-		ArrayList<Map.Entry<String, Double>> ordV = Printer.orderVectorTreeMap(similarityVector);
-
-		int i = 0;
-		for (Entry<String, Double> entry : ordV) {
-			top10.put(entry.getKey(), entry.getValue());
-			i++;
-			
-			if(i == 10) {
-				return top10;
+		for(Author author : authors) {
+			if(!author.equals(this)) {
+				similarity = this.getSimilarityOnKeywordVector(author, corpus);
+				similarityVector.put(author.getName(), similarity);
 			}
 		}
+		
+		ArrayList<Map.Entry<String, Double>> authorsOrderedBySimilarity = Printer.orderVectorTreeMap(similarityVector);
+
+		for(int i = 0; i < 10; i++) {
+			top10.put(authorsOrderedBySimilarity.get(i).getKey(), authorsOrderedBySimilarity.get(i).getValue());
+		}
+		
 		return top10;
-	}	
+	}
+	
+	/**
+	 * Resituisce la classifica dei 10 autori per similarita' (coseno) rispetto all'autore corrente 
+	 * misurando le similarita' basandosi sul PF vector.
+	 *  
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return
+	 * @throws NoAuthorsWithSuchIDException 
+	 * @throws Exception
+	 */
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByPFVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		
+		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
+		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		ArrayList<Author> authors = corpus.getAuthors();
+		
+		for(Author author : authors) {
+			if(!author.equals(this)) {
+				similarity = this.getSimilarityOnPFVector(author, corpus);
+				similarityVector.put(author.getName(), similarity);
+			}
+		}
+		
+		ArrayList<Map.Entry<String, Double>> authorsOrderedBySimilarity = Printer.orderVectorTreeMap(similarityVector);
+
+		for(int i = 0; i < 10; i++) {
+			top10.put(authorsOrderedBySimilarity.get(i).getKey(), authorsOrderedBySimilarity.get(i).getValue());
+		}
+		
+		return top10;
+	}
+	
+	/**
+	 * Resituisce la classifica dei 10 autori per similarita' (coseno) rispetto all'autore corrente 
+	 * misurando le similarita' basandosi sul TFIDF2 vector.
+	 *  
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return
+	 * @throws NoAuthorsWithSuchIDException 
+	 * @throws Exception
+	 */
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByTFIDF2Vector(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		
+		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
+		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		ArrayList<Author> authors = corpus.getAuthors();
+		
+		for(Author author : authors) {
+			if(!author.equals(this)) {
+				similarity = this.getSimilarityOnPFVector(author, corpus);
+				similarityVector.put(author.getName(), similarity);
+			}
+		}
+		
+		ArrayList<Map.Entry<String, Double>> authorsOrderedBySimilarity = Printer.orderVectorTreeMap(similarityVector);
+
+		for(int i = 0; i < 10; i++) {
+			top10.put(authorsOrderedBySimilarity.get(i).getKey(), authorsOrderedBySimilarity.get(i).getValue());
+		}
+		
+		return top10;
+	}
 	
 	public int getAuthorID() {
 		return authorID;
@@ -908,10 +972,7 @@ public class Author {
 		return name;
 	}
 
-	public ArrayList<Paper> getPapers() {//throws AuthorWithoutPapersException {
-//		if(papers.size() == 0) {
-//			throw new AuthorWithoutPapersException("L'autore selezionato non ha papers.");
-//		}
+	public ArrayList<Paper> getPapers() {
 		return papers;
 	}
 
