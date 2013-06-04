@@ -881,8 +881,7 @@ public class Author {
 		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		
-		for(Author a1 : otherAuthor)
-		{
+		for(Author a1 : otherAuthor) {
 			similarity = this.getSimilarityOnKeywordVector(a1, corpus);
 			similarityVector.put(a1.getName(), similarity);
 		}
@@ -890,12 +889,13 @@ public class Author {
 		ArrayList<Map.Entry<String, Double>> ordV = Printer.orderVectorTreeMap(similarityVector);
 
 		int i = 0;
-		for (Entry<String, Double> entry : ordV) 
-		{
+		for (Entry<String, Double> entry : ordV) {
 			top10.put(entry.getKey(), entry.getValue());
 			i++;
 			
-			if(i == 10) return top10;
+			if(i == 10) {
+				return top10;
+			}
 		}
 		return top10;
 	}	
