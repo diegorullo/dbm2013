@@ -689,10 +689,40 @@ public class Author {
                     IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
             }
             me.eval("pca_IR", fileName);
-            //FIXME: controllare che la matrice corretta sia "score_..."
-            ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/score_" + fileName);
+            
+            ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
             return pca;
     }
+    
+	/**
+	 * Calcola la matrice PCA per l'autore corrente	 
+	 * @param topN numero degli autovalori della latent
+	 * @return matrice PCA per l'autore corrente
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws AuthorWithoutPapersException 
+	 * @throws Exception
+	 */
+	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus,int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		String fileName = this.getAuthorID() + ".csv";
+		File csvFile = new File("../data/" + fileName);
+		MatlabEngine me = MatlabEngine.getMatlabEngine();
+		me.init();
+		if (!csvFile.isFile()) {
+			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
+			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"	+ fileName);
+		}
+		me.eval("pca_IR", fileName);
+
+		ArrayList<ArrayList<Double>> pcaScore = IO.readTopNDocumentTermMatrixFromFile("../data/PCA_" + fileName,topN);
+		
+		if(topN > pcaScore.size())
+		{
+			topN = pcaScore.size();
+		}
+
+		return pcaScore;
+	}
 
 	
 	/**
@@ -718,36 +748,6 @@ public class Author {
 		me.eval("svd_IR", fileName);
 		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName,topN);
 		return svd;
-	}
-
-	/**
-	 * Calcola la matrice PCA per l'autore corrente	 
-	 * @param topN numero degli autovalori della latent
-	 * @return matrice PCA per l'autore corrente
-	 * @throws MatlabInvocationException 
-	 * @throws MatlabConnectionException 
-	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception
-	 */
-	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus,int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-		String fileName = this.getAuthorID() + ".csv";
-		File csvFile = new File("../data/" + fileName);
-		MatlabEngine me = MatlabEngine.getMatlabEngine();
-		me.init();
-		if (!csvFile.isFile()) {
-			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
-			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"	+ fileName);
-		}
-		me.eval("pca_IR", fileName);
-		//FIXME: controllare che la matrice corretta sia "score_..."
-		ArrayList<ArrayList<Double>> pcaScore = IO.readTopNDocumentTermMatrixFromFile("../data/score_" + fileName,topN);
-		
-		if(topN > pcaScore.size())
-		{
-			topN = pcaScore.size();
-		}
-
-		return pcaScore;
 	}
 	
 	/**
