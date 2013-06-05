@@ -21,7 +21,7 @@ import dblp.Paper;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
-public class AuthorTestSimilarityMatrix {
+public class AuthorTestSimilarityMatrices {
 	
 	private final static boolean DEBUG = true;
 	private final static boolean PRINT_ON_FILE = true;
@@ -184,6 +184,36 @@ public class AuthorTestSimilarityMatrix {
 	}
 	
 	@Test
+	public void testGetTop5SVDStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		
+		if(DEBUG) {
+		ArrayList<ArrayList<Double>> vMatrix = authorStefania.getSVD(dblp, 5);
+		System.out.println("Matrice V (" + authorStefania.getAuthorID() + "):");
+		Printer.printMatrix(vMatrix);
+		ArrayList<TreeMap<String, Double>> topNMatrix = authorStefania.getTopN(vMatrix, 5);
+		if(PRINT_ON_FILE) {
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorStefania.getAuthorID() + ".csv");
+		}
+		System.out.println("Matrice top 5 SVD (" + authorStefania.getAuthorID() + "): " + topNMatrix);
+		}
+	}
+	
+	@Test
+	public void testGetTop5SVDSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		
+		if(DEBUG) {
+		ArrayList<ArrayList<Double>> vMatrix = authorSapino.getSVD(dblp, 5);
+		System.out.println("Matrice V (" + authorSapino.getAuthorID() + "):");
+		Printer.printMatrix(vMatrix);
+		ArrayList<TreeMap<String, Double>> topNMatrix = authorSapino.getTopN(vMatrix, 5);
+		if(PRINT_ON_FILE) {
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorSapino.getAuthorID() + ".csv");
+		}
+		System.out.println("Matrice top 5 SVD (" + authorSapino.getAuthorID() + "): " + topNMatrix);
+		}
+	}
+	
+	@Test
 	public void testGetTop5PCACandan() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
 		if(DEBUG) {
@@ -202,13 +232,13 @@ public class AuthorTestSimilarityMatrix {
 	@Test
 	public void testGetTop5PCAStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
-		if(!DEBUG) {
+		if(DEBUG) {
 		ArrayList<ArrayList<Double>> scoreLatentMatrix = authorStefania.getPCA(dblp,5);
 		System.out.println("Matrice Score(" + authorStefania.getAuthorID() + "): " );
 		Printer.printMatrix(scoreLatentMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorStefania.getTopN(scoreLatentMatrix, 5);
 		if(PRINT_ON_FILE) {
-			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_Provvisorio" + authorStefania.getAuthorID() + ".csv");
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorStefania.getAuthorID() + ".csv");
 		}
 		System.out.println("Matrice top 5 PCA (" + authorStefania.getAuthorID() + "): " + topNMatrix);
 		}
@@ -223,7 +253,7 @@ public class AuthorTestSimilarityMatrix {
 		Printer.printMatrix(scoreLatentMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorSapino.getTopN(scoreLatentMatrix, 5);
 		if(PRINT_ON_FILE) {
-			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_Provvisorio" + authorSapino.getAuthorID() + ".csv");
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorSapino.getAuthorID() + ".csv");
 		}
 		System.out.println("Matrice top 5 PCA (" + authorSapino.getAuthorID() + "): " + topNMatrix);
 		}
