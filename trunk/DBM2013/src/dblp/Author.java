@@ -885,17 +885,22 @@ public class Author {
 		for(int i=0;i<myPCA.size();i++)
 		{
 			myCurrRow = myPCAKey.get(i);
+			System.out.println("myCurrRow:" + myCurrRow + "i:" + i);
+			System.out.println("myLatent:" + myLatent.get(i));
 			for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
 			{
 				myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue()* myLatent.get(i));
 			}
 			
 			otherCurrRow = otherPCAKey.get(i);
+			System.out.println("otherCurrRow:" + otherCurrRow + "i:" + i);
+			System.out.println("otherLatent:" + otherLatent.get(i));
 			for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
 			{
 				otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue()* otherLatent.get(i));
 			}
-			
+			System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
+			System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
 			similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
 		}
 		
