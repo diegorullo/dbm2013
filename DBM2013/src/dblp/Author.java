@@ -865,13 +865,164 @@ public class Author {
 		return similarity;
 	}
 	
+	
+	/**
+	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return double similarita'
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws Exception
+	 */
+	public double getSimilarityOnPCA(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		Double similarity = 0.0;
+		
+		ArrayList<ArrayList<Double>> myPCA = this.getPCA(corpus);
+		ArrayList<ArrayList<Double>> otherPCA = otherAuthor.getPCA(corpus);
+		ArrayList<TreeMap<String,Double>> myPCAKey = this.getTopN(myPCA, myPCA.size());
+		ArrayList<TreeMap<String,Double>> otherPCAKey = otherAuthor.getTopN(otherPCA, otherPCA.size());
+		
+		TreeMap<String,Double> myPCAKeyWeigthed = new TreeMap<String,Double>();
+		TreeMap<String,Double> otherPCAKeyWeigthed = new TreeMap<String,Double>();
+		
+		ArrayList<Double> myLatent = this.getLatentPca();
+		ArrayList<Double> otherLatent = otherAuthor.getLatentPca();
+		
+		TreeMap<String,Double> myCurrRow;
+		TreeMap<String,Double> otherCurrRow;
+		
+		for(int i=0;i<myPCA.size();i++)
+		{
+			myCurrRow = myPCAKey.get(i);
+			for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
+			{
+				myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue()* myLatent.get(i));
+			}
+			
+			otherCurrRow = otherPCAKey.get(i);
+			for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
+			{
+				otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue()* otherLatent.get(i));
+			}
+			
+			similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
+		}
+		
+		return similarity/myPCA.size();
+	}
+	
+	
+	/**
+	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return double similarita'
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws Exception
+	 */
+	public double getSimilarityOnSVD(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		Double similarity = 0.0;
+		
+		ArrayList<ArrayList<Double>> mySVD = this.getSVD(corpus);
+		ArrayList<ArrayList<Double>> otherSVD = otherAuthor.getSVD(corpus);
+		ArrayList<TreeMap<String,Double>> mySVDKey = this.getTopN(mySVD, mySVD.size());
+		ArrayList<TreeMap<String,Double>> otherSVDKey = otherAuthor.getTopN(otherSVD, otherSVD.size());
+
+		//FIXME Non pesato con latent
+		for(int i=0;i<mySVD.size();i++)
+		{
+			similarity += Similarity.getCosineSimilarity(mySVDKey.get(i), otherSVDKey.get(i));
+		}
+		
+		return similarity/mySVD.size();
+	}
+	
+	
+	/**
+	 * Resituisce la classifica dei 10 autori per similarita' (coseno) rispetto all'autore corrente
+	 * misurando le similarita' basandosi sulla PCA.
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return La classifica dei 10 autori piu' simili
+	 * @throws NoAuthorsWithSuchIDException 
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws Exception
+	 */
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByPCA(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		
+		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
+		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		ArrayList<Author> authors = corpus.getAuthors();
+		
+		for(Author author : authors) {
+			if(!author.equals(this)) {
+				similarity = this.getSimilarityOnPCA(author, corpus);
+				similarityVector.put(author.getName(), similarity);
+			}
+		}
+		
+		ArrayList<Map.Entry<String, Double>> authorsOrderedBySimilarity = Printer.orderVectorTreeMap(similarityVector);
+
+		for(int i = 0; i < 10; i++) {
+			top10.put(authorsOrderedBySimilarity.get(i).getKey(), authorsOrderedBySimilarity.get(i).getValue());
+		}
+		
+		return top10;
+	}
+	
+	/**
+	 * Resituisce la classifica dei 10 autori per similarita' (coseno) rispetto all'autore corrente
+	 * misurando le similarita' basandosi sulla SVD.
+	 * 
+	 * @param otherAuthor
+	 * @param corpus
+	 * @return La classifica dei 10 autori piu' simili
+	 * @throws NoAuthorsWithSuchIDException 
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws Exception
+	 */
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedBySVD(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		
+		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
+		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		ArrayList<Author> authors = corpus.getAuthors();
+		
+		for(Author author : authors) {
+			if(!author.equals(this)) {
+				similarity = this.getSimilarityOnSVD(author, corpus);
+				similarityVector.put(author.getName(), similarity);
+			}
+		}
+		
+		ArrayList<Map.Entry<String, Double>> authorsOrderedBySimilarity = Printer.orderVectorTreeMap(similarityVector);
+
+		for(int i = 0; i < 10; i++) {
+			top10.put(authorsOrderedBySimilarity.get(i).getKey(), authorsOrderedBySimilarity.get(i).getValue());
+		}
+		
+		return top10;
+	}
+	
 	/**
 	 * Resituisce la classifica dei 10 autori per similarita' (coseno) rispetto all'autore corrente
 	 * misurando le similarita' basandosi sul keyword vector.
 	 * 
 	 * @param otherAuthor
 	 * @param corpus
-	 * @return
+	 * @return La classifica dei 10 autori piu' simili
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws Exception
 	 */
@@ -904,7 +1055,7 @@ public class Author {
 	 *  
 	 * @param otherAuthor
 	 * @param corpus
-	 * @return
+	 * @return La classifica dei 10 autori piu' simili
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws Exception
 	 */
@@ -937,7 +1088,7 @@ public class Author {
 	 *  
 	 * @param otherAuthor
 	 * @param corpus
-	 * @return
+	 * @return La classifica dei 10 autori piu' simili
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws Exception
 	 */
