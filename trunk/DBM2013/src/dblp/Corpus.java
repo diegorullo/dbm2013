@@ -15,7 +15,6 @@ public class Corpus {
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
-
 	
 	public Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
 		super();

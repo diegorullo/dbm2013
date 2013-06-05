@@ -34,7 +34,7 @@ public class Similarity {
 	 * @return similarita' coseno tra due vettori
 	 * 
 	 */
-	public static double getCosineSimilarity(TreeMap<String, Double> a_vector , TreeMap<String, Double> b_vector) {
+	public static double getCosineSimilarity(TreeMap<String, Double> a_vector, TreeMap<String, Double> b_vector) {
 		double scalarProd = 0.0;
         double a_magnitudo = 0.0;
         double b_magnitudo = 0.0;

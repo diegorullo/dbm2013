@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.TreeMap;
 
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
@@ -18,7 +19,7 @@ import exceptions.NoAuthorsWithSuchIDException;
 public class SimilarityTest {
 	
 	private final static boolean DEBUG = true;
-	
+	double epsilon = 1/1000000;	
 	@Test
 	public void testGetCosineSimilarityWithSelf() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
 		if (DEBUG) {
@@ -54,8 +55,22 @@ public class SimilarityTest {
 //			System.out.println("Similarità Candan-Sapino: " + similarityCS);
 //			System.out.println("Similarità Sapino-Candan: " + similaritySC);
 			
-			double epsilon = 1/1000000;			
+		
 			assertEquals(similarityCS, similaritySC, epsilon);
 		}
 	}
+	
+	@Test
+	public void testGetCosineSimilarity() {
+		TreeMap<String, Double> v1 = new TreeMap<String, Double>();
+		v1.put("Acqua", 1.0);
+		
+		TreeMap<String, Double> v2 = new TreeMap<String, Double>();
+		v2.put("Cane", 0.5);
+		v2.put("Gatto", 0.3);
+		v2.put("Banana", 0.2);
+	
+		assertEquals(0.0, Similarity.getCosineSimilarity(v1, v2), epsilon);
+	}
+	
 }
