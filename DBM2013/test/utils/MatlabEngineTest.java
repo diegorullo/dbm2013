@@ -19,7 +19,7 @@ import exceptions.NoAuthorsWithSuchIDException;
 
 public class MatlabEngineTest {
 	
-	private final static boolean DEBUG = false;
+	private final static boolean DEBUG = true;
 	
 	@Test
 	public void evalTestDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
@@ -344,5 +344,5 @@ public class MatlabEngineTest {
 //                  Printer.printMatrix(score);
             }
     }
-	
+    	
 }
