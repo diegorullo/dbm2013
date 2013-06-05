@@ -258,4 +258,11 @@ public class AuthorTestSimilarityMatrices {
 		}
 	}
 	
+	@Test
+	public void testZero() {
+		System.out.println("0.0 == -0.0? " + (0.0 == -0.0));
+		Double zeroPlus = 0.0, zeroMinus = -0.0;
+		System.out.println("0.0.toString() == -0.0.toString()? " + (zeroPlus.toString().equals(zeroMinus.toString())));
+	}
+	
 }
