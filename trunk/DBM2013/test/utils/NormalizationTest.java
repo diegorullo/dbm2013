@@ -19,7 +19,7 @@ public class NormalizationTest {
 	/**
 	 * 2 autori, 3 paper, 1 in comune
 	 * 
-	 * @throws Exception
+	 *
 	 */
 	@Test
 	public void testNormalizedTFIDFVectorDummy() {
@@ -122,7 +122,7 @@ public class NormalizationTest {
 	 * 2 autori, 3 paper, 1 in comune
 	 * @throws IOException 
 	 * 
-	 * @throws Exception
+	 *
 	 */
 	@Test
 	public void testNormalizedTFVectorDummy() throws IOException {
@@ -232,7 +232,7 @@ public class NormalizationTest {
 	 * @throws AuthorWithoutPapersException 
 	 * @throws IOException 
 	 * 
-	 * @throws Exception
+	 *
 	 */
 	@Test
 	public void testNormalizedWeightedTFVectorDummy() throws IOException, AuthorWithoutPapersException {
@@ -332,7 +332,7 @@ public class NormalizationTest {
 	/**
 	 * 2 autori, 3 paper, 1 in comune
 	 * 
-	 * @throws Exception
+	 *
 	 */
 	@Test
 	public void testNormalizedWeightedTFIDFVectorDummy() {
@@ -435,7 +435,7 @@ public class NormalizationTest {
 	 * Caso 2 autori, 5 paper (3 a testa), 1 in comune
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception 
+	 * 
 	 */	
 	@Test
 	public void testNormalizedTFIDF2VectorDummy() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
@@ -558,7 +558,7 @@ public class NormalizationTest {
 	/**
 	 * Caso 2 autori, 5 paper (3 a testa), 1 in comune
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception 
+	 * 
 	 */	
 	@Test
 	public void testNormalizedPFVectorDummy() throws NoAuthorsWithSuchIDException {

@@ -137,7 +137,6 @@ public class PaperTestAdvanced {
 		Factory f = new Factory();
 		Paper paper = f.newPaper(943390);
 		double uno = 0.0;
-		//FIXME: da implementare
 		TreeMap<String, Double> tfv = paper.getTFVector();
 		for(Map.Entry<String, Double> k : tfv.entrySet()) {
 			uno += paper.getTF(k.getKey());
