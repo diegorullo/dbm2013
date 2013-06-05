@@ -885,7 +885,7 @@ public class Author {
 		for(int i=0;i<myPCA.size();i++)
 		{
 			myCurrRow = myPCAKey.get(i);
-			System.out.println("myCurrRow:" + myCurrRow + "i:" + i);
+			System.out.println("i:" + i +" - myCurrRow:" + myCurrRow + "i:" + i);
 			System.out.println("myLatent:" + myLatent.get(i));
 			for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
 			{
@@ -893,7 +893,7 @@ public class Author {
 			}
 			
 			otherCurrRow = otherPCAKey.get(i);
-			System.out.println("otherCurrRow:" + otherCurrRow + "i:" + i);
+			System.out.println("i:" + i +" - otherCurrRow:" + otherCurrRow);
 			System.out.println("otherLatent:" + otherLatent.get(i));
 			for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
 			{
