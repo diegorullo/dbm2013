@@ -23,7 +23,7 @@ public class Similarity {
 	/**
 	 * Calcola la similarita' coseno tra due vettori (normalizzati)
 	 * 
-	 * CosenSimilarity(A,B) = (A | B)/||A||*||B||
+	 * CosineSimilarity(A,B) = (A | B)/||A||*||B||
 	 * 
 	 * (A | B)	-> prodotto scalare tra A e B
 	 * ||A||	-> magnitudo di A
@@ -32,7 +32,7 @@ public class Similarity {
 	 * @param a_vector primo vettore da confrontare
 	 * @param b_vector secondo vettore da confrontare
 	 * @return similarita' coseno tra due vettori
-	 * @throws Exception 
+	 * 
 	 */
 	public static double getCosineSimilarity(TreeMap<String, Double> a_vector , TreeMap<String, Double> b_vector) {
 		double scalarProd = 0.0;

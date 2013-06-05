@@ -11,7 +11,7 @@ import java.util.TreeMap;
 import utils.Normalization;
 
 public class Paper {
-	//FIXME
+	//TODO: spiegare la scelta del 3
 	final static int titleWeight = 3;
 	private int paperID;
 	private String title;
@@ -78,7 +78,7 @@ public class Paper {
 	private TreeMap<String, Integer> calculateKeywordSetWithOccurrences() {
 		
 		TreeMap<String, Integer> keywordSetWithOccurrences = new TreeMap<String, Integer>();
-		//FIXME documentare correttamente la scelta
+		//TODO: documentare correttamente la scelta
 		TreeMap<String, Integer> titlesKeywordSet = this.getTitleKeywordSetWithOccurrences();
 		ArrayList<String> keywordsList = this.getKeywords();
 		// keywords provenienti dall'abstract
@@ -133,7 +133,7 @@ public class Paper {
 	private ArrayList<String> calculateKeywordSet() {
 		
 		ArrayList<String> keywordSet = new ArrayList<String>();
-		//FIXME documentare correttamente la scelta
+		//TODO: documentare correttamente la scelta
 		ArrayList<String> titlesKeywordSet = this.getTitleKeywordSet();
 		ArrayList<String> keywordsList = this.getKeywords();
 		//  keywords provenienti dall'abstract
@@ -188,7 +188,7 @@ public class Paper {
 	 * @param keyword
 	 * @param corpus
 	 * @return tfidf d
-	 * @throws Exception
+	 *
 	 */
 	public double getTFIDF(String keyword, Corpus corpus) {
 		
@@ -313,7 +313,7 @@ public class Paper {
 	 * @param weight    
 	 * @param corpus         Corpus degli articoli
 	 * @return vettore dei tfidf pesati
-	 * @throws Exception
+	 *
 	 */
 	private TreeMap<String, Double> calculateWeightedTFIDFVector(double weight, Corpus corpus) {
 		TreeMap<String, Double> TFIDFVector = this.getTFIDFVector(corpus);
