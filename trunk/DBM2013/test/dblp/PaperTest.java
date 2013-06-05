@@ -37,7 +37,7 @@ public class PaperTest {
 	 * @throws SQLException 
 	 * @throws IOException 
 	 * @throws NoPaperWithSuchIDException 
-	 * @throws Exception 
+	 * 
 	 */
 	@Test
 	public void testGetKeywordSetWithOccurrencesOnePaper() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoPaperWithSuchIDException {
@@ -52,7 +52,7 @@ public class PaperTest {
 	/**
 	 * Testa il metodo getKeywordSetWithOccurrences istanziando un paper
 	 * di keyword note.
-	 * @throws Exception 
+	 * 
 	 */
 	@Test
 	public void testGetKeywordSetWithOccurrences() {		
@@ -89,7 +89,7 @@ public class PaperTest {
 	 * di una keyword prefissata.
 	 * Confronta il TF calcolato dal metodo con
 	 * il TF atteso, calcolato a mano.
-	 * @throws Exception 
+	 * 
 	 */
 	@Test
 	public void testGetTF() {

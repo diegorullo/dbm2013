@@ -30,7 +30,7 @@ public class Factory {
 	 * @return Corpus dblp
 	 * @throws IOException 
 	 * @throws SQLException 
-	 * @throws Exception 
+	 * 
 	 */
 	public Corpus getCorpus() throws SQLException, IOException {
 		if(dblp == null) {

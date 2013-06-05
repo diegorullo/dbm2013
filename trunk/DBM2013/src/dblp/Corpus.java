@@ -12,7 +12,6 @@ import exceptions.NoPaperWithSuchIDException;
 
 public class Corpus {
 
-	//private static Corpus instance = null; // riferimento all' istanza
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
@@ -31,7 +30,7 @@ public class Corpus {
 	 * @param id
 	 * @return oggetto Paper associato all'id dato
 	 * @throws NoPaperWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public Paper getPaperByID(int id) throws NoPaperWithSuchIDException {
 		ArrayList<Paper> papersList = this.getPapers();
@@ -40,7 +39,6 @@ public class Corpus {
 				return p;
 			}
 		}
-		//FIXME: sistemare con eccezione appropriata
 		throw new NoPaperWithSuchIDException("ID: " + id);
 	}
 	
@@ -50,7 +48,7 @@ public class Corpus {
 	 * @param id
 	 * @return oggetto Author associato all'id dato
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public Author getAuthorByID(int id) throws NoAuthorsWithSuchIDException {
 		ArrayList<Author> authorsList = this.getAuthors();
@@ -59,7 +57,6 @@ public class Corpus {
 				return a;
 			}
 		}
-		//FIXME: sistemare con eccezione appropriata
 		throw new NoAuthorsWithSuchIDException("ID: " + id);
 	}
 	
@@ -86,9 +83,8 @@ public class Corpus {
 	 * 
 	 * @param keyword
 	 * @return idf di una keyword
-	 * @throws Exception
+	 *
 	 */
-	//FIXME Sostituire con eccezione appropriata
 	public double getIDF(String keyword) {
 		double idf = 0;
 		int m = 0;
@@ -97,7 +93,6 @@ public class Corpus {
 
 		// conta il numero di occorrenze della keyword s nel corpus
 		for(Paper p : papersList) {
-			//TODO: verificare se sia "safe" spostare la dichiarazione fuori dal ciclo
 			TreeMap<String, Integer> keywordSet = p.getKeywordSetWithOccurrences();
 			for(Map.Entry<String, Integer> k : keywordSet.entrySet()) {
 				if (k.getKey().equals(keyword)) {

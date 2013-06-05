@@ -15,7 +15,7 @@ public class AuthorTest {
 	 * entrambi i paper;
 	 * (vedi commento interno per il valore atteso)
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception 
+	 * 
 	 */
 	@Test
 	public void testGetRestrictedTF() throws AuthorWithoutPapersException {

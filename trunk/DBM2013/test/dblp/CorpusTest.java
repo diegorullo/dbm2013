@@ -45,7 +45,6 @@ public class CorpusTest {
 	 * paper in comune.
 	 * @throws NoAuthorsWithSuchIDException 
 	 * 
-	 * @throws Exception
 	 */
 	@Test
 	public void testGetCoAuthorsPapersSenzaPaperInComune() throws NoAuthorsWithSuchIDException {
@@ -163,7 +162,6 @@ public class CorpusTest {
 	 * 5.
 	 * @throws NoAuthorsWithSuchIDException 
 	 * 
-	 * @throws Exception
 	 */
 	@Test
 	public void testGetCoAuthorsPapersConUnPaperInComune() throws NoAuthorsWithSuchIDException {
@@ -308,7 +306,7 @@ public class CorpusTest {
 	 * numero di paper dell'autore (4 paper, 2 di Stefania, 2 di Luca, 0 in
 	 * comune).
 	 * 
-	 * @throws Exception
+	 *
 	 */
 	@Test
 	public void testGetCoAuthorsAndSelfPapersSenzaPaperInComune()
@@ -435,7 +433,6 @@ public class CorpusTest {
 	 * numero di paper di Stefania e dei suoi coautori (5 paper, 3 di Stefania,
 	 * 3 di Luca, 1 in comune - il 5).
 	 * 
-	 * @throws Exception
 	 */
 	@Test
 	public void testGetCoAuthorsAndSelfPapersConUnPaperInComune()
@@ -580,7 +577,6 @@ public class CorpusTest {
 	 * 2 autori, 3 paper, 1 in comune
 	 * @throws NoAuthorsWithSuchIDException 
 	 * 
-	 * @throws Exception
 	 */
 	@Test
 	public void testGetRestrictedIDF() throws NoAuthorsWithSuchIDException {
@@ -695,7 +691,6 @@ public class CorpusTest {
 	 * 2 autori, 3 paper, 1 in comune
 	 * @throws NoAuthorsWithSuchIDException 
 	 * 
-	 * @throws Exception
 	 */
 	@Test
 	public void testGetPFVector() throws NoAuthorsWithSuchIDException {
@@ -803,7 +798,6 @@ public class CorpusTest {
 	 * 1 autore, 3 paper
 	 * @throws AuthorWithoutPapersException 
 	 * 
-	 * @throws Exception
 	 */
 	@Test
 	public void testGetDocumentTermMatrixDummy() throws AuthorWithoutPapersException {
@@ -892,7 +886,6 @@ public class CorpusTest {
 	 * 1 autore, 3 paper
 	 * @throws AuthorWithoutPapersException 
 	 * 
-	 * @throws Exception
 	 */
 	@Test
 	public void testPrintDocumentTermMatrixDummy() throws AuthorWithoutPapersException {

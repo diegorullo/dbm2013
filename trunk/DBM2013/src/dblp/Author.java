@@ -20,7 +20,7 @@ import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
 public class Author {
-	// FIXME
+	//TODO: spiegare la scelta del 3
 	final static int titleWeight = 3;
 	private int authorID;
 	private String name;
@@ -50,9 +50,8 @@ public class Author {
 	 * @param a
 	 * @return lista di Author: coautori di un autore dato
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
-	// FIXME: sostituire con exception appropriata
 	public List<Author> getCoAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		List<Author> coAuthors = new ArrayList<Author>();
 		List<Integer> coAuthorsIDs = this.getCoAuthorsIDs();
@@ -70,9 +69,8 @@ public class Author {
 	 * @param a
 	 * @return lista di Author: coautori di un autore dato + autore stesso
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
-	// FIXME: sostituire con exception appropriata
 	public List<Author> getCoAuthorsAndSelf(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		List<Author> coAuthorsAndSelf = this.getCoAuthors(corpus);
 		coAuthorsAndSelf.add(this);
@@ -125,9 +123,8 @@ public class Author {
 	 * quelli piu vecchi.
 	 * 
 	 * @return treemap dei tfidf di un autore, pesando gli articoli per eta'
-	 * @throws Exception
+	 *
 	 */
-	// FIXME: sistemare l'eccezione
 	private TreeMap<String, Double> calculateWeightedTFIDFVector(Corpus corpus) {
 		TreeMap<String, Double> weightedTFIDFVector = new TreeMap<String, Double>();
 		TreeMap<String, Double> wtfidfv;
@@ -212,7 +209,7 @@ public class Author {
 	 * @return lista di interi: id dei coautori dell'autore corrente
 	 * @throws AuthorWithoutPapersException 
 	 */
-	private List<Integer> calculateCoAuthorsIDs() { //throws AuthorWithoutCoAuthorsException, AuthorWithoutPapersException {
+	private List<Integer> calculateCoAuthorsIDs() {
 		List<Integer> coAuthorsIDs = new ArrayList<Integer>();
 		ArrayList<Paper> paperList = this.getPapers();
 		
@@ -224,7 +221,7 @@ public class Author {
 			}
 		}
 //		if (coAuthorsIDs.size()==0) {
-//			throw new AuthorWithoutCoAuthorsException("L`autore id " + this.getAuthorID() + " non ha coautori.");
+//			throw new AuthorWithoutCoAuthorsException("L'autore id " + this.getAuthorID() + " non ha coautori.");
 //		}
 		return coAuthorsIDs;
 	}
@@ -267,7 +264,7 @@ public class Author {
 	 * @param authors
 	 * @return IDF calcolato in base al corpus ristretto
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public double getRestrictedIDF(String keyword, Corpus corpus) throws NoAuthorsWithSuchIDException {
 		double idf = 0;
@@ -276,9 +273,7 @@ public class Author {
 		List<Author> coAuthorsAndSelf = this.getCoAuthorsAndSelf(corpus);
 		ArrayList<Paper> restrictedCorpus = new ArrayList<Paper>();
 
-		/*
-		 * estrae il corpus ristretto papers di autore+relativi coautori)
-		 */
+		//estrae il corpus ristretto papers di autore+relativi coautori)
 		for (Author a : coAuthorsAndSelf) {
 			ArrayList<Paper> papersList = a.getPapers();
 			for (Paper p : papersList) {
@@ -314,7 +309,7 @@ public class Author {
 	 * @return double tfidf2
 	 * @throws AuthorWithoutPapersException 
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public double getTFIDF2(String keyword, Corpus corpus) throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		double tfidf2 = 0.0;
@@ -337,9 +332,8 @@ public class Author {
 	 * @return keywordVector pesato in base al modello TFIDF2
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception
+	 *
 	 */
-	// FIXME
 	private TreeMap<String, Double> calculateTFIDF2Vector(Corpus corpus) throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		TreeMap<String, Double> TFIDF2Vector = new TreeMap<String, Double>();
 		ArrayList<Paper> paperList = this.getPapers();
@@ -367,9 +361,8 @@ public class Author {
 	 * @param a
 	 * @return lista di Paper: elenco dei paper dei coautori di un autore dato
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
-	// FIXME: sostituire con exception appropriata
 	private List<Paper> calculateCoAuthorsPapers(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		List<Author> coAuthors = this.getCoAuthors(corpus);
 		List<Paper> coAuthorsPapers = new ArrayList<Paper>();
@@ -394,9 +387,8 @@ public class Author {
 	 * @return lista di Paper: elenco degli articoli di un autore dato insieme a
 	 *         quelli dell'autore stesso
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
-	// FIXME: sostituire con exception appropriata
 	private List<Paper> calculateCoAuthorsAndSelfPapers(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		List<Paper> coAuthorsAndSelfPapers = this.getCoAuthorsPapers(corpus);
 		ArrayList<Paper> paperList = this.getPapers();
@@ -444,9 +436,8 @@ public class Author {
 	 * @return numero di articoli dei soli coautori dell'autore a_i che non
 	 *         contengono la chiave k_j
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
-	// FIXME: sostituire con exception appropriata
 	public int rWithoutKey(String k_j, Corpus corpus) throws NoAuthorsWithSuchIDException {
 		List<Paper> coAuthorsPapers = this.getCoAuthorsPapers(corpus);
 		int r_ij = 0;
@@ -469,7 +460,7 @@ public class Author {
 	 * @return numero intero: gli articoli dell'autore a_i e dei suoi coautori
 	 *         che non contengono la chiave k_j
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public int nWithoutKey(String k_j, Corpus corpus) throws NoAuthorsWithSuchIDException {
 		List<Paper> coAuthorsPapers = this.getCoAuthorsAndSelfPapers(corpus);
@@ -491,9 +482,8 @@ public class Author {
 	 * @param k_j
 	 * @return peso u_ij della keyword k_j per l'autore a_i
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
-	// FIXME: sostituire con eccezione appropriata...
 	public double getU_ij(String k_j, Corpus corpus) throws NoAuthorsWithSuchIDException {
 		double u_ij = 0.0;
 		double epsilon = 0.1; // costante che non fa andare a zero
@@ -509,10 +499,10 @@ public class Author {
 		
 		numLog = (r_ij) / (R_i - r_ij + epsilon);
 		denLog = (n_ij - r_ij + epsilon) / (N_i - n_ij - R_i + r_ij + epsilon);
-		// FIXME: aggiunto 1 + ... all'argomento del logaritmo (come visto il 2
+		// Aggiunto 1 + ... all'argomento del logaritmo (come visto il 2
 		// maggio a lezione)
 		
-		// FIXME: modificato inserendo la frazione all'interno di un valore assoluto
+		// Modificato inserendo la frazione all'interno di un valore assoluto
 		// per evitare casi in cui l'argomento del logaritmo usciva dal dominio
 		resLog = Math.log(1 + Math.abs((numLog / denLog)));
 
@@ -535,9 +525,7 @@ public class Author {
 	 * @param c
 	 * @return keywordVector pesato in base al modello PF
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
 	 */
-	// FIXME
 	private TreeMap<String, Double> calculatePFVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		TreeMap<String, Double> PFVector = new TreeMap<String, Double>();
 		ArrayList<Paper> papersList = this.getPapers();
@@ -568,7 +556,7 @@ public class Author {
 	 * @param a autore
 	 * @return ArrayList<TreeMap<String, Double>> matrice document-term
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception
+	 *
 	 */
 	public ArrayList<TreeMap<String, Double>> getDocumentTermMatrix(Corpus corpus) throws AuthorWithoutPapersException {
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = new ArrayList<TreeMap<String, Double>>();
@@ -620,7 +608,7 @@ public class Author {
 	 * @param topN numero di top desiderati
 	 * @return matrice delle n top con associazione delle keyword
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception
+	 *
 	 */
 	public ArrayList<TreeMap<String, Double>> getTopN(ArrayList<ArrayList<Double>> nMatrix,int topN) throws AuthorWithoutPapersException {
 		ArrayList<TreeMap<String, Double>> topNMatrix = new ArrayList<TreeMap<String, Double>>();
@@ -652,7 +640,7 @@ public class Author {
      * @throws MatlabInvocationException 
      * @throws MatlabConnectionException 
      * @throws AuthorWithoutPapersException 
-     * @throws Exception
+     *
      */
     public ArrayList<ArrayList<Double>> getSVD(Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
             String startingDirectory = System.getProperty("user.dir");
@@ -677,7 +665,7 @@ public class Author {
      * @throws MatlabInvocationException 
      * @throws MatlabConnectionException 
      * @throws AuthorWithoutPapersException 
-     * @throws Exception
+     *
      */
     public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
             String fileName = this.getAuthorID() + ".csv";
@@ -701,7 +689,7 @@ public class Author {
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception
+	 *
 	 */
 	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus,int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		String fileName = this.getAuthorID() + ".csv";
@@ -732,7 +720,7 @@ public class Author {
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception
+	 *
 	 */
 	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus,int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		String startingDirectory = System.getProperty("user.dir");
@@ -753,7 +741,7 @@ public class Author {
 	/**
 	 * Restituisce tutti i fattori di latent 
 	 * @return valori degli autovalori latent
-	 * @throws Exception
+	 *
 	 */
 	public ArrayList<Double> getLatentPca() {
 		String fileName = this.getAuthorID() + ".csv";
@@ -775,7 +763,7 @@ public class Author {
 	 * Restituisce n_top fattori di latent 
 	 * @param topN numero degli autovalori della latent
 	 * @return valori degli n_top autovalori latent
-	 * @throws Exception
+	 *
 	 */
 	public ArrayList<Double> getLatentPcaTopN(int topN) {
 		String fileName = this.getAuthorID() + ".csv";
@@ -805,7 +793,7 @@ public class Author {
 	 * @param otherAuthor
 	 * @param corpus
 	 * @return double similarita'
-	 * @throws Exception
+	 *
 	 */
 	public double getSimilarityOnKeywordVector(Author otherAuthor, Corpus corpus) {
 		Double similarity = 0.0;
@@ -828,7 +816,7 @@ public class Author {
 	 * @return
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws AuthorWithoutPapersException 
-	 * @throws Exception
+	 *
 	 */
 	public double getSimilarityOnTFIDF2Vector(Author otherAuthor, Corpus corpus) throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		Double similarity = 0.0;
@@ -850,7 +838,7 @@ public class Author {
 	 * @param corpus
 	 * @return
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public double getSimilarityOnPFVector(Author otherAuthor, Corpus corpus) throws NoAuthorsWithSuchIDException {
 		Double similarity = 0.0;
@@ -875,7 +863,7 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
-	 * @throws Exception
+	 *
 	 */
 	public double getSimilarityOnPCA(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		Double similarity = 0.0;
@@ -924,7 +912,7 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
-	 * @throws Exception
+	 *
 	 */
 	public double getSimilarityOnSVD(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		Double similarity = 0.0;
@@ -934,7 +922,7 @@ public class Author {
 		ArrayList<TreeMap<String,Double>> mySVDKey = this.getTopN(mySVD, mySVD.size());
 		ArrayList<TreeMap<String,Double>> otherSVDKey = otherAuthor.getTopN(otherSVD, otherSVD.size());
 
-		//FIXME Non pesato con latent
+		//TODO Da rivedere: va pesato con latent
 		for(int i=0;i<mySVD.size();i++)
 		{
 			similarity += Similarity.getCosineSimilarity(mySVDKey.get(i), otherSVDKey.get(i));
@@ -955,7 +943,7 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
-	 * @throws Exception
+	 *
 	 */
 	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByPCA(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
@@ -991,7 +979,7 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
-	 * @throws Exception
+	 *
 	 */
 	public LinkedHashMap<String,Double> getSimilarAuthorsRankedBySVD(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
@@ -1024,7 +1012,7 @@ public class Author {
 	 * @param corpus
 	 * @return La classifica dei 10 autori piu' simili
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByKeywordVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		
@@ -1057,7 +1045,7 @@ public class Author {
 	 * @param corpus
 	 * @return La classifica dei 10 autori piu' simili
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByPFVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		
@@ -1090,7 +1078,7 @@ public class Author {
 	 * @param corpus
 	 * @return La classifica dei 10 autori piu' simili
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 *
 	 */
 	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByTFIDF2Vector(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		

@@ -12,12 +12,12 @@ import java.util.TreeMap;
 public class IO {
 
 	/**
-	 * FIXME: stampa su file, percorso e nome statici, della matrice
+	 * Stampa su file, percorso e nome statici, della matrice
 	 * DocumentTermMatrix
 	 * 
 	 * @param documentTermMatrix    matrice
 	 * @param path		path della destinazione
-	 * @throws Exception
+	 *
 	 */
 	public static void printDocumentTermMatrixOnFile(ArrayList<TreeMap<String, Double>> documentTermMatrix, String path) {
 		try {
@@ -44,9 +44,9 @@ public class IO {
 	}
 
 	/**
-	 * FIXME: legge da file, percorso e nome statici, la matrice DocumentTermMatrix
+	 * Legge da file, percorso e nome statici, la matrice DocumentTermMatrix
 	 * @param path		path della sorgente
-	 * @throws Exception
+	 *
 	 */
 	public static ArrayList<ArrayList<Double>> readDocumentTermMatrixFromFile(String path) {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
@@ -92,12 +92,12 @@ public class IO {
 	}
 	
 	/**
-	 * FIXME: legge da file, percorso e nome statici, la matrice
+	 * Legge da file, percorso e nome statici, la matrice
 	 * DocumentTermMatrix
 	 * 
 	 * @param path		path della sorgente
 	 * @param nTop	numero di righe della matrice da leggere
-	 * @throws Exception
+	 *
 	 */
 	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path,int nTop) {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();

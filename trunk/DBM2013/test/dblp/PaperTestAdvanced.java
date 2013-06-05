@@ -22,7 +22,7 @@ public class PaperTestAdvanced {
 	 * controlla che, con dati ad hoc, la somma dei tf delle
 	 * varie keyword (calcolati singolarmente) sia 1.
 	 * @throws IOException 
-	 * @throws Exception 
+	 * 
 	 * 
 	 * @throws SQLException
 	 */
@@ -74,7 +74,7 @@ public class PaperTestAdvanced {
 	 * @throws MatlabConnectionException 
 	 * @throws SQLException 
 	 * @throws IOException 
-	 * @throws Exception 
+	 * 
 	 */
 	@Test
 	public void testGetTFAUno() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
@@ -99,7 +99,7 @@ public class PaperTestAdvanced {
 	 * @throws MatlabConnectionException 
 	 * @throws SQLException 
 	 * @throws IOException 
-	 * @throws Exception 
+	 * 
 	 */
 	@Test
 	public void testGetTFAUnoTuttiIPaper() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
@@ -130,7 +130,7 @@ public class PaperTestAdvanced {
 	 * @throws MatlabConnectionException 
 	 * @throws SQLException 
 	 * @throws IOException 
-	 * @throws Exception 
+	 * 
 	 */
 	@Test
 	public void testGetTFVectorAUno() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
