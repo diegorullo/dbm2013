@@ -13,20 +13,33 @@ public class Normalization {
 	 */
 	public static boolean isNormalized(TreeMap<String, Double> treemap, double epsilon) {
 		boolean result = false;
+		boolean all_zeroes = true;
 		double uno = 0.0;
-			
+		
+		// Controlliamo che la treemap non contenga tutti valori a 0.0:
+		// in tal caso la treemap è normalizzata
 		for (Entry<String, Double> entry : treemap.entrySet()) {
-			uno += entry.getValue();
+			if(entry.getValue() != 0.0) {
+				all_zeroes = false;
+				break;
+			}
+		}		
+		if(all_zeroes) {
+			result = true;
 		}
-		
-		epsilon = Math.abs(epsilon);
-				
-		if(((1.0 - epsilon) <= uno) && (uno <= (1.0 + epsilon))) {
-			result = true;			
-		} 
-		
-		//System.out.println("Debug: " + uno);		
-		
+		else {
+			for (Entry<String, Double> entry : treemap.entrySet()) {			
+				uno += entry.getValue();
+			}
+			
+			epsilon = Math.abs(epsilon);
+					
+			if(((1.0 - epsilon) <= uno) && (uno <= (1.0 + epsilon))) {
+				result = true;			
+			} 
+			
+			//System.out.println("Debug: " + uno);		
+		}
 		return result;
 	}
 	
@@ -42,16 +55,31 @@ public class Normalization {
 		@SuppressWarnings("unused")
 		double debug = 0.0;
 		
-		if(Normalization.isNormalized(treemap, epsilon)) {
+		TreeMap<String, Double> treemapWithoutNegativeZeroes = new TreeMap<String, Double>();
+		
+		// Rimuoviamo eventuali valori a -0.0, sostituendoli con 0.0
+		for (Entry<String, Double> entry : treemap.entrySet()) {
+			if(entry.getValue().toString().equals("-0.0")) {
+				treemapWithoutNegativeZeroes.put(entry.getKey(), 0.0);
+				//System.out.println("Ho corretto 0.0 in " + entry.getKey());
+			}
+			else {
+				treemapWithoutNegativeZeroes.put(entry.getKey(), treemap.get(entry.getKey()));
+				//System.out.println("Ho messo " + treemap.get(entry.getKey()) + " in " + entry.getKey());
+			}
+		}
+		
+		//treemap = treemapWithoutNegativeZeroes;
+		
+		if(Normalization.isNormalized(treemapWithoutNegativeZeroes, epsilon)) {
 			//System.out.println("La map in input è già normalizzata!");
-			normalizedTreeMap = treemap;
+			normalizedTreeMap = treemapWithoutNegativeZeroes;
 		}
 		else {
-			
-			for (Entry<String, Double> entry : treemap.entrySet()) {
+			for (Entry<String, Double> entry : treemapWithoutNegativeZeroes.entrySet()) {
 				denominatore += entry.getValue();
 			}
-			for (Entry<String, Double> entry : treemap.entrySet()) {
+			for (Entry<String, Double> entry : treemapWithoutNegativeZeroes.entrySet()) {
 				normalizedTreeMap.put(entry.getKey(), (double)(entry.getValue() / denominatore));
 				debug += entry.getValue() / denominatore;
 			}

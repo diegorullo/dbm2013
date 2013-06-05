@@ -43,9 +43,11 @@ public class Similarity {
 		
 		if(!Normalization.isNormalized(a_vector,epsilon)) {
 			a_vector = Normalization.normalizeTreeMap(a_vector);
+			System.out.println(">>> a_vector: " + a_vector);
 		}
 		if(!Normalization.isNormalized(b_vector,epsilon)) {
 			b_vector = Normalization.normalizeTreeMap(b_vector);
+			System.out.println(">>> b_vector: " + b_vector);
 		}
 		// A questo punto i vettori sono normalizzati in norma1
 		

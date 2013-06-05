@@ -870,35 +870,33 @@ public class Author {
 		
 		ArrayList<ArrayList<Double>> myPCA = this.getPCA(corpus);
 		ArrayList<ArrayList<Double>> otherPCA = otherAuthor.getPCA(corpus);
-		ArrayList<TreeMap<String,Double>> myPCAKey = this.getTopN(myPCA, myPCA.size());
-		ArrayList<TreeMap<String,Double>> otherPCAKey = otherAuthor.getTopN(otherPCA, otherPCA.size());
-		
-		TreeMap<String,Double> myPCAKeyWeigthed = new TreeMap<String,Double>();
-		TreeMap<String,Double> otherPCAKeyWeigthed = new TreeMap<String,Double>();
+		ArrayList<TreeMap<String,Double>> myPCAWithKeywords = this.getTopN(myPCA, myPCA.size());
+		ArrayList<TreeMap<String,Double>> otherPCAWithKeywords = otherAuthor.getTopN(otherPCA, otherPCA.size());
 		
 		ArrayList<Double> myLatent = this.getLatentPca();
 		ArrayList<Double> otherLatent = otherAuthor.getLatentPca();
 		
-		TreeMap<String,Double> myCurrRow;
-		TreeMap<String,Double> otherCurrRow;
-		
-		for(int i=0;i<myPCA.size();i++)
-		{
-			myCurrRow = myPCAKey.get(i);
+		for(int i = 0; i < myPCAWithKeywords.size(); i++) {
+			TreeMap<String,Double> myPCAKeyWeigthed = new TreeMap<String,Double>();
+			TreeMap<String,Double> otherPCAKeyWeigthed = new TreeMap<String,Double>();
+			
+			TreeMap<String,Double> myCurrRow = myPCAWithKeywords.get(i);
+			
 			System.out.println("Ciclo " + i);
 			System.out.println("myCurrRow:" + myCurrRow);
 			System.out.println("myLatent:" + myLatent.get(i));
 			for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
 			{
-				myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue()* myLatent.get(i));
+				myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * myLatent.get(i));
 			}
 			
-			otherCurrRow = otherPCAKey.get(i);
+			TreeMap<String,Double> otherCurrRow = otherPCAWithKeywords.get(i);
+			
 			System.out.println("otherCurrRow:" + otherCurrRow);
 			System.out.println("otherLatent:" + otherLatent.get(i));
 			for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
 			{
-				otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue()* otherLatent.get(i));
+				otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * otherLatent.get(i));
 			}
 			System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
 			System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
@@ -906,7 +904,7 @@ public class Author {
 			System.out.println("Similarity = " + similarity + "\n");
 		}
 		
-		return similarity/myPCA.size();
+		return similarity / myPCAWithKeywords.size();
 	}
 	
 	
