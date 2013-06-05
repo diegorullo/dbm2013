@@ -885,7 +885,8 @@ public class Author {
 		for(int i=0;i<myPCA.size();i++)
 		{
 			myCurrRow = myPCAKey.get(i);
-			System.out.println("i:" + i +" - myCurrRow:" + myCurrRow + "i:" + i);
+			System.out.println("Ciclo " + i);
+			System.out.println("myCurrRow:" + myCurrRow);
 			System.out.println("myLatent:" + myLatent.get(i));
 			for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
 			{
@@ -893,7 +894,7 @@ public class Author {
 			}
 			
 			otherCurrRow = otherPCAKey.get(i);
-			System.out.println("i:" + i +" - otherCurrRow:" + otherCurrRow);
+			System.out.println("otherCurrRow:" + otherCurrRow);
 			System.out.println("otherLatent:" + otherLatent.get(i));
 			for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
 			{
@@ -902,6 +903,7 @@ public class Author {
 			System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
 			System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
 			similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
+			System.out.println("Similarity = " + similarity + "\n");
 		}
 		
 		return similarity/myPCA.size();
