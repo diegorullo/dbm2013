@@ -1,32 +1,26 @@
 package dblp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 import junit.framework.Assert;
-
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utils.Similarity;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
-import utils.Similarity;
-
-public class AuthorTestAdvanced {
+public class AuthorTestSimilarity {
 	
 	private final static boolean DEBUG = true;
-	private final static boolean BIG_DATA_ALL = true;
-	private final static boolean BIG_DATA_ONE = true;
-	private final static boolean PRINT = true;
 	
 	static Author authorStefania;
 	static Author authorLuca;
@@ -346,289 +340,5 @@ public class AuthorTestAdvanced {
 			assertEquals(similarityCandanSapino, similaritySapinoCandan, epsilon);
 		}
 	}
-	
-	@Test
-	public void testGetCosineSimilarityTFIDF2VectorAllVSAllBigData() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ALL) {		
-			ArrayList<Author> authors1 = dblp.getAuthors();
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			@SuppressWarnings("unused")
-			int a1ID, a2ID;
-			double s12, s21;
-			for(Author a1 : authors1) {
-				a1ID = a1.getAuthorID();
-				for(Author a2 : authors2) {
-					a2ID = a2.getAuthorID();
-					s12 = a1.getSimilarityOnTFIDF2Vector(a2, dblp);
-					s21 = a2.getSimilarityOnTFIDF2Vector(a1, dblp);
-					
-//					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-//					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-					assertEquals(s12, s21, 0);
-				}
-			}
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityPFVectorAllVSAllBigData() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ALL) {		
-			ArrayList<Author> authors1 = dblp.getAuthors();
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			@SuppressWarnings("unused")
-			int a1ID, a2ID;
-			double s12, s21;
-			for(Author a1 : authors1) {
-				a1ID = a1.getAuthorID();
-				for(Author a2 : authors2) {
-					a2ID = a2.getAuthorID();
-					s12 = a1.getSimilarityOnPFVector(a2, dblp);
-					s21 = a2.getSimilarityOnPFVector(a1, dblp);
-					
-//					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-//					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-					assertEquals(s12, s21, 0);
-				}
-			}
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityKeywordVectorAllVSAllBigData() {
-		if(BIG_DATA_ALL) {		
-			ArrayList<Author> authors1 = dblp.getAuthors();
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			@SuppressWarnings("unused")
-			int a1ID, a2ID;
-			double s12, s21;
-			for(Author a1 : authors1) {
-				a1ID = a1.getAuthorID();
-				for(Author a2 : authors2) {
-					a2ID = a2.getAuthorID();
-					s12 = a1.getSimilarityOnKeywordVector(a2, dblp);
-					s21 = a2.getSimilarityOnKeywordVector(a1, dblp);
-					
-//					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-//					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-					assertEquals(s12, s21, 0);
-				}
-			}
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityKeywordVectorOneVSAllSapinoBigData() {
-		if(BIG_DATA_ONE) {
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			int a1ID, a2ID;
-			double s12, s21;
-			a1ID = authorSapino.getAuthorID();
-			if(PRINT) {
-				System.out.println("Sapino (" + a1ID + "):");
-			}
-			for(Author a2 : authors2) {
-				a2ID = a2.getAuthorID();
-				s12 = authorSapino.getSimilarityOnKeywordVector(a2, dblp);
-				s21 = a2.getSimilarityOnKeywordVector(authorSapino, dblp);
-				if(PRINT) {
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-				}
-				assertEquals(s12, s21, 0);
-			}
-			
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityKeywordVectorOneVSAllCandanBigData() {
-		if(BIG_DATA_ONE) {		
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			int a1ID, a2ID;
-			double s12, s21;
-			a1ID = authorCandan.getAuthorID();
-			if(PRINT) {
-				System.out.println("Candan(" + a1ID + "):");
-			}
-			for(Author a2 : authors2) {
-				a2ID = a2.getAuthorID();
-				s12 = authorCandan.getSimilarityOnKeywordVector(a2, dblp);
-				s21 = a2.getSimilarityOnKeywordVector(authorCandan, dblp);
-				if(PRINT) {
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-				}
-				assertEquals(s12, s21, 0);
-			}
-			
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityTFIDF2VectorOneVSAllSapinoBigData() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			int a1ID, a2ID;
-			double s12, s21;
-			a1ID = authorSapino.getAuthorID();
-			if(PRINT) {
-				System.out.println("Sapino (" + a1ID + "):");
-			}
-			for(Author a2 : authors2) {
-				a2ID = a2.getAuthorID();
-				s12 = authorSapino.getSimilarityOnTFIDF2Vector(a2, dblp);
-				s21 = a2.getSimilarityOnTFIDF2Vector(authorSapino, dblp);
-				if(PRINT) {
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-				}
-				assertEquals(s12, s21, 0);
-			}
-			
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityTFIDF2VectorOneVSAllCandanBigData() throws AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {		
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			int a1ID, a2ID;
-			double s12, s21;
-			a1ID = authorCandan.getAuthorID();
-			if(PRINT) {
-				System.out.println("Candan(" + a1ID + "):");
-			}
-			for(Author a2 : authors2) {
-				a2ID = a2.getAuthorID();
-				s12 = authorCandan.getSimilarityOnTFIDF2Vector(a2, dblp);
-				s21 = a2.getSimilarityOnTFIDF2Vector(authorCandan, dblp);
-				if(PRINT) {
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-				}
-				assertEquals(s12, s21, 0);
-			}
-			
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityPFVectorOneVSAllSapinoBigData() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			int a1ID, a2ID;
-			double s12, s21;
-			a1ID = authorSapino.getAuthorID();
-			if(PRINT) {
-				System.out.println("Sapino (" + a1ID + "):");
-			}
-			for(Author a2 : authors2) {
-				a2ID = a2.getAuthorID();
-				s12 = authorSapino.getSimilarityOnPFVector(a2, dblp);
-				s21 = a2.getSimilarityOnPFVector(authorSapino, dblp);
-				if(PRINT) {
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-				}
-				assertEquals(s12, s21, 0);
-			}
-			
-		}
-	}
-	
-	@Test
-	public void testGetCosineSimilarityPFVectorOneVSAllCandanBigData() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {		
-			ArrayList<Author> authors2 = dblp.getAuthors();
-			int a1ID, a2ID;
-			double s12, s21;
-			a1ID = authorCandan.getAuthorID();
-			if(PRINT) {
-				System.out.println("Candan(" + a1ID + "):");
-			}
-			for(Author a2 : authors2) {
-				a2ID = a2.getAuthorID();
-				s12 = authorCandan.getSimilarityOnPFVector(a2, dblp);
-				s21 = a2.getSimilarityOnPFVector(authorCandan, dblp);
-				if(PRINT) {
-					System.out.println("S(" + a1ID + "," + a2ID + ")=" + s12);
-					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
-				}
-				assertEquals(s12, s21, 0);
-			}			
-		}
-	}
-	
-	@Test
-	public void testGetSimilarAuthorsRankedByKeywordVectorSapino() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			
-			HashMap<String,Double> top10 = authorSapino.getSimilarAuthorsRankedByKeywordVector(dblp);
-			
-			if(PRINT) {
-				System.out.println("10 autori più simili a Sapino (Keyword Vector):\n" + top10);
-			}			
-		}
-	}
-	
-	@Test
-	public void testGetSimilarAuthorsRankedByKeywordVectorCandan() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			
-			HashMap<String,Double> top10 = authorCandan.getSimilarAuthorsRankedByKeywordVector(dblp);
-			
-			if(PRINT) {
-				System.out.println("10 autori più simili a Candan (Keyword Vector):\n" + top10);
-			}			
-		}
-	}
-	
-	@Test
-	public void testGetSimilarAuthorsRankedByPFVectorSapino() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			
-			HashMap<String,Double> top10 = authorSapino.getSimilarAuthorsRankedByPFVector(dblp);
-			
-			if(PRINT) {
-				System.out.println("10 autori più simili a Sapino (PF Vector):\n" + top10);
-			}			
-		}
-	}
-	
-	@Test
-	public void testGetSimilarAuthorsRankedByPFVectorCandan() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			
-			HashMap<String,Double> top10 = authorCandan.getSimilarAuthorsRankedByPFVector(dblp);
-			
-			if(PRINT) {
-				System.out.println("10 autori più simili a Candan (PF Vector):\n" + top10);
-			}			
-		}
-	}
-	
-	@Test
-	public void testGetSimilarAuthorsRankedByTFIDF2VectorSapino() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			
-			HashMap<String,Double> top10 = authorSapino.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
-			
-			if(PRINT) {
-				System.out.println("10 autori più simili a Sapino (TFIDF2 Vector):\n" + top10);
-			}			
-		}
-	}
-	
-	@Test
-	public void testGetSimilarAuthorsRankedByTFIDF2VectorCandan() throws NoAuthorsWithSuchIDException {
-		if(BIG_DATA_ONE) {
-			
-			HashMap<String,Double> top10 = authorCandan.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
-			
-			if(PRINT) {
-				System.out.println("10 autori più simili a Candan (TFIDF2 Vector):\n" + top10);
-			}			
-		}
-	}
-	
+		
 }

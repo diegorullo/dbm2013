@@ -322,7 +322,6 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
            
-                    @SuppressWarnings("unused")
                     ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
 
 //                  System.out.println("Letta matrice score da file:");
@@ -337,7 +336,6 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1677020);
            
-                    @SuppressWarnings("unused")
                     ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
 
 //                  System.out.println("Letta matrice score da file:");
