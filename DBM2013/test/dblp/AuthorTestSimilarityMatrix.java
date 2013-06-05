@@ -1,4 +1,4 @@
-package utils;
+package dblp;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,6 +11,9 @@ import matlabcontrol.MatlabInvocationException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utils.IO;
+import utils.Printer;
+
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Factory;
@@ -18,9 +21,10 @@ import dblp.Paper;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
-public class PcaSvdTest {
+public class AuthorTestSimilarityMatrix {
 	
-	private final static boolean DEBUG = !true;
+	private final static boolean DEBUG = true;
+	private final static boolean PRINT_ON_FILE = true;
 	
 	static Author authorStefania;
 	static Author authorLuca;
@@ -172,7 +176,9 @@ public class PcaSvdTest {
 		System.out.println("Matrice V (" + authorCandan.getAuthorID() + "):");
 		Printer.printMatrix(vMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorCandan.getTopN(vMatrix, 5);
-		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorCandan.getAuthorID() + ".csv");
+		if(PRINT_ON_FILE) {
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorCandan.getAuthorID() + ".csv");
+		}
 		System.out.println("Matrice top 5 SVD (" + authorCandan.getAuthorID() + "): " + topNMatrix);
 		}
 	}
@@ -185,13 +191,14 @@ public class PcaSvdTest {
 		System.out.println("Matrice Score(" + authorCandan.getAuthorID() + "): " );
 		Printer.printMatrix(scoreLatentMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorCandan.getTopN(scoreLatentMatrix, 5);
-		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorCandan.getAuthorID() + ".csv");
+		if(PRINT_ON_FILE) {
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorCandan.getAuthorID() + ".csv");
+		}
 		System.out.println("Matrice top 5 PCA (" + authorCandan.getAuthorID() + "): " + topNMatrix);
 		}
 	}
 	
 	
-//	FIXME: provvisorio!!!
 	@Test
 	public void testGetTop5PCAStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
@@ -200,12 +207,13 @@ public class PcaSvdTest {
 		System.out.println("Matrice Score(" + authorStefania.getAuthorID() + "): " );
 		Printer.printMatrix(scoreLatentMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorStefania.getTopN(scoreLatentMatrix, 5);
-		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_Provvisorio" + authorStefania.getAuthorID() + ".csv");
+		if(PRINT_ON_FILE) {
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_Provvisorio" + authorStefania.getAuthorID() + ".csv");
+		}
 		System.out.println("Matrice top 5 PCA (" + authorStefania.getAuthorID() + "): " + topNMatrix);
 		}
 	}
 	
-//	FIXME: provvisorio!!!
 	@Test
 	public void testGetTop5PCASapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
@@ -214,7 +222,9 @@ public class PcaSvdTest {
 		System.out.println("Matrice Score(" + authorSapino.getAuthorID() + "): " );
 		Printer.printMatrix(scoreLatentMatrix);
 		ArrayList<TreeMap<String, Double>> topNMatrix = authorSapino.getTopN(scoreLatentMatrix, 5);
-		IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_Provvisorio" + authorSapino.getAuthorID() + ".csv");
+		if(PRINT_ON_FILE) {
+			IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_Provvisorio" + authorSapino.getAuthorID() + ".csv");
+		}
 		System.out.println("Matrice top 5 PCA (" + authorSapino.getAuthorID() + "): " + topNMatrix);
 		}
 	}
