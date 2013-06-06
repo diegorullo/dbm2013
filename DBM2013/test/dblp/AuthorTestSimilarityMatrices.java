@@ -344,6 +344,90 @@ public class AuthorTestSimilarityMatrices {
 	}
 	
 	@Test
+	public void testGetSimilaritySVDCandanSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(DEBUG) {
+			Double similCandan = authorCandan.getSimilarityOnConceptsMatrix(authorSapino, dblp, "SVD");
+			if(PRINT) {
+				System.out.println("Similarità Candan-Sapino (SVD): " + similCandan);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSimilaritySVDCandanSapinoReflexive() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		if(DEBUG) {
+			Double similCandanSapino = authorCandan.getSimilarityOnConceptsMatrix(authorSapino, dblp, "SVD");
+			Double similSapinoCandan = authorSapino.getSimilarityOnConceptsMatrix(authorCandan, dblp, "SVD");
+			assertTrue(similCandanSapino.equals(similSapinoCandan));
+			if(PRINT) {
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSimilaritySVDStefaniaLucaReflexive() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		if(DEBUG) {
+			Double similStefaniaLuca = authorStefania.getSimilarityOnConceptsMatrix(authorLuca, dummyCorpus, "SVD");
+			Double similLucaStefania = authorLuca.getSimilarityOnConceptsMatrix(authorStefania, dummyCorpus, "SVD");
+			assertTrue(similStefaniaLuca.equals(similLucaStefania));
+			if(PRINT) {
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSimilaritySVDStefaniaLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(DEBUG) {
+			Double similStefania = authorStefania.getSimilarityOnConceptsMatrix(authorLuca, dummyCorpus, "SVD");
+			if(PRINT) {
+				System.out.println("Similarità Stefania-Luca (SVD): " + similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSimilaritySVDStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(DEBUG) {
+			Double similStefania = authorStefania.getSimilarityOnConceptsMatrix(authorStefania, dummyCorpus, "SVD");
+			if(PRINT) {
+				System.out.println("Similarità Stefania-Stefania (SVD): " + similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSimilaritySVDCandanCandan() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(DEBUG) {
+			Double similCandan = authorCandan.getSimilarityOnConceptsMatrix(authorCandan, dblp, "SVD");
+			if(PRINT) {
+				System.out.println("Similarità Candan-Candan (SVD): " + similCandan);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSimilaritySVDSapinoSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(DEBUG) {
+			Double similSapino = authorSapino.getSimilarityOnConceptsMatrix(authorSapino, dblp, "SVD");
+			if(PRINT) {
+				System.out.println("Similarità Sapino - Sapino (SVD): " + similSapino);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
 	public void testZero() {
 		@SuppressWarnings("all")
 		boolean test1 = (0.0 == -0.0);
