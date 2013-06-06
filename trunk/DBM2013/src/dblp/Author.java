@@ -111,7 +111,7 @@ public class Author {
 			}
 		}
 
-		TreeMap<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
+		TreeMap<String, Double> normalizedWeightedTFVector = Normalization.normalize(weightedTFVector);
 		return normalizedWeightedTFVector;
 
 	}
@@ -149,7 +149,7 @@ public class Author {
 			}
 		}
 
-		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalizeTreeMap(weightedTFIDFVector);
+		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalize(weightedTFIDFVector);
 
 		return normalizedWeightedTFIDFVector;
 	}
@@ -349,7 +349,7 @@ public class Author {
 		}
 
 		//System.out.println("TFIDF2Vector: " + TFIDF2Vector);
-		TreeMap<String, Double> normalizedTFIDF2Vector = Normalization.normalizeTreeMap(TFIDF2Vector);
+		TreeMap<String, Double> normalizedTFIDF2Vector = Normalization.normalize(TFIDF2Vector);
 
 		return normalizedTFIDF2Vector;
 
@@ -544,7 +544,7 @@ public class Author {
 		}
 		
 		//System.out.println("PFVector: " + PFVector);
-		TreeMap<String, Double> normalizedPFVector = Normalization.normalizeTreeMap(PFVector);
+		TreeMap<String, Double> normalizedPFVector = Normalization.normalize(PFVector);
 		//System.out.println("normalizedPFVector: " + normalizedPFVector);
 
 		return normalizedPFVector;
@@ -875,12 +875,20 @@ public class Author {
 		
 		ArrayList<Double> myLatent = this.getLatentPca();
 		ArrayList<Double> otherLatent = otherAuthor.getLatentPca();
+		System.out.println("myLatent: " + myLatent);
+		System.out.println("otherLatent: " + otherLatent);
+		//Normalizziamo i vettori di latent per pesare i concetti
+		myLatent = Normalization.normalize(myLatent);
+		otherLatent = Normalization.normalize(otherLatent);
+		System.out.println("myLatent (dopo): " + myLatent);
+		System.out.println("otherLatent (dopo): " + otherLatent);
 		
 		for(int i = 0; i < myPCAWithKeywords.size(); i++) {
 			TreeMap<String,Double> myPCAKeyWeigthed = new TreeMap<String,Double>();
 			TreeMap<String,Double> otherPCAKeyWeigthed = new TreeMap<String,Double>();
 			
 			TreeMap<String,Double> myCurrRow = myPCAWithKeywords.get(i);
+			TreeMap<String,Double> otherCurrRow = otherPCAWithKeywords.get(i);
 			
 //			System.out.println("Ciclo " + i);
 //			System.out.println("myCurrRow:" + myCurrRow);
@@ -889,31 +897,35 @@ public class Author {
 			// Se ALMENO 1 degli autovalori e' 0 NON pesa i vettori e la similarity somma 0
 			if(!(myLatent.get(i)==0.0 || otherLatent.get(i)==0.0))
 			{
-				for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
-				{
-					myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * myLatent.get(i));
+				if(!(Normalization.isAllZeros(myCurrRow) || Normalization.isAllZeros(otherCurrRow))) {
+					
+					for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
+					{
+						myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * myLatent.get(i));
+					}
+					
+					
+	//				System.out.println("otherCurrRow:" + otherCurrRow);
+	//				System.out.println("otherLatent:" + otherLatent.get(i));
+					for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
+					{
+						otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * otherLatent.get(i));
+					}
+	//				System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
+	//				System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
+					
+	
+					myPCAKeyWeigthed = Normalization.normalize(myPCAKeyWeigthed);
+					otherPCAKeyWeigthed = Normalization.normalize(otherPCAKeyWeigthed);
+					
+					similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
+	//				System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
+	//				System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
+	//				System.out.println("Similarity = " + similarity + "\n");
 				}
-				
-				TreeMap<String,Double> otherCurrRow = otherPCAWithKeywords.get(i);
-				
-//				System.out.println("otherCurrRow:" + otherCurrRow);
-//				System.out.println("otherLatent:" + otherLatent.get(i));
-				for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
-				{
-					otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * otherLatent.get(i));
-				}
-//				System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
-//				System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
-				myPCAKeyWeigthed = Normalization.normalizeTreeMap(myPCAKeyWeigthed);
-				otherPCAKeyWeigthed = Normalization.normalizeTreeMap(otherPCAKeyWeigthed);
-				
-				similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
-//				System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
-//				System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
-//				System.out.println("Similarity = " + similarity + "\n");
 			}
 			
-			else similarity +=0.0;
+			// else similarity +=0.0;
 		}
 		
 		return similarity / myPCAWithKeywords.size();

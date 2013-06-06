@@ -707,7 +707,7 @@ public class NormalizationTest {
 		System.out.println(vettore);
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
-		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
 		System.out.println(vettoreNorm);
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
 	}
@@ -724,7 +724,7 @@ public class NormalizationTest {
 		System.out.println(vettore);
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
-		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
 		System.out.println(vettoreNorm);
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
 	}
@@ -741,7 +741,7 @@ public class NormalizationTest {
 		System.out.println(vettore);
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
-		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
 		System.out.println(vettoreNorm);
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
 	}
@@ -758,7 +758,7 @@ public class NormalizationTest {
 		System.out.println(vettore);
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
-		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
 		System.out.println(vettoreNorm);
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
 	}

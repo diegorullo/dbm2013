@@ -27,7 +27,7 @@ public class AuthorTestSimilarityMatrices {
 	
 	private final static boolean DEBUG = true;
 	private final static boolean PRINT = true;
-	private final static boolean PRINT_ON_FILE = true;
+	private final static boolean PRINT_ON_FILE = !true;
 	
 	static Author authorStefania;
 	static Author authorLuca;
