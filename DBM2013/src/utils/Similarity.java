@@ -42,7 +42,7 @@ public class Similarity {
 		double epsilon = 1.0/100000.0;
 				
 		if(!Normalization.isNormalized(a_vector,epsilon)) {
-			a_vector = Normalization.normalizeTreeMap(a_vector);
+			a_vector = Normalization.normalize(a_vector);
 //			System.out.println(">>> a_vector: " + a_vector);
 		}
 		else {
@@ -50,7 +50,7 @@ public class Similarity {
 //			System.out.println("a_vector: " + a_vector);
 		}
 		if(!Normalization.isNormalized(b_vector,epsilon)) {
-			b_vector = Normalization.normalizeTreeMap(b_vector);
+			b_vector = Normalization.normalize(b_vector);
 //			System.out.println(">>> b_vector: " + b_vector);
 		}
 		else {

@@ -221,7 +221,7 @@ public class Paper {
 		}
 		
 		//Superfluo, poichè il vettore dei tf è normalizzato
-		TreeMap<String, Double> normalizedTFVector = Normalization.normalizeTreeMap(TFVector);
+		TreeMap<String, Double> normalizedTFVector = Normalization.normalize(TFVector);
 		
 		return normalizedTFVector;
 	}
@@ -246,7 +246,7 @@ public class Paper {
 			TFIDFVector.put(key, tfidf);
 		}
 		
-		TreeMap<String, Double> normalizedTFIDFVector = Normalization.normalizeTreeMap(TFIDFVector);
+		TreeMap<String, Double> normalizedTFIDFVector = Normalization.normalize(TFIDFVector);
 		
 		return normalizedTFIDFVector;
 	}
@@ -302,7 +302,7 @@ public class Paper {
 			weightedTFVector.put(key, wtf);
 		}
 		
-		TreeMap<String, Double> normalizedWeightedTFVector = Normalization.normalizeTreeMap(weightedTFVector);
+		TreeMap<String, Double> normalizedWeightedTFVector = Normalization.normalize(weightedTFVector);
 		
 		return normalizedWeightedTFVector;
 	}
@@ -327,7 +327,7 @@ public class Paper {
 			weightedTFIDFVector.put(key,wtfidf);
 		}
 
-		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalizeTreeMap(weightedTFIDFVector);
+		TreeMap<String, Double> normalizedWeightedTFIDFVector = Normalization.normalize(weightedTFIDFVector);
 		
 		return normalizedWeightedTFIDFVector;
 	}
