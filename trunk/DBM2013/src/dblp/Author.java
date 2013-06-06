@@ -974,8 +974,12 @@ public class Author {
 		otherConceptsEigenValues = Normalization.normalize(otherConceptsEigenValues);
 		System.out.println("myConceptsEigenValues normalizzato: " + myConceptsEigenValues);
 		System.out.println("otherConceptsEigenValues normalizzato: " + otherConceptsEigenValues);
-
 		
+		//FIXME:
+		//Aggiunti valori relativi a massima e minima similarita' per righe
+		double max_similarity = -1.0, min_similarity = 1.0;
+
+		// Calcolo della media pesata (tramite gli autovalori) delle similarita'
 		double denominatore = 0.0;
 		for(int i = 0; i < myMatrixWithKeywords.size(); i++) {			
 			TreeMap<String,Double> myCurrentConceptEigenVector = myMatrixWithKeywords.get(i);
@@ -994,12 +998,11 @@ public class Author {
 			
 			System.out.println("myCurrentConceptEigenVector normalizzato: " + myCurrentConceptEigenVector);
 			System.out.println("otherCurrentConceptEigenVector normalizzato: " + otherCurrentConceptEigenVector);
-			
-			
+					
 			// Se ALMENO 1 degli autovalori e' 0 NON pesa i vettori e la similarity somma 0
-			if(!(myConceptsEigenValues.get(i) == 0.0 || otherConceptsEigenValues.get(i) == 0.0))
-			{
-				// Se n
+			if(!(myConceptsEigenValues.get(i) == 0.0 || otherConceptsEigenValues.get(i) == 0.0)) {
+				// Se almeno uno degli autovettori e' costituito da soli 0,
+				// si salta il calcolo e si somma 0 per quella riga
 				if(!(Normalization.isAllZeros(myCurrentConceptEigenVector) || Normalization.isAllZeros(otherCurrentConceptEigenVector))) {
 					
 					for(Map.Entry<String, Double> coeff : myCurrentConceptEigenVector.entrySet()) {
@@ -1012,15 +1015,32 @@ public class Author {
 					
 					System.out.println("myCurrentConceptEigenVectorWeigthed: " + myCurrentConceptEigenVectorWeigthed);
 					System.out.println("otherCurrentConceptEigenVectorWeigthed: " + otherCurrentConceptEigenVectorWeigthed);
-										
-					similarity += Similarity.getCosineSimilarity(myCurrentConceptEigenVectorWeigthed, otherCurrentConceptEigenVectorWeigthed);
+					
+					double currentSimilarity = Similarity.getCosineSimilarity(myCurrentConceptEigenVectorWeigthed, otherCurrentConceptEigenVectorWeigthed);
+					similarity += currentSimilarity;
+					
+					//FIXME:
+					//Calcolo dei max e min correnti
+					if(currentSimilarity > max_similarity) {
+						max_similarity = currentSimilarity;
+					}
+					if (currentSimilarity < min_similarity) {
+						min_similarity = currentSimilarity;
+					}
+					System.out.println("Massima similarita' = " + max_similarity + "; Minima similarita' = " + min_similarity);
+					
 					denominatore++;
 					System.out.println("Similarity = " + similarity + "\n");
 				}
 			}
 		}
 		
+		// In questo modo si calcola la similarità basandosi sul confronto delle matrici dei concetti
 		return similarity / denominatore;
+		
+		//FIXME
+		// In questo modo si calcola la similarita' complessiva usando il punto medio tra massima e minima
+		//return (max_similarity + min_similarity) / 2;
 	}
 	
 	
