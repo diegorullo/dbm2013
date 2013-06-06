@@ -741,7 +741,7 @@ public class Author {
 	
 	/**
 	 * Restituisce tutti i fattori di latent (PCA)
-	 * @return valori degli autovalori latent (PCA)
+	 * @return valori degli autovalori di latent (PCA)
 	 *
 	 */
 	public ArrayList<Double> getLatentPCA() {
@@ -760,14 +760,14 @@ public class Author {
 	}
 	
 	/**
-	 * Restituisce tutti i fattori di latent (SVD)
-	 * @return valori degli autovalori latent (SVD)
+	 * Restituisce tutti i fattori di S (SVD)
+	 * @return valori degli autovalori di S (SVD)
 	 *
 	 */
 	public ArrayList<Double> getLatentSVD() {
 		String fileName = this.getAuthorID() + ".csv";
 		
-		ArrayList<ArrayList<Double>> latentSVD = IO.readDocumentTermMatrixFromFile("../data/latent_" + fileName);
+		ArrayList<ArrayList<Double>> latentSVD = IO.readDocumentTermMatrixFromFile("../data/S_" + fileName);
 		ArrayList<Double> latentSVDVector = new ArrayList<Double>();
 
 		for(int i = 0; i < latentSVD.size(); i++)
@@ -782,28 +782,55 @@ public class Author {
 	/**
 	 * Restituisce n_top fattori di latent 
 	 * @param topN numero degli autovalori della latent
-	 * @return valori degli n_top autovalori latent
+	 * @return valori degli n_top autovalori di latent
 	 *
 	 */
 	public ArrayList<Double> getLatentPCATopN(int topN) {
 		String fileName = this.getAuthorID() + ".csv";
 		
-		ArrayList<ArrayList<Double>> pcaLatent = IO.readTopNDocumentTermMatrixFromFile("../data/latent_" + fileName,topN);
-		ArrayList<Double> pcaLatentVector = new ArrayList<Double>();
+		ArrayList<ArrayList<Double>> latentPCA = IO.readTopNDocumentTermMatrixFromFile("../data/latent_" + fileName,topN);
+		ArrayList<Double> latentPCAVector = new ArrayList<Double>();
 		
-		if(topN > pcaLatent.size())
+		if(topN > latentPCA.size())
 		{
-			topN = pcaLatent.size();
+			topN = latentPCA.size();
 		}
 		
 		for(int i=0;i<topN;i++)
 		{
-			ArrayList<Double> latentCurr = pcaLatent.get(i);
+			ArrayList<Double> latentCurr = latentPCA.get(i);
 			
-			pcaLatentVector.add(latentCurr.get(0));
+			latentPCAVector.add(latentCurr.get(0));
 		}
 		
-		return pcaLatentVector;
+		return latentPCAVector;
+	}
+	
+	/**
+	 * Restituisce n_top fattori di latent 
+	 * @param topN numero degli autovalori della latent
+	 * @return valori degli n_top autovalori di latent
+	 *
+	 */
+	public ArrayList<Double> getLatentSVDTopN(int topN) {
+		String fileName = this.getAuthorID() + ".csv";
+		
+		ArrayList<ArrayList<Double>> latentSVD = IO.readTopNDocumentTermMatrixFromFile("../data/S_" + fileName,topN);
+		ArrayList<Double> latentSVDVector = new ArrayList<Double>();
+		
+		if(topN > latentSVD.size())
+		{
+			topN = latentSVD.size();
+		}
+		
+		for(int i=0;i<topN;i++)
+		{
+			ArrayList<Double> latentCurr = latentSVD.get(i);
+			
+			latentSVDVector.add(latentCurr.get(i));
+		}
+		
+		return latentSVDVector;
 	}
 	
 	
