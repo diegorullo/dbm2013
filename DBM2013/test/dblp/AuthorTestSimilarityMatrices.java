@@ -337,7 +337,7 @@ public class AuthorTestSimilarityMatrices {
 		if(DEBUG) {
 			Double similSapino = authorSapino.getSimilarityOnConceptsMatrix(authorSapino, dblp, "PCA");
 			if(PRINT) {
-				System.out.println("Similarità Sapino - Sapino (PCA): " + similSapino);
+				System.out.println("Similarità Sapino-Sapino (PCA): " + similSapino);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -421,7 +421,7 @@ public class AuthorTestSimilarityMatrices {
 		if(DEBUG) {
 			Double similSapino = authorSapino.getSimilarityOnConceptsMatrix(authorSapino, dblp, "SVD");
 			if(PRINT) {
-				System.out.println("Similarità Sapino - Sapino (SVD): " + similSapino);
+				System.out.println("Similarità Sapino-Sapino (SVD): " + similSapino);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
