@@ -760,7 +760,7 @@ public class Author {
 	}
 	
 	/**
-	 * Restituisce tutti i fattori di S (SVD)
+	 * Restituisce i primi 5 fattori di S (SVD)
 	 * @return valori degli autovalori di S (SVD)
 	 *
 	 */
@@ -769,13 +769,18 @@ public class Author {
 		
 		ArrayList<ArrayList<Double>> latentSVD = IO.readDocumentTermMatrixFromFile("../data/S_" + fileName);
 		ArrayList<Double> latentSVDVector = new ArrayList<Double>();
-
-		for(int i = 0; i < latentSVD.size(); i++)
-		{
+		int rows = 0;
+		for(int i = 0; i < latentSVD.size(); i++) {
 			ArrayList<Double> latentCurr = latentSVD.get(i);
-			
 			latentSVDVector.add(latentCurr.get(i));
-		}		
+			rows++;
+		}
+		
+		while(rows < 5) {
+			latentSVDVector.add(0.0);
+			rows++;
+		}
+		
 		return latentSVDVector;
 	}
 	
@@ -967,8 +972,8 @@ public class Author {
 		//Normalizziamo i vettori di concetti per pesarne la varianza
 		myConceptsEigenValues = Normalization.normalize(myConceptsEigenValues);
 		otherConceptsEigenValues = Normalization.normalize(otherConceptsEigenValues);
-		System.out.println("myConceptsEigenValues (dopo): " + myConceptsEigenValues);
-		System.out.println("otherConceptsEigenValues (dopo): " + otherConceptsEigenValues);
+		System.out.println("myConceptsEigenValues normalizzato: " + myConceptsEigenValues);
+		System.out.println("otherConceptsEigenValues normalizzato: " + otherConceptsEigenValues);
 
 		
 		double denominatore = 0.0;
@@ -980,36 +985,36 @@ public class Author {
 			TreeMap<String,Double> otherCurrentConceptEigenVectorWeigthed = new TreeMap<String,Double>();
 			
 			System.out.println("Ciclo " + i);
-			System.out.println("myCurrentConceptEigenVector:" + myCurrentConceptEigenVector);
-			System.out.println("myConceptsEigenValues:" + myConceptsEigenValues.get(i));
+			System.out.println("myCurrentConceptEigenVector: " + myCurrentConceptEigenVector);
+			System.out.println("otherCurrentConceptEigenVector: " + otherCurrentConceptEigenVector);
+			
+			// Normalizziamo gli autovettori dei 2 autori
+			myCurrentConceptEigenVector = Normalization.normalize(myCurrentConceptEigenVector);
+			otherCurrentConceptEigenVector = Normalization.normalize(otherCurrentConceptEigenVector);			
+			
+			System.out.println("myCurrentConceptEigenVector normalizzato: " + myCurrentConceptEigenVector);
+			System.out.println("otherCurrentConceptEigenVector normalizzato: " + otherCurrentConceptEigenVector);
+			
 			
 			// Se ALMENO 1 degli autovalori e' 0 NON pesa i vettori e la similarity somma 0
-			if(!(myConceptsEigenValues.get(i)==0.0 || otherConceptsEigenValues.get(i)==0.0))
+			if(!(myConceptsEigenValues.get(i) == 0.0 || otherConceptsEigenValues.get(i) == 0.0))
 			{
+				// Se n
 				if(!(Normalization.isAllZeros(myCurrentConceptEigenVector) || Normalization.isAllZeros(otherCurrentConceptEigenVector))) {
 					
-					for(Map.Entry<String, Double> coeff : myCurrentConceptEigenVector.entrySet())
-					{
+					for(Map.Entry<String, Double> coeff : myCurrentConceptEigenVector.entrySet()) {
 						myCurrentConceptEigenVectorWeigthed.put(coeff.getKey(),coeff.getValue() * myConceptsEigenValues.get(i));
-					}
+					}										
 					
-					System.out.println("otherCurrentConceptEigenVector:" + otherCurrentConceptEigenVector);
-					System.out.println("otherConceptsEigenValues:" + otherConceptsEigenValues.get(i));
-					for(Map.Entry<String, Double> coeff : otherCurrentConceptEigenVector.entrySet())
-					{
+					for(Map.Entry<String, Double> coeff : otherCurrentConceptEigenVector.entrySet()) {
 						otherCurrentConceptEigenVectorWeigthed.put(coeff.getKey(),coeff.getValue() * otherConceptsEigenValues.get(i));
 					}
-					System.out.println("myCurrentConceptEigenVectorWeigthed:" + myCurrentConceptEigenVectorWeigthed);
-					System.out.println("otherCurrentConceptEigenVectorWeigthed:" + otherCurrentConceptEigenVectorWeigthed);
 					
-	
-					myCurrentConceptEigenVectorWeigthed = Normalization.normalize(myCurrentConceptEigenVectorWeigthed);
-					otherCurrentConceptEigenVectorWeigthed = Normalization.normalize(otherCurrentConceptEigenVectorWeigthed);
-					
+					System.out.println("myCurrentConceptEigenVectorWeigthed: " + myCurrentConceptEigenVectorWeigthed);
+					System.out.println("otherCurrentConceptEigenVectorWeigthed: " + otherCurrentConceptEigenVectorWeigthed);
+										
 					similarity += Similarity.getCosineSimilarity(myCurrentConceptEigenVectorWeigthed, otherCurrentConceptEigenVectorWeigthed);
 					denominatore++;
-					System.out.println("myCurrentConceptEigenVectorWeigthed (dopo):" + myCurrentConceptEigenVectorWeigthed);
-					System.out.println("otherCurrentConceptEigenVectorWeigthed (dopo):" + otherCurrentConceptEigenVectorWeigthed);
 					System.out.println("Similarity = " + similarity + "\n");
 				}
 			}
