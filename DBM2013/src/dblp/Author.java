@@ -878,11 +878,12 @@ public class Author {
 		System.out.println("myLatent: " + myLatent);
 		System.out.println("otherLatent: " + otherLatent);
 		//Normalizziamo i vettori di latent per pesare i concetti
-		myLatent = Normalization.normalize(myLatent);
-		otherLatent = Normalization.normalize(otherLatent);
-		System.out.println("myLatent (dopo): " + myLatent);
-		System.out.println("otherLatent (dopo): " + otherLatent);
+//		myLatent = Normalization.normalize(myLatent);
+//		otherLatent = Normalization.normalize(otherLatent);
+//		System.out.println("myLatent (dopo): " + myLatent);
+//		System.out.println("otherLatent (dopo): " + otherLatent);
 		
+		double denominatore = 0.0;
 		for(int i = 0; i < myPCAWithKeywords.size(); i++) {
 			TreeMap<String,Double> myPCAKeyWeigthed = new TreeMap<String,Double>();
 			TreeMap<String,Double> otherPCAKeyWeigthed = new TreeMap<String,Double>();
@@ -891,8 +892,8 @@ public class Author {
 			TreeMap<String,Double> otherCurrRow = otherPCAWithKeywords.get(i);
 			
 //			System.out.println("Ciclo " + i);
-//			System.out.println("myCurrRow:" + myCurrRow);
-//			System.out.println("myLatent:" + myLatent.get(i));
+			System.out.println("myCurrRow:" + myCurrRow);
+			System.out.println("myLatent:" + myLatent.get(i));
 			
 			// Se ALMENO 1 degli autovalori e' 0 NON pesa i vettori e la similarity somma 0
 			if(!(myLatent.get(i)==0.0 || otherLatent.get(i)==0.0))
@@ -905,30 +906,31 @@ public class Author {
 					}
 					
 					
-	//				System.out.println("otherCurrRow:" + otherCurrRow);
-	//				System.out.println("otherLatent:" + otherLatent.get(i));
+					System.out.println("otherCurrRow:" + otherCurrRow);
+					System.out.println("otherLatent:" + otherLatent.get(i));
 					for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
 					{
 						otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * otherLatent.get(i));
 					}
-	//				System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
-	//				System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
+					System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
+					System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
 					
 	
 					myPCAKeyWeigthed = Normalization.normalize(myPCAKeyWeigthed);
 					otherPCAKeyWeigthed = Normalization.normalize(otherPCAKeyWeigthed);
 					
 					similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
-	//				System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
-	//				System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
-	//				System.out.println("Similarity = " + similarity + "\n");
+					denominatore++;
+					System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
+					System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
+					System.out.println("Similarity = " + similarity + "\n");
 				}
 			}
 			
 			// else similarity +=0.0;
 		}
 		
-		return similarity / myPCAWithKeywords.size();
+		return similarity / denominatore;
 	}
 	
 	
