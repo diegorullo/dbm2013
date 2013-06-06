@@ -18,6 +18,7 @@ import utils.Printer;
 import utils.Similarity;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
+import exceptions.NoSuchTechniqueException;
 
 public class Author {
 	//TODO: spiegare la scelta del 3
@@ -739,24 +740,43 @@ public class Author {
 	}
 	
 	/**
-	 * Restituisce tutti i fattori di latent 
-	 * @return valori degli autovalori latent
+	 * Restituisce tutti i fattori di latent (PCA)
+	 * @return valori degli autovalori latent (PCA)
 	 *
 	 */
-	public ArrayList<Double> getLatentPca() {
+	public ArrayList<Double> getLatentPCA() {
 		String fileName = this.getAuthorID() + ".csv";
 		
-		ArrayList<ArrayList<Double>> pcaLatent = IO.readDocumentTermMatrixFromFile("../data/latent_" + fileName);
-		ArrayList<Double> pcaLatentVector = new ArrayList<Double>();
+		ArrayList<ArrayList<Double>> latentPCA = IO.readDocumentTermMatrixFromFile("../data/latent_" + fileName);
+		ArrayList<Double> latentPCAVector = new ArrayList<Double>();
 
-		for(int i=0;i<pcaLatent.size();i++)
+		for(int i = 0; i < latentPCA.size(); i++)
 		{
-			ArrayList<Double> latentCurr = pcaLatent.get(i);
+			ArrayList<Double> latentCurr = latentPCA.get(i);
 			
-			pcaLatentVector.add(latentCurr.get(0));
-		}
+			latentPCAVector.add(latentCurr.get(0));
+		}		
+		return latentPCAVector;
+	}
+	
+	/**
+	 * Restituisce tutti i fattori di latent (SVD)
+	 * @return valori degli autovalori latent (SVD)
+	 *
+	 */
+	public ArrayList<Double> getLatentSVD() {
+		String fileName = this.getAuthorID() + ".csv";
 		
-		return pcaLatentVector;
+		ArrayList<ArrayList<Double>> latentSVD = IO.readDocumentTermMatrixFromFile("../data/latent_" + fileName);
+		ArrayList<Double> latentSVDVector = new ArrayList<Double>();
+
+		for(int i = 0; i < latentSVD.size(); i++)
+		{
+			ArrayList<Double> latentCurr = latentSVD.get(i);
+			
+			latentSVDVector.add(latentCurr.get(i));
+		}		
+		return latentSVDVector;
 	}
 	
 	/**
@@ -765,7 +785,7 @@ public class Author {
 	 * @return valori degli n_top autovalori latent
 	 *
 	 */
-	public ArrayList<Double> getLatentPcaTopN(int topN) {
+	public ArrayList<Double> getLatentPCATopN(int topN) {
 		String fileName = this.getAuthorID() + ".csv";
 		
 		ArrayList<ArrayList<Double>> pcaLatent = IO.readTopNDocumentTermMatrixFromFile("../data/latent_" + fileName,topN);
@@ -856,78 +876,116 @@ public class Author {
 	
 	/**
 	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
+	 * basandosi sul confronto delle matrici dei concetti
+	 * (calcolate tramite SVD o PCA - a scelta tramite il parametro technique di tipo String).
 	 * 
 	 * @param otherAuthor
 	 * @param corpus
+	 * @param technique Tecnica a scelta tra "PCA" e "SVD"
 	 * @return double similarita'
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
+	 * @throws NoSuchTechniqueException 
 	 *
 	 */
-	public double getSimilarityOnPCA(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public double getSimilarityOnConceptsMatrix(Author otherAuthor, Corpus corpus, String technique) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		Double similarity = 0.0;
 		
-		ArrayList<ArrayList<Double>> myPCA = this.getPCA(corpus);
-		ArrayList<ArrayList<Double>> otherPCA = otherAuthor.getPCA(corpus);
-		ArrayList<TreeMap<String,Double>> myPCAWithKeywords = this.getTopN(myPCA, myPCA.size());
-		ArrayList<TreeMap<String,Double>> otherPCAWithKeywords = otherAuthor.getTopN(otherPCA, otherPCA.size());
+		ArrayList<ArrayList<Double>> myMatrix;
+		ArrayList<ArrayList<Double>> otherMatrix;
+		ArrayList<TreeMap<String,Double>> myMatrixWithKeywords;
+		ArrayList<TreeMap<String,Double>> otherMatrixWithKeywords;
 		
-		ArrayList<Double> myLatent = this.getLatentPca();
-		ArrayList<Double> otherLatent = otherAuthor.getLatentPca();
-		System.out.println("myLatent: " + myLatent);
-		System.out.println("otherLatent: " + otherLatent);
-		//Normalizziamo i vettori di latent per pesare i concetti
-//		myLatent = Normalization.normalize(myLatent);
-//		otherLatent = Normalization.normalize(otherLatent);
-//		System.out.println("myLatent (dopo): " + myLatent);
-//		System.out.println("otherLatent (dopo): " + otherLatent);
+		ArrayList<Double> myConceptsEigenValues;
+		ArrayList<Double> otherConceptsEigenValues;
+	
+		switch(technique.toUpperCase()) {
+			case "PCA":
+				myMatrix = this.getPCA(corpus);
+				otherMatrix = otherAuthor.getPCA(corpus);
+//				FIXME: messi sotto
+//				myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
+//				otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
+				
+				myConceptsEigenValues = this.getLatentPCA();
+				otherConceptsEigenValues = otherAuthor.getLatentPCA();
+				System.out.println("myConceptsEigenValues: " + myConceptsEigenValues);
+				System.out.println("otherConceptsEigenValues: " + otherConceptsEigenValues);
+				break;
+				
+			case "SVD":
+				myMatrix = this.getSVD(corpus);
+				otherMatrix = otherAuthor.getSVD(corpus);
+//				FIXME: messi sotto
+//				myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
+//				otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
+				
+//				TODO: fare il metodo
+				myConceptsEigenValues = this.getLatentSVD();
+				otherConceptsEigenValues = otherAuthor.getLatentSVD();
+				System.out.println("myConceptsEigenValues: " + myConceptsEigenValues);
+				System.out.println("otherConceptsEigenValues: " + otherConceptsEigenValues);
+				break;
+				
+			default:
+				throw new NoSuchTechniqueException(technique + " is not a valid technique: try with PCA or SVD.");
+		}
+		
+		myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
+		otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
+		myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
+		otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
+		
+		//Normalizziamo i vettori di concetti per pesarne la varianza
+		myConceptsEigenValues = Normalization.normalize(myConceptsEigenValues);
+		otherConceptsEigenValues = Normalization.normalize(otherConceptsEigenValues);
+		System.out.println("myConceptsEigenValues (dopo): " + myConceptsEigenValues);
+		System.out.println("otherConceptsEigenValues (dopo): " + otherConceptsEigenValues);
+
 		
 		double denominatore = 0.0;
-		for(int i = 0; i < myPCAWithKeywords.size(); i++) {
-			TreeMap<String,Double> myPCAKeyWeigthed = new TreeMap<String,Double>();
-			TreeMap<String,Double> otherPCAKeyWeigthed = new TreeMap<String,Double>();
+		for(int i = 0; i < myMatrixWithKeywords.size(); i++) {			
+			TreeMap<String,Double> myCurrentConceptEigenVector = myMatrixWithKeywords.get(i);
+			TreeMap<String,Double> otherCurrentConceptEigenVector = otherMatrixWithKeywords.get(i);
 			
-			TreeMap<String,Double> myCurrRow = myPCAWithKeywords.get(i);
-			TreeMap<String,Double> otherCurrRow = otherPCAWithKeywords.get(i);
+			TreeMap<String,Double> myCurrentConceptEigenVectorWeigthed = new TreeMap<String,Double>();
+			TreeMap<String,Double> otherCurrentConceptEigenVectorWeigthed = new TreeMap<String,Double>();
 			
-//			System.out.println("Ciclo " + i);
-			System.out.println("myCurrRow:" + myCurrRow);
-			System.out.println("myLatent:" + myLatent.get(i));
+			System.out.println("Ciclo " + i);
+			System.out.println("myCurrentConceptEigenVector:" + myCurrentConceptEigenVector);
+			System.out.println("myConceptsEigenValues:" + myConceptsEigenValues.get(i));
 			
 			// Se ALMENO 1 degli autovalori e' 0 NON pesa i vettori e la similarity somma 0
-			if(!(myLatent.get(i)==0.0 || otherLatent.get(i)==0.0))
+			if(!(myConceptsEigenValues.get(i)==0.0 || otherConceptsEigenValues.get(i)==0.0))
 			{
-				if(!(Normalization.isAllZeros(myCurrRow) || Normalization.isAllZeros(otherCurrRow))) {
+				if(!(Normalization.isAllZeros(myCurrentConceptEigenVector) || Normalization.isAllZeros(otherCurrentConceptEigenVector))) {
 					
-					for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
+					for(Map.Entry<String, Double> coeff : myCurrentConceptEigenVector.entrySet())
 					{
-						myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * myLatent.get(i));
+						myCurrentConceptEigenVectorWeigthed.put(coeff.getKey(),coeff.getValue() * myConceptsEigenValues.get(i));
 					}
 					
-					
-					System.out.println("otherCurrRow:" + otherCurrRow);
-					System.out.println("otherLatent:" + otherLatent.get(i));
-					for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
+					System.out.println("otherCurrentConceptEigenVector:" + otherCurrentConceptEigenVector);
+					System.out.println("otherConceptsEigenValues:" + otherConceptsEigenValues.get(i));
+					for(Map.Entry<String, Double> coeff : otherCurrentConceptEigenVector.entrySet())
 					{
-						otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * otherLatent.get(i));
+						otherCurrentConceptEigenVectorWeigthed.put(coeff.getKey(),coeff.getValue() * otherConceptsEigenValues.get(i));
 					}
-					System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
-					System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
+					System.out.println("myCurrentConceptEigenVectorWeigthed:" + myCurrentConceptEigenVectorWeigthed);
+					System.out.println("otherCurrentConceptEigenVectorWeigthed:" + otherCurrentConceptEigenVectorWeigthed);
 					
 	
-					myPCAKeyWeigthed = Normalization.normalize(myPCAKeyWeigthed);
-					otherPCAKeyWeigthed = Normalization.normalize(otherPCAKeyWeigthed);
+					myCurrentConceptEigenVectorWeigthed = Normalization.normalize(myCurrentConceptEigenVectorWeigthed);
+					otherCurrentConceptEigenVectorWeigthed = Normalization.normalize(otherCurrentConceptEigenVectorWeigthed);
 					
-					similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
+					similarity += Similarity.getCosineSimilarity(myCurrentConceptEigenVectorWeigthed, otherCurrentConceptEigenVectorWeigthed);
 					denominatore++;
-					System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
-					System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
+					System.out.println("myCurrentConceptEigenVectorWeigthed (dopo):" + myCurrentConceptEigenVectorWeigthed);
+					System.out.println("otherCurrentConceptEigenVectorWeigthed (dopo):" + otherCurrentConceptEigenVectorWeigthed);
 					System.out.println("Similarity = " + similarity + "\n");
 				}
 			}
-			
-			// else similarity +=0.0;
 		}
 		
 		return similarity / denominatore;
@@ -974,9 +1032,10 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
+	 * @throws NoSuchTechniqueException 
 	 *
 	 */
-	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByPCA(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByPCA(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		
 		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
 		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
@@ -985,7 +1044,7 @@ public class Author {
 		
 		for(Author author : authors) {
 			if(!author.equals(this)) {
-				similarity = this.getSimilarityOnPCA(author, corpus);
+				similarity = this.getSimilarityOnConceptsMatrix(author, corpus, "PCA");
 				similarityVector.put(author.getName(), similarity);
 			}
 		}

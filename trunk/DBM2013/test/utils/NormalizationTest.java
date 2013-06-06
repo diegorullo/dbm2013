@@ -16,6 +16,10 @@ import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
 public class NormalizationTest {
+	
+	private final static boolean PRINT = false;
+	
+	private final static double epsilon = 1.0/10000000;
 
 	/**
 	 * 2 autori, 3 paper, 1 in comune
@@ -115,7 +119,7 @@ public class NormalizationTest {
 				listaPaperNelCorpus, listaPaperNelCorpus.size());
 
 		TreeMap<String, Double> vettore = (TreeMap<String, Double>) paper1.getTFIDFVector(dummyCorpus);
-		double epsilon = (double)1/1000000000;
+
 		assertTrue(Normalization.isNormalized(vettore, epsilon));
 	}
 
@@ -223,7 +227,7 @@ public class NormalizationTest {
 		for (java.util.Map.Entry<String, Double> e : vettore.entrySet()) {
 			vettoreTFIDF.put(e.getKey(), e.getValue() * idf);
 		}
-		double epsilon = (double)1/1000000000;
+
 		assertTrue(Normalization.isNormalized(vettore, epsilon));
 	}
 	
@@ -326,7 +330,7 @@ public class NormalizationTest {
 
 		TreeMap<String, Double> vettore = (TreeMap<String, Double>) authorStefania.getWeightedTFVector();
 //		System.out.println(vettore);
-		double epsilon = (double)1/1000000000;
+
 		assertTrue(Normalization.isNormalized(vettore, epsilon));
 	}
 	
@@ -428,7 +432,7 @@ public class NormalizationTest {
 
 		TreeMap<String, Double> vettore = (TreeMap<String, Double>) authorStefania.getWeightedTFIDFVector(dummyCorpus);
 //		System.out.println("ciao: " + vettore);
-		double epsilon = (double)1/1000000000;
+
 		assertTrue(Normalization.isNormalized(vettore, epsilon));
 	}
 	
@@ -552,7 +556,7 @@ public class NormalizationTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
 		TreeMap<String, Double> tfidf2VectorStefania = authorStefania.getTFIDF2Vector(dummyCorpus);
-		double epsilon = (double)1/1000000000;
+
 		assertTrue(Normalization.isNormalized(tfidf2VectorStefania, epsilon));
 	}
 
@@ -675,8 +679,8 @@ public class NormalizationTest {
 		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus, listaPaperNelCorpus, listaPaperNelCorpus.size());
 		
 		TreeMap<String, Double> pfVectorStefania = authorStefania.getPFVector(dummyCorpus);
-		double epsilon = (double)1/1000000000;
-//		System.out.println(pfVectorStefania);
+
+		//		System.out.println(pfVectorStefania);
 		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));
 	}
 	
@@ -690,8 +694,10 @@ public class NormalizationTest {
 		vettore.put("C", 0.0);
 		vettore.put("D", 0.0);
 		vettore.put("E", 0.0);
-		double epsilon = (double)1/1000000000;
-		System.out.println(vettore);
+
+		if(PRINT) {
+			System.out.println(vettore);
+		}
 		assertTrue(Normalization.isNormalized(vettore, epsilon));
 	}
 	
@@ -703,13 +709,17 @@ public class NormalizationTest {
 		vettore.put("C", 0.0);
 		vettore.put("D", 0.0);
 		vettore.put("E", -0.0);
-		double epsilon = (double)1/1000000000;
-		System.out.println(vettore);
+
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
 		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
-		System.out.println(vettoreNorm);
+		
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
+		
+		if(PRINT) {
+			System.out.println(vettore);
+			System.out.println(vettoreNorm);
+		}
 	}
 
 	@Test
@@ -720,13 +730,17 @@ public class NormalizationTest {
 		vettore.put("C", 1.0);
 		vettore.put("D", 1.0);
 		vettore.put("E", 1.0);
-		double epsilon = (double)1/1000000000;
-		System.out.println(vettore);
+
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
 		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
-		System.out.println(vettoreNorm);
+
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
+		
+		if(PRINT) {
+			System.out.println(vettore);
+			System.out.println(vettoreNorm);
+		}
 	}
 	
 	@Test
@@ -737,13 +751,17 @@ public class NormalizationTest {
 		vettore.put("C", 0.0);
 		vettore.put("D", 1.5);
 		vettore.put("E", 0.0);
-		double epsilon = (double)1/1000000000;
-		System.out.println(vettore);
+		
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
 		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
-		System.out.println(vettoreNorm);
+		
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
+		
+		if(PRINT) {
+			System.out.println(vettore);
+			System.out.println(vettoreNorm);
+		}
 	}
 	
 	@Test
@@ -754,13 +772,17 @@ public class NormalizationTest {
 		vettore.put("C", -0.0);
 		vettore.put("D", 1.5);
 		vettore.put("E", 0.0);
-		double epsilon = (double)1/1000000000;
-		System.out.println(vettore);
+
 		assertFalse(Normalization.isNormalized(vettore, epsilon));
 		
 		TreeMap<String, Double> vettoreNorm = Normalization.normalize(vettore);
-		System.out.println(vettoreNorm);
+
 		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
+		
+		if(PRINT) {
+			System.out.println(vettore);
+			System.out.println(vettoreNorm);
+		}
 	}
 	
 }

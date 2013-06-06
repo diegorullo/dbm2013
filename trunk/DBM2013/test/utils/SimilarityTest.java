@@ -19,7 +19,9 @@ import exceptions.NoAuthorsWithSuchIDException;
 public class SimilarityTest {
 	
 	private final static boolean DEBUG = true;
-	double epsilon = 1/1000000;	
+	
+	private final static double epsilon = 1.0/10000000;
+	
 	@Test
 	public void testGetCosineSimilarityWithSelf() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
 		if (DEBUG) {
@@ -31,7 +33,6 @@ public class SimilarityTest {
 			
 			double similarity = authorCandan.getSimilarityOnKeywordVector(authorCandan, dblp);
 			
-			double epsilon = 1/1000000;			
 			assertEquals(similarity, 1.0, epsilon);
 		}
 	}
