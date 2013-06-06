@@ -1,5 +1,6 @@
 package utils;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -677,6 +678,89 @@ public class NormalizationTest {
 		double epsilon = (double)1/1000000000;
 //		System.out.println(pfVectorStefania);
 		assertTrue(Normalization.isNormalized(pfVectorStefania, epsilon));
+	}
+	
+
+	
+	@Test
+	public void testNormalizedZerosVectorDummy() {
+		TreeMap<String, Double> vettore = new TreeMap<String, Double>();
+		vettore.put("A", 0.0);
+		vettore.put("B", 0.0);
+		vettore.put("C", 0.0);
+		vettore.put("D", 0.0);
+		vettore.put("E", 0.0);
+		double epsilon = (double)1/1000000000;
+		System.out.println(vettore);
+		assertTrue(Normalization.isNormalized(vettore, epsilon));
+	}
+	
+	@Test
+	public void testNormalizedMinZerosVectorDummy() {
+		TreeMap<String, Double> vettore = new TreeMap<String, Double>();
+		vettore.put("A", 0.0);
+		vettore.put("B", -0.0);
+		vettore.put("C", 0.0);
+		vettore.put("D", 0.0);
+		vettore.put("E", -0.0);
+		double epsilon = (double)1/1000000000;
+		System.out.println(vettore);
+		assertFalse(Normalization.isNormalized(vettore, epsilon));
+		
+		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		System.out.println(vettoreNorm);
+		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
+	}
+
+	@Test
+	public void testNormalizedUnosVectorDummy() {
+		TreeMap<String, Double> vettore = new TreeMap<String, Double>();
+		vettore.put("A", 1.0);
+		vettore.put("B", 1.0);
+		vettore.put("C", 1.0);
+		vettore.put("D", 1.0);
+		vettore.put("E", 1.0);
+		double epsilon = (double)1/1000000000;
+		System.out.println(vettore);
+		assertFalse(Normalization.isNormalized(vettore, epsilon));
+		
+		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		System.out.println(vettoreNorm);
+		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
+	}
+	
+	@Test
+	public void testNormaliMinsVectorDummy() {
+		TreeMap<String, Double> vettore = new TreeMap<String, Double>();
+		vettore.put("A", -1.5);
+		vettore.put("B", 0.0);
+		vettore.put("C", 0.0);
+		vettore.put("D", 1.5);
+		vettore.put("E", 0.0);
+		double epsilon = (double)1/1000000000;
+		System.out.println(vettore);
+		assertFalse(Normalization.isNormalized(vettore, epsilon));
+		
+		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		System.out.println(vettoreNorm);
+		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
+	}
+	
+	@Test
+	public void testNormaliMixedVectorDummy() {
+		TreeMap<String, Double> vettore = new TreeMap<String, Double>();
+		vettore.put("A", -1.5);
+		vettore.put("B", 0.0);
+		vettore.put("C", -0.0);
+		vettore.put("D", 1.5);
+		vettore.put("E", 0.0);
+		double epsilon = (double)1/1000000000;
+		System.out.println(vettore);
+		assertFalse(Normalization.isNormalized(vettore, epsilon));
+		
+		TreeMap<String, Double> vettoreNorm = Normalization.normalizeTreeMap(vettore);
+		System.out.println(vettoreNorm);
+		assertTrue(Normalization.isNormalized(vettoreNorm, epsilon));
 	}
 	
 }
