@@ -1,5 +1,7 @@
 package dblp;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import exceptions.NoAuthorsWithSuchIDException;
 
 public class AuthorTestSimilarityMatrices {
 	
-	private final static boolean DEBUG = false;
+	private final static boolean DEBUG = true;
 	private final static boolean PRINT_ON_FILE = true;
 	
 	static Author authorStefania;
@@ -251,7 +253,7 @@ public class AuthorTestSimilarityMatrices {
 	@Test
 	public void testGetSimilarityPCAStefaniaLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
-		if(!DEBUG) 
+		if(DEBUG) 
 		{
 			Double similStefania = authorStefania.getSimilarityOnPCA(authorLuca, dblp);
 			System.out.println("similStefania" + similStefania);
@@ -260,9 +262,15 @@ public class AuthorTestSimilarityMatrices {
 	
 	@Test
 	public void testZero() {
-		System.out.println("0.0 == -0.0? " + (0.0 == -0.0));
+		@SuppressWarnings("all")
+		boolean test1 = (0.0 == -0.0);
+		//System.out.println("0.0 == -0.0? " + test1);
+		assertTrue(test1);
+		
 		Double zeroPlus = 0.0, zeroMinus = -0.0;
-		System.out.println("0.0.toString() == -0.0.toString()? " + (zeroPlus.toString().equals(zeroMinus.toString())));
+		boolean test2 = (zeroPlus.toString().equals(zeroMinus.toString()));
+		System.out.println("0.0.toString() == -0.0.toString()? " + test2);
+		assertFalse(test2);
 	}
 	
 }
