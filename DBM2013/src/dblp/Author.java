@@ -900,7 +900,11 @@ public class Author {
 			}
 			System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
 			System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
+			myPCAKeyWeigthed = Normalization.normalizeTreeMap(myPCAKeyWeigthed);
+			otherPCAKeyWeigthed = Normalization.normalizeTreeMap(otherPCAKeyWeigthed);
 			similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
+			System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
+			System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
 			System.out.println("Similarity = " + similarity + "\n");
 		}
 		

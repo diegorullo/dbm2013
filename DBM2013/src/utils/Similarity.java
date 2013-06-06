@@ -41,13 +41,23 @@ public class Similarity {
         double cosSim = 0.0;
 		double epsilon = 1.0/100000.0;
 		
+		System.out.println("STO PER CALCOLARE LA SIMILARITA");
+		
 		if(!Normalization.isNormalized(a_vector,epsilon)) {
 			a_vector = Normalization.normalizeTreeMap(a_vector);
 			System.out.println(">>> a_vector: " + a_vector);
 		}
+		else {
+			System.out.println("IL PRIMO VETTORE E NORMALIZZATO");
+			System.out.println("a_vector: " + a_vector);
+		}
 		if(!Normalization.isNormalized(b_vector,epsilon)) {
 			b_vector = Normalization.normalizeTreeMap(b_vector);
 			System.out.println(">>> b_vector: " + b_vector);
+		}
+		else {
+			System.out.println("IL SECONDO VETTORE E NORMALIZZATO");
+			System.out.println("b_vector: " + b_vector);
 		}
 		// A questo punto i vettori sono normalizzati in norma1
 		
