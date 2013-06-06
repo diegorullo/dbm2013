@@ -22,6 +22,7 @@ import dblp.Factory;
 import dblp.Paper;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
+import exceptions.NoSuchTechniqueException;
 
 public class AuthorTestSimilarityMatrices {
 	
@@ -162,6 +163,7 @@ public class AuthorTestSimilarityMatrices {
 				System.out.println("Matrice V (" + authorCandan.getAuthorID() + "):");
 				Printer.printMatrix(vMatrix);
 				System.out.println("Matrice top 5 SVD (" + authorCandan.getAuthorID() + "): " + topNMatrix);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
@@ -179,6 +181,7 @@ public class AuthorTestSimilarityMatrices {
 				System.out.println("Matrice V (" + authorStefania.getAuthorID() + "):");			
 				Printer.printMatrix(vMatrix);
 				System.out.println("Matrice top 5 SVD (" + authorStefania.getAuthorID() + "): " + topNMatrix);
+				System.out.println("----------------------------------------------------------------------\n");
 			}		
 		}
 	}
@@ -196,6 +199,7 @@ public class AuthorTestSimilarityMatrices {
 				System.out.println("Matrice V (" + authorSapino.getAuthorID() + "):");
 				Printer.printMatrix(vMatrix);
 				System.out.println("Matrice top 5 SVD (" + authorSapino.getAuthorID() + "): " + topNMatrix);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
@@ -213,6 +217,7 @@ public class AuthorTestSimilarityMatrices {
 				System.out.println("Matrice Score(" + authorCandan.getAuthorID() + "): " );
 				Printer.printMatrix(scoreLatentMatrix);
 				System.out.println("Matrice top 5 PCA (" + authorCandan.getAuthorID() + "): " + topNMatrix);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
@@ -231,6 +236,7 @@ public class AuthorTestSimilarityMatrices {
 				System.out.println("Matrice Score(" + authorStefania.getAuthorID() + "): " );
 				Printer.printMatrix(scoreLatentMatrix);
 				System.out.println("Matrice top 5 PCA (" + authorStefania.getAuthorID() + "): " + topNMatrix);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
@@ -248,79 +254,91 @@ public class AuthorTestSimilarityMatrices {
 				System.out.println("Matrice Score(" + authorSapino.getAuthorID() + "): " );
 				Printer.printMatrix(scoreLatentMatrix);
 				System.out.println("Matrice top 5 PCA (" + authorSapino.getAuthorID() + "): " + topNMatrix);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
 	
 	@Test
-	public void testGetSimilarityPCACandanSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetSimilarityPCACandanSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		
 		if(DEBUG) {
-			Double similCandan = authorCandan.getSimilarityOnPCA(authorSapino, dblp);
+			Double similCandan = authorCandan.getSimilarityOnConceptsMatrix(authorSapino, dblp, "PCA");
 			if(PRINT) {
-				System.out.println("Similarità Candan-Sapino: " + similCandan);
+				System.out.println("Similarità Candan-Sapino (PCA): " + similCandan);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
 	
 	@Test
-	public void testGetSimilarityPCACandanSapinoReflexive() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetSimilarityPCACandanSapinoReflexive() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		if(DEBUG) {
-			Double similCandanSapino = authorCandan.getSimilarityOnPCA(authorSapino, dblp);
-			Double similSapinoCandan = authorSapino.getSimilarityOnPCA(authorCandan, dblp);
+			Double similCandanSapino = authorCandan.getSimilarityOnConceptsMatrix(authorSapino, dblp, "PCA");
+			Double similSapinoCandan = authorSapino.getSimilarityOnConceptsMatrix(authorCandan, dblp, "PCA");
 			assertTrue(similCandanSapino.equals(similSapinoCandan));
+			if(PRINT) {
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
 	@Test
-	public void testGetSimilarityPCAStefaniaLucaReflexive() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetSimilarityPCAStefaniaLucaReflexive() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		if(DEBUG) {
-			Double similStefaniaLuca = authorStefania.getSimilarityOnPCA(authorLuca, dummyCorpus);
-			Double similLucaStefania = authorLuca.getSimilarityOnPCA(authorStefania, dummyCorpus);
+			Double similStefaniaLuca = authorStefania.getSimilarityOnConceptsMatrix(authorLuca, dummyCorpus, "PCA");
+			Double similLucaStefania = authorLuca.getSimilarityOnConceptsMatrix(authorStefania, dummyCorpus, "PCA");
 			assertTrue(similStefaniaLuca.equals(similLucaStefania));
-		}
-	}
-	
-	@Test
-	public void testGetSimilarityPCAStefaniaLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-		
-		if(DEBUG) {
-			Double similStefania = authorStefania.getSimilarityOnPCA(authorLuca, dummyCorpus);
 			if(PRINT) {
-				System.out.println("Similarità Stefania-Luca: " + similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
 	
 	@Test
-	public void testGetSimilarityPCAStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetSimilarityPCAStefaniaLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		
 		if(DEBUG) {
-			Double similStefania = authorStefania.getSimilarityOnPCA(authorStefania, dummyCorpus);
+			Double similStefania = authorStefania.getSimilarityOnConceptsMatrix(authorLuca, dummyCorpus, "PCA");
 			if(PRINT) {
-				System.out.println("Similarità Stefania-Stefania: " + similStefania);
+				System.out.println("Similarità Stefania-Luca (PCA): " + similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
 	
 	@Test
-	public void testGetSimilarityPCACandanCandan() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetSimilarityPCAStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		
 		if(DEBUG) {
-			Double similCandan = authorCandan.getSimilarityOnPCA(authorCandan, dblp);
+			Double similStefania = authorStefania.getSimilarityOnConceptsMatrix(authorStefania, dummyCorpus, "PCA");
 			if(PRINT) {
-				System.out.println("Similarità Candan-Candan: " + similCandan);
+				System.out.println("Similarità Stefania-Stefania (PCA): " + similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
 	
 	@Test
-	public void testGetSimilarityPCASapinoSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetSimilarityPCACandanCandan() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		
 		if(DEBUG) {
-			Double similSapino = authorSapino.getSimilarityOnPCA(authorSapino, dblp);
+			Double similCandan = authorCandan.getSimilarityOnConceptsMatrix(authorCandan, dblp, "PCA");
 			if(PRINT) {
-				System.out.println("Similarità Sapino - Sapino: " + similSapino);
+				System.out.println("Similarità Candan-Candan (PCA): " + similCandan);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSimilarityPCASapinoSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(DEBUG) {
+			Double similSapino = authorSapino.getSimilarityOnConceptsMatrix(authorSapino, dblp, "PCA");
+			if(PRINT) {
+				System.out.println("Similarità Sapino - Sapino (PCA): " + similSapino);
+				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
@@ -338,6 +356,7 @@ public class AuthorTestSimilarityMatrices {
 		if(PRINT) {
 			System.out.println("0.0 == -0.0? " + test1);
 			System.out.println("0.0.toString() == -0.0.toString()? " + test2);
+			System.out.println("----------------------------------------------------------------------\n");
 		}
 	}
 	
