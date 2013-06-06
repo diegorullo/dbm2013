@@ -885,27 +885,35 @@ public class Author {
 			System.out.println("Ciclo " + i);
 			System.out.println("myCurrRow:" + myCurrRow);
 			System.out.println("myLatent:" + myLatent.get(i));
-			for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
+			
+			// Se ALMENO 1 degli autovalori e' 0 NON pesa i vettori e la similarity somma 0
+			if(!(myLatent.get(i)==0.0 || otherLatent.get(i)==0.0))
 			{
-				myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * myLatent.get(i));
+				for(Map.Entry<String, Double> coeff : myCurrRow.entrySet())
+				{
+					myPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * myLatent.get(i));
+				}
+				
+				TreeMap<String,Double> otherCurrRow = otherPCAWithKeywords.get(i);
+				
+				System.out.println("otherCurrRow:" + otherCurrRow);
+				System.out.println("otherLatent:" + otherLatent.get(i));
+				for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
+				{
+					otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * otherLatent.get(i));
+				}
+				System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
+				System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
+				myPCAKeyWeigthed = Normalization.normalizeTreeMap(myPCAKeyWeigthed);
+				otherPCAKeyWeigthed = Normalization.normalizeTreeMap(otherPCAKeyWeigthed);
+				
+				similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
+				System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
+				System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
+				System.out.println("Similarity = " + similarity + "\n");
 			}
 			
-			TreeMap<String,Double> otherCurrRow = otherPCAWithKeywords.get(i);
-			
-			System.out.println("otherCurrRow:" + otherCurrRow);
-			System.out.println("otherLatent:" + otherLatent.get(i));
-			for(Map.Entry<String, Double> coeff : otherCurrRow.entrySet())
-			{
-				otherPCAKeyWeigthed.put(coeff.getKey(),coeff.getValue() * otherLatent.get(i));
-			}
-			System.out.println("myPCAKeyWeigthed:" + myPCAKeyWeigthed);
-			System.out.println("otherPCAKeyWeigthed:" + otherPCAKeyWeigthed);
-			myPCAKeyWeigthed = Normalization.normalizeTreeMap(myPCAKeyWeigthed);
-			otherPCAKeyWeigthed = Normalization.normalizeTreeMap(otherPCAKeyWeigthed);
-			similarity += Similarity.getCosineSimilarity(myPCAKeyWeigthed, otherPCAKeyWeigthed);
-			System.out.println("myPCAKeyWeigthed (dopo):" + myPCAKeyWeigthed);
-			System.out.println("otherPCAKeyWeigthed (dopo):" + otherPCAKeyWeigthed);
-			System.out.println("Similarity = " + similarity + "\n");
+			else similarity +=0.0;
 		}
 		
 		return similarity / myPCAWithKeywords.size();
