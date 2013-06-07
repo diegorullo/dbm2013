@@ -1325,8 +1325,9 @@ public class Author {
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myKeywordVector = this.getWeightedTFIDFVector(corpus);
+		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
 		
-		for(Paper paper : oAuthorsPapers) 
+		for(Paper paper : papersOfOther)
 		{
 			similarity = Similarity.getCosineSimilarity(myKeywordVector, paper.getTFIDFVector(corpus));
 			similarityVector.put(paper.getTitle(), similarity);
@@ -1356,9 +1357,10 @@ public class Author {
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		
-		TreeMap<String, Double> myTFIDF2Vector = this.getTFIDF2Vector(corpus);
+		TreeMap<String, Double> myTFIDF2Vector = this.getTFIDF2Vector(corpus);	
+		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
 		
-		for(Paper paper : oAuthorsPapers) 
+		for(Paper paper : papersOfOther)
 		{
 			similarity = Similarity.getCosineSimilarity(myTFIDF2Vector, paper.getTFIDFVector(corpus));
 			similarityVector.put(paper.getTitle(), similarity);
@@ -1390,7 +1392,9 @@ public class Author {
 		
 		TreeMap<String, Double> myPFVector = this.getPFVector(corpus);
 		
-		for(Paper paper : oAuthorsPapers) 
+		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		
+		for(Paper paper : papersOfOther)
 		{
 			similarity = Similarity.getCosineSimilarity(myPFVector, paper.getTFIDFVector(corpus));
 			similarityVector.put(paper.getTitle(), similarity);
