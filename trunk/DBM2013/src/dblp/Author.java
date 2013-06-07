@@ -76,7 +76,7 @@ public class Author {
 	 */
 	public List<Author> getOtherAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		List<Author> oAuthors = new ArrayList<Author>();
-		List<Integer> oAuthorsIDs = this.getOtherAuthorsIDs();
+		List<Integer> oAuthorsIDs = this.getOtherAuthorsIDs(corpus);
 
 		for (int oA : oAuthorsIDs) {
 			oAuthors.add(corpus.getAuthorByID(oA));
@@ -432,10 +432,10 @@ public class Author {
 	 * @throws NoAuthorsWithSuchIDException 
 	 *
 	 */
-	private List<Integer> calculateOtherAuthors() throws NoAuthorsWithSuchIDException {
+	private List<Integer> calculateOtherAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		
 		List<Integer> oAuthorsIDs = new ArrayList<Integer>();
-		ArrayList<Paper> paperList = this.getPapers();
+		ArrayList<Paper> paperList = corpus.getPapers();
 		
 		for (Paper p : paperList) {
 			for (int oA : p.getAuthors()) {
@@ -1119,22 +1119,22 @@ public class Author {
 	 * @throws MatlabConnectionException 
 	 *
 	 */
-	public double getSimilarityOnSVD(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-		Double similarity = 0.0;
-		
-		ArrayList<ArrayList<Double>> mySVD = this.getSVD(corpus);
-		ArrayList<ArrayList<Double>> otherSVD = otherAuthor.getSVD(corpus);
-		ArrayList<TreeMap<String,Double>> mySVDKey = this.getTopN(mySVD, mySVD.size());
-		ArrayList<TreeMap<String,Double>> otherSVDKey = otherAuthor.getTopN(otherSVD, otherSVD.size());
-
-		//TODO Da rivedere: va pesato con latent
-		for(int i=0;i<mySVD.size();i++)
-		{
-			similarity += Similarity.getCosineSimilarity(mySVDKey.get(i), otherSVDKey.get(i));
-		}
-		
-		return similarity/mySVD.size();
-	}
+//	public double getSimilarityOnSVD(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+//		Double similarity = 0.0;
+//		
+//		ArrayList<ArrayList<Double>> mySVD = this.getSVD(corpus);
+//		ArrayList<ArrayList<Double>> otherSVD = otherAuthor.getSVD(corpus);
+//		ArrayList<TreeMap<String,Double>> mySVDKey = this.getTopN(mySVD, mySVD.size());
+//		ArrayList<TreeMap<String,Double>> otherSVDKey = otherAuthor.getTopN(otherSVD, otherSVD.size());
+//
+//		//TODO Da rivedere: va pesato con latent
+//		for(int i=0;i<mySVD.size();i++)
+//		{
+//			similarity += Similarity.getCosineSimilarity(mySVDKey.get(i), otherSVDKey.get(i));
+//		}
+//		
+//		return similarity/mySVD.size();
+//	}
 	
 	
 	/**
@@ -1335,8 +1335,13 @@ public class Author {
 		
 		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
-		//FIXME da decidere la dimensione della "TOP"
-		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+		int topRank = 10;
+		if(paperOrderedByRelevance.size() < topRank)
+		{
+			topRank = paperOrderedByRelevance.size();
+		}
+		
+		for(int i = 0; i < topRank; i++) {
 			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
 		}
 		
@@ -1368,8 +1373,13 @@ public class Author {
 		
 		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
-		//FIXME da decidere la dimensione della "TOP"
-		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+		int topRank = 10;
+		if(paperOrderedByRelevance.size() < topRank)
+		{
+			topRank = paperOrderedByRelevance.size();
+		}
+		
+		for(int i = 0; i < topRank; i++) {
 			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
 		}
 		
@@ -1402,8 +1412,13 @@ public class Author {
 		
 		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
-		//FIXME da decidere la dimensione della "TOP"
-		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+		int topRank = 10;
+		if(paperOrderedByRelevance.size() < topRank)
+		{
+			topRank = paperOrderedByRelevance.size();
+		}
+		
+		for(int i = 0; i < topRank; i++) {
 			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
 		}
 		
@@ -1441,8 +1456,13 @@ public class Author {
 		
 		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
-		//FIXME da decidere la dimensione della "TOP"
-		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+		int topRank = 10;
+		if(paperOrderedByRelevance.size() < topRank)
+		{
+			topRank = paperOrderedByRelevance.size();
+		}
+		
+		for(int i = 0; i < topRank; i++) {
 			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
 		}
 		
@@ -1480,8 +1500,13 @@ public class Author {
 		
 		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
-		//FIXME da decidere la dimensione della "TOP"
-		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+		int topRank = 10;
+		if(paperOrderedByRelevance.size() < topRank)
+		{
+			topRank = paperOrderedByRelevance.size();
+		}
+		
+		for(int i = 0; i < topRank; i++) {
 			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
 		}
 		
@@ -1582,9 +1607,9 @@ public class Author {
 		return coAuthorsIDs;
 	}
 	
-	public List<Integer> getOtherAuthorsIDs() throws NoAuthorsWithSuchIDException {
+	public List<Integer> getOtherAuthorsIDs(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		if(oAuthorsIDs == null) {
-			oAuthorsIDs = calculateOtherAuthors();
+			oAuthorsIDs = calculateOtherAuthors(corpus);
 		}
 		return oAuthorsIDs;
 	}
