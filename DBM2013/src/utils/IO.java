@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 public class IO {
@@ -167,38 +166,17 @@ public class IO {
 
 	}
 
-	/**
-	 * Legge da file, percorso e nome statici,
-	 * una Table<Integer, Integer, Double>
-	 * 
-	 * @param path		path della sorgente
-	 *
-	 */
-	public static Table<Integer, Integer, Double> readTableFromFile(String path) {
-		Table<Integer, Integer, Double> authorAuthorSimilarityMatrix = HashBasedTable.create();
-//		FIXME: non funziona, bisogna studiare bene come farlo
-		try {
-			FileInputStream file = new FileInputStream(path);
-
-			Scanner sc = new Scanner(file);
-			
-//			String val;
-//			String[] elem;
-//			while (sc.hasNextLine()) {
-//				val = sc.nextLine();
-//				elem = val.split(",");		
-//				for(String v : elem) {
-//					riga.add(Double.valueOf(v));
-//				}
-//				documentTermMatrix.add(riga);
-//			}
-			sc.close();
-			
-		} catch (IOException e) {
-			System.out.println("Errore: " + e);
-			System.exit(1);
-		}
-		
-		return authorAuthorSimilarityMatrix;
-	}
+//	/**
+//	 * Legge da file, percorso e nome statici,
+//	 * una Table<Integer, Integer, Double>
+//	 * 
+//	 * @param path		path della sorgente
+//	 *
+//	 */
+//	public static Table<Integer, Integer, Double> readTableFromFile(String path) {
+//		Table<Integer, Integer, Double> authorAuthorSimilarityMatrix = HashBasedTable.create();
+////		FIXME: non implementato
+//	
+//		return authorAuthorSimilarityMatrix;
+//	}
 }

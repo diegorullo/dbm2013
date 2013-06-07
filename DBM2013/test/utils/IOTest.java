@@ -139,8 +139,7 @@ public class IOTest {
 		authorSapino = dblp.getAuthorByID(1677020);
 		
 		//Autore "K. Selcuk Candan" (esiste anche un "K.S. Candan" che pero' non ha papers)
-		authorCandan = dblp.getAuthorByID(1636579);
-		
+		authorCandan = dblp.getAuthorByID(1636579);		
 	}
 	
 	@Test
