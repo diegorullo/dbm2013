@@ -110,7 +110,7 @@ public class Corpus {
 	
 	/**
 	 * Estrae la matrice di similarita' autore-autore su tutti gli autori del corpus
-	 * @return TreeMap<Integer, TreeMap<Integer, Double>> authorAuthorSimilarityMatrixOnKeywordVector
+	 * @return Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector
 	 */
 	public Table<Integer, Integer, Double> getAuthorAuthorSimilarityMatrixOnKeywordVector() {
 		Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = HashBasedTable.create();
