@@ -11,6 +11,8 @@ import matlabcontrol.MatlabInvocationException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utils.Printer;
+
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoSuchTechniqueException;
@@ -141,13 +143,26 @@ public class AuthorTestPaperRelevance {
 	}
 
 	@Test
-	public void testGetRankedByKeywordVectorLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+	public void testGetOtherAuthorLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
 		
 		if(DEBUG) {
 			
+			System.out.println("Other" + authorLuca.getOtherAuthors(dummyCorpus));
+			
+			System.out.println("CoAuthor" + authorLuca.getCoAuthors(dummyCorpus));
+
+		}
+	}
+	
+	@Test
+	public void testGetRankedByKeywordVectorLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+
 			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByKeywordVector(dummyCorpus);
 			if(PRINT) {
-				System.out.println("Rilevanti per Luca (KV): " + similLuca);
+				System.out.println("Rilevanti per Luca (KV): ");
+				Printer.printLinkedHashMap(similLuca);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -160,7 +175,8 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByTFIDF2Vector(dummyCorpus);
 			if(PRINT) {
-				System.out.println("Rilevanti per Luca (TFIDF2): " + similLuca);
+				System.out.println("Rilevanti per Luca (TFIDF2): ");
+				Printer.printLinkedHashMap(similLuca);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -173,7 +189,8 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByPFVector(dummyCorpus);
 			if(PRINT) {
-				System.out.println("Rilevanti per Luca (PF): " + similLuca);
+				System.out.println("Rilevanti per Luca (PF): ");
+				Printer.printLinkedHashMap(similLuca);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -186,7 +203,8 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByPCA(dummyCorpus);
 			if(PRINT) {
-				System.out.println("Rilevanti per Luca (PCA): " + similLuca);
+				System.out.println("Rilevanti per Luca (PCA): ");
+				Printer.printLinkedHashMap(similLuca);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -199,13 +217,13 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedBySVD(dummyCorpus);
 			if(PRINT) {
-				System.out.println("Rilevanti per Luca (SVD): " + similLuca);
+				System.out.println("Rilevanti per Luca (SVD): ");
+				Printer.printLinkedHashMap(similLuca);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
 	}
 	
-
 	@Test
 	public void testGetRankedByKeywordVectorCandan() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
 		
@@ -213,7 +231,8 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByKeywordVector(dblp);
 			if(PRINT) {
-				System.out.println("Rilevanti per Candan (KV): " + similCandan);
+				System.out.println("Rilevanti per Candan (KV): ");
+				Printer.printLinkedHashMap(similCandan);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -226,7 +245,8 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByTFIDF2Vector(dblp);
 			if(PRINT) {
-				System.out.println("Rilevanti per Candan (TFIDF2): " + similCandan);
+				System.out.println("Rilevanti per Candan (TFIDF2): ");
+				Printer.printLinkedHashMap(similCandan);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -239,7 +259,8 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByPFVector(dblp);
 			if(PRINT) {
-				System.out.println("Rilevanti per Candan (PF): " + similCandan);
+				System.out.println("Rilevanti per Candan (PF): ");
+				Printer.printLinkedHashMap(similCandan);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -252,7 +273,8 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByPCA(dblp);
 			if(PRINT) {
-				System.out.println("Rilevanti per Candan (PCA): " + similCandan);
+				System.out.println("Rilevanti per Candan (PCA): ");
+				Printer.printLinkedHashMap(similCandan);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}
@@ -266,6 +288,77 @@ public class AuthorTestPaperRelevance {
 			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedBySVD(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Candan (SVD): " + similCandan);
+				Printer.printLinkedHashMap(similCandan);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedByKeywordVectorSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByKeywordVector(dblp);
+			if(PRINT) {
+				System.out.println("Rilevanti per Sapino (KV): ");
+				Printer.printLinkedHashMap(similSapino);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedByTFIDF2Sapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByTFIDF2Vector(dblp);
+			if(PRINT) {
+				System.out.println("Rilevanti per Sapino (TFIDF2): ");
+				Printer.printLinkedHashMap(similSapino);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedByPFSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByPFVector(dblp);
+			if(PRINT) {
+				System.out.println("Rilevanti per Sapino (PF): ");
+				Printer.printLinkedHashMap(similSapino);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedByPCASapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByPCA(dblp);
+			if(PRINT) {
+				System.out.println("Rilevanti per Sapino (PCA): ");
+				Printer.printLinkedHashMap(similSapino);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedBySVDSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedBySVD(dblp);
+			if(PRINT) {
+				System.out.println("Rilevanti per Sapino (SVD): ");
+				Printer.printLinkedHashMap(similSapino);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
 		}

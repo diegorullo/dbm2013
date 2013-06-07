@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -98,6 +99,15 @@ public class Printer {
 		}
 
 		return;
+	}
+	
+	public static void printLinkedHashMap(LinkedHashMap<String,Double> rank) {
+		for (Entry<String, Double> entry : rank.entrySet()) {
+
+			System.out.println("<" + entry.getKey() + ", "
+					+ entry.getValue() + ">");
+		}
+		
 	}
 
 //	public static void main(String args[]) throws IOException {
