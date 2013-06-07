@@ -6,6 +6,9 @@ import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
 import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoAuthorsWithSuchNameException;
 import exceptions.NoPaperWithSuchIDException;
@@ -103,6 +106,26 @@ public class Corpus {
 			idf = Math.log((double)N/m);
 		}
 		return idf;
+	}
+	
+	/**
+	 * Estrae la matrice di similarita' autore-autore su tutti gli autori del corpus
+	 * @return TreeMap<Integer, TreeMap<Integer, Double>> authorAuthorSimilarityMatrixOnKeywordVector
+	 */
+	public Table<Integer, Integer, Double> getAuthorAuthorSimilarityMatrixOnKeywordVector() {
+		Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = HashBasedTable.create();
+		
+		ArrayList<Author> authors1 = this.getAuthors();
+		ArrayList<Author> authors2 = this.getAuthors();
+		int a1ID, a2ID;
+		for(Author a1 : authors1) {
+			a1ID = a1.getAuthorID();
+			for(Author a2 : authors2) {
+				a2ID = a2.getAuthorID();
+				authorAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, a1.getSimilarityOnKeywordVector(a2, this));
+			}
+		}
+		return authorAuthorSimilarityMatrixOnKeywordVector;		
 	}
 		
 	public ArrayList<Author> getAuthors() {
