@@ -432,7 +432,7 @@ public class Author {
 	 * @throws NoAuthorsWithSuchIDException 
 	 *
 	 */
-	private List<Integer> calculateOtherAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
+	private List<Integer> calculateOtherAuthors() throws NoAuthorsWithSuchIDException {
 		
 		List<Integer> oAuthorsIDs = new ArrayList<Integer>();
 		ArrayList<Paper> paperList = this.getPapers();
@@ -1311,6 +1311,179 @@ public class Author {
 		return top10;
 	}
 	
+	/**
+	 * Restituisce in ordine di rilevanza gli articoli piu’rilevanti (di cui lui non e’ autore), basandosi 
+	 * sulla similarita’ tra i seguenti vettori relativi all’autore dato basandosi sul keyword vector.
+	 * @param corpus
+	 * @return La classifica degli articoli piu’rilevanti
+	 *
+	 */
+	public LinkedHashMap<String,Double> getRelevantPaperRankedByKeywordVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		
+		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		
+		TreeMap<String, Double> myKeywordVector = this.getWeightedTFIDFVector(corpus);
+		
+		for(Paper paper : oAuthorsPapers) 
+		{
+			similarity = Similarity.getCosineSimilarity(myKeywordVector, paper.getTFIDFVector(corpus));
+			similarityVector.put(paper.getTitle(), similarity);
+		}
+		
+		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+
+		//FIXME da decidere la dimensione della "TOP"
+		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+		}
+		
+		return topRelevantPaper;
+	}
+	
+	/**
+	 * Restituisce in ordine di rilevanza gli articoli piu’rilevanti (di cui lui non e’ autore), basandosi 
+	 * sulla similarita’ tra i seguenti vettori relativi all’autore dato basandosi sul TFIDF2.
+	 * @param corpus
+	 * @return La classifica degli articoli piu’rilevanti
+	 * @throws AuthorWithoutPapersException 
+	 *
+	 */
+	public LinkedHashMap<String,Double> getRelevantPaperRankedByTFIDF2Vector(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+		
+		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		
+		TreeMap<String, Double> myTFIDF2Vector = this.getTFIDF2Vector(corpus);
+		
+		for(Paper paper : oAuthorsPapers) 
+		{
+			similarity = Similarity.getCosineSimilarity(myTFIDF2Vector, paper.getTFIDFVector(corpus));
+			similarityVector.put(paper.getTitle(), similarity);
+		}
+		
+		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+
+		//FIXME da decidere la dimensione della "TOP"
+		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+		}
+		
+		return topRelevantPaper;
+	}
+	
+	/**
+	 * Restituisce in ordine di rilevanza gli articoli piu’rilevanti (di cui lui non e’ autore), basandosi 
+	 * sulla similarita’ tra i seguenti vettori relativi all’autore dato basandosi sul PF.
+	 * @param corpus
+	 * @return La classifica degli articoli piu’rilevanti
+	 * @throws AuthorWithoutPapersException 
+	 *
+	 */
+	public LinkedHashMap<String,Double> getRelevantPaperRankedByPFVector(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+		
+		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		
+		TreeMap<String, Double> myPFVector = this.getPFVector(corpus);
+		
+		for(Paper paper : oAuthorsPapers) 
+		{
+			similarity = Similarity.getCosineSimilarity(myPFVector, paper.getTFIDFVector(corpus));
+			similarityVector.put(paper.getTitle(), similarity);
+		}
+		
+		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+
+		//FIXME da decidere la dimensione della "TOP"
+		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+		}
+		
+		return topRelevantPaper;
+	}
+	
+	/**
+	 * Restituisce in ordine di rilevanza gli articoli piu’rilevanti (di cui lui non e’ autore), basandosi 
+	 * sulla similarita’ tra i seguenti vettori relativi all’autore dato basandosi sulla PCA.
+	 * @param corpus
+	 * @return La classifica degli articoli piu’rilevanti
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 *
+	 */
+	public LinkedHashMap<String,Double> getRelevantPaperRankedByPCA(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException, MatlabConnectionException, MatlabInvocationException {
+		
+		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		
+		ArrayList<ArrayList<Double>> myPCAMatrix = this.getPCA(corpus);
+		ArrayList<TreeMap<String, Double>> myPCAMatrixwithKey = this.getTopN(myPCAMatrix, myPCAMatrix.size());
+		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		
+		for(Paper paper : papersOfOther)
+		{
+			for(int i=0; i<myPCAMatrixwithKey.size();i++)
+			{			
+				similarity += Similarity.getCosineSimilarity(myPCAMatrixwithKey.get(i), paper.getTFIDFVector(corpus));
+			}
+			similarityVector.put(paper.getTitle(), similarity);
+		}
+		
+		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+
+		//FIXME da decidere la dimensione della "TOP"
+		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+		}
+		
+		return topRelevantPaper;
+	}
+	
+	/**
+	 * Restituisce in ordine di rilevanza gli articoli piu’rilevanti (di cui lui non e’ autore), basandosi 
+	 * sulla similarita’ tra i seguenti vettori relativi all’autore dato basandosi sulla PCA.
+	 * @param corpus
+	 * @return La classifica degli articoli piu’rilevanti
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 *
+	 */
+	public LinkedHashMap<String,Double> getRelevantPaperRankedBySVD(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException, MatlabConnectionException, MatlabInvocationException {
+		
+		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
+		Double similarity = 0.0;
+		
+		ArrayList<ArrayList<Double>> mySVDMatrix = this.getPCA(corpus);
+		ArrayList<TreeMap<String, Double>> mySVDMatrixwithKey = this.getTopN(mySVDMatrix, mySVDMatrix.size());
+		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		
+		for(Paper paper : papersOfOther) 
+		{
+			for(int i=0; i<mySVDMatrixwithKey.size();i++)
+			{			
+				similarity += Similarity.getCosineSimilarity(mySVDMatrixwithKey.get(i), paper.getTFIDFVector(corpus));
+			}
+			similarityVector.put(paper.getTitle(), similarity);
+		}
+		
+		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+
+		//FIXME da decidere la dimensione della "TOP"
+		for(int i = 0; i < paperOrderedByRelevance.size(); i++) {
+			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+		}
+		
+		return topRelevantPaper;
+	}
+	
 	public int getAuthorID() {
 		return authorID;
 	}
@@ -1405,9 +1578,9 @@ public class Author {
 		return coAuthorsIDs;
 	}
 	
-	public List<Integer> getOtherAuthorsIDs() {
+	public List<Integer> getOtherAuthorsIDs() throws NoAuthorsWithSuchIDException {
 		if(oAuthorsIDs == null) {
-			oAuthorsIDs = calculateCoAuthorsIDs();
+			oAuthorsIDs = calculateOtherAuthors();
 		}
 		return oAuthorsIDs;
 	}
