@@ -20,10 +20,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            AnchorPane page = (AnchorPane) FXMLLoader.load(Main.class.getResource("IssueTrackingLite.fxml"));
+            AnchorPane page = (AnchorPane) FXMLLoader.load(Main.class.getResource("dbm2013gui.fxml"));
             Scene scene = new Scene(page);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Issue Tracking Lite Sample");
+            primaryStage.setTitle("Progetto DBM 2013");
             primaryStage.show();
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
