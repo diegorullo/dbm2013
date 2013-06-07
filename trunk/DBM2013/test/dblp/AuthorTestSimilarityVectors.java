@@ -258,8 +258,7 @@ public class AuthorTestSimilarityVectors {
 					System.out.println("S(" + a2ID + "," + a1ID + ")=" + s21);
 				}
 				assertEquals(s12, s21, 0);
-			}
-			
+			}			
 		}
 	}
 	
