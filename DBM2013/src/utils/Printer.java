@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.google.common.collect.Table;
+
 import dblp.Author;
 import exceptions.AuthorWithoutPapersException;
 
@@ -113,4 +115,36 @@ public class Printer {
 //
 //		printVector(testTreeMap, 1);
 //	}
+	
+	
+	public static void printSimilarityTable(Table<Integer, Integer, Double> table) {
+		for (int i : table.rowKeySet()) {
+			for (int j : table.columnKeySet()) {
+				System.out.printf("\t%.7f", table.get(i, j));
+			}
+			System.out.println();
+		}
+	}
+	
+	public static void printAuthorAuthorSimilarityTableWithCaptions(Table<Integer, Integer, Double> table) {
+		int howManyColumns = table.columnKeySet().size();
+		System.out.printf("Autori |  ");
+		for (int i : table.rowKeySet()) {
+			System.out.printf("\t%d\t", i);
+		}
+		System.out.println();
+		//Riga orizzontale
+		for(int k = 0; k < 16 * (howManyColumns + 3); k++) {
+			System.out.printf("-");
+		}
+		System.out.println();
+		for (int i : table.rowKeySet()) {
+			System.out.printf("%d|", i);
+			for (int j : table.columnKeySet()) {
+				System.out.printf("\t%.7f", table.get(i, j));
+			}
+			System.out.println();
+		}
+	}
+	
 }
