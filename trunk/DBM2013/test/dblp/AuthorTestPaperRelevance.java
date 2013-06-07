@@ -143,18 +143,6 @@ public class AuthorTestPaperRelevance {
 	}
 
 	@Test
-	public void testGetOtherAuthorLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
-		
-		if(DEBUG) {
-			
-			System.out.println("Other" + authorLuca.getOtherAuthors(dummyCorpus));
-			
-			System.out.println("CoAuthor" + authorLuca.getCoAuthors(dummyCorpus));
-
-		}
-	}
-	
-	@Test
 	public void testGetRankedByKeywordVectorLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
 		
 		if(DEBUG) {
@@ -287,7 +275,7 @@ public class AuthorTestPaperRelevance {
 			
 			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedBySVD(dblp);
 			if(PRINT) {
-				System.out.println("Rilevanti per Candan (SVD): " + similCandan);
+				System.out.println("Rilevanti per Candan (SVD): ");
 				Printer.printLinkedHashMap(similCandan);
 				System.out.println("----------------------------------------------------------------------\n");
 			}
