@@ -10,6 +10,8 @@ import matlabcontrol.MatlabInvocationException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utils.Printer;
+
 import com.google.common.collect.Table;
 
 import exceptions.NoAuthorsWithSuchIDException;
@@ -146,7 +148,12 @@ public class CorpusTestSimilarityMatrices {
 			Table<Integer, Integer, Double> similarityMatrix = dblp.getAuthorAuthorSimilarityMatrixOnKeywordVector();
 			
 			if(PRINT) {
-				System.out.println(similarityMatrix);
+				System.out.println("Matrice di similarità autore-autore");
+				//Versione "solo dati"
+				//Printer.printSimilarityTable(similarityMatrix);
+				
+				//Versione con intestazioni a righe e colonne
+				Printer.printAuthorAuthorSimilarityTableWithCaptions(similarityMatrix);
 			}
 		}
 	}
