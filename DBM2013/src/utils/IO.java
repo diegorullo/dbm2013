@@ -139,23 +139,47 @@ public class IO {
 	
 	/**
 	 * Stampa su file, percorso e nome statici,
-	 * della matrice AuthorAuthorSimilarity
+	 * una Table<Integer, Integer, Double>
 	 * 
-	 * @param documentTermMatrix    matrice
+	 * @param Table<Integer, Integer, Double> table
 	 * @param path		path della destinazione
 	 *
 	 */
-	public static void printAuthorAuthorSimilarityMatrixOnFile(Table<Integer, Integer, Double> authorAuthorSimilarityMatrix, String path) {
+	public static void printTableOnFile(Table<Integer, Integer, Double> table, String path) {
 		//TODO: not implemented!
+		try {
+			FileOutputStream file = new FileOutputStream(path);
+			PrintStream Output = new PrintStream(file);
+			
+			int columnsSize = table.columnKeySet().size();
+			
+			for (int i : table.rowKeySet()) {
+				int k = 0;
+				for (int j : table.columnKeySet()) {
+					Output.print(table.get(i, j));
+					if (k < columnsSize) {
+						Output.print(",");
+					}
+					k++;
+				}
+				Output.print("\n");
+			}
+			Output.close();
+		} catch (IOException e) {
+			System.out.println("Errore: " + e);
+			System.exit(1);
+		}
+
 	}
 
 	/**
 	 * Legge da file, percorso e nome statici,
-	 * la matrice AuthorAuthorSimilarity
+	 * una Table<Integer, Integer, Double>
+	 * 
 	 * @param path		path della sorgente
 	 *
 	 */
-	public static Table<Integer, Integer, Double> readAuthorAuthorSimilarityMatrixFromFile(String path) {
+	public static Table<Integer, Integer, Double> readTableFromFile(String path) {
 		Table<Integer, Integer, Double> authorAuthorSimilarityMatrix = HashBasedTable.create();
 		//TODO: not implemented!
 		return authorAuthorSimilarityMatrix;
