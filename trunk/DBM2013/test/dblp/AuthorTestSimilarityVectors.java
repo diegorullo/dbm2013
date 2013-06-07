@@ -406,7 +406,7 @@ public class AuthorTestSimilarityVectors {
 	}
 	
 	@Test
-	public void testGetSimilarAuthorsRankedByTFIDF2VectorSapino() throws NoAuthorsWithSuchIDException {
+	public void testGetSimilarAuthorsRankedByTFIDF2VectorSapino() throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(ONE_VS_ALL) {
 			
 			HashMap<String,Double> top10 = authorSapino.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
@@ -418,7 +418,7 @@ public class AuthorTestSimilarityVectors {
 	}
 	
 	@Test
-	public void testGetSimilarAuthorsRankedByTFIDF2VectorCandan() throws NoAuthorsWithSuchIDException {
+	public void testGetSimilarAuthorsRankedByTFIDF2VectorCandan() throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		if(ONE_VS_ALL) {
 			
 			HashMap<String,Double> top10 = authorCandan.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
