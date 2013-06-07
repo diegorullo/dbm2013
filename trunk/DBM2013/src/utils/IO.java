@@ -62,14 +62,12 @@ public class IO {
 			Scanner sc = new Scanner(file);
 			
 			String val;
-			String[] elem ;
-			while (sc.hasNextLine()) 
-			{
+			String[] elem;
+			while (sc.hasNextLine()) {
 				val = sc.nextLine();
 				elem = val.split(",");
 				ArrayList<Double> riga = new ArrayList<Double>();
-				for(String v : elem)
-				{
+				for(String v : elem) {
 					riga.add(Double.valueOf(v));
 				}
 				documentTermMatrix.add(riga);
@@ -113,15 +111,13 @@ public class IO {
 			Scanner sc = new Scanner(file);
 			
 			String val;
-			String[] elem ;
-			int n=0;
-			while (sc.hasNextLine() && n < topN) 
-			{
+			String[] elem;
+			int n = 0;
+			while (sc.hasNextLine() && n < topN) {
 				val = sc.nextLine();
 				elem = val.split(",");
 				ArrayList<Double> riga = new ArrayList<Double>();
-				for(String v : elem)
-				{
+				for(String v : elem) {
 					riga.add(Double.valueOf(v));
 				}
 				documentTermMatrix.add(riga);
@@ -146,7 +142,6 @@ public class IO {
 	 *
 	 */
 	public static void printTableOnFile(Table<Integer, Integer, Double> table, String path) {
-		//TODO: not implemented!
 		try {
 			FileOutputStream file = new FileOutputStream(path);
 			PrintStream Output = new PrintStream(file);
@@ -181,7 +176,29 @@ public class IO {
 	 */
 	public static Table<Integer, Integer, Double> readTableFromFile(String path) {
 		Table<Integer, Integer, Double> authorAuthorSimilarityMatrix = HashBasedTable.create();
-		//TODO: not implemented!
+//		FIXME: non funziona, bisogna studiare bene come farlo
+		try {
+			FileInputStream file = new FileInputStream(path);
+
+			Scanner sc = new Scanner(file);
+			
+//			String val;
+//			String[] elem;
+//			while (sc.hasNextLine()) {
+//				val = sc.nextLine();
+//				elem = val.split(",");		
+//				for(String v : elem) {
+//					riga.add(Double.valueOf(v));
+//				}
+//				documentTermMatrix.add(riga);
+//			}
+			sc.close();
+			
+		} catch (IOException e) {
+			System.out.println("Errore: " + e);
+			System.exit(1);
+		}
+		
 		return authorAuthorSimilarityMatrix;
 	}
 }
