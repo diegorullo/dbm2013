@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <SplitPane dividerPositions="0.44862155388471175" focusTraversable="true" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <TabPane prefHeight="398.0" prefWidth="257.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <tabs>
+                <Tab id="" fx:id="fase1Tab" closable="false" text="Fase 1">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <ScrollPane prefHeight="460.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="340.0">
+                              <children>
+                                <Label layoutX="14.0" layoutY="14.0" text="Task 1:">
+                                  <font>
+                                    <Font name="System Bold" size="12.0" />
+                                  </font>
+                                </Label>
+                                <ComboBox fx:id="task1paperIDComboBox" layoutX="65.0" layoutY="43.0" promptText="paperid">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="Item 1" />
+                                      <String fx:value="Item 2" />
+                                      <String fx:value="Item 3" />
+                                    </FXCollections>
+                                  </items>
+                                </ComboBox>
+                                <Label layoutX="14.0" layoutY="46.0" text="paperID:" />
+                                <Label layoutX="172.0" layoutY="46.0" text="model:" />
+                                <ComboBox id="task1Comba" fx:id="task1ModelComboBox" layoutX="219.0" layoutY="43.0" promptText="model">
+                                  <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                      <String fx:value="Item 1" />
+                                      <String fx:value="Item 2" />
+                                      <String fx:value="Item 3" />
+                                    </FXCollections>
+                                  </items>
+                                </ComboBox>
+                                <Button layoutX="115.0" layoutY="84.0" mnemonicParsing="false" text="Esegui Task 1" />
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </ScrollPane>
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="fase2Tab" closable="false" text="Fase 2">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <ScrollPane prefHeight="460.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                          </content>
+                        </ScrollPane>
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="fase3Tab" closable="false" text="Fase 3">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <ScrollPane prefHeight="460.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                          </content>
+                        </ScrollPane>
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <TextArea fx:id="resultsTextArea" prefHeight="491.0" prefWidth="369.0" promptText="I risultati verranno visualizzati qui..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </children>
+</AnchorPane>
