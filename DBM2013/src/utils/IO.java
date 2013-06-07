@@ -9,11 +9,14 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
 public class IO {
 
 	/**
-	 * Stampa su file, percorso e nome statici, della matrice
-	 * DocumentTermMatrix
+	 * Stampa su file, percorso e nome statici,
+	 * della matrice DocumentTermMatrix
 	 * 
 	 * @param documentTermMatrix    matrice
 	 * @param path		path della destinazione
@@ -44,7 +47,9 @@ public class IO {
 	}
 
 	/**
-	 * Legge da file, percorso e nome statici, la matrice DocumentTermMatrix
+	 * Legge da file, percorso e nome statici,
+	 * la matrice DocumentTermMatrix
+	 * 
 	 * @param path		path della sorgente
 	 *
 	 */
@@ -92,14 +97,14 @@ public class IO {
 	}
 	
 	/**
-	 * Legge da file, percorso e nome statici, la matrice
-	 * DocumentTermMatrix
+	 * Legge da file, percorso e nome statici,
+	 * la matrice DocumentTermMatrix
 	 * 
 	 * @param path		path della sorgente
-	 * @param nTop	numero di righe della matrice da leggere
+	 * @param topN	numero di righe della matrice da leggere
 	 *
 	 */
-	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path,int nTop) {
+	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path,int topN) {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
 		
 		try {
@@ -110,7 +115,7 @@ public class IO {
 			String val;
 			String[] elem ;
 			int n=0;
-			while (sc.hasNextLine() && n < nTop) 
+			while (sc.hasNextLine() && n < topN) 
 			{
 				val = sc.nextLine();
 				elem = val.split(",");
@@ -130,6 +135,29 @@ public class IO {
 		}
 
 		return documentTermMatrix;
+	}
+	
+	/**
+	 * Stampa su file, percorso e nome statici,
+	 * della matrice AuthorAuthorSimilarity
+	 * 
+	 * @param documentTermMatrix    matrice
+	 * @param path		path della destinazione
+	 *
+	 */
+	public static void printAuthorAuthorSimilarityMatrixOnFile(Table<Integer, Integer, Double> authorAuthorSimilarityMatrix, String path) {
+		//TODO: not implemented!
+	}
 
+	/**
+	 * Legge da file, percorso e nome statici,
+	 * la matrice AuthorAuthorSimilarity
+	 * @param path		path della sorgente
+	 *
+	 */
+	public static Table<Integer, Integer, Double> readAuthorAuthorSimilarityMatrixFromFile(String path) {
+		Table<Integer, Integer, Double> authorAuthorSimilarityMatrix = HashBasedTable.create();
+		//TODO: not implemented!
+		return authorAuthorSimilarityMatrix;
 	}
 }
