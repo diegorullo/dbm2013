@@ -29,6 +29,7 @@ public class Author {
 	private ArrayList<String> keywordSet;
 	
 	private List<Integer> coAuthorsIDs;
+	private List<Integer> oAuthorsIDs;
 	
 	private TreeMap<String, Double> weightedTFVector;
 	private TreeMap<String, Double> weightedTFIDFVector;
@@ -36,6 +37,7 @@ public class Author {
 	private TreeMap<String, Double> tFIDF2Vector;
 	private TreeMap<String, Double> pFVector;
 	private List<Paper> coAuthorsPapers;
+	private List<Paper> oAuthorsPapers;
 	private List<Paper> coAuthorsAndSelfPapers;
 	
 	public Author(int personID, String name, ArrayList<Paper> papers) {
@@ -48,7 +50,7 @@ public class Author {
 	/**
 	 * Estrae i coautori di un autore dato.
 	 * 
-	 * @param a
+	 * @param corpus il corpus di riferimento
 	 * @return lista di Author: coautori di un autore dato
 	 * @throws NoAuthorsWithSuchIDException 
 	 *
@@ -63,11 +65,30 @@ public class Author {
 
 		return coAuthors;
 	}
+	
+	/**
+	 * Estrae gli autori diversi da un autore dato.
+	 * 
+	 * @param corpus il corpus di riferimento
+	 * @return lista di Author: autori diversi da un autore dato
+	 * @throws NoAuthorsWithSuchIDException 
+	 *
+	 */
+	public List<Author> getOtherAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		List<Author> oAuthors = new ArrayList<Author>();
+		List<Integer> oAuthorsIDs = this.getOtherAuthorsIDs();
+
+		for (int oA : oAuthorsIDs) {
+			oAuthors.add(corpus.getAuthorByID(oA));
+		}
+
+		return oAuthors;
+	}
 
 	/**
 	 * Estrae i coautori di un autore dato, insieme all'autore stesso.
 	 * 
-	 * @param a
+	 * @param corpus il corpus di riferimento
 	 * @return lista di Author: coautori di un autore dato + autore stesso
 	 * @throws NoAuthorsWithSuchIDException 
 	 *
@@ -119,10 +140,11 @@ public class Author {
 
 	/**
 	 * Considera tutti gli articoli scritti da un certo autore per creare un
-	 * combined keyword vector dei tfidf per quellautore. Nei combined
+	 * combined keyword vector dei tfidf per quell' autore. Nei combined
 	 * keyword vector, gli articoli piu recenti devono pesare di piu di
 	 * quelli piu vecchi.
 	 * 
+	 * @param corpus il corpus di riferimento
 	 * @return treemap dei tfidf di un autore, pesando gli articoli per eta'
 	 *
 	 */
@@ -159,7 +181,7 @@ public class Author {
 	 * Estrae l'insieme delle keyword presenti in tutti gli articoli
 	 * dell'autore, con il rispettivo numero di occorrenze.
 	 * 
-	 * @return hashmap delle keyword in tutti gli articoli dell'autore, con
+	 * @return treemap delle keyword in tutti gli articoli dell'autore, con
 	 *         occorrenze
 	 * @throws AuthorWithoutPapersException 
 	 */
@@ -261,8 +283,7 @@ public class Author {
 	 * ovvero il corpus formato dai paper di un autore e dei suoi coautori.
 	 * 
 	 * @param keyword
-	 * @param author
-	 * @param authors
+	 * @param corpus il corpus di riferimento
 	 * @return IDF calcolato in base al corpus ristretto
 	 * @throws NoAuthorsWithSuchIDException 
 	 *
@@ -306,7 +327,7 @@ public class Author {
 	 * suoi coautori)
 	 * 
 	 * @param keyword
-	 * @param author
+	 * @param corpus il corpus di riferimento
 	 * @return double tfidf2
 	 * @throws AuthorWithoutPapersException 
 	 * @throws NoAuthorsWithSuchIDException 
@@ -329,7 +350,7 @@ public class Author {
 	 * e per il calcolo dell'idf considera l'insieme degli articoli scritti
 	 * dall'autore e dai suoi coautori.
 	 * 
-	 * @param c
+	 * @param corpus il corpus di riferimento
 	 * @return keywordVector pesato in base al modello TFIDF2
 	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws AuthorWithoutPapersException 
@@ -359,7 +380,7 @@ public class Author {
 	/**
 	 * Estrae gli articoli dei coautori di un autore dato.
 	 * 
-	 * @param a
+	 * @param corpus il corpus di riferimento
 	 * @return lista di Paper: elenco dei paper dei coautori di un autore dato
 	 * @throws NoAuthorsWithSuchIDException 
 	 *
@@ -402,7 +423,55 @@ public class Author {
 
 		return coAuthorsAndSelfPapers;
 	}
+	
+	/**
+	 * Estrae gli autori diversi dall' autore dato.
+	 * 
+	 * @param corpus il corpus di riferimento
+	 * @return lista di AuthorID: elenco dei paper degli autori diversi da un autore dato
+	 * @throws NoAuthorsWithSuchIDException 
+	 *
+	 */
+	private List<Integer> calculateOtherAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		
+		List<Integer> oAuthorsIDs = new ArrayList<Integer>();
+		ArrayList<Paper> paperList = this.getPapers();
+		
+		for (Paper p : paperList) {
+			for (int oA : p.getAuthors()) {
+				if (!oAuthorsIDs.contains(oA) && this.getAuthorID() != (oA)) {
+					oAuthorsIDs.add(oA);
+				}
+			}
+		}
 
+		return oAuthorsIDs;
+	}
+		
+	/**
+	 * Estrae i paper degli autori diversi dall' autore dato.
+	 * 
+	 * @param corpus il corpus di riferimento
+	 * @return lista di Paper: elenco dei paper degli autori diversi da un autore dato
+	 * @throws NoAuthorsWithSuchIDException 
+	 *
+	 */
+	private List<Paper> calculateOtherAuthorsPapers(Corpus corpus) throws NoAuthorsWithSuchIDException {	
+		
+		List<Author> oAuthors = this.getOtherAuthors(corpus);
+		List<Paper> oAuthorsPapers = new ArrayList<Paper>();
+
+		for (Author oA : oAuthors) {
+			List<Paper> authorsPapers = oA.getPapers();
+			for (Paper p : authorsPapers) {
+				if (!oAuthorsPapers.contains(p)) {
+					oAuthorsPapers.add(p);
+				}
+			}
+		}
+
+		return oAuthorsPapers;
+	}
 	/**
 	 * Restituisce l'insieme delle keyword relativo a tutti i paper dell'autore,
 	 * ordinato lessicograficamente.
@@ -432,8 +501,8 @@ public class Author {
 	 * Calcola il numero di articoli dei soli coautori dell'autore a_i che non
 	 * contengono la chiave k_j.
 	 * 
-	 * @param a_i
-	 * @param k_j
+	 * @param k_i
+	 * @param corpus il corpus di riferimento
 	 * @return numero di articoli dei soli coautori dell'autore a_i che non
 	 *         contengono la chiave k_j
 	 * @throws NoAuthorsWithSuchIDException 
@@ -456,8 +525,8 @@ public class Author {
 	 * Calcola il numero di articoli dell'autore a_i e dei suoi coautori che non
 	 * contengono la chiave k_j.
 	 * 
-	 * @param a_i
-	 * @param k_j
+	 * @param k_i
+	 * @param corpus il corpus di riferimento
 	 * @return numero intero: gli articoli dell'autore a_i e dei suoi coautori
 	 *         che non contengono la chiave k_j
 	 * @throws NoAuthorsWithSuchIDException 
@@ -479,8 +548,8 @@ public class Author {
 	/**
 	 * Calcola il peso u_ij della keyword k_j per l'autore a_i.
 	 * 
-	 * @param a_i
-	 * @param k_j
+	 * @param k_i
+	 * @param corpus il corpus di riferimento
 	 * @return peso u_ij della keyword k_j per l'autore a_i
 	 * @throws NoAuthorsWithSuchIDException 
 	 *
@@ -523,7 +592,7 @@ public class Author {
 	 * l'insieme degli articoli scritti dall'autore e dai suoi coautori.
 	 * Utilizza il meccanismo di feedback probabilistico (PF).
 	 * 
-	 * @param c
+	 * @param corpus il corpus di riferimento
 	 * @return keywordVector pesato in base al modello PF
 	 * @throws NoAuthorsWithSuchIDException 
 	 */
@@ -704,11 +773,6 @@ public class Author {
 		me.eval("pca_IR", fileName);
 
 		ArrayList<ArrayList<Double>> pcaScore = IO.readTopNDocumentTermMatrixFromFile("../data/PCA_" + fileName,topN);
-		
-		if(topN > pcaScore.size())
-		{
-			topN = pcaScore.size();
-		}
 
 		return pcaScore;
 	}
@@ -1121,9 +1185,10 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
+	 * @throws NoSuchTechniqueException 
 	 *
 	 */
-	public LinkedHashMap<String,Double> getSimilarAuthorsRankedBySVD(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedBySVD(Corpus corpus) throws NoAuthorsWithSuchIDException, MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
 		
 		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
 		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
@@ -1132,7 +1197,7 @@ public class Author {
 		
 		for(Author author : authors) {
 			if(!author.equals(this)) {
-				similarity = this.getSimilarityOnSVD(author, corpus);
+				similarity = this.getSimilarityOnConceptsMatrix(author, corpus, "SVD");
 				similarityVector.put(author.getName(), similarity);
 			}
 		}
@@ -1220,9 +1285,10 @@ public class Author {
 	 * @param corpus
 	 * @return La classifica dei 10 autori piu' simili
 	 * @throws NoAuthorsWithSuchIDException 
+	 * @throws AuthorWithoutPapersException 
 	 *
 	 */
-	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByTFIDF2Vector(Corpus corpus) throws NoAuthorsWithSuchIDException {
+	public LinkedHashMap<String,Double> getSimilarAuthorsRankedByTFIDF2Vector(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		
 		LinkedHashMap<String,Double> top10 = new LinkedHashMap<String,Double>();
 		TreeMap<String,Double> similarityVector = new TreeMap<String,Double>();
@@ -1231,7 +1297,7 @@ public class Author {
 		
 		for(Author author : authors) {
 			if(!author.equals(this)) {
-				similarity = this.getSimilarityOnPFVector(author, corpus);
+				similarity = this.getSimilarityOnTFIDF2Vector(author, corpus);
 				similarityVector.put(author.getName(), similarity);
 			}
 		}
@@ -1318,6 +1384,13 @@ public class Author {
 		return coAuthorsPapers;
 	}
 	
+	public List<Paper> getOtherAuthorsPapers(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		if (oAuthorsPapers == null) {
+			oAuthorsPapers = calculateOtherAuthorsPapers(corpus);
+		}
+		return oAuthorsPapers;
+	}
+	
 	public List<Paper> getCoAuthorsAndSelfPapers(Corpus corpus) throws NoAuthorsWithSuchIDException	{
 		if (coAuthorsAndSelfPapers == null) {
 			coAuthorsAndSelfPapers = calculateCoAuthorsAndSelfPapers(corpus);
@@ -1330,6 +1403,13 @@ public class Author {
 			coAuthorsIDs = calculateCoAuthorsIDs();
 		}
 		return coAuthorsIDs;
+	}
+	
+	public List<Integer> getOtherAuthorsIDs() {
+		if(oAuthorsIDs == null) {
+			oAuthorsIDs = calculateCoAuthorsIDs();
+		}
+		return oAuthorsIDs;
 	}
 
 	/*
