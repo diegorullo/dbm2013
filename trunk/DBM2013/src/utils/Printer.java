@@ -127,14 +127,14 @@ public class Printer {
 	}
 	
 	public static void printAuthorAuthorSimilarityTableWithCaptions(Table<Integer, Integer, Double> table) {
-		int howManyColumns = table.columnKeySet().size();
+		int columnsSize = table.columnKeySet().size();
 		System.out.printf("Autori |  ");
 		for (int i : table.rowKeySet()) {
 			System.out.printf("\t%d\t", i);
 		}
 		System.out.println();
 		//Riga orizzontale
-		for(int k = 0; k < 16 * (howManyColumns + 3); k++) {
+		for(int k = 0; k < 16 * (columnsSize + 3); k++) {
 			System.out.printf("-");
 		}
 		System.out.println();
