@@ -23,7 +23,7 @@ import exceptions.NoSuchTechniqueException;
 public class Author {
 	//TODO: spiegare la scelta del 3
 	final static int titleWeight = 3;
-	private int authorID;
+	private Integer authorID;
 	private String name;
 	private ArrayList<Paper> papers;
 	private ArrayList<String> keywordSet;
@@ -779,18 +779,25 @@ public class Author {
 
 	
 	/**
-	 * Calcola la matrice SVD per l'autore corrente
-	 * @param topN numero degli n vettori della V'
-	 * @return matrice SVD per l'autore corrente
+	 * Calcola l'SVD a partire dalla matrice X,
+	 * producendo i file relativi alle tre matrici S, U e V. 
+	 * Restituisce al chiamante le prime n righe
+	 * della matrice V', leggendola da file.
+	 * 
+	 * @param corpus il corpus di documenti a cui si fa riferimento
+	 * @param inputFileName nome del file .csv da cui leggere la matrice X
+	 * @param topN numero delle prime n righe della matrice V'
+	 * 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
 	 * @throws AuthorWithoutPapersException 
-	 *
+	 * 
+	 * @return le prime n righe della matrice V'
 	 */
-	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus,int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public ArrayList<ArrayList<Double>> getSVD(Corpus corpus, String inputFileName, int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		String startingDirectory = System.getProperty("user.dir");
 		String ioDirectory = startingDirectory + "/../data/";
-		String fileName = this.getAuthorID() + ".csv";
+		String fileName = inputFileName + ".csv";
 		File csvFile = new File(ioDirectory + fileName);
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();		
@@ -799,7 +806,7 @@ public class Author {
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
 		}
 		me.eval("svd_IR", fileName);
-		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName,topN);
+		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName, topN);
 		return svd;
 	}
 	
@@ -1513,7 +1520,7 @@ public class Author {
 		return topRelevantPaper;
 	}
 	
-	public int getAuthorID() {
+	public Integer getAuthorID() {
 		return authorID;
 	}
 

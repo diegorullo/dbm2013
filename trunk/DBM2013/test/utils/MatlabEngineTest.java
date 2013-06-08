@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import dblp.Author;
@@ -20,10 +21,19 @@ import exceptions.NoAuthorsWithSuchIDException;
 public class MatlabEngineTest {
 	
 	private final static boolean DEBUG = true;
-	
-	@Test
-	public void evalTestDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	private final static boolean PRINT = true;
 
+	static Author authorStefania;
+	static Author authorLuca;
+	static Corpus dummyCorpus;
+	static double epsilon = 1.0/1000000;
+	
+	static Author authorCandan;
+	static Author authorSapino;
+	static Corpus dblp;
+	
+	@BeforeClass	
+	public static void getDummyEnvironment() {
 		// -- PAPER --
 
 		ArrayList<String> authorsNames1 = new ArrayList<String>();
@@ -31,6 +41,10 @@ public class MatlabEngineTest {
 		ArrayList<Integer> authors1 = new ArrayList<Integer>();
 		authors1.add(1001);
 
+		ArrayList<String> authorsNames2 = new ArrayList<String>();
+		authorsNames2.add("Luca");
+		ArrayList<Integer> authors2 = new ArrayList<Integer>();
+		authors2.add(1002);
 
 		// paper 1
 		ArrayList<String> keywords1 = new ArrayList<String>();
@@ -58,11 +72,11 @@ public class MatlabEngineTest {
 		titlesKeywords2.add("insieme");
 		titlesKeywords2.add("degli");
 		titlesKeywords2.add("articoli");
-		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 1900,
+		Paper paper2 = new Paper(2, "Calcolare insieme degli articoli", 2013,
 				"Gruppo DBM DLS", "algorithm algorithm parser parser",
 				authorsNames1, authors1, keywords2, titlesKeywords2);
 
-		// paper 3 (in comune)
+		// paper 3
 		ArrayList<String> keywords3 = new ArrayList<String>();
 		keywords3.add("program");
 		keywords3.add("algorithm");
@@ -72,36 +86,74 @@ public class MatlabEngineTest {
 		titlesKeywords3.add("agile");
 		titlesKeywords3.add("method");
 		Paper paper3 = new Paper(3, "programming with agile method", 2013,
-				"Gruppo DBM DLS", "program algorithm parser", authorsNames1,
-				authors1, keywords3, titlesKeywords3);
+				"Gruppo DBM DLS", "program algorithm parser", authorsNames2,
+				authors2, keywords3, titlesKeywords3);
+
+		// paper 4
+		ArrayList<String> keywords4 = new ArrayList<String>();
+		keywords4.add("method");
+		keywords4.add("token");
+		keywords4.add("parser");
+		keywords4.add("parser");
+		ArrayList<String> titlesKeywords4 = new ArrayList<String>();
+		titlesKeywords4.add("insieme");
+		titlesKeywords4.add("dei");
+		titlesKeywords4.add("token");
+		Paper paper4 = new Paper(4, "insieme dei token", 2013,
+				"Gruppo DBM DLS", "method token parser parser", authorsNames2,
+				authors2, keywords4, titlesKeywords4);
 
 		// -- AUTORI --
 
 		ArrayList<Paper> paperListStefania = new ArrayList<Paper>();
 		paperListStefania.add(paper1);
 		paperListStefania.add(paper2);
-		paperListStefania.add(paper3);
 
-		Author authorStefania = new Author(1001, "Stefania", paperListStefania);
+		ArrayList<Paper> paperListLuca = new ArrayList<Paper>();
+		paperListLuca.add(paper3);
+		paperListLuca.add(paper4);
+
+		authorStefania = new Author(1001, "Stefania", paperListStefania);
+		authorLuca = new Author(1002, "Luca", paperListLuca);
 
 		// -- CORPUS
 
 		ArrayList<Author> listaAutoriNelCorpus = new ArrayList<Author>();
 		listaAutoriNelCorpus.add(authorStefania);
+		listaAutoriNelCorpus.add(authorLuca);
 
 		ArrayList<Paper> listaPaperNelCorpus = new ArrayList<Paper>();
 		listaPaperNelCorpus.add(paper1);
 		listaPaperNelCorpus.add(paper2);
 		listaPaperNelCorpus.add(paper3);
+		listaPaperNelCorpus.add(paper4);
+
+		dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
+	}
 		
-		Corpus dummyCorpus = new Corpus(listaAutoriNelCorpus,listaPaperNelCorpus, listaPaperNelCorpus.size());
+	@BeforeClass
+	public static void getEnvironment() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
+		Factory f = new Factory();
+		dblp = f.getCorpus();
+		//Autore "Maria Luisa Sapino"
+		authorSapino = dblp.getAuthorByID(1677020);
+		
+		//Autore "K. Selcuk Candan" (esiste anche un "K.S. Candan" che pero' non ha papers)
+		authorCandan = dblp.getAuthorByID(1636579);
+		
+	}
+
+	@Test
+	public void evalTestDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		MatlabEngine mle = MatlabEngine.getMatlabEngine();
 
 		ArrayList<TreeMap<String, Double>> documentTermMatrix = authorStefania.getDocumentTermMatrix(dummyCorpus);
 		if(DEBUG) {
+			System.out.println("Scritto su file: Stefania.csv");
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/Stefania.csv");
 			mle.eval("svd_IR","Stefania.csv");
 			mle.eval("pca_IR","Stefania.csv");
+			System.out.println("----------------------------------------------------------------------\n");
 		}
 	}
 	
@@ -118,14 +170,16 @@ public class MatlabEngineTest {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
-			//System.out.println("Scritto su file: " + fileName);
 			
 			mle.eval("svd_IR",fileName);
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/V_" + fileName);
 
-//			System.out.println("Letta matrice V da file:");
-//			Printer.printMatrix(matrix_v);
+			if(PRINT) {
+				System.out.println("Scritto su file: " + fileName);
+				System.out.println("Letta matrice completa V da file:");
+				Printer.printMatrix(matrix_v);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -138,20 +192,21 @@ public class MatlabEngineTest {
         	
 			Author testAuthor = dblp.getAuthorByID(2390072);
 			
-			//System.out.println("Numero di keyword di " + testAuthor.getAuthorID() + "= " + testAuthor.getKeywordSet().size());
-			
 			String fileName = testAuthor.getAuthorID() + ".csv";
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
-			//System.out.println("Scritto su file: " + fileName);
 			
 			mle.eval("pca_IR",fileName);
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> score = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
-
-//			System.out.println("Letta matrice score da file:");
-//			Printer.printMatrix(score);
+			ArrayList<ArrayList<Double>> concepts = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
+			
+			if(PRINT) {
+				System.out.println("Numero di keyword di " + testAuthor.getAuthorID() + " = " + testAuthor.getKeywordSet().size());
+				System.out.println("Scritto su file: " + fileName);
+				System.out.println("Letta matrice completa dei concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -162,12 +217,34 @@ public class MatlabEngineTest {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(2390072);
+			String testAuthorID = testAuthor.getAuthorID().toString();
 		
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp,5);			
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp, testAuthorID, 5);			
 
-//			System.out.println("Letta matrice V da file:");
-//			Printer.printMatrix(matrix_v);
+			if(PRINT) {
+				System.out.println("Letta matrice V (top 5) da file:");
+				Printer.printMatrix(matrix_v);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSVDOn2390072Top3() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(2390072);
+			String testAuthorID = testAuthor.getAuthorID().toString();
+		
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp, testAuthorID, 3);			
+
+			if(PRINT) {
+				System.out.println("Letta matrice V (top 3) da file:");
+				Printer.printMatrix(matrix_v);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -179,11 +256,31 @@ public class MatlabEngineTest {
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(2390072);
 		
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp,5);			
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp,5);			
 
-//			System.out.println("Letta matrice score da file:");
-//			Printer.printMatrix(score);
+			if(PRINT) {
+				System.out.println("Letta matrice dei (top 5) concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetPCAOn2390072Top3() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(2390072);
+		
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, 3);			
+
+			if(PRINT) {
+				System.out.println("Letta matrice dei (top 3) concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -200,14 +297,16 @@ public class MatlabEngineTest {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
-			//System.out.println("Scritto su file: " + fileName);
 			
 			mle.eval("svd_IR",fileName);
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/V_" + fileName);
 
-//			System.out.println("Letta matrice V da file:");
-//			Printer.printMatrix(matrix_v);
+			if(PRINT) {
+				System.out.println("Scritto su file: " + fileName);
+				System.out.println("Letta matrice completa V da file:");
+				Printer.printMatrix(matrix_v);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -220,20 +319,21 @@ public class MatlabEngineTest {
         	
 			Author testAuthor = dblp.getAuthorByID(1636579);
 			
-			//System.out.println("Numero di keyword di " + testAuthor.getAuthorID() + "= " + testAuthor.getKeywordSet().size());
-			
 			String fileName = testAuthor.getAuthorID() + ".csv";
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = testAuthor.getDocumentTermMatrix(dblp);
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
-			//System.out.println("Scritto su file: " + fileName);
 			
 			mle.eval("pca_IR",fileName);
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> score = IO.readDocumentTermMatrixFromFile("../data/" + fileName);
+			ArrayList<ArrayList<Double>> concepts = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
 
-//			System.out.println("Letta matrice score da file:");
-//			Printer.printMatrix(score);
+			if(PRINT) {
+				System.out.println("Numero di keyword di " + testAuthor.getAuthorID() + " = " + testAuthor.getKeywordSet().size());
+				System.out.println("Scritto su file: " + fileName);
+				System.out.println("Letta matrice completa dei concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -244,12 +344,34 @@ public class MatlabEngineTest {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(1636579);
+			String testAuthorID = testAuthor.getAuthorID().toString();
 		
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp,5);			
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp, testAuthorID, 5);			
 
-//			System.out.println("Letta matrice V da file:");
-//			Printer.printMatrix(matrix_v);
+			if(PRINT) {
+				System.out.println("Letta matrice V (top 5) da file:");
+				Printer.printMatrix(matrix_v);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetSVDOn1636579Top3() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(1636579);
+			String testAuthorID = testAuthor.getAuthorID().toString();
+		
+			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp, testAuthorID, 3);			
+
+			if(PRINT) {
+				System.out.println("Letta matrice V (top 3) da file:");
+				Printer.printMatrix(matrix_v);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -261,11 +383,31 @@ public class MatlabEngineTest {
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(1636579);
 		
-			@SuppressWarnings("unused")
-			ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp,5);			
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp,5);			
 
-//			System.out.println("Letta matrice score da file:");
-//			Printer.printMatrix(score);
+			if(PRINT) {
+				System.out.println("Letta matrice dei (top 5) concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetPCAOn1636579Top3() throws SQLException, MatlabConnectionException, MatlabInvocationException, NoAuthorsWithSuchIDException, IOException, AuthorWithoutPapersException {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(1636579);
+		
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, 3);			
+
+			if(PRINT) {
+				System.out.println("Letta matrice dei (top 3) concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
@@ -276,11 +418,13 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(2390072);
            
-                    @SuppressWarnings("unused")
                     ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);                        
 
-//                  System.out.println("Letta matrice V da file:");
-//                  Printer.printMatrix(matrix_v);
+        			if(PRINT) {
+        				System.out.println("Letta matrice V completa da file:");
+        				Printer.printMatrix(matrix_v);
+        				System.out.println("----------------------------------------------------------------------\n");
+        			}
             }
     }
    
@@ -291,11 +435,13 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(2390072);
            
-                    @SuppressWarnings("unused")
-                    ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
+                    ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp);                  
 
-//                  System.out.println("Letta matrice score da file:");
-//                  Printer.printMatrix(score);
+        			if(PRINT) {
+        				System.out.println("Letta matrice completa dei concetti da file:");
+        				Printer.printMatrix(concepts);
+        				System.out.println("----------------------------------------------------------------------\n");
+        			}
             }
     }
 
@@ -307,11 +453,13 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
            
-                    @SuppressWarnings("unused")
                     ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);                        
 
-//                  System.out.println("Letta matrice V da file:");
-//                  Printer.printMatrix(matrix_v);
+        			if(PRINT) {
+        				System.out.println("Letta matrice V completa da file:");
+        				Printer.printMatrix(matrix_v);
+        				System.out.println("----------------------------------------------------------------------\n");
+        			}
             }
     }
    
@@ -322,10 +470,13 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
            
-                    ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
+                    ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp);                  
 
-//                  System.out.println("Letta matrice score da file:");
-//                  Printer.printMatrix(score);
+        			if(PRINT) {
+        				System.out.println("Letta matrice completa dei concetti da file:");
+        				Printer.printMatrix(concepts);
+        				System.out.println("----------------------------------------------------------------------\n");
+        			}
             }
     }
     
@@ -336,10 +487,13 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1677020);
            
-                    ArrayList<ArrayList<Double>> score = testAuthor.getPCA(dblp);                  
+                    ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp);                  
 
-//                  System.out.println("Letta matrice score da file:");
-//                  Printer.printMatrix(score);
+        			if(PRINT) {
+        				System.out.println("Letta matrice completa dei concetti da file:");
+        				Printer.printMatrix(concepts);
+        				System.out.println("----------------------------------------------------------------------\n");
+        			}
             }
     }
     	

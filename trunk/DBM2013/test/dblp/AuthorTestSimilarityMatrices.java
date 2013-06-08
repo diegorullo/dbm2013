@@ -154,7 +154,8 @@ public class AuthorTestSimilarityMatrices {
 	public void testGetTop5SVDCandan() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
 		if(DEBUG) {
-			ArrayList<ArrayList<Double>> vMatrix = authorCandan.getSVD(dblp, 5);
+			String authorCandanID = authorCandan.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> vMatrix = authorCandan.getSVD(dblp, authorCandanID, 5);
 			ArrayList<TreeMap<String, Double>> topNMatrix = authorCandan.getTopN(vMatrix, 5);
 			if(PRINT_ON_FILE) {
 				IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorCandan.getAuthorID() + ".csv");
@@ -172,7 +173,8 @@ public class AuthorTestSimilarityMatrices {
 	public void testGetTop5SVDStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
 		if(DEBUG) {
-			ArrayList<ArrayList<Double>> vMatrix = authorStefania.getSVD(dummyCorpus, 5);
+			String authorStefaniaID = authorStefania.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> vMatrix = authorStefania.getSVD(dummyCorpus, authorStefaniaID, 5);
 			ArrayList<TreeMap<String, Double>> topNMatrix = authorStefania.getTopN(vMatrix, 5);
 			if(PRINT_ON_FILE) {
 				IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorStefania.getAuthorID() + ".csv");
@@ -190,7 +192,8 @@ public class AuthorTestSimilarityMatrices {
 	public void testGetTop5SVDSapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
 		if(DEBUG) {
-			ArrayList<ArrayList<Double>> vMatrix = authorSapino.getSVD(dblp, 5);
+			String authorSapinoID = authorSapino.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> vMatrix = authorSapino.getSVD(dblp, authorSapinoID, 5);
 			ArrayList<TreeMap<String, Double>> topNMatrix = authorSapino.getTopN(vMatrix, 5);
 			if(PRINT_ON_FILE) {
 				IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + authorSapino.getAuthorID() + ".csv");
