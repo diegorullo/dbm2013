@@ -138,11 +138,13 @@ public class IO {
 	 * 
 	 * @param Table<Integer, Integer, Double> table
 	 * @param path		path della destinazione
+	 * @param filename	filename
 	 *
 	 */
-	public static void printTableOnFile(Table<Integer, Integer, Double> table, String path) {
+	public static void printTableOnFile(Table<Integer, Integer, Double> table, String path, String filename) {
 		try {
-			FileOutputStream file = new FileOutputStream(path);
+			String pathToFile = path + filename;
+			FileOutputStream file = new FileOutputStream(pathToFile);
 			PrintStream Output = new PrintStream(file);
 			
 			int columnsSize = table.columnKeySet().size();

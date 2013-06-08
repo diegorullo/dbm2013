@@ -10,6 +10,7 @@ import matlabcontrol.MatlabInvocationException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import utils.IO;
 import utils.Printer;
 
 import com.google.common.collect.Table;
@@ -20,6 +21,7 @@ public class CorpusTestAdvanced {
 	
 	private final static boolean DEBUG = true;
 	private final static boolean PRINT = true;
+	private final static boolean PRINT_ON_FILE = true;
 	
 	static Author authorStefania;
 	static Author authorLuca;
@@ -149,16 +151,30 @@ public class CorpusTestAdvanced {
 				System.out.println("Matrice di similarita' autore-autore (DBLP)");
 				Printer.printAuthorAuthorSimilarityTableWithCaptions(similarityMatrix);
 			}
+			if(PRINT_ON_FILE) {
+				String startingDirectory = System.getProperty("user.dir");
+	            String ioDirectory = startingDirectory + "/../data/";
+	            String fileName = "SimilarityMatrix.csv";
+				
+				IO.printTableOnFile(similarityMatrix, ioDirectory, fileName);
+			}
 		}
 	}
 	
 	@Test
 	public void testGetAuthorAuthorSimilarityMatrixOnKeywordVectorDummy() {
 		if(DEBUG) {
-			Table<Integer, Integer, Double> dummysimilarityMatrix = dummyCorpus.getAuthorAuthorSimilarityMatrixOnKeywordVector();
+			Table<Integer, Integer, Double> dummySimilarityMatrix = dummyCorpus.getAuthorAuthorSimilarityMatrixOnKeywordVector();
 			if(PRINT) {
 				System.out.println("Matrice di similarita' autore-autore (Dummy)");
-				Printer.printAuthorAuthorSimilarityTableWithCaptions(dummysimilarityMatrix);
+				Printer.printAuthorAuthorSimilarityTableWithCaptions(dummySimilarityMatrix);
+			}
+			if(PRINT_ON_FILE) {
+				String startingDirectory = System.getProperty("user.dir");
+	            String ioDirectory = startingDirectory + "/../data/";
+	            String fileName = "SimilarityMatrixDummy.csv";
+				
+				IO.printTableOnFile(dummySimilarityMatrix, ioDirectory, fileName);
 			}
 		}
 	}
