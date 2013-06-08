@@ -13,7 +13,7 @@ import utils.Normalization;
 public class Paper {
 	//TODO: spiegare la scelta del 3
 	final static int titleWeight = 3;
-	private int paperID;
+	private Integer paperID;
 	private String title;
 	private int year;
 	private String publisher;
@@ -342,7 +342,7 @@ public class Paper {
 		return this.getKeywords().contains(keyword);
 	}
 	
-	public int getPaperID() {
+	public Integer getPaperID() {
 		return paperID;
 	}
 

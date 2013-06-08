@@ -127,6 +127,8 @@ public class Corpus {
 		}
 		return authorAuthorSimilarityMatrixOnKeywordVector;		
 	}
+	
+	
 		
 	public ArrayList<Author> getAuthors() {
 		return authors;
