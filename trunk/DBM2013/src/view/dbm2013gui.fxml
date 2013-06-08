@@ -40,12 +40,11 @@
                                             <Insets right="20.0" fx:id="x1" />
                                           </HBox.margin>
                                         </TextField>
-                                        <ComboBox fx:id="task1ModelloComboBox" promptText="Modello" HBox.margin="$x1">
+                                        <ComboBox fx:id="task1ModelloComboBox" promptText="Modello" HBox.margin="$x1">                                        
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
+                                              <String fx:value="TF" />
+                                              <String fx:value="TFIDF" />
                                             </FXCollections>
                                           </items>
                                         </ComboBox>
