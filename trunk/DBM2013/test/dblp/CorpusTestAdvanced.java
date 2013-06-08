@@ -15,11 +15,12 @@ import utils.Printer;
 
 import com.google.common.collect.Table;
 
+import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
 public class CorpusTestAdvanced {
 	
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = !true;
 	private final static boolean PRINT = true;
 	private final static boolean PRINT_ON_FILE = true;
 	
@@ -178,5 +179,33 @@ public class CorpusTestAdvanced {
 			}
 		}
 	}
+	
+	@Test
+	public void testGetTop3SVD() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		if(!DEBUG) {
+			String startingDirectory = System.getProperty("user.dir");
+            String ioDirectory = startingDirectory + "/../data/";
+            String fileName = "SimilarityMatrix.csv";
+			ArrayList<ArrayList<Double>> top3SVDMatrix = dblp.getTop3SVD(ioDirectory, fileName);
+			if(PRINT) {
+				System.out.println("Top 3 SVD");
+				Printer.printMatrix(top3SVDMatrix);
+			}
+		}
+	}
 
+	@Test
+	public void testGetTop3SVDDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		if(!DEBUG) {
+			String startingDirectory = System.getProperty("user.dir");
+            String ioDirectory = startingDirectory + "/../data/";
+            String fileName = "SimilarityMatrixDummy.csv";
+			ArrayList<ArrayList<Double>> top3SVDMatrixDummy = dummyCorpus.getTop3SVD(ioDirectory, fileName);
+			if(PRINT) {
+				System.out.println("Top 3 SVD (Dummy)");
+				Printer.printMatrix(top3SVDMatrixDummy);
+			}
+		}
+	}
+	
 }
