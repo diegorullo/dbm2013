@@ -152,8 +152,8 @@ public class IOTest {
             String ioDirectory = startingDirectory + "/../data/";
             String fileName = "TestSimilarityMatrix.csv";
 			
-			if(PRINT_ON_FILE) {				
-				IO.printTableOnFile(similarityMatrix, ioDirectory + fileName);
+			if(PRINT_ON_FILE) {
+				IO.printTableOnFile(similarityMatrix, ioDirectory, fileName);
 			}
 		}
 	}
