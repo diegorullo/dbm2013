@@ -761,7 +761,7 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 *
 	 */
-	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus,int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus, int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		String fileName = this.getAuthorID() + ".csv";
 		File csvFile = new File("../data/" + fileName);
 		MatlabEngine me = MatlabEngine.getMatlabEngine();

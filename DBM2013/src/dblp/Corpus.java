@@ -1,14 +1,21 @@
 package dblp;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+import utils.IO;
+import utils.MatlabEngine;
+
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
+import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoAuthorsWithSuchNameException;
 import exceptions.NoPaperWithSuchIDException;
@@ -110,6 +117,7 @@ public class Corpus {
 	
 	/**
 	 * Estrae la matrice di similarita' autore-autore su tutti gli autori del corpus
+	 * 
 	 * @return Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector
 	 */
 	public Table<Integer, Integer, Double> getAuthorAuthorSimilarityMatrixOnKeywordVector() {
@@ -128,7 +136,32 @@ public class Corpus {
 		return authorAuthorSimilarityMatrixOnKeywordVector;		
 	}
 	
-	
+	/**
+	 * Calcola l'SVD a partire dalla matrice X,
+	 * producendo i file relativi alle tre matrici S, U e V. 
+	 * Restituisce al chiamante le prime 3 righe
+	 * della matrice V', leggendola da file.
+	 * 
+	 * @param corpus il corpus di documenti a cui si fa riferimento
+	 * @param inputFileName nome del file .csv da cui leggere la matrice X
+	 * 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException
+	 * 
+	 * @return le prime n righe della matrice V'
+	 */
+	public ArrayList<ArrayList<Double>> getTop3SVD(String path, String inputFileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		File csvFile = new File(path + inputFileName);
+		MatlabEngine me = MatlabEngine.getMatlabEngine();
+		me.init();		
+		if (!csvFile.isFile()) {
+			Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = this.getAuthorAuthorSimilarityMatrixOnKeywordVector();
+			IO.printTableOnFile(authorAuthorSimilarityMatrixOnKeywordVector, path, inputFileName);
+		}
+		me.eval("svd_IR", inputFileName);
+		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(path + "/V_" + inputFileName, 3);
+		return svd;
+	}
 		
 	public ArrayList<Author> getAuthors() {
 		return authors;
