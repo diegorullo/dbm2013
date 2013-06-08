@@ -153,10 +153,10 @@ public class IO {
 				int k = 0;
 				for (int j : table.columnKeySet()) {
 					Output.print(table.get(i, j));
+					k++;
 					if (k < columnsSize) {
 						Output.print(",");
 					}
-					k++;
 				}
 				Output.print("\n");
 			}
