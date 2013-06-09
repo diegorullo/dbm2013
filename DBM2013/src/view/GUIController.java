@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import matlabcontrol.MatlabConnectionException;
@@ -27,7 +28,7 @@ public class GUIController implements Initializable {
 
 	@FXML
 	// fx:id="task1PaperIDTextField"
-	private TextField phase1Task1PaperIDTextField; // Valore iniettato attraverso
+	private ComboBox<String> phase1Task1PaperIDComboBox; // Valore iniettato attraverso
 												// FXMLLoader
 
 	@FXML
@@ -39,7 +40,7 @@ public class GUIController implements Initializable {
 	private Button phase1Task1ExecuteButton;
 	
 	@FXML
-	private TextField phase1Task1TitleTextField;
+	private Label phase1Task1TitleLabel;
 
 	@FXML
 	private TextArea resultsTextArea;
@@ -48,13 +49,13 @@ public class GUIController implements Initializable {
 	// This method is called by the FXMLLoader when initialization is complete
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 
-		assert phase1Task1PaperIDTextField != null : "fx:id=\"task1PaperIDTextField\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
-		assert phase1Task1ModelComboBox != null : "fx:id=\"task1ModelloComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
+		assert phase1Task1PaperIDComboBox != null : "fx:id=\"phase1Task1PaperIDComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
+		assert phase1Task1ModelComboBox != null : "fx:id=\"phase1Task1ModelComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
 
 		phase1Task1ModelComboBox.getItems().clear();
 		phase1Task1ModelComboBox.getItems().addAll("TF", "TFIDF");
 		phase1Task1ModelComboBox.getSelectionModel().selectFirst();
-		phase1Task1TitleTextField.appendText("titolo del paper selezionato");
+		phase1Task1TitleLabel.setText("titolo del paper selezionato");
 		//phase1Task1ModelComboBox.setItems(value);
 		
 
@@ -69,7 +70,7 @@ public class GUIController implements Initializable {
 					resultsTextArea.clear();
 					resultsTextArea.setText("Attendere prego!\n");
 					String modello = phase1Task1ModelComboBox.getValue();
-					String paperid = phase1Task1PaperIDTextField.getText();
+					String paperid = phase1Task1PaperIDComboBox.getValue();
 					//resultsTextArea.appendText("hai premuto submit (task 1)\n"
 					//		+ modello);
 
