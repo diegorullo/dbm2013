@@ -22,8 +22,6 @@ import dblp.Factory;
 import dblp.Paper;
 import exceptions.NoPaperWithSuchIDException;
 
-;
-
 public class GUIController implements Initializable {
 
 	@FXML
@@ -58,7 +56,7 @@ public class GUIController implements Initializable {
 		phase1Task1TitleLabel.setText("titolo del paper selezionato");
 		//phase1Task1ModelComboBox.setItems(value);
 		
-
+		
 		phase1Task1ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
