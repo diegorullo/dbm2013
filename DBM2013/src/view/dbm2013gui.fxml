@@ -24,38 +24,44 @@
                       <children>
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
-                            <TitledPane id="x4" fx:id="x2" animated="false" text="Task 3">
+                            <TitledPane id="x2" fx:id="x11" animated="false" prefHeight="590.0" prefWidth="355.0" text="Task 1">
                               <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="520.0" prefWidth="351.0">
                                   <children>
-                                    <HBox layoutX="14.0" layoutY="14.0" prefHeight="21.0" prefWidth="324.9998779296875">
+                                    <HBox id="HBox" fx:id="x4" alignment="CENTER" layoutX="24.0" layoutY="18.0" prefHeight="21.0" prefWidth="327.0" spacing="5.0">
                                       <children>
-                                        <Label text="Author ID:">
+                                        <Label id="x3" fx:id="x5" text="Paper ID:">
                                           <HBox.margin>
-                                            <Insets right="10.0" />
+                                            <Insets right="10.0" fx:id="x10" />
                                           </HBox.margin>
                                         </Label>
-                                        <ComboBox id="task1ModelloComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author">
+                                        <ComboBox id="task1PaperIDComboBox" fx:id="x6" promptText="paperid">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
                                           <HBox.margin>
                                             <Insets right="20.0" fx:id="x1" />
                                           </HBox.margin>
                                         </ComboBox>
-                                        <ComboBox id="task1ModelloComboBox" fx:id="phase1TaskModelComboBox" promptText="Model">
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x1" />
-                                          </HBox.margin>
+                                        <ComboBox id="task1ModelloComboBox" fx:id="x8" promptText="Modello" HBox.margin="$x1">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="TF" />
+                                              <String fx:value="TFIDF" />
+                                            </FXCollections>
+                                          </items>
                                         </ComboBox>
-                                        <Button id="task1EseguiButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" text="Execute">
-                                          <HBox.margin>
-                                            <Insets />
-                                          </HBox.margin>
-                                        </Button>
+                                        <Button id="task1EseguiButton" fx:id="x9" mnemonicParsing="false" text="Esegui" HBox.margin="$x1" />
                                       </children>
                                     </HBox>
-                                    <HBox id="HBox" alignment="CENTER" layoutX="12.0" layoutY="43.0" spacing="5.0">
+                                    <HBox id="HBox" fx:id="x7" alignment="CENTER" layoutX="20.0" layoutY="45.0" prefWidth="319.0" spacing="5.0">
                                       <children>
-                                        <Label text="Name:" />
-                                        <TextField id="nameTextField" fx:id="phase1Task3NameTextField" editable="false" prefWidth="284.0" />
+                                        <Label text="Titolo:" HBox.margin="$x10" />
+                                        <TextField id="task1PaperIDTextField" editable="false" prefHeight="23.0" prefWidth="242.0" HBox.margin="$x1" />
                                       </children>
                                     </HBox>
                                   </children>
@@ -64,34 +70,7 @@
                             </TitledPane>
                           </expandedPane>
                           <panes>
-                            <TitledPane id="x2" animated="false" prefHeight="590.0" prefWidth="355.0" text="Task 1">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                  <children>
-                                    <HBox layoutX="14.0" layoutY="14.0" prefHeight="99.0" prefWidth="325.0">
-                                      <children>
-                                        <Label text="Paper ID:">
-                                          <HBox.margin>
-                                            <Insets right="10.0" />
-                                          </HBox.margin>
-                                        </Label>
-                                        <TextField fx:id="task1PaperIDTextField" prefHeight="23.0" prefWidth="94.0">
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x1" />
-                                          </HBox.margin>
-                                        </TextField>
-                                        <ComboBox fx:id="task1ModelloComboBox" promptText="Modello" HBox.margin="$x1" />
-                                        <Button fx:id="task1EseguiButton" mnemonicParsing="false" text="Esegui">
-                                          <HBox.margin>
-                                            <Insets />
-                                          </HBox.margin>
-                                        </Button>
-                                      </children>
-                                    </HBox>
-                                  </children>
-                                </AnchorPane>
-                              </content>
-                            </TitledPane>
+                            <fx:reference source="x11" />
                             <TitledPane animated="false" text="Task 2">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -100,7 +79,7 @@
                                       <children>
                                         <Label text="Author ID:">
                                           <HBox.margin>
-                                            <Insets right="10.0" />
+                                            <Insets right="10.0" fx:id="x10" />
                                           </HBox.margin>
                                         </Label>
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1Task2AuthorIDComboBox" promptText="Author">
@@ -130,9 +109,52 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <fx:reference source="x2" />
+                            <TitledPane id="x4" fx:id="x2" animated="false" text="Task 3">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <HBox layoutX="14.0" layoutY="14.0" prefHeight="21.0" prefWidth="324.9998779296875">
+                                      <children>
+                                        <Label text="Author ID:">
+                                          <HBox.margin>
+                                            <Insets right="10.0" fx:id="x10" />
+                                          </HBox.margin>
+                                        </Label>
+                                        <ComboBox id="task1ModelloComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author">
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x1" />
+                                          </HBox.margin>
+                                        </ComboBox>
+                                        <ComboBox id="task1ModelloComboBox" fx:id="phase1TaskModelComboBox" promptText="Model">
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x1" />
+                                          </HBox.margin>
+                                        </ComboBox>
+                                        <Button id="task1EseguiButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" text="Execute">
+                                          <HBox.margin>
+                                            <Insets />
+                                          </HBox.margin>
+                                        </Button>
+                                      </children>
+                                    </HBox>
+                                    <HBox id="HBox" alignment="CENTER" layoutX="12.0" layoutY="43.0" spacing="5.0">
+                                      <children>
+                                        <Label text="Name:" />
+                                        <TextField id="nameTextField" fx:id="phase1Task3NameTextField" editable="false" prefWidth="284.0" />
+                                      </children>
+                                    </HBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
                           </panes>
                         </Accordion>
+                        <fx:reference source="x4" />
+                        <fx:reference source="x5" />
+                        <fx:reference source="x6" />
+                        <fx:reference source="x7" />
+                        <fx:reference source="x8" />
+                        <fx:reference source="x9" />
                       </children>
                     </AnchorPane>
                   </content>
