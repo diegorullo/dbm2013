@@ -3,9 +3,12 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,9 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
+import dblp.Author;
 import dblp.Corpus;
 import dblp.Factory;
 import dblp.Paper;
@@ -47,9 +50,29 @@ public class GUIController implements Initializable {
 	// This method is called by the FXMLLoader when initialization is complete
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 
+		Corpus dblp = Main.getDblp();
+		ArrayList<Paper> papers = dblp.getPapers();
+		ObservableList<String> papersIDs = FXCollections.observableArrayList();
+		ObservableList<String> papersNames = FXCollections.observableArrayList();
+		for (Paper p : papers) {
+			papersIDs.add(p.getPaperID().toString());
+			papersNames.add(p.getTitle().toString());
+		}
+
+		ArrayList<Author> authors = dblp.getAuthors();
+		ObservableList<String> AuthorsIDs = FXCollections.observableArrayList();
+		ObservableList<String> AuthorsNames = FXCollections.observableArrayList();
+		for (Author a : authors) {
+			papersIDs.add(a.getAuthorID().toString());
+			papersNames.add(a.getName().toString());
+		}
+
+
+		
 		assert phase1Task1PaperIDComboBox != null : "fx:id=\"phase1Task1PaperIDComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
 		assert phase1Task1ModelComboBox != null : "fx:id=\"phase1Task1ModelComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
 
+		phase1Task1PaperIDComboBox.setItems(papersIDs);
 		phase1Task1ModelComboBox.getItems().clear();
 		phase1Task1ModelComboBox.getItems().addAll("TF", "TFIDF");
 		phase1Task1ModelComboBox.getSelectionModel().selectFirst();
