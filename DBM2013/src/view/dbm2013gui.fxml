@@ -38,8 +38,6 @@
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="TF" />
-                                              <String fx:value="TFIDF" />
                                             </FXCollections>
                                           </items>
                                           <HBox.margin>
@@ -49,8 +47,6 @@
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1TaskModelComboBox" promptText="Model">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="TF" />
-                                              <String fx:value="TFIDF" />
                                             </FXCollections>
                                           </items>
                                           <HBox.margin>
@@ -95,8 +91,6 @@
                                         <ComboBox fx:id="task1ModelloComboBox" promptText="Modello" HBox.margin="$x1">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="TF" />
-                                              <String fx:value="TFIDF" />
                                             </FXCollections>
                                           </items>
                                         </ComboBox>
@@ -125,8 +119,6 @@
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1Task2AuthorIDComboBox" promptText="Author">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="TF" />
-                                              <String fx:value="TFIDF" />
                                             </FXCollections>
                                           </items>
                                           <HBox.margin>
@@ -136,8 +128,6 @@
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1Task2ModelComboBox" promptText="Model">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="TF" />
-                                              <String fx:value="TFIDF" />
                                             </FXCollections>
                                           </items>
                                           <HBox.margin>

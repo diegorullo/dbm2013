@@ -1,29 +1,25 @@
 package view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
-import matlabcontrol.MatlabConnectionException;
-import matlabcontrol.MatlabInvocationException;
-
-import dblp.Corpus;
-import dblp.Factory;
-import dblp.Paper;
-import exceptions.NoPaperWithSuchIDException;
-
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+import dblp.Corpus;
+import dblp.Factory;
+import dblp.Paper;
+import exceptions.NoPaperWithSuchIDException;
 
 ;
 
