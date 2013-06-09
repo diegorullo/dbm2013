@@ -24,7 +24,7 @@
                       <children>
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
-                            <TitledPane fx:id="x4" animated="false" text="Task 3">
+                            <TitledPane id="x4" fx:id="x2" animated="false" text="Task 3">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -36,19 +36,11 @@
                                           </HBox.margin>
                                         </Label>
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                            </FXCollections>
-                                          </items>
                                           <HBox.margin>
                                             <Insets right="20.0" fx:id="x1" />
                                           </HBox.margin>
                                         </ComboBox>
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1TaskModelComboBox" promptText="Model">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                            </FXCollections>
-                                          </items>
                                           <HBox.margin>
                                             <Insets right="20.0" fx:id="x1" />
                                           </HBox.margin>
@@ -72,7 +64,7 @@
                             </TitledPane>
                           </expandedPane>
                           <panes>
-                            <TitledPane fx:id="x2" animated="false" prefHeight="590.0" prefWidth="355.0" text="Task 1">
+                            <TitledPane id="x2" animated="false" prefHeight="590.0" prefWidth="355.0" text="Task 1">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -88,12 +80,7 @@
                                             <Insets right="20.0" fx:id="x1" />
                                           </HBox.margin>
                                         </TextField>
-                                        <ComboBox fx:id="task1ModelloComboBox" promptText="Modello" HBox.margin="$x1">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                            </FXCollections>
-                                          </items>
-                                        </ComboBox>
+                                        <ComboBox fx:id="task1ModelloComboBox" promptText="Modello" HBox.margin="$x1" />
                                         <Button fx:id="task1EseguiButton" mnemonicParsing="false" text="Esegui">
                                           <HBox.margin>
                                             <Insets />
@@ -117,19 +104,11 @@
                                           </HBox.margin>
                                         </Label>
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1Task2AuthorIDComboBox" promptText="Author">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                            </FXCollections>
-                                          </items>
                                           <HBox.margin>
                                             <Insets right="20.0" fx:id="x1" />
                                           </HBox.margin>
                                         </ComboBox>
                                         <ComboBox id="task1ModelloComboBox" fx:id="phase1Task2ModelComboBox" promptText="Model">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                            </FXCollections>
-                                          </items>
                                           <HBox.margin>
                                             <Insets right="20.0" fx:id="x1" />
                                           </HBox.margin>
@@ -151,7 +130,7 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <fx:reference source="x4" />
+                            <fx:reference source="x2" />
                           </panes>
                         </Accordion>
                       </children>
@@ -164,24 +143,24 @@
                       <children>
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
-                            <TitledPane fx:id="x3" animated="false" text="Task 3">
+                            <TitledPane fx:id="x3" animated="false" text="Task 1">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                               </content>
                             </TitledPane>
                           </expandedPane>
                           <panes>
-                            <TitledPane animated="false" text="Task 1">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
-                            </TitledPane>
+                            <fx:reference source="x3" />
                             <TitledPane animated="false" text="Task 2">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                               </content>
                             </TitledPane>
-                            <fx:reference source="x3" />
+                            <TitledPane id="x3" animated="false" text="Task 3">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              </content>
+                            </TitledPane>
                           </panes>
                         </Accordion>
                       </children>
