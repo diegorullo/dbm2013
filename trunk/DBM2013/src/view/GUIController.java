@@ -27,16 +27,19 @@ public class GUIController implements Initializable {
 
 	@FXML
 	// fx:id="task1PaperIDTextField"
-	private TextField task1PaperIDTextField; // Valore iniettato attraverso
+	private TextField phase1Task1PaperIDTextField; // Valore iniettato attraverso
 												// FXMLLoader
 
 	@FXML
 	// fx:id="task1ModelloComboBox"
-	private ComboBox<String> task1ModelloComboBox; // Valore iniettato
+	private ComboBox<String> phase1Task1ModelComboBox; // Valore iniettato
 													// attraverso FXMLLoader
 
 	@FXML
-	private Button task1EseguiButton;
+	private Button phase1Task1ExecuteButton;
+	
+	@FXML
+	private TextField phase1Task1TitleTextField;
 
 	@FXML
 	private TextArea resultsTextArea;
@@ -45,28 +48,30 @@ public class GUIController implements Initializable {
 	// This method is called by the FXMLLoader when initialization is complete
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
 
-		assert task1PaperIDTextField != null : "fx:id=\"task1PaperIDTextField\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
-		assert task1ModelloComboBox != null : "fx:id=\"task1ModelloComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
+		assert phase1Task1PaperIDTextField != null : "fx:id=\"task1PaperIDTextField\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
+		assert phase1Task1ModelComboBox != null : "fx:id=\"task1ModelloComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
 
-		task1ModelloComboBox.getItems().clear();
-		task1ModelloComboBox.getItems().addAll("TF", "TFIDF");
-		task1ModelloComboBox.getSelectionModel().selectFirst();
-		// task1PaperIDTextField.selectAll();
+		phase1Task1ModelComboBox.getItems().clear();
+		phase1Task1ModelComboBox.getItems().addAll("TF", "TFIDF");
+		phase1Task1ModelComboBox.getSelectionModel().selectFirst();
+		phase1Task1TitleTextField.appendText("titolo del paper selezionato");
+		//phase1Task1ModelComboBox.setItems(value);
+		
 
-		task1EseguiButton.setOnAction(new EventHandler<ActionEvent>() {
+		phase1Task1ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 
 				Factory f;
 				try {
-					System.out.println("hai premuto submit (task 1)\n");
+					//System.out.println("hai premuto submit (task 1)\n");
 					resultsTextArea.clear();
 					resultsTextArea.setText("Attendere prego!\n");
-					String modello = task1ModelloComboBox.getValue();
-					String paperid = task1PaperIDTextField.getText();
-					resultsTextArea.appendText("hai premuto submit (task 1)\n"
-							+ modello);
+					String modello = phase1Task1ModelComboBox.getValue();
+					String paperid = phase1Task1PaperIDTextField.getText();
+					//resultsTextArea.appendText("hai premuto submit (task 1)\n"
+					//		+ modello);
 
 					if (paperid != null && !paperid.equals("")) {
 						f = new Factory();
