@@ -69,11 +69,12 @@ public class Similarity {
 			{	
 				// (prodotto scalare)
 				scalarProd += (a_vector.get(term.getKey()) * b_vector.get(term.getKey()));
-				//System.out.println("scalarProd" + scalarProd);
+//				System.out.println("scalarProd: " + scalarProd);
 			}
 		}	
 		
 		cosSim = scalarProd / (a_magnitudo * b_magnitudo);
+//		System.out.println("scalarProd: " + scalarProd + ", a_magnitudo: " + a_magnitudo + ", b_magnitudo: " + b_magnitudo);
 		return cosSim;
 	}
 
