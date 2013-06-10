@@ -12,13 +12,13 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="view.GUIController">
   <children>
-    <SplitPane dividerPositions="0.44862155388471175" focusTraversable="true" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <SplitPane dividerPositions="0.44862155388471175" focusTraversable="true" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
             <TabPane prefHeight="398.0" prefWidth="257.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <tabs>
-                <Tab text="Phase 1">
+                <Tab fx:id="phase1Tab" text="Phase 1">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -62,7 +62,7 @@
                                     <HBox layoutX="14.0" layoutY="39.0" prefHeight="21.0" prefWidth="325.0">
                                       <children>
                                         <Label text="Title:" HBox.margin="$x5" />
-                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task1TitleLabel" prefWidth="82.0" text="..." />
+                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task1TitleLabel" prefWidth="289.0" text="..." />
                                       </children>
                                     </HBox>
                                   </children>
@@ -117,7 +117,7 @@
                                             <Insets right="10.0" fx:id="x5001" />
                                           </HBox.margin>
                                         </Label>
-                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task2TitleLabel" text="..." />
+                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task2TitleLabel" prefWidth="290.0" text="..." />
                                       </children>
                                     </HBox>
                                   </children>
@@ -169,7 +169,7 @@
                                             <Insets right="10.0" fx:id="x5003" />
                                           </HBox.margin>
                                         </Label>
-                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task3TitleLabel" text="..." />
+                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task3TitleLabel" prefWidth="289.0" text="..." />
                                       </children>
                                     </HBox>
                                   </children>
@@ -182,7 +182,7 @@
                     </AnchorPane>
                   </content>
                 </Tab>
-                <Tab fx:id="fase2Tab" closable="false" text="Phase 2">
+                <Tab fx:id="phase2Tab" closable="false" text="Phase 2">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -212,7 +212,7 @@
                     </AnchorPane>
                   </content>
                 </Tab>
-                <Tab fx:id="fase3Tab" closable="false" text="Phase 3">
+                <Tab fx:id="phase3Tab" closable="false" text="Phase 3">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -221,6 +221,32 @@
                             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                           </content>
                         </ScrollPane>
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab fx:id="exploreDBTab" text="Explore DB">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Authors:">
+                          <font>
+                            <Font name="System Bold" size="12.0" fx:id="x6" />
+                          </font>
+                        </Label>
+                        <Label font="$x6" layoutX="14.0" layoutY="287.0" text="Papers:" />
+                        <TableView fx:id="exploreDBAuthorsTableView" layoutX="14.0" layoutY="40.0" prefHeight="230.0" prefWidth="327.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="exploreDBPapersTableView" layoutX="14.0" layoutY="314.0" prefHeight="262.0" prefWidth="327.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                            <TableColumn prefWidth="75.0" text="Column X" />
+                          </columns>
+                        </TableView>
                       </children>
                     </AnchorPane>
                   </content>

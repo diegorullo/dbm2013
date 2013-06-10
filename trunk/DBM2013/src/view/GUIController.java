@@ -2,7 +2,6 @@ package view;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
@@ -16,12 +15,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import matlabcontrol.MatlabConnectionException;
-import matlabcontrol.MatlabInvocationException;
 import dblp.Author;
 import dblp.Corpus;
-import dblp.Factory;
 import dblp.Paper;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
@@ -59,9 +57,34 @@ public class GUIController implements Initializable {
 
 	@FXML
 	private Label phase1Task2TitleLabel;
+	
+	@FXML
+	private Button phase1Task3ExecuteButton;
 
 	@FXML
+	private Label phase1Task3TitleLabel;
+
+	@FXML
+	private ComboBox<String> phase1Task3ModelComboBox;
+
+	@FXML
+	private ComboBox<String> phase1Task3AuthorIDComboBox;
+
+	@FXML
+	private TableView<String> exploreDBAuthorsTableView;
+	
+    @FXML
+    private TableColumn<Author, String> colAuthors;
+
+	@FXML
+	private TableView<String> exploreDBPapersTableView;
+	
+    @FXML
+    private TableColumn<Author, String> colPapers;
+	
+	@FXML
 	private TextArea resultsTextArea;
+
 
 	@Override
 	// This method is called by the FXMLLoader when initialization is complete
@@ -69,22 +92,41 @@ public class GUIController implements Initializable {
 
 		Corpus dblp = Main.getDblp();
 		ArrayList<Paper> papers = dblp.getPapers();
-		ObservableList<String> papersIDs = FXCollections.observableArrayList();
-		ObservableList<String> papersNames = FXCollections
-				.observableArrayList();
-		for (Paper p : papers) {
-			papersIDs.add(p.getPaperID().toString());
-			papersNames.add(p.getTitle().toString());
-		}
-
 		ArrayList<Author> authors = dblp.getAuthors();
+		
+		ObservableList<String> papersIDs = FXCollections.observableArrayList();
+		ObservableList<String> papersNames = FXCollections.observableArrayList();
 		ObservableList<String> authorsIDs = FXCollections.observableArrayList();
-		ObservableList<String> authorsNames = FXCollections
-				.observableArrayList();
+		ObservableList<String> authorsNames = FXCollections.observableArrayList();
+		
+		// ExploreDB - control settings
+		ObservableList<TableColumn<String, ?>> exploreDBAuthorsColumns = exploreDBAuthorsTableView.getColumns();
+		exploreDBAuthorsColumns.clear();
+		exploreDBAuthorsColumns.add(0, new TableColumn<String, String>("ID"));
+		exploreDBAuthorsColumns.add(1, new TableColumn<String, String>("Name"));
+		
+		ObservableList<TableColumn<String, ?>> exploreDBPapersColumns = exploreDBAuthorsTableView.getColumns();
+		exploreDBPapersColumns.clear();
+		exploreDBPapersColumns.add(0, new TableColumn<String, String>("ID"));
+		exploreDBPapersColumns.add(1, new TableColumn<String, String>("Title"));
+		
+		Integer paperID, authorID;
+		String paperTitle, authorName;
+		
+		for (Paper p : papers) {
+			paperID = p.getPaperID();
+			paperTitle = p.getTitle();
+			papersIDs.add(paperID.toString());
+			papersNames.add(paperTitle);
+		}		
+		
 		for (Author a : authors) {
-			authorsIDs.add(a.getAuthorID().toString());
-			authorsNames.add(a.getName().toString());
+			authorID = a.getAuthorID();
+			authorName = a.getName();
+			authorsIDs.add(authorID.toString());
+			authorsNames.add(authorName);
 		}
+		
 		// PHASE 1 - Task 2 - controls settings
 		assert phase1Task1PaperIDComboBox != null : "fx:id=\"phase1Task1PaperIDComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
 		assert phase1Task1ModelComboBox != null : "fx:id=\"phase1Task1ModelComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
@@ -101,7 +143,7 @@ public class GUIController implements Initializable {
 		phase1Task2ModelComboBox.getItems().addAll("TF", "TFIDF");
 		phase1Task2ModelComboBox.getSelectionModel().selectFirst();
 		phase1Task2TitleLabel.setText("nome autore selezionato");
-
+		
 		// PHASE 1 - Task 1 - EVENT HANDLER
 		phase1Task1ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -264,6 +306,8 @@ public class GUIController implements Initializable {
 
 					}
 				});
+		
+		
 
 	}
 
