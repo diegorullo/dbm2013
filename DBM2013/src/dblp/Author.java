@@ -703,54 +703,54 @@ public class Author {
 		return topNMatrix;
 	}
 	
-    /**
-     * Calcola la matrice SVD per l'autore corrente
-     * @param documentTermMatrix
-     * @return matrice SVD per l'autore corrente
-     * @throws MatlabInvocationException 
-     * @throws MatlabConnectionException 
-     * @throws AuthorWithoutPapersException 
-     *
-     */
-    public ArrayList<ArrayList<Double>> getSVD(Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-            String startingDirectory = System.getProperty("user.dir");
-            String ioDirectory = startingDirectory + "/../data/";
-            String fileName = this.getAuthorID() + ".csv";
-            File csvFile = new File(ioDirectory + fileName);
-            MatlabEngine me = MatlabEngine.getMatlabEngine();
-            me.init();              
-            if (!csvFile.isFile()) {
-                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
-                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
-            }
-            me.eval("svd_IR", fileName);
-            ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName);
-            return svd;
-    }
+//    /**
+//     * Calcola la matrice SVD per l'autore corrente
+//     * @param documentTermMatrix
+//     * @return matrice SVD per l'autore corrente
+//     * @throws MatlabInvocationException 
+//     * @throws MatlabConnectionException 
+//     * @throws AuthorWithoutPapersException 
+//     *
+//     */
+//    public ArrayList<ArrayList<Double>> getSVD(Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+//            String startingDirectory = System.getProperty("user.dir");
+//            String ioDirectory = startingDirectory + "/../data/";
+//            String fileName = this.getAuthorID() + ".csv";
+//            File csvFile = new File(ioDirectory + fileName);
+//            MatlabEngine me = MatlabEngine.getMatlabEngine();
+//            me.init();              
+//            if (!csvFile.isFile()) {
+//                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
+//                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
+//            }
+//            me.eval("svd_IR", fileName);
+//            ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName);
+//            return svd;
+//    }
 
-    /**
-     * Calcola la matrice PCA per l'autore corrente
-     * @param documentTermMatrix
-     * @return matrice PCA per l'autore corrente
-     * @throws MatlabInvocationException 
-     * @throws MatlabConnectionException 
-     * @throws AuthorWithoutPapersException 
-     *
-     */
-    public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-            String fileName = this.getAuthorID() + ".csv";
-            File csvFile = new File("../data/" + fileName);
-            MatlabEngine me = MatlabEngine.getMatlabEngine();
-            me.init();
-            if (!csvFile.isFile()) {
-                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
-                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
-            }
-            me.eval("pca_IR", fileName);
-            
-            ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
-            return pca;
-    }
+//    /**
+//     * Calcola la matrice PCA per l'autore corrente
+//     * @param documentTermMatrix
+//     * @return matrice PCA per l'autore corrente
+//     * @throws MatlabInvocationException 
+//     * @throws MatlabConnectionException 
+//     * @throws AuthorWithoutPapersException 
+//     *
+//     */
+//    public ArrayList<ArrayList<Double>> getPCA(Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+//            String fileName = this.getAuthorID() + ".csv";
+//            File csvFile = new File("../data/" + fileName);
+//            MatlabEngine me = MatlabEngine.getMatlabEngine();
+//            me.init();
+//            if (!csvFile.isFile()) {
+//                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
+//                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
+//            }
+//            me.eval("pca_IR", fileName);
+//            
+//            ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
+//            return pca;
+//    }
     
 	/**
 	 * Calcola la matrice PCA per l'autore corrente	 
@@ -761,9 +761,11 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 *
 	 */
-	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus, int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-		String fileName = this.getAuthorID() + ".csv";
-		File csvFile = new File("../data/" + fileName);
+	public ArrayList<ArrayList<Double>> getPCA(Corpus corpus, String inputFileName, int topN) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		String startingDirectory = System.getProperty("user.dir");
+		String ioDirectory = startingDirectory + "/../data/";
+		String fileName = inputFileName + ".csv";
+		File csvFile = new File(ioDirectory + fileName);
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();
 		if (!csvFile.isFile()) {
@@ -1002,11 +1004,14 @@ public class Author {
 		
 		ArrayList<Double> myConceptsEigenValues;
 		ArrayList<Double> otherConceptsEigenValues;
+		String myFileName = this.getAuthorID().toString();
+		String otherFileName = otherAuthor.getAuthorID().toString();
 	
 		switch(technique.toUpperCase()) {
 			case "PCA":
-				myMatrix = this.getPCA(corpus);
-				otherMatrix = otherAuthor.getPCA(corpus);
+
+				myMatrix = this.getPCA(corpus, myFileName, 5);
+				otherMatrix = otherAuthor.getPCA(corpus, otherFileName, 5);
 //				FIXME: messi sotto
 //				myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
 //				otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
@@ -1018,8 +1023,8 @@ public class Author {
 				break;
 				
 			case "SVD":
-				myMatrix = this.getSVD(corpus);
-				otherMatrix = otherAuthor.getSVD(corpus);
+				myMatrix = this.getSVD(corpus, myFileName, 5);
+				otherMatrix = otherAuthor.getSVD(corpus, otherFileName, 5);
 //				FIXME: messi sotto
 //				myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
 //				otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
@@ -1448,7 +1453,8 @@ public class Author {
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		
-		ArrayList<ArrayList<Double>> myPCAMatrix = this.getPCA(corpus);
+		String fileName = this.getAuthorID().toString();
+		ArrayList<ArrayList<Double>> myPCAMatrix = this.getPCA(corpus, fileName, 5);
 		ArrayList<TreeMap<String, Double>> myPCAMatrixwithKey = this.getTopN(myPCAMatrix, myPCAMatrix.size());
 		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
 		
@@ -1491,8 +1497,9 @@ public class Author {
 		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
+		String fileName = this.getAuthorID().toString();
 		
-		ArrayList<ArrayList<Double>> mySVDMatrix = this.getPCA(corpus);
+		ArrayList<ArrayList<Double>> mySVDMatrix = this.getSVD(corpus, fileName, 5);
 		ArrayList<TreeMap<String, Double>> mySVDMatrixwithKey = this.getTopN(mySVDMatrix, mySVDMatrix.size());
 		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
 		

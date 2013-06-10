@@ -255,8 +255,8 @@ public class MatlabEngineTest {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(2390072);
-		
-			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp,5);			
+			String fileName = testAuthor.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 5);			
 
 			if(PRINT) {
 				System.out.println("Letta matrice dei (top 5) concetti da file:");
@@ -273,8 +273,8 @@ public class MatlabEngineTest {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(2390072);
-		
-			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, 3);			
+			String fileName = testAuthor.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 3);
 
 			if(PRINT) {
 				System.out.println("Letta matrice dei (top 3) concetti da file:");
@@ -382,8 +382,8 @@ public class MatlabEngineTest {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(1636579);
-		
-			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp,5);			
+			String fileName = testAuthor.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 5);
 
 			if(PRINT) {
 				System.out.println("Letta matrice dei (top 5) concetti da file:");
@@ -400,8 +400,8 @@ public class MatlabEngineTest {
 			Factory f = new Factory();
         	Corpus dblp = f.getCorpus();
 			Author testAuthor = dblp.getAuthorByID(1636579);
-		
-			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, 3);			
+			String fileName = testAuthor.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 3);
 
 			if(PRINT) {
 				System.out.println("Letta matrice dei (top 3) concetti da file:");
@@ -417,8 +417,8 @@ public class MatlabEngineTest {
                     Factory f = new Factory();
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(2390072);
-           
-                    ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);                        
+        			String fileName = testAuthor.getAuthorID().toString();
+        			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp, fileName, 5);                       
 
         			if(PRINT) {
         				System.out.println("Letta matrice V completa da file:");
@@ -435,7 +435,8 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(2390072);
            
-                    ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp);                  
+        			String fileName = testAuthor.getAuthorID().toString();
+        			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 5);                 
 
         			if(PRINT) {
         				System.out.println("Letta matrice completa dei concetti da file:");
@@ -453,7 +454,8 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
            
-                    ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp);                        
+        			String fileName = testAuthor.getAuthorID().toString();
+        			ArrayList<ArrayList<Double>> matrix_v = testAuthor.getSVD(dblp, fileName, 5);                          
 
         			if(PRINT) {
         				System.out.println("Letta matrice V completa da file:");
@@ -470,7 +472,8 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
            
-                    ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp);                  
+        			String fileName = testAuthor.getAuthorID().toString();
+        			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 5);                 
 
         			if(PRINT) {
         				System.out.println("Letta matrice completa dei concetti da file:");
@@ -487,7 +490,8 @@ public class MatlabEngineTest {
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1677020);
            
-                    ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp);                  
+        			String fileName = testAuthor.getAuthorID().toString();
+        			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 5);                  
 
         			if(PRINT) {
         				System.out.println("Letta matrice completa dei concetti da file:");
