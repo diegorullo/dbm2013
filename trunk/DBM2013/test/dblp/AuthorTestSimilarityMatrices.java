@@ -211,7 +211,8 @@ public class AuthorTestSimilarityMatrices {
 	public void testGetTop5PCACandan() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
 		if(DEBUG) {
-			ArrayList<ArrayList<Double>> scoreLatentMatrix = authorCandan.getPCA(dblp,5);
+			String fileName = authorCandan.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> scoreLatentMatrix = authorCandan.getPCA(dblp, fileName, 5);
 			ArrayList<TreeMap<String, Double>> topNMatrix = authorCandan.getTopN(scoreLatentMatrix, 5);
 			if(PRINT_ON_FILE) {
 				IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorCandan.getAuthorID() + ".csv");
@@ -230,7 +231,8 @@ public class AuthorTestSimilarityMatrices {
 	public void testGetTop5PCAStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
 		if(DEBUG) {
-			ArrayList<ArrayList<Double>> scoreLatentMatrix = authorStefania.getPCA(dummyCorpus,5);
+			String fileName = authorStefania.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> scoreLatentMatrix = authorStefania.getPCA(dummyCorpus, fileName, 5);
 			ArrayList<TreeMap<String, Double>> topNMatrix = authorStefania.getTopN(scoreLatentMatrix, 5);
 			if(PRINT_ON_FILE) {
 				IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorStefania.getAuthorID() + ".csv");
@@ -248,7 +250,8 @@ public class AuthorTestSimilarityMatrices {
 	public void testGetTop5PCASapino() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		
 		if(DEBUG) {
-			ArrayList<ArrayList<Double>> scoreLatentMatrix = authorSapino.getPCA(dblp,5);
+			String fileName = authorSapino.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> scoreLatentMatrix = authorSapino.getPCA(dblp, fileName, 5);
 			ArrayList<TreeMap<String, Double>> topNMatrix = authorSapino.getTopN(scoreLatentMatrix, 5);
 			if(PRINT_ON_FILE) {
 				IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + authorSapino.getAuthorID() + ".csv");

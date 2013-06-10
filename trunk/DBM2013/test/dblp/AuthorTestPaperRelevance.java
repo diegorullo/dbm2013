@@ -143,6 +143,76 @@ public class AuthorTestPaperRelevance {
 	}
 
 	@Test
+	public void testGetRankedByKeywordVectorStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByKeywordVector(dummyCorpus);
+			if(PRINT) {
+				System.out.println("Rilevanti per Stefania (KV): ");
+				Printer.printLinkedHashMap(similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedByTFIDF2Stefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByTFIDF2Vector(dummyCorpus);
+			if(PRINT) {
+				System.out.println("Rilevanti per Stefania (TFIDF2): ");
+				Printer.printLinkedHashMap(similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedByPFStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByPFVector(dummyCorpus);
+			if(PRINT) {
+				System.out.println("Rilevanti per Stefania (PF): ");
+				Printer.printLinkedHashMap(similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedByPCAStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByPCA(dummyCorpus);
+			if(PRINT) {
+				System.out.println("Rilevanti per Stefania (PCA): ");
+				Printer.printLinkedHashMap(similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testGetRankedBySVDStefania() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		
+		if(DEBUG) {
+			
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedBySVD(dummyCorpus);
+			if(PRINT) {
+				System.out.println("Rilevanti per Stefania (SVD): ");
+				Printer.printLinkedHashMap(similStefania);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+	
+	@Test
 	public void testGetRankedByKeywordVectorLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
 		
 		if(DEBUG) {
