@@ -20,7 +20,7 @@ import exceptions.NoAuthorsWithSuchIDException;
 
 public class CorpusTestAdvanced {
 	
-	private final static boolean DEBUG = !true;
+	private final static boolean DEBUG = true;
 	private final static boolean PRINT = true;
 	private final static boolean PRINT_ON_FILE = true;
 	
@@ -182,7 +182,7 @@ public class CorpusTestAdvanced {
 	
 	@Test
 	public void testGetTop3SVD() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-		if(!DEBUG) {
+		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrix.csv";
@@ -196,7 +196,7 @@ public class CorpusTestAdvanced {
 
 	@Test
 	public void testGetTop3SVDDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-		if(!DEBUG) {
+		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixDummy.csv";

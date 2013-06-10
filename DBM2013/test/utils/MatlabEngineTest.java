@@ -151,8 +151,8 @@ public class MatlabEngineTest {
 		if(DEBUG) {
 			System.out.println("Scritto su file: Stefania.csv");
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/Stefania.csv");
-			mle.eval("svd_IR","Stefania.csv");
-			mle.eval("pca_IR","Stefania.csv");
+			mle.eval("svd_V","Stefania.csv");
+			mle.eval("pca_COEFF","Stefania.csv");
 			System.out.println("----------------------------------------------------------------------\n");
 		}
 	}
@@ -171,7 +171,7 @@ public class MatlabEngineTest {
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 			
-			mle.eval("svd_IR",fileName);
+			mle.eval("svd_V",fileName);
 			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/V_" + fileName);
 
 			if(PRINT) {
@@ -197,7 +197,7 @@ public class MatlabEngineTest {
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 			
-			mle.eval("pca_IR",fileName);
+			mle.eval("pca_COEFF",fileName);
 			ArrayList<ArrayList<Double>> concepts = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
 			
 			if(PRINT) {
@@ -298,7 +298,7 @@ public class MatlabEngineTest {
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 			
-			mle.eval("svd_IR",fileName);
+			mle.eval("svd_V",fileName);
 			ArrayList<ArrayList<Double>> matrix_v = IO.readDocumentTermMatrixFromFile("../data/V_" + fileName);
 
 			if(PRINT) {
@@ -324,7 +324,7 @@ public class MatlabEngineTest {
 			
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 			
-			mle.eval("pca_IR",fileName);
+			mle.eval("pca_COEFF",fileName);
 			ArrayList<ArrayList<Double>> concepts = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
 
 			if(PRINT) {

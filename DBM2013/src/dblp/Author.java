@@ -723,7 +723,7 @@ public class Author {
 //                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
 //                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
 //            }
-//            me.eval("svd_IR", fileName);
+//            me.eval("svd_V", fileName);
 //            ArrayList<ArrayList<Double>> svd = IO.readDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName);
 //            return svd;
 //    }
@@ -746,7 +746,7 @@ public class Author {
 //                    ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
 //                    IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/" + fileName);
 //            }
-//            me.eval("pca_IR", fileName);
+//            me.eval("pca_COEFF", fileName);
 //            
 //            ArrayList<ArrayList<Double>> pca = IO.readDocumentTermMatrixFromFile("../data/PCA_" + fileName);
 //            return pca;
@@ -772,7 +772,7 @@ public class Author {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, "../data/"	+ fileName);
 		}
-		me.eval("pca_IR", fileName);
+		me.eval("pca_COEFF", fileName);
 
 		ArrayList<ArrayList<Double>> pcaScore = IO.readTopNDocumentTermMatrixFromFile("../data/PCA_" + fileName,topN);
 
@@ -807,7 +807,7 @@ public class Author {
 			ArrayList<TreeMap<String, Double>> documentTermMatrix = this.getDocumentTermMatrix(corpus);
 			IO.printDocumentTermMatrixOnFile(documentTermMatrix, ioDirectory + fileName);
 		}
-		me.eval("svd_IR", fileName);
+		me.eval("svd_V", fileName);
 		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(ioDirectory + "/V_" + fileName, topN);
 		return svd;
 	}

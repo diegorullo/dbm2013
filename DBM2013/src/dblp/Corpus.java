@@ -148,7 +148,7 @@ public class Corpus {
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException
 	 * 
-	 * @return le prime n righe della matrice V'
+	 * @return le prime n righe della matrice U
 	 */
 	public ArrayList<ArrayList<Double>> getTop3SVD(String path, String inputFileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		File csvFile = new File(path + inputFileName);
@@ -158,8 +158,8 @@ public class Corpus {
 			Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = this.getAuthorAuthorSimilarityMatrixOnKeywordVector();
 			IO.printTableOnFile(authorAuthorSimilarityMatrixOnKeywordVector, path, inputFileName);
 		}
-		me.eval("svd_IR", inputFileName);
-		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(path + "/V_" + inputFileName, 3);
+		me.eval("svd_U", inputFileName);
+		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(path + "/U_" + inputFileName, 3);
 		return svd;
 	}
 		
