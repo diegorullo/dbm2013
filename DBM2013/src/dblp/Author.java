@@ -29,7 +29,7 @@ public class Author {
 	private ArrayList<String> keywordSet;
 	
 	private List<Integer> coAuthorsIDs;
-	private List<Integer> oAuthorsIDs;
+	private List<Integer> otherAuthorsIDs;
 	
 	private TreeMap<String, Double> weightedTFVector;
 	private TreeMap<String, Double> weightedTFIDFVector;
@@ -37,7 +37,7 @@ public class Author {
 	private TreeMap<String, Double> tFIDF2Vector;
 	private TreeMap<String, Double> pFVector;
 	private List<Paper> coAuthorsPapers;
-	private List<Paper> oAuthorsPapers;
+	private List<Paper> otherAuthorsPapers;
 	private List<Paper> coAuthorsAndSelfPapers;
 	
 	public Author(int personID, String name, ArrayList<Paper> papers) {
@@ -1603,10 +1603,10 @@ public class Author {
 	}
 	
 	public List<Paper> getOtherAuthorsPapers(Corpus corpus) throws NoAuthorsWithSuchIDException {
-		if (oAuthorsPapers == null) {
-			oAuthorsPapers = calculateOtherAuthorsPapers(corpus);
+		if (otherAuthorsPapers == null) {
+			otherAuthorsPapers = calculateOtherAuthorsPapers(corpus);
 		}
-		return oAuthorsPapers;
+		return otherAuthorsPapers;
 	}
 	
 	public List<Paper> getCoAuthorsAndSelfPapers(Corpus corpus) throws NoAuthorsWithSuchIDException	{
@@ -1624,10 +1624,10 @@ public class Author {
 	}
 	
 	public List<Integer> getOtherAuthorsIDs(Corpus corpus) throws NoAuthorsWithSuchIDException {
-		if(oAuthorsIDs == null) {
-			oAuthorsIDs = calculateOtherAuthors(corpus);
+		if(otherAuthorsIDs == null) {
+			otherAuthorsIDs = calculateOtherAuthors(corpus);
 		}
-		return oAuthorsIDs;
+		return otherAuthorsIDs;
 	}
 
 	/*

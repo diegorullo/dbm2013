@@ -140,7 +140,7 @@ public class Corpus {
 	 * Calcola l'SVD a partire dalla matrice X,
 	 * producendo i file relativi alle tre matrici S, U e V. 
 	 * Restituisce al chiamante le prime 3 righe
-	 * della matrice V', leggendola da file.
+	 * della matrice U, leggendola da file.
 	 * 
 	 * @param corpus il corpus di documenti a cui si fa riferimento
 	 * @param inputFileName nome del file .csv da cui leggere la matrice X
@@ -155,12 +155,35 @@ public class Corpus {
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();		
 		if (!csvFile.isFile()) {
+			//FIXME: svincolarlo da authorAuthorSimilarityMatrixOnKeywordVector!!!
 			Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = this.getAuthorAuthorSimilarityMatrixOnKeywordVector();
 			IO.printTableOnFile(authorAuthorSimilarityMatrixOnKeywordVector, path, inputFileName);
 		}
 		me.eval("svd_U", inputFileName);
 		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(path + "/U_" + inputFileName, 3);
 		return svd;
+	}
+	
+	/**
+	 * Estrae la matrice di similarita' coautore-coautore su tutti gli autori del corpus
+	 * 
+	 * @return Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector
+	 */
+	public Table<Integer, Integer, Double> getCoAuthorCoAuthorSimilarityMatrixOnKeywordVector() {
+		Table<Integer, Integer, Double> coAuthorcoAuthorSimilarityMatrixOnKeywordVector = HashBasedTable.create();
+
+		//TODO: da implementare
+//		ArrayList<Author> authors1 = this.getAuthors();
+//		ArrayList<Author> authors2 = this.getAuthors();
+//		int a1ID, a2ID;
+//		for(Author a1 : authors1) {
+//			a1ID = a1.getAuthorID();
+//			for(Author a2 : authors2) {
+//				a2ID = a2.getAuthorID();
+//				coAuthorcoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, a1.getSimilarityOnKeywordVector(a2, this));
+//			}
+//		}
+		return coAuthorcoAuthorSimilarityMatrixOnKeywordVector;		
 	}
 		
 	public ArrayList<Author> getAuthors() {
