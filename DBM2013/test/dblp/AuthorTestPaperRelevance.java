@@ -147,7 +147,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 
-			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByKeywordVector(dummyCorpus);
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPapersRankedByKeywordVector(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Stefania (KV): ");
 				Printer.printLinkedHashMap(similStefania);
@@ -161,7 +161,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByTFIDF2Vector(dummyCorpus);
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPapersRankedByTFIDF2Vector(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Stefania (TFIDF2): ");
 				Printer.printLinkedHashMap(similStefania);
@@ -175,7 +175,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByPFVector(dummyCorpus);
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPapersRankedByPFVector(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Stefania (PF): ");
 				Printer.printLinkedHashMap(similStefania);
@@ -189,7 +189,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedByPCA(dummyCorpus);
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPapersRankedByPCA(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Stefania (PCA): ");
 				Printer.printLinkedHashMap(similStefania);
@@ -203,7 +203,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPaperRankedBySVD(dummyCorpus);
+			LinkedHashMap<String,Double> similStefania = authorStefania.getRelevantPapersRankedBySVD(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Stefania (SVD): ");
 				Printer.printLinkedHashMap(similStefania);
@@ -217,7 +217,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 
-			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByKeywordVector(dummyCorpus);
+			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPapersRankedByKeywordVector(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Luca (KV): ");
 				Printer.printLinkedHashMap(similLuca);
@@ -231,7 +231,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByTFIDF2Vector(dummyCorpus);
+			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPapersRankedByTFIDF2Vector(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Luca (TFIDF2): ");
 				Printer.printLinkedHashMap(similLuca);
@@ -245,7 +245,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByPFVector(dummyCorpus);
+			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPapersRankedByPFVector(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Luca (PF): ");
 				Printer.printLinkedHashMap(similLuca);
@@ -259,7 +259,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedByPCA(dummyCorpus);
+			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPapersRankedByPCA(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Luca (PCA): ");
 				Printer.printLinkedHashMap(similLuca);
@@ -273,7 +273,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPaperRankedBySVD(dummyCorpus);
+			LinkedHashMap<String,Double> similLuca = authorLuca.getRelevantPapersRankedBySVD(dummyCorpus);
 			if(PRINT) {
 				System.out.println("Rilevanti per Luca (SVD): ");
 				Printer.printLinkedHashMap(similLuca);
@@ -287,7 +287,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByKeywordVector(dblp);
+			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPapersRankedByKeywordVector(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Candan (KV): ");
 				Printer.printLinkedHashMap(similCandan);
@@ -301,7 +301,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByTFIDF2Vector(dblp);
+			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPapersRankedByTFIDF2Vector(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Candan (TFIDF2): ");
 				Printer.printLinkedHashMap(similCandan);
@@ -315,7 +315,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByPFVector(dblp);
+			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPapersRankedByPFVector(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Candan (PF): ");
 				Printer.printLinkedHashMap(similCandan);
@@ -329,7 +329,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedByPCA(dblp);
+			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPapersRankedByPCA(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Candan (PCA): ");
 				Printer.printLinkedHashMap(similCandan);
@@ -343,7 +343,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPaperRankedBySVD(dblp);
+			LinkedHashMap<String,Double> similCandan = authorCandan.getRelevantPapersRankedBySVD(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Candan (SVD): ");
 				Printer.printLinkedHashMap(similCandan);
@@ -357,7 +357,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByKeywordVector(dblp);
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPapersRankedByKeywordVector(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Sapino (KV): ");
 				Printer.printLinkedHashMap(similSapino);
@@ -371,7 +371,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByTFIDF2Vector(dblp);
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPapersRankedByTFIDF2Vector(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Sapino (TFIDF2): ");
 				Printer.printLinkedHashMap(similSapino);
@@ -385,7 +385,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByPFVector(dblp);
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPapersRankedByPFVector(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Sapino (PF): ");
 				Printer.printLinkedHashMap(similSapino);
@@ -399,7 +399,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedByPCA(dblp);
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPapersRankedByPCA(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Sapino (PCA): ");
 				Printer.printLinkedHashMap(similSapino);
@@ -413,7 +413,7 @@ public class AuthorTestPaperRelevance {
 		
 		if(DEBUG) {
 			
-			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPaperRankedBySVD(dblp);
+			LinkedHashMap<String,Double> similSapino = authorSapino.getRelevantPapersRankedBySVD(dblp);
 			if(PRINT) {
 				System.out.println("Rilevanti per Sapino (SVD): ");
 				Printer.printLinkedHashMap(similSapino);

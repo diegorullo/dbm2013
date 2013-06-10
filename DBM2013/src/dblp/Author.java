@@ -101,7 +101,7 @@ public class Author {
 
 	/**
 	 * Considera tutti gli articoli scritti da un certo autore per creare un
-	 * combined keyword vector dei tf per quellautore. Nei combined keyword
+	 * combined keyword vector dei tf per quell'autore. Nei combined keyword
 	 * vector, gli articoli piu recenti devono pesare di piu di quelli piu
 	 * vecchi.
 	 * 
@@ -140,7 +140,7 @@ public class Author {
 
 	/**
 	 * Considera tutti gli articoli scritti da un certo autore per creare un
-	 * combined keyword vector dei tfidf per quell' autore. Nei combined
+	 * combined keyword vector dei tfidf per quell'autore. Nei combined
 	 * keyword vector, gli articoli piu recenti devono pesare di piu di
 	 * quelli piu vecchi.
 	 * 
@@ -1330,34 +1330,36 @@ public class Author {
 	 * @return La classifica degli articoli piu’rilevanti
 	 *
 	 */
-	public LinkedHashMap<String,Double> getRelevantPaperRankedByKeywordVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
+	public LinkedHashMap<String,Double> getRelevantPapersRankedByKeywordVector(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		
-		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		LinkedHashMap<String,Double> topRelevantPapers = new LinkedHashMap<String,Double>();
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myKeywordVector = this.getWeightedTFIDFVector(corpus);
-		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		List<Paper> otherAuthorsPapers = this.getOtherAuthorsPapers(corpus);
 		
-		for(Paper paper : papersOfOther)
+		for(Paper paper : otherAuthorsPapers)
 		{
+//			System.out.println("keyword vector di " + this.getName() + ": " + myKeywordVector);
+//			System.out.println("TFIDF vector del paper " + paper.getPaperID() + ": " + paper.getTFIDFVector(corpus));
 			similarity = Similarity.getCosineSimilarity(myKeywordVector, paper.getTFIDFVector(corpus));
 			similarityVector.put(paper.getTitle(), similarity);
 		}
 		
-		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+		ArrayList<Map.Entry<String, Double>> papersOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
 		int topRank = 10;
-		if(paperOrderedByRelevance.size() < topRank)
+		if(papersOrderedByRelevance.size() < topRank)
 		{
-			topRank = paperOrderedByRelevance.size();
+			topRank = papersOrderedByRelevance.size();
 		}
 		
 		for(int i = 0; i < topRank; i++) {
-			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+			topRelevantPapers.put(papersOrderedByRelevance.get(i).getKey(), papersOrderedByRelevance.get(i).getValue());
 		}
 		
-		return topRelevantPaper;
+		return topRelevantPapers;
 	}
 	
 	/**
@@ -1368,34 +1370,34 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 *
 	 */
-	public LinkedHashMap<String,Double> getRelevantPaperRankedByTFIDF2Vector(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+	public LinkedHashMap<String,Double> getRelevantPapersRankedByTFIDF2Vector(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		
-		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		LinkedHashMap<String,Double> topRelevantPapers = new LinkedHashMap<String,Double>();
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myTFIDF2Vector = this.getTFIDF2Vector(corpus);	
-		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		List<Paper> otherAuthorsPapers = this.getOtherAuthorsPapers(corpus);
 		
-		for(Paper paper : papersOfOther)
+		for(Paper paper : otherAuthorsPapers)
 		{
 			similarity = Similarity.getCosineSimilarity(myTFIDF2Vector, paper.getTFIDFVector(corpus));
 			similarityVector.put(paper.getTitle(), similarity);
 		}
 		
-		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+		ArrayList<Map.Entry<String, Double>> papersOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
 		int topRank = 10;
-		if(paperOrderedByRelevance.size() < topRank)
+		if(papersOrderedByRelevance.size() < topRank)
 		{
-			topRank = paperOrderedByRelevance.size();
+			topRank = papersOrderedByRelevance.size();
 		}
 		
 		for(int i = 0; i < topRank; i++) {
-			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+			topRelevantPapers.put(papersOrderedByRelevance.get(i).getKey(), papersOrderedByRelevance.get(i).getValue());
 		}
 		
-		return topRelevantPaper;
+		return topRelevantPapers;
 	}
 	
 	/**
@@ -1406,35 +1408,35 @@ public class Author {
 	 * @throws AuthorWithoutPapersException 
 	 *
 	 */
-	public LinkedHashMap<String,Double> getRelevantPaperRankedByPFVector(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
+	public LinkedHashMap<String,Double> getRelevantPapersRankedByPFVector(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
 		
-		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		LinkedHashMap<String,Double> topRelevantPapers = new LinkedHashMap<String,Double>();
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		
 		TreeMap<String, Double> myPFVector = this.getPFVector(corpus);
 		
-		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		List<Paper> otherAuthorsPapers = this.getOtherAuthorsPapers(corpus);
 		
-		for(Paper paper : papersOfOther)
+		for(Paper paper : otherAuthorsPapers)
 		{
 			similarity = Similarity.getCosineSimilarity(myPFVector, paper.getTFIDFVector(corpus));
 			similarityVector.put(paper.getTitle(), similarity);
 		}
 		
-		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+		ArrayList<Map.Entry<String, Double>> papersOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
 		int topRank = 10;
-		if(paperOrderedByRelevance.size() < topRank)
+		if(papersOrderedByRelevance.size() < topRank)
 		{
-			topRank = paperOrderedByRelevance.size();
+			topRank = papersOrderedByRelevance.size();
 		}
 		
 		for(int i = 0; i < topRank; i++) {
-			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+			topRelevantPapers.put(papersOrderedByRelevance.get(i).getKey(), papersOrderedByRelevance.get(i).getValue());
 		}
 		
-		return topRelevantPaper;
+		return topRelevantPapers;
 	}
 	
 	/**
@@ -1447,39 +1449,39 @@ public class Author {
 	 * @throws MatlabConnectionException 
 	 *
 	 */
-	public LinkedHashMap<String,Double> getRelevantPaperRankedByPCA(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException, MatlabConnectionException, MatlabInvocationException {
+	public LinkedHashMap<String,Double> getRelevantPapersRankedByPCA(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException, MatlabConnectionException, MatlabInvocationException {
 		
-		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		LinkedHashMap<String,Double> topRelevantPapers = new LinkedHashMap<String,Double>();
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		
 		String fileName = this.getAuthorID().toString();
 		ArrayList<ArrayList<Double>> myPCAMatrix = this.getPCA(corpus, fileName, 5);
 		ArrayList<TreeMap<String, Double>> myPCAMatrixwithKey = this.getTopN(myPCAMatrix, myPCAMatrix.size());
-		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		List<Paper> otherAuthorsPapers = this.getOtherAuthorsPapers(corpus);
 		
-		for(Paper paper : papersOfOther)
+		for(Paper paper : otherAuthorsPapers)
 		{
-			for(int i=0; i<myPCAMatrixwithKey.size();i++)
+			for(int i=0; i < myPCAMatrixwithKey.size(); i++)
 			{			
 				similarity += Similarity.getCosineSimilarity(myPCAMatrixwithKey.get(i), paper.getTFIDFVector(corpus));
 			}
 			similarityVector.put(paper.getTitle(), similarity);
 		}
 		
-		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+		ArrayList<Map.Entry<String, Double>> papersOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
 		int topRank = 10;
-		if(paperOrderedByRelevance.size() < topRank)
+		if(papersOrderedByRelevance.size() < topRank)
 		{
-			topRank = paperOrderedByRelevance.size();
+			topRank = papersOrderedByRelevance.size();
 		}
 		
 		for(int i = 0; i < topRank; i++) {
-			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+			topRelevantPapers.put(papersOrderedByRelevance.get(i).getKey(), papersOrderedByRelevance.get(i).getValue());
 		}
 		
-		return topRelevantPaper;
+		return topRelevantPapers;
 	}
 	
 	/**
@@ -1492,39 +1494,39 @@ public class Author {
 	 * @throws MatlabConnectionException 
 	 *
 	 */
-	public LinkedHashMap<String,Double> getRelevantPaperRankedBySVD(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException, MatlabConnectionException, MatlabInvocationException {
+	public LinkedHashMap<String,Double> getRelevantPapersRankedBySVD(Corpus corpus) throws NoAuthorsWithSuchIDException, AuthorWithoutPapersException, MatlabConnectionException, MatlabInvocationException {
 		
-		LinkedHashMap<String,Double> topRelevantPaper = new LinkedHashMap<String,Double>();
+		LinkedHashMap<String,Double> topRelevantPapers = new LinkedHashMap<String,Double>();
 		TreeMap<String, Double> similarityVector = new TreeMap<String,Double>();
 		Double similarity = 0.0;
 		String fileName = this.getAuthorID().toString();
 		
 		ArrayList<ArrayList<Double>> mySVDMatrix = this.getSVD(corpus, fileName, 5);
 		ArrayList<TreeMap<String, Double>> mySVDMatrixwithKey = this.getTopN(mySVDMatrix, mySVDMatrix.size());
-		List<Paper> papersOfOther = this.getOtherAuthorsPapers(corpus);
+		List<Paper> otherAuthorsPapers = this.getOtherAuthorsPapers(corpus);
 		
-		for(Paper paper : papersOfOther) 
+		for(Paper paper : otherAuthorsPapers) 
 		{
-			for(int i=0; i<mySVDMatrixwithKey.size();i++)
+			for(int i=0; i < mySVDMatrixwithKey.size(); i++)
 			{			
 				similarity += Similarity.getCosineSimilarity(mySVDMatrixwithKey.get(i), paper.getTFIDFVector(corpus));
 			}
 			similarityVector.put(paper.getTitle(), similarity);
 		}
 		
-		ArrayList<Map.Entry<String, Double>> paperOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
+		ArrayList<Map.Entry<String, Double>> papersOrderedByRelevance = Printer.orderVectorTreeMap(similarityVector);
 
 		int topRank = 10;
-		if(paperOrderedByRelevance.size() < topRank)
+		if(papersOrderedByRelevance.size() < topRank)
 		{
-			topRank = paperOrderedByRelevance.size();
+			topRank = papersOrderedByRelevance.size();
 		}
 		
 		for(int i = 0; i < topRank; i++) {
-			topRelevantPaper.put(paperOrderedByRelevance.get(i).getKey(), paperOrderedByRelevance.get(i).getValue());
+			topRelevantPapers.put(papersOrderedByRelevance.get(i).getKey(), papersOrderedByRelevance.get(i).getValue());
 		}
 		
-		return topRelevantPaper;
+		return topRelevantPapers;
 	}
 	
 	public Integer getAuthorID() {
