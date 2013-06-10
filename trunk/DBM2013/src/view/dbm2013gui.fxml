@@ -112,7 +112,7 @@
                                     </HBox>
                                     <HBox layoutX="13.0" layoutY="43.0" prefHeight="21.0" prefWidth="325.0">
                                       <children>
-                                        <Label text="Title:">
+                                        <Label prefWidth="61.0" text="Author:">
                                           <HBox.margin>
                                             <Insets right="10.0" fx:id="x5001" />
                                           </HBox.margin>
@@ -164,7 +164,7 @@
                                     </HBox>
                                     <HBox layoutX="14.0" layoutY="43.0" prefHeight="21.0" prefWidth="325.0">
                                       <children>
-                                        <Label text="Title:">
+                                        <Label prefWidth="56.0" text="Author:">
                                           <HBox.margin>
                                             <Insets right="10.0" fx:id="x5003" />
                                           </HBox.margin>
@@ -190,7 +190,60 @@
                           <expandedPane>
                             <TitledPane fx:id="x3" animated="false" text="Task 1">
                               <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <HBox layoutX="13.0" layoutY="14.0" prefHeight="16.0" prefWidth="328.0">
+                                      <children>
+                                        <Label prefWidth="47.0" text="1.a" textFill="#0021cc" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="12.0" layoutY="30.0" prefHeight="22.0" prefWidth="308.0">
+                                      <children>
+                                        <Label prefWidth="49.0" text="Author:">
+                                          <HBox.margin>
+                                            <Insets right="10.0" top="2.0" />
+                                          </HBox.margin>
+                                        </Label>
+                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase2Task1AuthorIDComboBox" promptText="Author ID">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2" />
+                                          </HBox.margin>
+                                        </ComboBox>
+                                        <ComboBox fx:id="phase2Task1ModelComboBox" promptText="Model">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2" />
+                                          </HBox.margin>
+                                        </ComboBox>
+                                        <Button fx:id="phase2Task1ExecuteButton" mnemonicParsing="false" prefWidth="72.0" text="Execute">
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2" />
+                                          </HBox.margin>
+                                        </Button>
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="13.0" layoutY="52.0" prefHeight="24.0" prefWidth="310.0">
+                                      <children>
+                                        <Label text="Author:" />
+                                        <Label fx:id="phase2Task1TitleLabel" prefWidth="248.0" text="..." />
+                                      </children>
+                                    </HBox>
+                                    <Separator layoutX="14.0" layoutY="76.0" prefHeight="19.0" prefWidth="327.0" />
+                                  </children>
+                                </AnchorPane>
                               </content>
                             </TitledPane>
                           </expandedPane>

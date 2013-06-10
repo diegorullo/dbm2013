@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
+import utils.IO;
+import utils.Printer;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,62 +32,61 @@ import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoPaperWithSuchIDException;
 
 public class GUIController implements Initializable {
+	
+	private final static boolean PRINT = true;
+	private final static boolean PRINT_ON_FILE = !true;
 
+	// PHASE 1 - Task 1 - controls injection
 	@FXML
-	// fx:id="task1PaperIDTextField"
-	private ComboBox<String> phase1Task1PaperIDComboBox; // Valore iniettato
-															// attraverso
-	// FXMLLoader
-
+	private ComboBox<String> phase1Task1PaperIDComboBox;
 	@FXML
-	// fx:id="task1ModelloComboBox"
-	private ComboBox<String> phase1Task1ModelComboBox; // Valore iniettato
-														// attraverso FXMLLoader
-
+	private ComboBox<String> phase1Task1ModelComboBox;
 	@FXML
 	private Button phase1Task1ExecuteButton;
-
 	@FXML
 	private Label phase1Task1TitleLabel;
 
+	// PHASE 1 - Task 2 - controls injection
 	@FXML
 	private ComboBox<String> phase1Task2AuthorIDComboBox;
-
 	@FXML
-	// fx:id="task1ModelloComboBox"
-	private ComboBox<String> phase1Task2ModelComboBox; // Valore iniettato
-														// attraverso FXMLLoader
-
+	private ComboBox<String> phase1Task2ModelComboBox;
 	@FXML
 	private Button phase1Task2ExecuteButton;
-
 	@FXML
 	private Label phase1Task2TitleLabel;
 
+	// PHASE 1 - Task 3 - controls injection
 	@FXML
 	private Button phase1Task3ExecuteButton;
-
 	@FXML
 	private Label phase1Task3TitleLabel;
-
 	@FXML
 	private ComboBox<String> phase1Task3ModelComboBox;
-
 	@FXML
 	private ComboBox<String> phase1Task3AuthorIDComboBox;
 
+	// PHASE 2 - Task 1 - controls injection
+	@FXML
+	private Button phase2Task1ExecuteButton;
+	@FXML
+	private Label phase2Task1TitleLabel;
+	@FXML
+	private ComboBox<String> phase2Task1ModelComboBox;
+	@FXML
+	private ComboBox<String> phase2Task1AuthorIDComboBox;
+
+	// exploreDB - controls injection
 	@FXML
 	private TableView<String> exploreDBAuthorsTableView;
-
 	@FXML
 	private TableColumn<Author, String> colAuthors;
-
 	@FXML
 	private TableView<String> exploreDBPapersTableView;
-
 	@FXML
 	private TableColumn<Author, String> colPapers;
 
+	// Results TextArea - controls injection
 	@FXML
 	private TextArea resultsTextArea;
 
@@ -294,7 +299,7 @@ public class GUIController implements Initializable {
 					}
 				});
 
-		// PHASE 1 - Task 2 - controls settings
+		// PHASE 1 - Task 3 - controls settings
 		phase1Task3AuthorIDComboBox.setItems(authorsIDs);
 		phase1Task3ModelComboBox.getItems().clear();
 		phase1Task3ModelComboBox.getItems().addAll("TFIDF2", "PF");
@@ -340,7 +345,8 @@ public class GUIController implements Initializable {
 			}
 		});
 
-		phase1Task3AuthorIDComboBox.setOnAction(new EventHandler<ActionEvent>() {
+		phase1Task3AuthorIDComboBox
+				.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						try {
@@ -349,13 +355,114 @@ public class GUIController implements Initializable {
 							if (authorid != null && !authorid.equals("")) {
 								Corpus dblp = Main.getDblp();
 								Author author = null;
-								author = dblp.getAuthorByID(Integer.parseInt(authorid));
+								author = dblp.getAuthorByID(Integer
+										.parseInt(authorid));
 								String name = author.getName();
 								phase1Task3TitleLabel.setText(name);
 							} else {
 								resultsTextArea.setText("authorid non valido!");
 							}
-						} catch (NumberFormatException | NoAuthorsWithSuchIDException e) {
+						} catch (NumberFormatException
+								| NoAuthorsWithSuchIDException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+				});
+
+		// PHASE 2 - Task 1 - controls settings
+		phase2Task1AuthorIDComboBox.setItems(authorsIDs);
+		phase2Task1ModelComboBox.getItems().clear();
+		phase2Task1ModelComboBox.getItems().addAll("PCA", "SVD");
+		phase2Task1ModelComboBox.getSelectionModel().selectFirst();
+		phase2Task1TitleLabel.setText("nome autore selezionato");
+
+		// PHASE 2 - Task 1 - EVENT HANDLER
+		phase2Task1ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				resultsTextArea.clear();
+				resultsTextArea.setText("Attendere prego!\n");
+				String modello = phase2Task1ModelComboBox.getValue();
+				String authorid = phase2Task1AuthorIDComboBox.getValue();
+				try {
+					if (authorid != null && !authorid.equals("")) {
+						Corpus dblp = Main.getDblp();
+						Author author = null;
+						author = dblp.getAuthorByID(Integer.parseInt(authorid));
+						String output = null;
+						if (modello.equals("PCA")) {
+							String fileName = author.getAuthorID().toString();
+							ArrayList<ArrayList<Double>> scoreLatentMatrix = author.getPCA(dblp, fileName, 5);
+							ArrayList<TreeMap<String, Double>> topNMatrix = author.getTopN(scoreLatentMatrix, 5);
+							if(PRINT_ON_FILE) {
+								IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + author.getAuthorID() + ".csv");
+							}
+							if(PRINT) {
+								System.out.println("Matrice Score(" + author.getAuthorID() + "): " );
+								Printer.printMatrix(scoreLatentMatrix);
+								System.out.println("Matrice top 5 PCA (" + author.getAuthorID() + "): " + topNMatrix);
+								System.out.println("----------------------------------------------------------------------\n");
+							}
+							output = "Top 5 PCA matrix:\n"
+									+ "-----------------------------------------------------\n"
+									+ topNMatrix.toString();
+						} else if (modello.equals("SVD")) {					
+							String authorID = author.getAuthorID().toString();
+							ArrayList<ArrayList<Double>> vMatrix = author.getSVD(dblp, authorID, 5);
+							ArrayList<TreeMap<String, Double>> topNMatrix = author.getTopN(vMatrix, 5);
+							if(PRINT_ON_FILE) {
+								IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + author.getAuthorID() + ".csv");
+							}
+							if(PRINT) {
+								System.out.println("Matrice V (" + author.getAuthorID() + "):");
+								Printer.printMatrix(vMatrix);
+								System.out.println("Matrice top 5 SVD (" + author.getAuthorID() + "): " + topNMatrix);
+								System.out.println("----------------------------------------------------------------------\n");
+								
+							}							
+							output = "Top 5 SVD:\n"
+									+ "-----------------------------------------------------\n"
+									+ topNMatrix;
+						}
+						resultsTextArea.setText(output);
+					} else {
+						resultsTextArea.setText("authorid non valido!");
+					}
+				} catch (NoAuthorsWithSuchIDException
+						| AuthorWithoutPapersException | NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (MatlabConnectionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (MatlabInvocationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		phase2Task1AuthorIDComboBox
+				.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						try {
+							String authorid = phase2Task1AuthorIDComboBox
+									.getValue();
+							if (authorid != null && !authorid.equals("")) {
+								Corpus dblp = Main.getDblp();
+								Author author = null;
+								author = dblp.getAuthorByID(Integer
+										.parseInt(authorid));
+								String name = author.getName();
+								phase2Task1TitleLabel.setText(name);
+							} else {
+								resultsTextArea.setText("authorid non valido!");
+							}
+						} catch (NumberFormatException
+								| NoAuthorsWithSuchIDException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
