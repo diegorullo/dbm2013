@@ -173,20 +173,29 @@ public class Corpus {
 	 * @return Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector
 	 */
 	public Table<Integer, Integer, Double> getCoAuthorCoAuthorSimilarityMatrixOnKeywordVector() {
-		Table<Integer, Integer, Double> coAuthorcoAuthorSimilarityMatrixOnKeywordVector = HashBasedTable.create();
+		Table<Integer, Integer, Double> coAuthorCoAuthorSimilarityMatrixOnKeywordVector = HashBasedTable.create();
 
-		//TODO: da implementare
-//		ArrayList<Author> authors1 = this.getAuthors();
-//		ArrayList<Author> authors2 = this.getAuthors();
-//		int a1ID, a2ID;
-//		for(Author a1 : authors1) {
-//			a1ID = a1.getAuthorID();
-//			for(Author a2 : authors2) {
-//				a2ID = a2.getAuthorID();
-//				coAuthorcoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, a1.getSimilarityOnKeywordVector(a2, this));
-//			}
-//		}
-		return coAuthorcoAuthorSimilarityMatrixOnKeywordVector;		
+		ArrayList<Author> authors1 = this.getAuthors();
+		ArrayList<Author> authors2 = this.getAuthors();
+		int a1ID, a2ID;
+		for(Author a1 : authors1) {
+			a1ID = a1.getAuthorID();
+			for(Author a2 : authors2) {
+				a2ID = a2.getAuthorID();
+				if (a1.hasCoAuthors() && a2.hasCoAuthors()) {
+					coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, a1.getSimilarityOnKeywordVector(a2, this));
+				}
+				else {
+					if(a1ID == a2ID) {
+						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, 1.0);
+					}
+					else {
+						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, 0.0);
+					}
+				}
+			}
+		}
+		return coAuthorCoAuthorSimilarityMatrixOnKeywordVector;		
 	}
 		
 	public ArrayList<Author> getAuthors() {
