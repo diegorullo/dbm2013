@@ -1617,18 +1617,6 @@ public class Author {
 	public ArrayList<Paper> getPapers() {
 		return papers;
 	}
-
-	public void setAuthorID(int authorID) {
-		this.authorID = authorID;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPapers(ArrayList<Paper> papers) {
-		this.papers = papers;
-	}
 	
 	/*
 	 * (non-Javadoc)
