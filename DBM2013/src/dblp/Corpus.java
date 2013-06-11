@@ -165,7 +165,6 @@ public class Corpus {
 	}
 	
 	// Phase 2 - Task 2b
-	//TODO:
 	
 	/**
 	 * Estrae la matrice di similarita' coautore-coautore su tutti gli autori del corpus
@@ -197,6 +196,8 @@ public class Corpus {
 		}
 		return coAuthorCoAuthorSimilarityMatrixOnKeywordVector;		
 	}
+	
+	//TODO: per il task 2b punti 2 e 3, usare il metodo getTop3SVD con input la matrice dei coauthor-coauthor
 		
 	public ArrayList<Author> getAuthors() {
 		return authors;
