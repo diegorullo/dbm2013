@@ -1064,37 +1064,7 @@ public class Author {
 		// In questo modo si calcola la similarita' complessiva usando il punto medio tra massima e minima
 		//return (max_similarity + min_similarity) / 2;
 	}
-	
-	
-	/**
-	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
-	 * 
-	 * @param otherAuthor
-	 * @param corpus
-	 * @return double similarita'
-	 * @throws AuthorWithoutPapersException 
-	 * @throws MatlabInvocationException 
-	 * @throws MatlabConnectionException 
-	 *
-	 */
-//	public double getSimilarityOnSVD(Author otherAuthor, Corpus corpus) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
-//		Double similarity = 0.0;
-//		
-//		ArrayList<ArrayList<Double>> mySVD = this.getSVD(corpus);
-//		ArrayList<ArrayList<Double>> otherSVD = otherAuthor.getSVD(corpus);
-//		ArrayList<TreeMap<String,Double>> mySVDKey = this.getTopN(mySVD, mySVD.size());
-//		ArrayList<TreeMap<String,Double>> otherSVDKey = otherAuthor.getTopN(otherSVD, otherSVD.size());
-//
-//		//TODO Da rivedere: va pesato con latent
-//		for(int i=0;i<mySVD.size();i++)
-//		{
-//			similarity += Similarity.getCosineSimilarity(mySVDKey.get(i), otherSVDKey.get(i));
-//		}
-//		
-//		return similarity/mySVD.size();
-//	}
-	
-	
+		
 	/**
 	 * Resituisce la classifica dei 10 autori per similarita' (coseno) rispetto all'autore corrente
 	 * misurando le similarita' basandosi sulla PCA.
