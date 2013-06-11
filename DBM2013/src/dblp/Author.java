@@ -28,13 +28,13 @@ public class Author {
 	private ArrayList<Paper> papers;
 	private ArrayList<String> keywordSet;
 	
-	private ArrayList<Integer> coAuthorsIDs;
-	
 	private TreeMap<String, Double> weightedTFVector;
 	private TreeMap<String, Double> weightedTFIDFVector;
 	private TreeMap<String, Integer> combinedKeywordSet;
 	private TreeMap<String, Double> tFIDF2Vector;
 	private TreeMap<String, Double> pFVector;
+	
+	private ArrayList<Integer> coAuthorsIDs;
 	private ArrayList<Paper> coAuthorsPapers;
 	private ArrayList<Paper> coAuthorsAndSelfPapers;
 	
@@ -47,46 +47,6 @@ public class Author {
 		this.authorID = personID;
 		this.name = name;
 		this.papers = papers;
-	}
-
-	/**
-	 * Estrae i coautori di un autore dato.
-	 * 
-	 * @param corpus il corpus di riferimento
-	 * @return lista di Author: coautori di un autore dato
-	 * @throws NoAuthorsWithSuchIDException 
-	 *
-	 */
-	public ArrayList<Author> getCoAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
-		ArrayList<Author> coAuthors = new ArrayList<Author>();
-		ArrayList<Integer> coAuthorsIDs = this.getCoAuthorsIDs();
-
-		for (int coA : coAuthorsIDs) {
-			coAuthors.add(corpus.getAuthorByID(coA));
-		}
-
-		return coAuthors;
-	}
-	
-	/**
-	 * Estrae i coautori di un autore dato, insieme all'autore stesso.
-	 * 
-	 * @param corpus il corpus di riferimento
-	 * @return lista di Author: coautori di un autore dato + autore stesso
-	 * @throws NoAuthorsWithSuchIDException 
-	 *
-	 */
-	public ArrayList<Author> getCoAuthorsAndSelf(Corpus corpus) throws NoAuthorsWithSuchIDException {
-		ArrayList<Author> coAuthorsAndSelf = this.getCoAuthors(corpus);
-		coAuthorsAndSelf.add(this);
-		return coAuthorsAndSelf;
-	}
-	
-	public TreeMap<String, Double> getWeightedTFVector() throws IOException, AuthorWithoutPapersException {
-		if(weightedTFVector == null) {
-			weightedTFVector = calculateWeightedTFVector();
-		}
-		return this.weightedTFVector;
 	}
 
 	/**
@@ -209,6 +169,46 @@ public class Author {
 	}
 	
 	/**
+	 * Estrae i coautori di un autore dato.
+	 * 
+	 * @param corpus il corpus di riferimento
+	 * @return lista di Author: coautori di un autore dato
+	 * @throws NoAuthorsWithSuchIDException 
+	 *
+	 */
+	public ArrayList<Author> getCoAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		ArrayList<Author> coAuthors = new ArrayList<Author>();
+		ArrayList<Integer> coAuthorsIDs = this.getCoAuthorsIDs();
+
+		for (int coA : coAuthorsIDs) {
+			coAuthors.add(corpus.getAuthorByID(coA));
+		}
+
+		return coAuthors;
+	}
+	
+	/**
+	 * Estrae i coautori di un autore dato, insieme all'autore stesso.
+	 * 
+	 * @param corpus il corpus di riferimento
+	 * @return lista di Author: coautori di un autore dato + autore stesso
+	 * @throws NoAuthorsWithSuchIDException 
+	 *
+	 */
+	public ArrayList<Author> getCoAuthorsAndSelf(Corpus corpus) throws NoAuthorsWithSuchIDException {
+		ArrayList<Author> coAuthorsAndSelf = this.getCoAuthors(corpus);
+		coAuthorsAndSelf.add(this);
+		return coAuthorsAndSelf;
+	}
+	
+	public TreeMap<String, Double> getWeightedTFVector() throws IOException, AuthorWithoutPapersException {
+		if(weightedTFVector == null) {
+			weightedTFVector = calculateWeightedTFVector();
+		}
+		return this.weightedTFVector;
+	}
+	
+	/**
 	 * Estrae i nomi dei coautori dell'autore corrente.
 	 * 
 	 * @return lista di stringhe: nomi dei coautori dell'autore corrente
@@ -258,7 +258,6 @@ public class Author {
 		return coAuthorsIDs;
 	}
 	
-
 	/**
 	 * Calcola il tf della keyword basandosi sull'insieme di tutti gli articoli
 	 * scritti dall' autore dato.
