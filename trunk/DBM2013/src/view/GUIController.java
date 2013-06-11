@@ -32,8 +32,8 @@ import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoPaperWithSuchIDException;
 
 public class GUIController implements Initializable {
-	
-	private final static boolean PRINT = true;
+
+	private final static boolean PRINT_ON_CONSOLE = true;
 	private final static boolean PRINT_ON_FILE = !true;
 
 	// PHASE 1 - Task 1 - controls injection
@@ -88,7 +88,7 @@ public class GUIController implements Initializable {
 
 	// Results TextArea - controls injection
 	@FXML
-	private TextArea resultsTextArea;
+	private static TextArea resultsTextArea;
 
 	@Override
 	// This method is called by the FXMLLoader when initialization is complete
@@ -394,39 +394,61 @@ public class GUIController implements Initializable {
 						String output = null;
 						if (modello.equals("PCA")) {
 							String fileName = author.getAuthorID().toString();
-							ArrayList<ArrayList<Double>> scoreLatentMatrix = author.getPCA(dblp, fileName, 5);
-							ArrayList<TreeMap<String, Double>> topNMatrix = author.getTopN(scoreLatentMatrix, 5);
-							if(PRINT_ON_FILE) {
-								IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/PCA_Top5_" + author.getAuthorID() + ".csv");
+							ArrayList<ArrayList<Double>> scoreLatentMatrix = author
+									.getPCA(dblp, fileName, 5);
+							ArrayList<TreeMap<String, Double>> topNMatrix = author
+									.getTopN(scoreLatentMatrix, 5);
+							if (PRINT_ON_FILE) {
+								IO.printDocumentTermMatrixOnFile(
+										topNMatrix,
+										"../data/PCA_Top5_"
+												+ author.getAuthorID() + ".csv");
 							}
-							if(PRINT) {
-								System.out.println("Matrice Score(" + author.getAuthorID() + "): " );
+							if (PRINT_ON_CONSOLE) {
+								System.out.println("Matrice Score("
+										+ author.getAuthorID() + "): ");
 								Printer.printMatrix(scoreLatentMatrix);
-								System.out.println("Matrice top 5 PCA (" + author.getAuthorID() + "): " + topNMatrix);
-								System.out.println("----------------------------------------------------------------------\n");
+								System.out.println("Matrice top 5 PCA ("
+										+ author.getAuthorID() + "): "
+										+ topNMatrix);
+								System.out
+										.println("----------------------------------------------------------------------\n");
 							}
 							output = "Top 5 PCA matrix:\n"
 									+ "-----------------------------------------------------\n"
 									+ topNMatrix.toString();
-						} else if (modello.equals("SVD")) {					
+							gUIPrintMatrix(scoreLatentMatrix);
+
+						} else if (modello.equals("SVD")) {
 							String authorID = author.getAuthorID().toString();
-							ArrayList<ArrayList<Double>> vMatrix = author.getSVD(dblp, authorID, 5);
-							ArrayList<TreeMap<String, Double>> topNMatrix = author.getTopN(vMatrix, 5);
-							if(PRINT_ON_FILE) {
-								IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + author.getAuthorID() + ".csv");
+							ArrayList<ArrayList<Double>> vMatrix = author
+									.getSVD(dblp, authorID, 5);
+							ArrayList<TreeMap<String, Double>> topNMatrix = author
+									.getTopN(vMatrix, 5);
+							if (PRINT_ON_FILE) {
+								IO.printDocumentTermMatrixOnFile(
+										topNMatrix,
+										"../data/SVD_Top5_"
+												+ author.getAuthorID() + ".csv");
 							}
-							if(PRINT) {
-								System.out.println("Matrice V (" + author.getAuthorID() + "):");
+							if (PRINT_ON_CONSOLE) {
+								System.out.println("Matrice V ("
+										+ author.getAuthorID() + "):");
 								Printer.printMatrix(vMatrix);
-								System.out.println("Matrice top 5 SVD (" + author.getAuthorID() + "): " + topNMatrix);
-								System.out.println("----------------------------------------------------------------------\n");
-								
-							}							
+								System.out.println("Matrice top 5 SVD ("
+										+ author.getAuthorID() + "): "
+										+ topNMatrix);
+								System.out
+										.println("----------------------------------------------------------------------\n");
+
+							}
 							output = "Top 5 SVD:\n"
 									+ "-----------------------------------------------------\n"
 									+ topNMatrix;
+							 gUIPrintMatrix(vMatrix);
 						}
-						resultsTextArea.setText(output);
+						// resultsTextArea.setText(output);
+
 					} else {
 						resultsTextArea.setText("authorid non valido!");
 					}
@@ -467,9 +489,22 @@ public class GUIController implements Initializable {
 							e.printStackTrace();
 						}
 					}
-
 				});
 
+	}
+
+	public static void gUIPrintMatrix(ArrayList<ArrayList<Double>> matrix) {
+		resultsTextArea.setText("Score Latent Matrix:\n");
+		resultsTextArea.appendText("-----------------------------\n");
+		for (ArrayList<Double> riga : matrix) {
+			for (Double cella : riga) {
+				resultsTextArea.appendText("     " + Double.toString(cella));
+				resultsTextArea.appendText(",");
+				System.out.println("\n###");
+			}
+			resultsTextArea.appendText("\n");
+		}
+		return;
 	}
 
 }
