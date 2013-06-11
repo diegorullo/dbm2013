@@ -48,6 +48,9 @@ public class Author {
 		this.name = name;
 		this.papers = papers;
 	}
+	
+	
+	// Phase 1 - Task 2
 
 	/**
 	 * Considera tutti gli articoli scritti da un certo autore per creare un
@@ -133,6 +136,8 @@ public class Author {
 
 		return normalizedWeightedTFIDFVector;
 	}
+	
+	// Phase 1 - Task 3
 	
 	public TreeMap<String, Integer> getCombinedKeywordSet() throws AuthorWithoutPapersException {
 		if(combinedKeywordSet == null) {
@@ -614,6 +619,8 @@ public class Author {
 
 		return normalizedPFVector;
 	}
+	
+	// Phase 2 - Task 1a
 
 	/**
 	 * Restituisce la matrice document-term relativa all'autore selezionato
@@ -906,6 +913,7 @@ public class Author {
 		return latentSVDVector;
 	}
 	
+	// Phase 2 - Task 1b	
 	
 	/**
 	 * Calcola la similarita' (coseno) tra l'autore corrente e un altro autore
@@ -1310,7 +1318,7 @@ public class Author {
 		return top10;
 	}
 	
-	//Task 1c
+	// Phase 2 - Task 1c
 	
 	public ArrayList<Author> getOtherAuthors(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		if(otherAuthors == null) {
@@ -1336,9 +1344,7 @@ public class Author {
 
 		return otherAuthors;
 	}
-	
-
-	
+		
 	public ArrayList<Integer> getOtherAuthorsIDs(Corpus corpus) throws NoAuthorsWithSuchIDException {
 		if(otherAuthorsIDs == null) {
 			otherAuthorsIDs = calculateOtherAuthorsIDs(corpus);
@@ -1399,6 +1405,8 @@ public class Author {
 
 		return otherAuthorsPapers;
 	}
+	
+	//Task 2a
 	
 	/**
 	 * Restituisce in ordine di rilevanza gli articoli piu’ rilevanti (di cui lui non e’ autore), basandosi 

@@ -164,6 +164,9 @@ public class Corpus {
 		return svd;
 	}
 	
+	// Phase 2 - Task 2b
+	//TODO:
+	
 	/**
 	 * Estrae la matrice di similarita' coautore-coautore su tutti gli autori del corpus
 	 * 
