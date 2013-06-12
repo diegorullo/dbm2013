@@ -32,7 +32,7 @@
                                       <children>
                                         <Label text="Author:">
                                           <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5002" />
+                                            <Insets right="10.0" fx:id="x5" />
                                           </HBox.margin>
                                         </Label>
                                         <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author ID">
@@ -44,7 +44,7 @@
                                             </FXCollections>
                                           </items>
                                           <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2002" />
+                                            <Insets right="20.0" fx:id="x2014" />
                                           </HBox.margin>
                                         </ComboBox>
                                         <ComboBox id="phase1Task1ModelComboBox" fx:id="phase1Task3ModelComboBox" promptText="Model">
@@ -59,16 +59,16 @@
                                             <Insets right="20.0" fx:id="x2003" />
                                           </HBox.margin>
                                         </ComboBox>
-                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" text="Execute" />
+                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" text="Execute">
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2004" />
+                                          </HBox.margin>
+                                        </Button>
                                       </children>
                                     </HBox>
                                     <HBox layoutX="14.0" layoutY="43.0" prefHeight="21.0" prefWidth="325.0">
                                       <children>
-                                        <Label prefWidth="56.0" text="Author:">
-                                          <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5003" />
-                                          </HBox.margin>
-                                        </Label>
+                                        <Label prefWidth="56.0" text="Author:" />
                                         <Label id="phase1Text1TitleLabel" fx:id="phase1Task3TitleLabel" prefWidth="289.0" text="..." />
                                       </children>
                                     </HBox>
@@ -86,7 +86,7 @@
                                       <children>
                                         <Label text="Paper:">
                                           <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5" />
+                                            <Insets right="10.0" fx:id="x4000" />
                                           </HBox.margin>
                                         </Label>
                                         <ComboBox fx:id="phase1Task1PaperIDComboBox" promptText="Paper ID">
@@ -97,9 +97,6 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2" />
-                                          </HBox.margin>
                                         </ComboBox>
                                         <ComboBox fx:id="phase1Task1ModelComboBox" promptText="Model">
                                           <items>
@@ -109,20 +106,13 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2" />
-                                          </HBox.margin>
                                         </ComboBox>
                                         <Button fx:id="phase1Task1ExecuteButton" mnemonicParsing="false" text="Execute" />
                                       </children>
                                     </HBox>
                                     <HBox layoutX="14.0" layoutY="39.0" prefHeight="21.0" prefWidth="325.0">
                                       <children>
-                                        <Label text="Title:">
-                                          <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5" />
-                                          </HBox.margin>
-                                        </Label>
+                                        <Label text="Title:" />
                                         <Label id="phase1Text1TitleLabel" fx:id="phase1Task1TitleLabel" prefWidth="289.0" text="..." />
                                       </children>
                                     </HBox>
@@ -219,9 +209,6 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2" />
-                                          </HBox.margin>
                                         </ComboBox>
                                         <ComboBox fx:id="phase2Task1ModelComboBox" promptText="Model">
                                           <items>
@@ -231,15 +218,8 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2" />
-                                          </HBox.margin>
                                         </ComboBox>
-                                        <Button fx:id="phase2Task1ExecuteButton" mnemonicParsing="false" prefWidth="72.0" text="Execute">
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2" />
-                                          </HBox.margin>
-                                        </Button>
+                                        <Button fx:id="phase2Task1ExecuteButton" mnemonicParsing="false" prefWidth="72.0" text="Execute" />
                                       </children>
                                     </HBox>
                                     <HBox layoutX="13.0" layoutY="52.0" prefHeight="24.0" prefWidth="310.0">
@@ -273,11 +253,8 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2002" />
-                                          </HBox.margin>
                                         </ComboBox>
-                                        <ComboBox promptText="Model" HBox.margin="$x2002">
+                                        <ComboBox promptText="Model">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -285,8 +262,15 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2012" />
+                                          </HBox.margin>
                                         </ComboBox>
-                                        <Button mnemonicParsing="false" text="Button" HBox.margin="$x2002" />
+                                        <Button mnemonicParsing="false" text="Button">
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2013" />
+                                          </HBox.margin>
+                                        </Button>
                                       </children>
                                     </HBox>
                                     <HBox id="HBox" alignment="CENTER" layoutX="12.0" layoutY="172.0" spacing="5.0">
@@ -362,7 +346,7 @@
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
-            <TextArea fx:id="resultsTextArea" prefHeight="491.0" prefWidth="369.0" promptText="I risultati verranno visualizzati qui..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TextArea fx:id="resultsTextArea" prefHeight="621.0" prefWidth="437.0" promptText="I risultati verranno visualizzati qui..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
           </children>
         </AnchorPane>
       </items>

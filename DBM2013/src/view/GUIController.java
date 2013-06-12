@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Paper;
@@ -89,6 +90,9 @@ public class GUIController implements Initializable {
 	// Results TextArea - controls injection
 	@FXML
 	private static TextArea resultsTextArea;
+	
+	@FXML
+	private static GridPane	resultsGridPane;
 
 	@Override
 	// This method is called by the FXMLLoader when initialization is complete
@@ -496,11 +500,19 @@ public class GUIController implements Initializable {
 	public static void gUIPrintMatrix(ArrayList<ArrayList<Double>> matrix) {
 		resultsTextArea.setText("Score Latent Matrix:\n");
 		resultsTextArea.appendText("-----------------------------\n");
+		int cellSpanSize = 30;
 		for (ArrayList<Double> riga : matrix) {
 			for (Double cella : riga) {
-				resultsTextArea.appendText("     " + Double.toString(cella));
-				resultsTextArea.appendText(",");
-				System.out.println("\n###");
+				String cellContent = Double.toString(cella);
+				int lenCellContent = cellContent.length();
+				String spaceCellContent = "";
+				int i;
+				for (i = 0; i < (cellSpanSize - lenCellContent); i++) {
+					spaceCellContent = spaceCellContent + " ";			
+				}
+				cellContent = cellContent + spaceCellContent;
+				resultsTextArea.appendText(cellContent);
+				System.out.println("\n");
 			}
 			resultsTextArea.appendText("\n");
 		}
