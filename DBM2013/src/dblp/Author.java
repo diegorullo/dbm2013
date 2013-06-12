@@ -1543,7 +1543,7 @@ public class Author {
 	 * @return true se l'autore ha coautori, false altrimenti
 	 */
 	public boolean hasCoAuthors() {
-		return this.getCoAuthorsIDs().size() == 0;
+		return (this.getCoAuthorsIDs().size() != 0);
 	}
 	
 	public Integer getAuthorID() {
