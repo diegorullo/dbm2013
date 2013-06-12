@@ -1,4 +1,4 @@
-function pca_IR(filename)
+function pca_COEFF(filename)
 	%pwd
 	functionpath = strcat('../data/',filename);
 	X = csvread(functionpath);

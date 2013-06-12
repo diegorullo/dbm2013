@@ -1,4 +1,4 @@
-function svd_IR(filename)
+function svd_U(filename)
 	%pwd
 	functionpath = strcat('../data/',filename);
 	X = csvread(functionpath);
