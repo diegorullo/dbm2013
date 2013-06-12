@@ -1,6 +1,8 @@
 package dblp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -207,8 +209,14 @@ public class AuthorTest {
 			System.out.println("Other" + authorLuca.getOtherAuthors(dummyCorpus));
 			
 			System.out.println("CoAuthor" + authorLuca.getCoAuthors(dummyCorpus));
-
 	}
 	
 
+	@Test
+	public void testHasCoAuthors() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
+		assertTrue(authorCandan.hasCoAuthors());
+		assertTrue(authorSapino.hasCoAuthors());
+		assertFalse(authorStefania.hasCoAuthors());
+		assertFalse(authorLuca.hasCoAuthors());
+	}
 }
