@@ -186,7 +186,7 @@ public class CorpusTestAdvanced {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixAuthor.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixAuthor = dblp.getTop3SVD(ioDirectory, fileName);
+			ArrayList<ArrayList<Double>> top3SVDMatrixAuthor = dblp.getTop3SVDAuthor(ioDirectory, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (Author)");
 				Printer.printMatrix(top3SVDMatrixAuthor);
@@ -200,7 +200,7 @@ public class CorpusTestAdvanced {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixAuthorDummy.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixAuthorDummy = dummyCorpus.getTop3SVD(ioDirectory, fileName);
+			ArrayList<ArrayList<Double>> top3SVDMatrixAuthorDummy = dummyCorpus.getTop3SVDAuthor(ioDirectory, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (Author - Dummy)");
 				Printer.printMatrix(top3SVDMatrixAuthorDummy);
@@ -250,7 +250,7 @@ public class CorpusTestAdvanced {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixCoAuthor.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthor = dblp.getTop3SVD(ioDirectory, fileName);
+			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthor = dblp.getTop3SVDCoAuthor(ioDirectory, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (CoAuthor)");
 				Printer.printMatrix(top3SVDMatrixCoAuthor);
@@ -263,8 +263,8 @@ public class CorpusTestAdvanced {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";
-            String fileName = "SimilarityMatrixDummyCoAuthor.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthorDummy = dummyCorpus.getTop3SVD(ioDirectory, fileName);
+            String fileName = "SimilarityMatrixCoAuthorDummy.csv";
+			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthorDummy = dummyCorpus.getTop3SVDCoAuthor(ioDirectory, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (CoAuthor - Dummy)");
 				Printer.printMatrix(top3SVDMatrixCoAuthorDummy);

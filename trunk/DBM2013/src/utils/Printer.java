@@ -157,4 +157,25 @@ public class Printer {
 		}
 	}
 	
+	public static void printTop3SVDMatrixAuthorWithCaptions(Table<Integer, Integer, Double> table) {
+		int columnsSize = table.columnKeySet().size();		
+		System.out.printf("top 3 |  ");
+		for (int i : table.columnKeySet()) {
+			System.out.printf("\t%d\t", i);
+		}
+		System.out.println();
+		//Riga orizzontale
+		for(int k = 0; k < 16 * (columnsSize + 3); k++) {
+			System.out.printf("-");
+		}
+		System.out.println();
+		for (int i : table.rowKeySet()) {
+			System.out.printf("%d|", i);
+			for (int j : table.columnKeySet()) {
+				System.out.printf("\t%.7f", table.get(i, j));
+			}
+			System.out.println();
+		}
+	}
+	
 }

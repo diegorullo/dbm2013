@@ -150,7 +150,7 @@ public class Corpus {
 	 * 
 	 * @return le prime n righe della matrice U
 	 */
-	public ArrayList<ArrayList<Double>> getTop3SVD(String path, String inputFileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public ArrayList<ArrayList<Double>> getTop3SVDAuthor(String path, String inputFileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		File csvFile = new File(path + inputFileName);
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();		
@@ -197,7 +197,35 @@ public class Corpus {
 		return coAuthorCoAuthorSimilarityMatrixOnKeywordVector;		
 	}
 	
-	//TODO: per il task 2b punti 2 e 3, usare il metodo getTop3SVD con input la matrice dei coauthor-coauthor
+	/**
+	 * Calcola l'SVD a partire dalla matrice X,
+	 * producendo i file relativi alle tre matrici S, U e V. 
+	 * Restituisce al chiamante le prime 3 righe
+	 * della matrice U, leggendola da file.
+	 * 
+	 * @param corpus il corpus di documenti a cui si fa riferimento
+	 * @param inputFileName nome del file .csv da cui leggere la matrice X
+	 * 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException
+	 * 
+	 * @return le prime n righe della matrice U
+	 */
+	public ArrayList<ArrayList<Double>> getTop3SVDCoAuthor(String path, String inputFileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		File csvFile = new File(path + inputFileName);
+		MatlabEngine me = MatlabEngine.getMatlabEngine();
+		me.init();		
+		if (!csvFile.isFile()) {
+			Table<Integer, Integer, Double> coAuthorcoAuthorSimilarityMatrixOnKeywordVector = this.getCoAuthorCoAuthorSimilarityMatrixOnKeywordVector();
+			IO.printTableOnFile(coAuthorcoAuthorSimilarityMatrixOnKeywordVector, path, inputFileName);
+		}
+		me.eval("svd_U", inputFileName);
+		ArrayList<ArrayList<Double>> svd = IO.readTopNDocumentTermMatrixFromFile(path + "/U_" + inputFileName, 3);
+		return svd;
+	}
+	
+	// Phase 2 - Task 3a
+	
 		
 	public ArrayList<Author> getAuthors() {
 		return authors;

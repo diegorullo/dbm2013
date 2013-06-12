@@ -16,6 +16,7 @@ import dblp.Author;
 import dblp.Corpus;
 import dblp.Factory;
 import dblp.Paper;
+import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
 public class IOTest {
@@ -155,6 +156,24 @@ public class IOTest {
 			if(PRINT_ON_FILE) {
 				IO.printTableOnFile(similarityMatrix, ioDirectory, fileName);
 			}
+		}
+	}
+	
+	@Test
+	public void testReadTop3SVDMatrixAuthorFromFile() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+		if(DEBUG) {
+			String startingDirectory = System.getProperty("user.dir");
+            String ioDirectory = startingDirectory + "/../data/";
+            String fileName = "SimilarityMatrixAuthor.csv";
+			dblp.getTop3SVDAuthor(ioDirectory, fileName); // sfruttiamo il side-effect del fatto che stampi su file!
+			String readFileName = "U_" + fileName;
+			ArrayList<Author> authors = dblp.getAuthors();
+			ArrayList<Integer> authorsIDs = new ArrayList<Integer>();
+			for(Author a : authors) {
+				authorsIDs.add(a.getAuthorID());
+			}
+			Table<Integer, Integer, Double> top3Read = IO.readTop3SVDMatrixAuthorFromFile(ioDirectory, readFileName, authorsIDs);
+			Printer.printTop3SVDMatrixAuthorWithCaptions(top3Read);
 		}
 	}
 }

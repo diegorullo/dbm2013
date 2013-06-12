@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 public class IO {
@@ -101,7 +102,7 @@ public class IO {
 	 * @param topN	numero di righe della matrice da leggere
 	 *
 	 */
-	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path,int topN) {
+	public static ArrayList<ArrayList<Double>> readTopNDocumentTermMatrixFromFile(String path, int topN) {
 		ArrayList<ArrayList<Double>> documentTermMatrix = new ArrayList<ArrayList<Double>>();
 		
 		try {
@@ -138,12 +139,12 @@ public class IO {
 	 * 
 	 * @param Table<Integer, Integer, Double> table
 	 * @param path		path della destinazione
-	 * @param filename	filename
+	 * @param fileName	filename
 	 *
 	 */
-	public static void printTableOnFile(Table<Integer, Integer, Double> table, String path, String filename) {
+	public static void printTableOnFile(Table<Integer, Integer, Double> table, String path, String fileName) {
 		try {
-			String pathToFile = path + filename;
+			String pathToFile = path + fileName;
 			FileOutputStream file = new FileOutputStream(pathToFile);
 			PrintStream Output = new PrintStream(file);
 			
@@ -168,17 +169,44 @@ public class IO {
 
 	}
 
-//	/**
-//	 * Legge da file, percorso e nome statici,
-//	 * una Table<Integer, Integer, Double>
-//	 * 
-//	 * @param path		path della sorgente
-//	 *
-//	 */
-//	public static Table<Integer, Integer, Double> readTableFromFile(String path) {
-//		Table<Integer, Integer, Double> authorAuthorSimilarityMatrix = HashBasedTable.create();
-////		FIXME: non implementato
-//	
-//		return authorAuthorSimilarityMatrix;
-//	}
+	/**
+	 * Legge da file, percorso e nome statici,
+	 * la matrice DocumentTermMatrix
+	 * 
+	 * @param path		path della sorgente
+	 * @param topN	numero di righe della matrice da leggere
+	 *
+	 */
+	public static Table<Integer, Integer, Double> readTop3SVDMatrixAuthorFromFile(String path, String fileName, ArrayList<Integer> authorsIDs) {
+		Table<Integer, Integer, Double> top3SVDMatrixAuthor = HashBasedTable.create();
+		
+		try {
+			String pathToFile = path + fileName;
+			FileInputStream file = new FileInputStream(pathToFile);
+
+			Scanner sc = new Scanner(file);
+			
+			String val;
+			String[] elem;
+			int n = 0;
+			while (sc.hasNextLine() && n < 3) {
+				int i = 0;
+				val = sc.nextLine();
+				elem = val.split(",");
+				for(String v : elem) {
+					System.out.println("n = " + n + ", i = " + i);
+					top3SVDMatrixAuthor.put(n, authorsIDs.get(i), Double.valueOf(v));
+					i++;
+				}
+				n++;
+			}
+			sc.close();
+
+		} catch (IOException e) {
+			System.out.println("Errore: " + e);
+			System.exit(1);
+		}
+
+		return top3SVDMatrixAuthor;
+	}
 }
