@@ -75,7 +75,16 @@ public class Similarity {
 		
 		cosSim = scalarProd / (a_magnitudo * b_magnitudo);
 //		System.out.println("scalarProd: " + scalarProd + ", a_magnitudo: " + a_magnitudo + ", b_magnitudo: " + b_magnitudo);
+		
 		return cosSim;
 	}
+	
+	public static Double moveRangeFromMinus1_1To0_1(double value) {
+		Double scaledValue = 0.0;
+
+		scaledValue = (1.0 + value) / 2.0;			
+		
+		return scaledValue;
+	} 
 
 }

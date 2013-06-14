@@ -1,6 +1,7 @@
 package utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -72,6 +73,17 @@ public class SimilarityTest {
 		v2.put("Banana", 0.2);
 	
 		assertEquals(0.0, Similarity.getCosineSimilarity(v1, v2), epsilon);
+	}
+	
+	@Test
+	public void testMoveRangeFromMinus1_1To0_1() {
+		double a = -1.0, b = -0.25, c = 0.0, d = 0.25, e = 1.0;
+		
+		assertTrue(0.0 == Similarity.moveRangeFromMinus1_1To0_1(a));
+		assertTrue(0.375 == Similarity.moveRangeFromMinus1_1To0_1(b));
+		assertTrue(0.5 == Similarity.moveRangeFromMinus1_1To0_1(c));
+		assertTrue(0.625 == Similarity.moveRangeFromMinus1_1To0_1(d));
+		assertTrue(1.0 == Similarity.moveRangeFromMinus1_1To0_1(e));
 	}
 	
 }
