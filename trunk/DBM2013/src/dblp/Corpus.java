@@ -11,7 +11,6 @@ import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 import utils.IO;
 import utils.MatlabEngine;
-import utils.Printer;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
@@ -157,8 +156,6 @@ public class Corpus {
 		me.init();		
 		if (!csvFile.isFile()) {
 			Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = this.getAuthorAuthorSimilarityMatrixOnKeywordVector();
-			//FIXME: stampa a scopo di test (rimuovere)
-			Printer.printAuthorAuthorSimilarityTableWithCaptions(authorAuthorSimilarityMatrixOnKeywordVector);
 			IO.printTableOnFile(authorAuthorSimilarityMatrixOnKeywordVector, path, inputFileName);
 		}
 		me.eval("svd_U", inputFileName);
@@ -204,41 +201,6 @@ public class Corpus {
 			}
 		}
 		return coAuthorCoAuthorSimilarityMatrixOnKeywordVector;		
-		
-		//////////////////////////////////////// METODO ALTERNATIVO ///////////////////////////////////////////////
-		//////////////////////// forse e' inutile ora che le liste sono tutte ordinate //////////////////////////// 
-//		Table<Integer, Integer, Double> coAuthorCoAuthorSimilarityMatrixOnKeywordVector = TreeBasedTable.create();
-//
-//		// Creazione e ordinamento degli indici (ID) degli autori 
-//		ArrayList<Author> authors = this.getAuthors();
-//		ArrayList<Integer> authorsIDsRows = new ArrayList<Integer>();
-//		ArrayList<Integer> authorsIDsCols = new ArrayList<Integer>();
-//
-//		for(Author a : authors) {
-//			authorsIDsRows.add(a.getAuthorID());
-//		}
-//		
-//		Collections.sort(authorsIDsRows);
-//		authorsIDsCols = authorsIDsRows;
-//		
-//		for(Integer id1 : authorsIDsRows) {
-//			Author a1 = this.getAuthorByID(id1);
-//			for(Integer id2 : authorsIDsCols) {	
-//				Author a2 = this.getAuthorByID(id2);
-//				if (a1.hasCoAuthors() && a2.hasCoAuthors()) {
-//					coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(id1, id2, a1.getSimilarityOnKeywordVector(a2, this));
-//				}
-//				else {
-//					if(id1 == id2) {
-//						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(id1, id2, 1.0);
-//					}
-//					else {
-//						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(id1, id2, 0.0);
-//					}
-//				}
-//			}
-//		}
-//		return coAuthorCoAuthorSimilarityMatrixOnKeywordVector;		
 	}
 	
 	/**
