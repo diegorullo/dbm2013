@@ -11,9 +11,10 @@ import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 import utils.IO;
 import utils.MatlabEngine;
+import utils.Printer;
 
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
@@ -121,7 +122,7 @@ public class Corpus {
 	 * @return Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector
 	 */
 	public Table<Integer, Integer, Double> getAuthorAuthorSimilarityMatrixOnKeywordVector() {
-		Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = HashBasedTable.create();
+		Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = TreeBasedTable.create();
 		
 		ArrayList<Author> authors1 = this.getAuthors();
 		ArrayList<Author> authors2 = this.getAuthors();
@@ -155,8 +156,9 @@ public class Corpus {
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();		
 		if (!csvFile.isFile()) {
-			//FIXME: svincolarlo da authorAuthorSimilarityMatrixOnKeywordVector!!!
 			Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector = this.getAuthorAuthorSimilarityMatrixOnKeywordVector();
+			//FIXME: stampa a scopo di test (rimuovere)
+			Printer.printAuthorAuthorSimilarityTableWithCaptions(authorAuthorSimilarityMatrixOnKeywordVector);
 			IO.printTableOnFile(authorAuthorSimilarityMatrixOnKeywordVector, path, inputFileName);
 		}
 		me.eval("svd_U", inputFileName);
@@ -172,29 +174,71 @@ public class Corpus {
 	 * @return Table<Integer, Integer, Double> authorAuthorSimilarityMatrixOnKeywordVector
 	 */
 	public Table<Integer, Integer, Double> getCoAuthorCoAuthorSimilarityMatrixOnKeywordVector() {
-		Table<Integer, Integer, Double> coAuthorCoAuthorSimilarityMatrixOnKeywordVector = HashBasedTable.create();
+				
+		Table<Integer, Integer, Double> coAuthorCoAuthorSimilarityMatrixOnKeywordVector = TreeBasedTable.create();
 
+		// Estraggo due copie della lista degli autori
 		ArrayList<Author> authors1 = this.getAuthors();
-		ArrayList<Author> authors2 = this.getAuthors();
+		ArrayList<Author> authors2 = authors1;
 		int a1ID, a2ID;
+		
+		// Le scorro e riempo la matrice
 		for(Author a1 : authors1) {
 			a1ID = a1.getAuthorID();
 			for(Author a2 : authors2) {
 				a2ID = a2.getAuthorID();
+				// Se entrambi gli autori hanno coautori, aggiungo la loro similarita' coseno
 				if (a1.hasCoAuthors() && a2.hasCoAuthors()) {
 					coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, a1.getSimilarityOnKeywordVector(a2, this));
 				}
 				else {
+					// Se siamo sull'intersezione di un autore con se' stesso, aggiungo 1.0
 					if(a1ID == a2ID) {
 						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, 1.0);
 					}
 					else {
+						// Se due autori non hanno coautori, aggiungo 0.0
 						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(a1ID, a2ID, 0.0);
 					}
 				}
 			}
 		}
 		return coAuthorCoAuthorSimilarityMatrixOnKeywordVector;		
+		
+		//////////////////////////////////////// METODO ALTERNATIVO ///////////////////////////////////////////////
+		//////////////////////// forse e' inutile ora che le liste sono tutte ordinate //////////////////////////// 
+//		Table<Integer, Integer, Double> coAuthorCoAuthorSimilarityMatrixOnKeywordVector = TreeBasedTable.create();
+//
+//		// Creazione e ordinamento degli indici (ID) degli autori 
+//		ArrayList<Author> authors = this.getAuthors();
+//		ArrayList<Integer> authorsIDsRows = new ArrayList<Integer>();
+//		ArrayList<Integer> authorsIDsCols = new ArrayList<Integer>();
+//
+//		for(Author a : authors) {
+//			authorsIDsRows.add(a.getAuthorID());
+//		}
+//		
+//		Collections.sort(authorsIDsRows);
+//		authorsIDsCols = authorsIDsRows;
+//		
+//		for(Integer id1 : authorsIDsRows) {
+//			Author a1 = this.getAuthorByID(id1);
+//			for(Integer id2 : authorsIDsCols) {	
+//				Author a2 = this.getAuthorByID(id2);
+//				if (a1.hasCoAuthors() && a2.hasCoAuthors()) {
+//					coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(id1, id2, a1.getSimilarityOnKeywordVector(a2, this));
+//				}
+//				else {
+//					if(id1 == id2) {
+//						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(id1, id2, 1.0);
+//					}
+//					else {
+//						coAuthorCoAuthorSimilarityMatrixOnKeywordVector.put(id1, id2, 0.0);
+//					}
+//				}
+//			}
+//		}
+//		return coAuthorCoAuthorSimilarityMatrixOnKeywordVector;		
 	}
 	
 	/**
@@ -210,8 +254,9 @@ public class Corpus {
 	 * @throws MatlabConnectionException
 	 * 
 	 * @return le prime n righe della matrice U
+	 * @throws NoAuthorsWithSuchIDException 
 	 */
-	public ArrayList<ArrayList<Double>> getTop3SVDCoAuthor(String path, String inputFileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public ArrayList<ArrayList<Double>> getTop3SVDCoAuthor(String path, String inputFileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		File csvFile = new File(path + inputFileName);
 		MatlabEngine me = MatlabEngine.getMatlabEngine();
 		me.init();		

@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 
 public class IO {
 
@@ -178,7 +178,7 @@ public class IO {
 	 *
 	 */
 	public static Table<Integer, Integer, Double> readTop3SVDMatrixAuthorFromFile(String path, String fileName, ArrayList<Integer> authorsIDs) {
-		Table<Integer, Integer, Double> top3SVDMatrixAuthor = HashBasedTable.create();
+		Table<Integer, Integer, Double> top3SVDMatrixAuthor = TreeBasedTable.create();
 		
 		try {
 			String pathToFile = path + fileName;
@@ -194,7 +194,7 @@ public class IO {
 				val = sc.nextLine();
 				elem = val.split(",");
 				for(String v : elem) {
-					System.out.println("n = " + n + ", i = " + i);
+//					System.out.println("n = " + n + ", i = " + i);
 					top3SVDMatrixAuthor.put(n, authorsIDs.get(i), Double.valueOf(v));
 					i++;
 				}

@@ -70,7 +70,7 @@ public class DBEngine {
 		final String publisher;
 		final String paperAbstract;
 		final ArrayList<String> keywords;
-		final ArrayList<String> keywordsTitle;
+		final ArrayList<String> titlesKeywords;
 		final ArrayList<String> authorsNames = new ArrayList<String>();
 		final ArrayList<Integer> authors = new ArrayList<Integer>();
 		String query = "SELECT authors.*,papers.* FROM authors,papers,writtenby WHERE papers.paperid = "
@@ -85,9 +85,8 @@ public class DBEngine {
 		publisher = res.getString("publisher");
 		paperAbstract = res.getString("abstract");
 		
-		keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);
-	    Collections.sort(keywords);
-		keywordsTitle = TextProcessor.removeStopWordsAndStem(title);
+		keywords = TextProcessor.removeStopWordsAndStem(paperAbstract);	    
+		titlesKeywords = TextProcessor.removeStopWordsAndStem(title);
 		
 		authorsNames.add(res.getString("name"));
 		authors.add(res.getInt("personid"));
@@ -97,7 +96,12 @@ public class DBEngine {
 			authors.add(res.getInt("personid"));	
 		}
 		
-		Paper p = new Paper(paperID, title, year, publisher, paperAbstract, authorsNames, authors, keywords, keywordsTitle);	
+		Collections.sort(authorsNames);
+		Collections.sort(authors);
+		Collections.sort(keywords);
+		Collections.sort(titlesKeywords);
+		
+		Paper p = new Paper(paperID, title, year, publisher, paperAbstract, authorsNames, authors, keywords, titlesKeywords);	
 		return p;
 	}
 	
@@ -132,6 +136,8 @@ public class DBEngine {
 		}
 		else throw new SQLException("An author with paperID " + personID + " is not in the DB.");
 
+		Collections.sort(papers);
+		
 		Author a = new Author(personID, name, papers);	
 		return a;
 	}
@@ -172,9 +178,11 @@ public class DBEngine {
 		ResultSet resC = stmt.executeQuery(queryC);			
 		resC.next();
 		cardinality = resC.getInt(1);
+
+		Collections.sort(authors);
+		Collections.sort(papers);
 		
 		Corpus corpus = new Corpus(authors, papers, cardinality);
-		
 		return corpus;
 	}
 	

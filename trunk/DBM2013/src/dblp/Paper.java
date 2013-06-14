@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import utils.Normalization;
 
-public class Paper {
+public class Paper implements Comparable<Paper>{
 	//TODO: spiegare la scelta del 3
 	final static int titleWeight = 3;
 	private Integer paperID;
@@ -474,6 +474,11 @@ public class Paper {
 		if (paperID != other.paperID)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Paper o) {
+		return this.paperID.compareTo(o.paperID);
 	}
 
 }

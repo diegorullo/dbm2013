@@ -159,7 +159,7 @@ public class Printer {
 	
 	public static void printTop3SVDMatrixAuthorWithCaptions(Table<Integer, Integer, Double> table) {
 		int columnsSize = table.columnKeySet().size();		
-		System.out.printf("top 3 |  ");
+		System.out.printf("top 3\t|  ");
 		for (int i : table.columnKeySet()) {
 			System.out.printf("\t%d\t", i);
 		}
@@ -170,7 +170,7 @@ public class Printer {
 		}
 		System.out.println();
 		for (int i : table.rowKeySet()) {
-			System.out.printf("%d|", i);
+			System.out.printf("%d\t|", i);
 			for (int j : table.columnKeySet()) {
 				System.out.printf("\t%.7f", table.get(i, j));
 			}
