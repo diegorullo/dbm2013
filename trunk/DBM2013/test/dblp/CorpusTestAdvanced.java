@@ -3,6 +3,7 @@ package dblp;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
@@ -154,10 +155,10 @@ public class CorpusTestAdvanced {
 			}
 			if(PRINT_ON_FILE) {
 				String startingDirectory = System.getProperty("user.dir");
-	            String ioDirectory = startingDirectory + "/../data/";
+	            String path = startingDirectory + "/../data/";
 	            String fileName = "SimilarityMatrixAuthor.csv";
 				
-				IO.printTableOnFile(similarityMatrix, ioDirectory, fileName);
+				IO.printTableOnFile(similarityMatrix, path, fileName);
 			}
 		}
 	}
@@ -172,10 +173,10 @@ public class CorpusTestAdvanced {
 			}
 			if(PRINT_ON_FILE) {
 				String startingDirectory = System.getProperty("user.dir");
-	            String ioDirectory = startingDirectory + "/../data/";
+	            String path = startingDirectory + "/../data/";
 	            String fileName = "SimilarityMatrixAuthorDummy.csv";
 				
-				IO.printTableOnFile(dummySimilarityMatrix, ioDirectory, fileName);
+				IO.printTableOnFile(dummySimilarityMatrix, path, fileName);
 			}
 		}
 	}
@@ -184,9 +185,9 @@ public class CorpusTestAdvanced {
 	public void testGetTop3SVDOnAuthorAuthorSimilarityMatrix() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
-            String ioDirectory = startingDirectory + "/../data/";
+            String path = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixAuthor.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixAuthor = dblp.getTop3SVDAuthor(ioDirectory, fileName);
+			ArrayList<ArrayList<Double>> top3SVDMatrixAuthor = dblp.getTop3SVDAuthor(path, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (Author)");
 				Printer.printMatrix(top3SVDMatrixAuthor);
@@ -198,9 +199,9 @@ public class CorpusTestAdvanced {
 	public void testGetTop3SVDOnAuthorAuthorSimilarityMatrixDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
-            String ioDirectory = startingDirectory + "/../data/";
+            String path = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixAuthorDummy.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixAuthorDummy = dummyCorpus.getTop3SVDAuthor(ioDirectory, fileName);
+			ArrayList<ArrayList<Double>> top3SVDMatrixAuthorDummy = dummyCorpus.getTop3SVDAuthor(path, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (Author - Dummy)");
 				Printer.printMatrix(top3SVDMatrixAuthorDummy);
@@ -218,10 +219,10 @@ public class CorpusTestAdvanced {
 			}
 			if(PRINT_ON_FILE) {
 				String startingDirectory = System.getProperty("user.dir");
-	            String ioDirectory = startingDirectory + "/../data/";
+	            String path = startingDirectory + "/../data/";
 	            String fileName = "SimilarityMatrixCoAuthor.csv";
 				
-				IO.printTableOnFile(similarityMatrixCoAuthor, ioDirectory, fileName);
+				IO.printTableOnFile(similarityMatrixCoAuthor, path, fileName);
 			}
 		}
 	}
@@ -236,10 +237,10 @@ public class CorpusTestAdvanced {
 			}
 			if(PRINT_ON_FILE) {
 				String startingDirectory = System.getProperty("user.dir");
-	            String ioDirectory = startingDirectory + "/../data/";
+	            String path = startingDirectory + "/../data/";
 	            String fileName = "SimilarityMatrixCoAuthorDummy.csv";
 				
-				IO.printTableOnFile(dummySimilarityMatrixCoAuthor, ioDirectory, fileName);
+				IO.printTableOnFile(dummySimilarityMatrixCoAuthor, path, fileName);
 			}
 		}
 	}
@@ -248,9 +249,9 @@ public class CorpusTestAdvanced {
 	public void testGetTop3SVDOnCoAuthorCoAuthorSimilarityMatrix() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
-            String ioDirectory = startingDirectory + "/../data/";
+            String path = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixCoAuthor.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthor = dblp.getTop3SVDCoAuthor(ioDirectory, fileName);
+			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthor = dblp.getTop3SVDCoAuthor(path, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (CoAuthor)");
 				Printer.printMatrix(top3SVDMatrixCoAuthor);
@@ -262,9 +263,9 @@ public class CorpusTestAdvanced {
 	public void testGetTop3SVDOnCoAuthorCoAuthorSimilarityMatrixDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
-            String ioDirectory = startingDirectory + "/../data/";
+            String path = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixCoAuthorDummy.csv";
-			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthorDummy = dummyCorpus.getTop3SVDCoAuthor(ioDirectory, fileName);
+			ArrayList<ArrayList<Double>> top3SVDMatrixCoAuthorDummy = dummyCorpus.getTop3SVDCoAuthor(path, fileName);
 			if(PRINT) {
 				System.out.println("Top 3 SVD (CoAuthor - Dummy)");
 				Printer.printMatrix(top3SVDMatrixCoAuthorDummy);
@@ -272,4 +273,18 @@ public class CorpusTestAdvanced {
 		}
 	}
 	
+	@Test
+	public void testGetClustersBasedOnConcepts() throws Exception {
+		if(DEBUG) {
+			@SuppressWarnings("unused")
+			TreeMap<Integer, ArrayList<Author>> clustersBasedOnConcepts;
+			
+			String startingDirectory = System.getProperty("user.dir");
+            String path = startingDirectory + "/../data/";
+            String fileName = "SimilarityMatrixAuthorForClusters.csv";
+			
+			clustersBasedOnConcepts = dblp.getClustersBasedOnConcepts(path, fileName);
+		}
+	}
+
 }

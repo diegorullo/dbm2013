@@ -11,6 +11,7 @@ import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 import utils.IO;
 import utils.MatlabEngine;
+import utils.Printer;
 
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
@@ -19,6 +20,7 @@ import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoAuthorsWithSuchNameException;
 import exceptions.NoPaperWithSuchIDException;
+import exceptions.WrongClusteringException;
 
 public class Corpus {
 
@@ -232,6 +234,77 @@ public class Corpus {
 	}
 	
 	// Phase 2 - Task 3a
+	
+	public TreeMap<Integer, ArrayList<Author>> getClustersBasedOnConcepts(String path, String fileName) throws Exception {
+		TreeMap<Integer, ArrayList<Author>> clustersBasedOnConcepts = new TreeMap<Integer, ArrayList<Author>>();
+		
+        this.getTop3SVDAuthor(path, fileName);  // sfruttiamo il side-effect del fatto che stampi su file!
+        
+		String readFileName = "U_" + fileName;
+		
+		// estraggo la lista degli id degli autori
+		ArrayList<Author> authors = this.getAuthors();
+		ArrayList<Integer> authorsIDs = new ArrayList<Integer>();
+		for(Author a : authors) {
+			authorsIDs.add(a.getAuthorID());
+		}
+		// System.out.println(authorsIDs);
+		
+		// Leggiamo il file corrispondente alla matrice U_SimilarityMatrixAuthor.csv
+		Table<Integer, Integer, Double> top3ReadTable = IO.readTop3SVDMatrixAuthorFromFile(path, readFileName, authorsIDs);
+		
+		// FIXME: rimuovere metodi di stampa (debug)
+		System.out.println("stampa matrice top3Read");
+		Printer.printTop3SVDMatrixAuthorWithCaptions(top3ReadTable);
+		System.out.println("-------------------------------------------------------------\n");
+		
+		Double max = 0.0;
+		Double current = 0.0;
+		Integer maxCol = 0;
+		Integer maxRow = 0;
+		ArrayList<Author> cluster0 = new ArrayList<Author>();
+		ArrayList<Author> cluster1 = new ArrayList<Author>();
+		ArrayList<Author> cluster2 = new ArrayList<Author>();
+		
+		System.out.println("colonne: " + top3ReadTable.columnKeySet());
+		System.out.println("righe: " + top3ReadTable.rowKeySet());
+		
+		for (int i : top3ReadTable.columnKeySet()) {
+			max = 0.0 - Double.MAX_VALUE;
+			maxCol = 0;
+			maxRow = 0;
+			for (int j : top3ReadTable.rowKeySet()) {				
+				current = top3ReadTable.get(j, i);
+//				System.out.println("i: " + i + ", j: " + j);
+//				System.out.println("Current: " + current);
+				if (max < current) {
+					max = current;
+					maxCol = i;
+					maxRow = j;
+				}
+//				System.out.println("max: " + max + ", maxCol: " + maxCol + ", maxRow: " + maxRow);
+				switch (maxRow) {
+					case 0:
+						cluster0.add(this.getAuthorByID(maxCol));
+						break;
+					case 1:
+						cluster1.add(this.getAuthorByID(maxCol));
+						break;
+					case 2:
+						cluster2.add(this.getAuthorByID(maxCol));
+						break;
+					default:
+						throw new WrongClusteringException("Il valore non appartiene a nessun cluster!");
+				}
+			}
+		}
+		
+		clustersBasedOnConcepts.put(0, cluster0);
+		clustersBasedOnConcepts.put(1, cluster1);
+		clustersBasedOnConcepts.put(2, cluster2);
+		
+		return clustersBasedOnConcepts;
+	}
 	
 		
 	public ArrayList<Author> getAuthors() {

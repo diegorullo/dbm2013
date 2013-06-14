@@ -150,12 +150,12 @@ public class IOTest {
 			Table<Integer, Integer, Double> similarityMatrix = dblp.getAuthorAuthorSimilarityMatrixOnKeywordVector();
 			
 			String startingDirectory = System.getProperty("user.dir");
-            String ioDirectory = startingDirectory + "/../data/";
+            String path = startingDirectory + "/../data/";
             String fileName = "TestSimilarityMatrix.csv";
 			
 			if(PRINT_ON_FILE) {
 				System.out.println("testPrintTableOnFile: scritta su file la matrice TestSimilarityMatrix.csv");
-				IO.printTableOnFile(similarityMatrix, ioDirectory, fileName);
+				IO.printTableOnFile(similarityMatrix, path, fileName);
 				System.out.println("-------------------------------------------------------------\n");
 			}
 		}
@@ -165,9 +165,9 @@ public class IOTest {
 	public void testReadTop3SVDMatrixAuthorFromFile() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
-            String ioDirectory = startingDirectory + "/../data/";
+            String path = startingDirectory + "/../data/";
             String fileName = "SimilarityMatrixAuthor.csv";
-			dblp.getTop3SVDAuthor(ioDirectory, fileName); // sfruttiamo il side-effect del fatto che stampi su file!
+			dblp.getTop3SVDAuthor(path, fileName); // sfruttiamo il side-effect del fatto che stampi su file!
 			String readFileName = "U_" + fileName;
 			
 			// estraggo la lista degli id degli autori
@@ -178,7 +178,7 @@ public class IOTest {
 			}
 			// System.out.println(authorsIDs);
 			
-			Table<Integer, Integer, Double> top3Read = IO.readTop3SVDMatrixAuthorFromFile(ioDirectory, readFileName, authorsIDs);
+			Table<Integer, Integer, Double> top3Read = IO.readTop3SVDMatrixAuthorFromFile(path, readFileName, authorsIDs);
 			System.out.println("testReadTop3SVDMatrixAuthorFromFile: stampa matrice top3Read");
 			Printer.printTop3SVDMatrixAuthorWithCaptions(top3Read);
 			System.out.println("-------------------------------------------------------------\n");
