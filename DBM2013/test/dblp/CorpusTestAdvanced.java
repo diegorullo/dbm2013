@@ -276,7 +276,6 @@ public class CorpusTestAdvanced {
 	@Test
 	public void testGetClustersBasedOnConcepts() throws Exception {
 		if(DEBUG) {
-			@SuppressWarnings("unused")
 			TreeMap<Integer, ArrayList<Author>> clustersBasedOnConcepts;
 			
 			String startingDirectory = System.getProperty("user.dir");
@@ -284,6 +283,13 @@ public class CorpusTestAdvanced {
             String fileName = "SimilarityMatrixAuthorForClusters.csv";
 			
 			clustersBasedOnConcepts = dblp.getClustersBasedOnConcepts(path, fileName);
+			System.out.println("Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author");
+			System.out.println("Gruppo autori caratterizzati dalla semantica 1:");
+			Printer.printAuthorsList(clustersBasedOnConcepts.get(0));
+			System.out.println("Gruppo autori caratterizzati dalla semantica 2:");
+			Printer.printAuthorsList(clustersBasedOnConcepts.get(1));
+			System.out.println("Gruppo autori caratterizzati dalla semantica 3:");
+			Printer.printAuthorsList(clustersBasedOnConcepts.get(2));
 		}
 	}
 
