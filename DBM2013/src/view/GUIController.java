@@ -395,6 +395,7 @@ public class GUIController implements Initializable {
 						Corpus dblp = Main.getDblp();
 						Author author = null;
 						author = dblp.getAuthorByID(Integer.parseInt(authorid));
+						@SuppressWarnings("unused")
 						String output = null;
 						if (modello.equals("PCA")) {
 							String fileName = author.getAuthorID().toString();

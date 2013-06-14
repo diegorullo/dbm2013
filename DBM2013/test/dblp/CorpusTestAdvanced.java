@@ -209,7 +209,7 @@ public class CorpusTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCoAuthorCoAuthorSimilarityMatrixOnKeywordVector() {
+	public void testGetCoAuthorCoAuthorSimilarityMatrixOnKeywordVector() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			Table<Integer, Integer, Double> similarityMatrixCoAuthor = dblp.getCoAuthorCoAuthorSimilarityMatrixOnKeywordVector();
 			if(PRINT) {
@@ -227,7 +227,7 @@ public class CorpusTestAdvanced {
 	}
 	
 	@Test
-	public void testGetCoAuthorCoAuthorSimilarityMatrixOnKeywordVectorDummy() {
+	public void testGetCoAuthorCoAuthorSimilarityMatrixOnKeywordVectorDummy() throws NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			Table<Integer, Integer, Double> dummySimilarityMatrixCoAuthor = dummyCorpus.getCoAuthorCoAuthorSimilarityMatrixOnKeywordVector();
 			if(PRINT) {
@@ -245,7 +245,7 @@ public class CorpusTestAdvanced {
 	}
 	
 	@Test
-	public void testGetTop3SVDOnCoAuthorCoAuthorSimilarityMatrix() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetTop3SVDOnCoAuthorCoAuthorSimilarityMatrix() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";
@@ -259,7 +259,7 @@ public class CorpusTestAdvanced {
 	}
 
 	@Test
-	public void testGetTop3SVDOnCoAuthorCoAuthorSimilarityMatrixDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException {
+	public void testGetTop3SVDOnCoAuthorCoAuthorSimilarityMatrixDummy() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
 			String startingDirectory = System.getProperty("user.dir");
             String ioDirectory = startingDirectory + "/../data/";

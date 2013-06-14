@@ -154,7 +154,9 @@ public class IOTest {
             String fileName = "TestSimilarityMatrix.csv";
 			
 			if(PRINT_ON_FILE) {
+				System.out.println("testPrintTableOnFile: scritta su file la matrice TestSimilarityMatrix.csv");
 				IO.printTableOnFile(similarityMatrix, ioDirectory, fileName);
+				System.out.println("-------------------------------------------------------------\n");
 			}
 		}
 	}
@@ -167,13 +169,19 @@ public class IOTest {
             String fileName = "SimilarityMatrixAuthor.csv";
 			dblp.getTop3SVDAuthor(ioDirectory, fileName); // sfruttiamo il side-effect del fatto che stampi su file!
 			String readFileName = "U_" + fileName;
+			
+			// estraggo la lista degli id degli autori
 			ArrayList<Author> authors = dblp.getAuthors();
 			ArrayList<Integer> authorsIDs = new ArrayList<Integer>();
 			for(Author a : authors) {
 				authorsIDs.add(a.getAuthorID());
 			}
+			// System.out.println(authorsIDs);
+			
 			Table<Integer, Integer, Double> top3Read = IO.readTop3SVDMatrixAuthorFromFile(ioDirectory, readFileName, authorsIDs);
+			System.out.println("testReadTop3SVDMatrixAuthorFromFile: stampa matrice top3Read");
 			Printer.printTop3SVDMatrixAuthorWithCaptions(top3Read);
+			System.out.println("-------------------------------------------------------------\n");
 		}
 	}
 }

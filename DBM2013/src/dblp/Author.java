@@ -20,7 +20,7 @@ import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoSuchTechniqueException;
 
-public class Author {
+public class Author implements Comparable<Author> {
 	//TODO: spiegare la scelta del 3
 	final static int titleWeight = 3;
 	private Integer authorID;
@@ -1599,6 +1599,11 @@ public class Author {
 		if (authorID != other.authorID)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Author o) {
+		return this.authorID.compareTo(o.authorID);
 	}
 
 }
