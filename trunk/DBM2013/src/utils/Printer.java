@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import com.google.common.collect.Table;
 
 import dblp.Author;
+import dblp.Paper;
 import exceptions.AuthorWithoutPapersException;
 
 public class Printer {
@@ -176,6 +177,30 @@ public class Printer {
 			}
 			System.out.println();
 		}
+	}
+	
+	/**
+	 * Stampa una lista di autori, disponendoli su una sola riga
+	 * ed elencandone id e nome
+	 * @param authorsList
+	 */
+	public static void printAuthorsList(ArrayList<Author> authorsList) {
+		for(Author a : authorsList) {
+			System.out.print("<[" + a.getAuthorID() + "] " + a.getName() + "> ");
+		}
+		System.out.print("\n");
+	}
+	
+	/**
+	 * Stampa una lista di paper, disponendoli su una sola riga
+	 * ed elencandone id e titolo
+	 * @param papersList
+	 */
+	public static void printPapersList(ArrayList<Paper> papersList) {
+		for(Paper p : papersList) {
+			System.out.print("<[" + p.getPaperID() + "] " + p.getTitle() + "> ");
+		}
+		System.out.print("\n");
 	}
 	
 }

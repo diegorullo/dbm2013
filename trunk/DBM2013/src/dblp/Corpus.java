@@ -283,19 +283,19 @@ public class Corpus {
 					maxRow = j;
 				}
 //				System.out.println("max: " + max + ", maxCol: " + maxCol + ", maxRow: " + maxRow);
-				switch (maxRow) {
-					case 0:
-						cluster0.add(this.getAuthorByID(maxCol));
-						break;
-					case 1:
-						cluster1.add(this.getAuthorByID(maxCol));
-						break;
-					case 2:
-						cluster2.add(this.getAuthorByID(maxCol));
-						break;
-					default:
-						throw new WrongClusteringException("Il valore non appartiene a nessun cluster!");
-				}
+			}
+			switch (maxRow) {
+				case 0:
+					cluster0.add(this.getAuthorByID(maxCol));
+					break;
+				case 1:
+					cluster1.add(this.getAuthorByID(maxCol));
+					break;
+				case 2:
+					cluster2.add(this.getAuthorByID(maxCol));
+					break;
+				default:
+					throw new WrongClusteringException("Il valore non appartiene a nessun cluster!");
 			}
 		}
 		
