@@ -111,16 +111,29 @@ public class GUIController implements Initializable {
 				.observableArrayList();
 
 		// ExploreDB - control settings
+
+
+
+		ObservableList<TableColumn<String, ?>> exploreDBPapersColumns = exploreDBPapersTableView
+				.getColumns();
+		exploreDBPapersColumns.clear();
+		
+		TableColumn paperIDTc = new TableColumn("paperID");
+		paperIDTc.setCellValueFactory(new PropertyValueFactory("paperID"));
+		paperIDTc.setPrefWidth(120);
+		
+		TableColumn titleTc = new TableColumn("title");
+		titleTc.setCellValueFactory(new PropertyValueFactory("title"));
+		titleTc.setPrefWidth(220);
+
+		exploreDBPapersColumns.add(0,paperIDTc);
+		exploreDBPapersColumns.add(1,titleTc);
+		
+		
+
 		ObservableList<TableColumn<String, ?>> exploreDBAuthorsColumns = exploreDBAuthorsTableView
 				.getColumns();
 		exploreDBAuthorsColumns.clear();
-
-
-		ObservableList<TableColumn<String, ?>> exploreDBPapersColumns = exploreDBAuthorsTableView
-				.getColumns();
-		exploreDBPapersColumns.clear();
-		exploreDBPapersColumns.add(0, new TableColumn<String, String>("ID"));
-
 		
 		TableColumn authorIDTc = new TableColumn("authorID");
 		authorIDTc.setCellValueFactory(new PropertyValueFactory("authorID"));
@@ -128,7 +141,7 @@ public class GUIController implements Initializable {
 		
 		TableColumn nameTc = new TableColumn("name");
 		nameTc.setCellValueFactory(new PropertyValueFactory("name"));
-		nameTc.setPrefWidth(120);
+		nameTc.setPrefWidth(220);
 
 		exploreDBAuthorsColumns.add(0,authorIDTc);
 		exploreDBAuthorsColumns.add(1,nameTc);
@@ -136,12 +149,15 @@ public class GUIController implements Initializable {
 		Integer paperID, authorID;
 		String paperTitle, authorName;
 
+		ObservableList papersOL = FXCollections.observableArrayList();
 		for (Paper p : papers) {
 			paperID = p.getPaperID();
 			paperTitle = p.getTitle();
 			papersIDs.add(paperID.toString());
 			papersNames.add(paperTitle);
+			papersOL.add(p);
 		}
+		exploreDBPapersTableView.setItems(papersOL);
 			
 		ObservableList authorsOL = FXCollections.observableArrayList();		
 		for (Author a : authors) {
