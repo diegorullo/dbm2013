@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import dblp.Author;
 import dblp.Corpus;
@@ -113,14 +114,24 @@ public class GUIController implements Initializable {
 		ObservableList<TableColumn<String, ?>> exploreDBAuthorsColumns = exploreDBAuthorsTableView
 				.getColumns();
 		exploreDBAuthorsColumns.clear();
-		exploreDBAuthorsColumns.add(0, new TableColumn<String, String>("ID"));
-		exploreDBAuthorsColumns.add(1, new TableColumn<String, String>("Name"));
+
 
 		ObservableList<TableColumn<String, ?>> exploreDBPapersColumns = exploreDBAuthorsTableView
 				.getColumns();
 		exploreDBPapersColumns.clear();
 		exploreDBPapersColumns.add(0, new TableColumn<String, String>("ID"));
-		exploreDBPapersColumns.add(1, new TableColumn<String, String>("Title"));
+
+		
+		TableColumn authorIDTc = new TableColumn("authorID");
+		authorIDTc.setCellValueFactory(new PropertyValueFactory("authorID"));
+		authorIDTc.setPrefWidth(120);
+		
+		TableColumn nameTc = new TableColumn("name");
+		nameTc.setCellValueFactory(new PropertyValueFactory("name"));
+		nameTc.setPrefWidth(120);
+
+		exploreDBAuthorsColumns.add(0,authorIDTc);
+		exploreDBAuthorsColumns.add(1,nameTc);
 
 		Integer paperID, authorID;
 		String paperTitle, authorName;
@@ -131,13 +142,16 @@ public class GUIController implements Initializable {
 			papersIDs.add(paperID.toString());
 			papersNames.add(paperTitle);
 		}
-
+			
+		ObservableList authorsOL = FXCollections.observableArrayList();		
 		for (Author a : authors) {
 			authorID = a.getAuthorID();
 			authorName = a.getName();
 			authorsIDs.add(authorID.toString());
 			authorsNames.add(authorName);
+			authorsOL.add(a);
 		}
+		exploreDBAuthorsTableView.setItems(authorsOL);
 
 		// PHASE 1 - Task 1 - controls settings
 		assert phase1Task1PaperIDComboBox != null : "fx:id=\"phase1Task1PaperIDComboBox\" non iniettato: controlla il file FXML 'dbm2013gui.fxml'.";
