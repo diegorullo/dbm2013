@@ -201,7 +201,7 @@
                                             <Insets right="10.0" top="2.0" />
                                           </HBox.margin>
                                         </Label>
-                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase2Task1AuthorIDComboBox" promptText="Author ID">
+                                        <ComboBox id="phase2Task1aPaperIDComboBox" fx:id="phase2Task1aAuthorIDComboBox" promptText="Author ID">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -210,7 +210,7 @@
                                             </FXCollections>
                                           </items>
                                         </ComboBox>
-                                        <ComboBox fx:id="phase2Task1ModelComboBox" promptText="Model">
+                                        <ComboBox fx:id="phase2Task1aModelComboBox" promptText="Model">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -219,13 +219,13 @@
                                             </FXCollections>
                                           </items>
                                         </ComboBox>
-                                        <Button fx:id="phase2Task1ExecuteButton" mnemonicParsing="false" prefWidth="72.0" text="Execute" />
+                                        <Button fx:id="phase2Task1aExecuteButton" mnemonicParsing="false" prefWidth="72.0" text="Execute" />
                                       </children>
                                     </HBox>
                                     <HBox layoutX="13.0" layoutY="52.0" prefHeight="24.0" prefWidth="310.0">
                                       <children>
                                         <Label text="Author:" />
-                                        <Label fx:id="phase2Task1TitleLabel" prefWidth="248.0" text="..." />
+                                        <Label fx:id="phase2Task1aTitleLabel" prefWidth="248.0" text="..." />
                                       </children>
                                     </HBox>
                                     <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="76.0" spacing="5.0">
@@ -240,12 +240,12 @@
                                     </HBox>
                                     <HBox layoutX="12.0" layoutY="104.0" prefHeight="26.0" prefWidth="327.0">
                                       <children>
-                                        <Label prefWidth="52.0" text="Author:">
+                                        <Label prefWidth="65.0" text="Author:">
                                           <HBox.margin>
                                             <Insets right="10.0" fx:id="x5002" />
                                           </HBox.margin>
                                         </Label>
-                                        <ComboBox promptText="Author">
+                                        <ComboBox fx:id="phase2Task1bAuthorIDComboBox" promptText="Author">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -254,7 +254,7 @@
                                             </FXCollections>
                                           </items>
                                         </ComboBox>
-                                        <ComboBox promptText="Model">
+                                        <ComboBox fx:id="phase2Task1bModelComboBox" promptText="Model">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -266,7 +266,7 @@
                                             <Insets right="20.0" fx:id="x2012" />
                                           </HBox.margin>
                                         </ComboBox>
-                                        <Button mnemonicParsing="false" text="Button">
+                                        <Button fx:id="phase2Task1bExecuteButton" mnemonicParsing="false" text="Execute">
                                           <HBox.margin>
                                             <Insets right="20.0" fx:id="x2013" />
                                           </HBox.margin>
@@ -276,6 +276,12 @@
                                     <HBox id="HBox" alignment="CENTER" layoutX="12.0" layoutY="172.0" spacing="5.0">
                                       <children>
                                         <Separator prefWidth="327.0" />
+                                      </children>
+                                    </HBox>
+                                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="130.0" spacing="5.0">
+                                      <children>
+                                        <Label text="Author:" />
+                                        <Label fx:id="phase2Task1bTitleLabel" prefWidth="272.0" text="....." />
                                       </children>
                                     </HBox>
                                   </children>
