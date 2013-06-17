@@ -68,16 +68,26 @@ public class GUIController implements Initializable {
 	@FXML
 	private ComboBox<String> phase1Task3AuthorIDComboBox;
 
-	// PHASE 2 - Task 1 - controls injection
+	// PHASE 2 - Task 1a - controls injection
 	@FXML
-	private Button phase2Task1ExecuteButton;
+	private Button phase2Task1aExecuteButton;
 	@FXML
-	private Label phase2Task1TitleLabel;
+	private Label phase2Task1aTitleLabel;
 	@FXML
-	private ComboBox<String> phase2Task1ModelComboBox;
+	private ComboBox<String> phase2Task1aModelComboBox;
 	@FXML
-	private ComboBox<String> phase2Task1AuthorIDComboBox;
+	private ComboBox<String> phase2Task1aAuthorIDComboBox;
 
+	// PHASE 2 - Task 1b - controls injection
+	@FXML
+	private Button phase2Task1bExecuteButton;
+	@FXML
+	private Label phase2Task1bTitleLabel;
+	@FXML
+	private ComboBox<String> phase2Task1bModelComboBox;
+	@FXML
+	private ComboBox<String> phase2Task1bAuthorIDComboBox;
+	
 	// exploreDB - controls injection
 	@FXML
 	private TableView<String> exploreDBAuthorsTableView;
@@ -405,21 +415,21 @@ public class GUIController implements Initializable {
 
 				});
 
-		// PHASE 2 - Task 1 - controls settings
-		phase2Task1AuthorIDComboBox.setItems(authorsIDs);
-		phase2Task1ModelComboBox.getItems().clear();
-		phase2Task1ModelComboBox.getItems().addAll("PCA", "SVD");
-		phase2Task1ModelComboBox.getSelectionModel().selectFirst();
-		phase2Task1TitleLabel.setText("nome autore selezionato");
+		// PHASE 2 - Task 1a - controls settings
+		phase2Task1aAuthorIDComboBox.setItems(authorsIDs);
+		phase2Task1aModelComboBox.getItems().clear();
+		phase2Task1aModelComboBox.getItems().addAll("PCA", "SVD");
+		phase2Task1aModelComboBox.getSelectionModel().selectFirst();
+		phase2Task1aTitleLabel.setText("nome autore selezionato");
 
-		// PHASE 2 - Task 1 - EVENT HANDLER
-		phase2Task1ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+		// PHASE 2 - Task 1a - EVENT HANDLER
+		phase2Task1aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				resultsTextArea.clear();
 				resultsTextArea.setText("Attendere prego!\n");
-				String modello = phase2Task1ModelComboBox.getValue();
-				String authorid = phase2Task1AuthorIDComboBox.getValue();
+				String modello = phase2Task1aModelComboBox.getValue();
+				String authorid = phase2Task1aAuthorIDComboBox.getValue();
 				try {
 					if (authorid != null && !authorid.equals("")) {
 						Corpus dblp = Main.getDblp();
@@ -501,12 +511,12 @@ public class GUIController implements Initializable {
 			}
 		});
 
-		phase2Task1AuthorIDComboBox
+		phase2Task1aAuthorIDComboBox
 				.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						try {
-							String authorid = phase2Task1AuthorIDComboBox
+							String authorid = phase2Task1aAuthorIDComboBox
 									.getValue();
 							if (authorid != null && !authorid.equals("")) {
 								Corpus dblp = Main.getDblp();
@@ -514,7 +524,7 @@ public class GUIController implements Initializable {
 								author = dblp.getAuthorByID(Integer
 										.parseInt(authorid));
 								String name = author.getName();
-								phase2Task1TitleLabel.setText(name);
+								phase2Task1aTitleLabel.setText(name);
 							} else {
 								resultsTextArea.setText("authorid non valido!");
 							}
@@ -526,7 +536,131 @@ public class GUIController implements Initializable {
 					}
 				});
 
-	}
+	
+	
+	// PHASE 2 - Task 1b - controls settings
+			phase2Task1bAuthorIDComboBox.setItems(authorsIDs);
+			phase2Task1bModelComboBox.getItems().clear();
+			phase2Task1bModelComboBox.getItems().addAll("keyword vectors", "vettori di differenziazione (TFIDF2)", "vettori di differenziazione (PF)", "top-5 semantiche latenti (PCA)", "top-5 semantiche latenti (SVD)");
+			phase2Task1bModelComboBox.getSelectionModel().selectFirst();
+			phase2Task1bTitleLabel.setText("nome autore selezionato");
+
+			// PHASE 2 - Task 1b - EVENT HANDLER
+			phase2Task1bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsTextArea.clear();
+					resultsTextArea.setText("Attendere prego!\n");
+					String modello = phase2Task1bModelComboBox.getValue();
+					String authorid = phase2Task1bAuthorIDComboBox.getValue();
+					try {
+						if (authorid != null && !authorid.equals("")) {
+							Corpus dblp = Main.getDblp();
+							Author author = null;
+							author = dblp.getAuthorByID(Integer.parseInt(authorid));
+							@SuppressWarnings("unused")
+							String output = null;
+							if (modello.equals("PCA")) {
+								String fileName = author.getAuthorID().toString();
+								ArrayList<ArrayList<Double>> scoreLatentMatrix = author
+										.getPCA(dblp, fileName, 5);
+								ArrayList<TreeMap<String, Double>> topNMatrix = author
+										.getTopN(scoreLatentMatrix, 5);
+								if (PRINT_ON_FILE) {
+									IO.printDocumentTermMatrixOnFile(
+											topNMatrix,
+											"../data/PCA_Top5_"
+													+ author.getAuthorID() + ".csv");
+								}
+								if (PRINT_ON_CONSOLE) {
+									System.out.println("Matrice Score("
+											+ author.getAuthorID() + "): ");
+									Printer.printMatrix(scoreLatentMatrix);
+									System.out.println("Matrice top 5 PCA ("
+											+ author.getAuthorID() + "): "
+											+ topNMatrix);
+									System.out
+											.println("----------------------------------------------------------------------\n");
+								}
+								output = "Top 5 PCA matrix:\n"
+										+ "-----------------------------------------------------\n"
+										+ topNMatrix.toString();
+								gUIPrintMatrix(scoreLatentMatrix);
+
+							} else if (modello.equals("SVD")) {
+								String authorID = author.getAuthorID().toString();
+								ArrayList<ArrayList<Double>> vMatrix = author
+										.getSVD(dblp, authorID, 5);
+								ArrayList<TreeMap<String, Double>> topNMatrix = author
+										.getTopN(vMatrix, 5);
+								if (PRINT_ON_FILE) {
+									IO.printDocumentTermMatrixOnFile(
+											topNMatrix,
+											"../data/SVD_Top5_"
+													+ author.getAuthorID() + ".csv");
+								}
+								if (PRINT_ON_CONSOLE) {
+									System.out.println("Matrice V ("
+											+ author.getAuthorID() + "):");
+									Printer.printMatrix(vMatrix);
+									System.out.println("Matrice top 5 SVD ("
+											+ author.getAuthorID() + "): "
+											+ topNMatrix);
+									System.out
+											.println("----------------------------------------------------------------------\n");
+
+								}
+								output = "Top 5 SVD:\n"
+										+ "-----------------------------------------------------\n"
+										+ topNMatrix;
+								 gUIPrintMatrix(vMatrix);
+							}
+							// resultsTextArea.setText(output);
+
+						} else {
+							resultsTextArea.setText("authorid non valido!");
+						}
+					} catch (NoAuthorsWithSuchIDException
+							| AuthorWithoutPapersException | NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (MatlabConnectionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MatlabInvocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+
+			phase2Task1bAuthorIDComboBox
+					.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							try {
+								String authorid = phase2Task1bAuthorIDComboBox
+										.getValue();
+								if (authorid != null && !authorid.equals("")) {
+									Corpus dblp = Main.getDblp();
+									Author author = null;
+									author = dblp.getAuthorByID(Integer
+											.parseInt(authorid));
+									String name = author.getName();
+									phase2Task1bTitleLabel.setText(name);
+								} else {
+									resultsTextArea.setText("authorid non valido!");
+								}
+							} catch (NumberFormatException
+									| NoAuthorsWithSuchIDException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					});
+
+		}
+
 
 	public static void gUIPrintMatrix(ArrayList<ArrayList<Double>> matrix) {
 		resultsTextArea.setText("Score Latent Matrix:\n");
