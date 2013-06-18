@@ -2,6 +2,7 @@ package dblp;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -27,6 +28,7 @@ public class Corpus {
 	private ArrayList<Author> authors;
 	private ArrayList<Paper> papers;
 	private int cardinality;
+	private ArrayList<String> globalKeywordSet;
 	
 	public Corpus(ArrayList<Author> authors, ArrayList<Paper> papers, int cardinality) {
 		super();
@@ -306,6 +308,70 @@ public class Corpus {
 		return clustersBasedOnConcepts;
 	}
 	
+	// Phase 2 - Task 3b
+	
+	public ArrayList<String> getGlobalKeywordSet() {
+		if(globalKeywordSet == null) {
+			globalKeywordSet = calculateGlobalKeywordSet();
+		}
+		return globalKeywordSet;
+	}
+	
+	/**
+	 * Calcola il keyword set globale, contenente l'insieme di
+	 * tutte le keyword presenti nel DB;
+	 * viene ordinato lessicograficamente.
+	 * 
+	 * @return ArrayList<String> keyword set globale
+	 */
+	private ArrayList<String> calculateGlobalKeywordSet() {
+		ArrayList<String> globalKeywordSet = new ArrayList<String>();
+		
+		ArrayList<Paper> papersList = this.getPapers();
+		
+		for (Paper paper : papersList) {
+			ArrayList<String> keywordSet = paper.getKeywordSet();
+			for (String keyword : keywordSet) {
+				if (!globalKeywordSet.contains(keyword)) {
+					globalKeywordSet.add(keyword);
+				}
+			}
+		}
+		
+		Collections.sort(globalKeywordSet);
+		
+		return globalKeywordSet;		
+	}
+	
+	/**
+	 * 
+	 * @param path
+	 * @param fileName
+	 * @return
+	 * @throws Exception
+	 */
+	public TreeMap<Integer, ArrayList<Author>> getKeywordVectorClusters(String path, String fileName) throws Exception {
+		TreeMap<Integer, ArrayList<Author>> keywordVectorClusters = new TreeMap<Integer, ArrayList<Author>>();
+		
+//        this.getTop3SVDAuthor(path, fileName);  // sfruttiamo il side-effect del fatto che stampi su file!
+//        
+//		String readFileName = "U_" + fileName;
+//		
+//		// estraggo la lista degli id degli autori
+//		ArrayList<Author> authors = this.getAuthors();
+//		ArrayList<Integer> authorsIDs = new ArrayList<Integer>();
+//		for(Author a : authors) {
+//			authorsIDs.add(a.getAuthorID());
+//		}
+//		// System.out.println(authorsIDs);
+//		
+//		// Leggiamo il file corrispondente alla matrice U_SimilarityMatrixAuthor.csv
+//		Table<Integer, Integer, Double> top3ReadTable = IO.readTop3SVDMatrixAuthorFromFile(path, readFileName, authorsIDs);
+//		
+//		//TODO: implementazione ancora da fare :)
+		
+		return keywordVectorClusters;
+	}
 		
 	public ArrayList<Author> getAuthors() {
 		return authors;

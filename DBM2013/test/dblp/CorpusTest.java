@@ -997,5 +997,16 @@ public class CorpusTest {
 			}
 		}
 	}
+	
+	@Test
+	public void testGetGlobalKeywordSet() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
+		if (DEBUG) {
+			Factory f = new Factory();
+			Corpus dblp = f.getCorpus();
+			ArrayList<String> globalKeywordSet = dblp.getGlobalKeywordSet();
+			System.out.println("globalKeywordSet (" + globalKeywordSet.size() + ") " + globalKeywordSet);
+			assertTrue(globalKeywordSet != null && globalKeywordSet.size() > 0);
+		}
+	}
 
 }
