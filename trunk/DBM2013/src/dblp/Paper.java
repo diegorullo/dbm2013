@@ -158,7 +158,7 @@ public class Paper implements Comparable<Paper>{
 	 * Estrae l'insieme delle keyword dal testo dell'abstract del documento
 	 * unitamente a quelle dal titolo, ordinato lessicograficamente. 
 	 * 
-	 * @return l'arraylist delle keyword e rispettivo numero di occorrenze, ordinato
+	 * @return l'arraylist delle keyword
 	 */
 	private ArrayList<String> calculateKeywordSet() {
 		
@@ -173,7 +173,7 @@ public class Paper implements Comparable<Paper>{
 			}
 		}
 		
-		// keywords provenienti dal titolo	(ognuna pesata 'weight' volte)	
+		// keywords provenienti dal titolo
 		for (String k : titlesKeywordSet) {
 			if (!keywordSet.contains(k)) {
 				keywordSet.add(k);
