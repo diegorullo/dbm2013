@@ -350,9 +350,13 @@ public class Corpus {
 	 * @param path
 	 * @param fileName
 	 * @return
+	 * @throws AuthorWithoutPapersException 
+	 * @throws MatlabInvocationException 
+	 * @throws MatlabConnectionException 
+	 * @throws NoAuthorsWithSuchIDException 
 	 * @throws Exception
 	 */
-	public Table<Integer, String, Double> getConceptsKeywordVectors(String path, String fileName) throws Exception {
+	public Table<Integer, String, Double> getConceptsKeywordVectors(String path, String fileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		Table<Integer, String, Double> conceptsKeywordVectors = TreeBasedTable.create();
 		
 		this.getTop3SVDAuthor(path, fileName);  // sfruttiamo il side-effect del fatto che stampi su file!
