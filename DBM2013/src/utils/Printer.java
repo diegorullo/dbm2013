@@ -203,4 +203,25 @@ public class Printer {
 		System.out.print("\n");
 	}
 	
+	public static void printConceptsKeywordsTableWithCaptions(Table<Integer, String, Double> table) {
+		int columnsSize = table.columnKeySet().size();
+		System.out.printf("KW     |  ");
+		for (String s : table.columnKeySet()) {
+			System.out.printf("\t" + s + "\t");
+		}
+		System.out.println();
+		//Riga orizzontale
+		for(int k = 0; k < 16 * (columnsSize + 3); k++) {
+			System.out.printf("-");
+		}
+		System.out.println();
+		for (int i : table.rowKeySet()) {
+			System.out.printf("%d|", i);
+			for (String j : table.columnKeySet()) {
+				System.out.printf("\t%.7f", table.get(i, j));
+			}
+			System.out.println();
+		}
+	}
+	
 }
