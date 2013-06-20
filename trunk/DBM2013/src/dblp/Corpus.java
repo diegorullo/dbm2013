@@ -237,7 +237,7 @@ public class Corpus {
 	
 	// Phase 2 - Task 3a
 	
-	public TreeMap<Integer, ArrayList<Author>> getClustersBasedOnConcepts(String path, String fileName) throws Exception {
+	public TreeMap<Integer, ArrayList<Author>> getClustersBasedOnConcepts(String path, String fileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException, WrongClusteringException {
 		TreeMap<Integer, ArrayList<Author>> clustersBasedOnConcepts = new TreeMap<Integer, ArrayList<Author>>();
 		
         this.getTop3SVDAuthor(path, fileName);  // sfruttiamo il side-effect del fatto che stampi su file!

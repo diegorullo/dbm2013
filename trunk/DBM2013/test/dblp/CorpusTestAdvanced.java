@@ -292,5 +292,21 @@ public class CorpusTestAdvanced {
 			Printer.printAuthorsList(clustersBasedOnConcepts.get(2));
 		}
 	}
+	
+	@Test
+	public void testGetConceptsKeywordVectors() throws Exception {
+		if(DEBUG){
+			Table<Integer, String, Double> conceptsKeywordVectors;
+			
+			String startingDirectory = System.getProperty("user.dir");
+            String path = startingDirectory + "/../data/";
+            String fileName = "SimilarityMatrixAuthorForConceptsVectors.csv";
+            
+            conceptsKeywordVectors = dblp.getConceptsKeywordVectors(path, fileName);
+            System.out.println("Matrice Concetti Keyword");
+            System.out.println("-----------------------------------------------");
+            Printer.printConceptsKeywordsTableWithCaptions(conceptsKeywordVectors);
+		}
+	}
 
 }
