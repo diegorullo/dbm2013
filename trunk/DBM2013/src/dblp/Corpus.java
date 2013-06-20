@@ -343,34 +343,71 @@ public class Corpus {
 		return globalKeywordSet;		
 	}
 	
+	
+	//TODO: da testare!!!
 	/**
-	 * 
+	 * TODO: fare la documentazione!!!
 	 * @param path
 	 * @param fileName
 	 * @return
 	 * @throws Exception
 	 */
-	public TreeMap<Integer, ArrayList<Author>> getKeywordVectorClusters(String path, String fileName) throws Exception {
-		TreeMap<Integer, ArrayList<Author>> keywordVectorClusters = new TreeMap<Integer, ArrayList<Author>>();
+	public Table<Integer, String, Double> getConceptsKeywordVectors(String path, String fileName) throws Exception {
+		Table<Integer, String, Double> conceptsKeywordVectors = TreeBasedTable.create();
 		
-//        this.getTop3SVDAuthor(path, fileName);  // sfruttiamo il side-effect del fatto che stampi su file!
-//        
-//		String readFileName = "U_" + fileName;
-//		
-//		// estraggo la lista degli id degli autori
-//		ArrayList<Author> authors = this.getAuthors();
-//		ArrayList<Integer> authorsIDs = new ArrayList<Integer>();
-//		for(Author a : authors) {
-//			authorsIDs.add(a.getAuthorID());
-//		}
-//		// System.out.println(authorsIDs);
-//		
-//		// Leggiamo il file corrispondente alla matrice U_SimilarityMatrixAuthor.csv
-//		Table<Integer, Integer, Double> top3ReadTable = IO.readTop3SVDMatrixAuthorFromFile(path, readFileName, authorsIDs);
-//		
-//		//TODO: implementazione ancora da fare :)
+		this.getTop3SVDAuthor(path, fileName);  // sfruttiamo il side-effect del fatto che stampi su file!
+        
+		String readFileName = "U_" + fileName;
 		
-		return keywordVectorClusters;
+		// estraggo la lista degli id degli autori
+		ArrayList<Author> authors = this.getAuthors();
+		ArrayList<Integer> authorsIDs = new ArrayList<Integer>();
+		for(Author a : authors) {
+			authorsIDs.add(a.getAuthorID());
+		}
+		// System.out.println(authorsIDs);
+		
+		// Leggiamo il file corrispondente alla matrice U_SimilarityMatrixAuthor.csv
+		Table<Integer, Integer, Double> top3ReadTable = IO.readTop3SVDMatrixAuthorFromFile(path, readFileName, authorsIDs);
+		
+		// Estraggo l'insieme globale delle keyword
+		ArrayList<String> globalKeywordSet = this.getGlobalKeywordSet();
+			
+		// Inizializziamo la struttura, mettendo tutte le celle a 0 della Table risultato
+		// TODO: controllare se è necessario!!!
+		for(Integer conceptID : top3ReadTable.rowKeySet()) {
+			for (String keyword : globalKeywordSet) {
+				conceptsKeywordVectors.put(conceptID, keyword, 0.0);
+			}
+		}
+		
+		// Popoliamo la Table risultato
+		for (Integer conceptID : top3ReadTable.rowKeySet()) {
+			for (Integer authorID : top3ReadTable.columnKeySet()) {
+				Author currentAuthor = this.getAuthorByID(authorID);
+				TreeMap<String, Double> currentKeywordVector = currentAuthor.getWeightedTFIDFVector(this);
+				for (Map.Entry<String, Double> entry : currentKeywordVector.entrySet()) {
+					String keyword = entry.getKey();
+					Double value = entry.getValue();
+					Double weight = top3ReadTable.get(conceptID, authorID);
+					Double previousValue = conceptsKeywordVectors.get(conceptID, keyword);
+					
+					/* TODO: studiare se e' necessario (e, nel caso, come fare a) normalizzarlo!
+					 *  ^- 	ci ho pensato, e probabilmente ci sta bene cosi' visto che
+					 *  	non	mi pare che lo riutilizziamo da qualche altra parte
+					 * 
+					 * Attualmente ha 2 "caratteristiche" che non sono sicuro che ci piacciano:
+					 *  - fare la moltiplicazione "abbassa" il valore corrente;
+					 *  - sommare piu' prodotti può portare a valori piu' alti di 1.
+					 */
+					Double currentValue = previousValue + (value * weight);
+
+					conceptsKeywordVectors.put(conceptID, keyword, currentValue);
+				}
+			}
+		}
+		
+		return conceptsKeywordVectors;
 	}
 		
 	public ArrayList<Author> getAuthors() {
