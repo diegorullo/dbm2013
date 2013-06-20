@@ -18,6 +18,7 @@ import com.google.common.collect.Table;
 
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
+import exceptions.WrongClusteringException;
 
 public class CorpusTestAdvanced {
 	
@@ -274,7 +275,7 @@ public class CorpusTestAdvanced {
 	}
 	
 	@Test
-	public void testGetClustersBasedOnConcepts() throws Exception {
+	public void testGetClustersBasedOnConcepts() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException, WrongClusteringException {
 		if(DEBUG) {
 			TreeMap<Integer, ArrayList<Author>> clustersBasedOnConcepts;
 			
@@ -294,7 +295,7 @@ public class CorpusTestAdvanced {
 	}
 	
 	@Test
-	public void testGetConceptsKeywordVectors() throws Exception {
+	public void testGetConceptsKeywordVectors() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		if(DEBUG){
 			Table<Integer, String, Double> conceptsKeywordVectors;
 			
