@@ -344,7 +344,6 @@ public class Corpus {
 	}
 	
 	
-	//TODO: da testare!!!
 	/**
 	 * TODO: fare la documentazione!!!
 	 * @param path

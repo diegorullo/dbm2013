@@ -128,6 +128,7 @@ public class GUIController implements Initializable {
 				.getColumns();
 		exploreDBPapersColumns.clear();
 		
+		//FIXME: parametrizzare i riferimenti ai tipi generici
 		TableColumn paperIDTc = new TableColumn("paperID");
 		paperIDTc.setCellValueFactory(new PropertyValueFactory("paperID"));
 		paperIDTc.setPrefWidth(120);
