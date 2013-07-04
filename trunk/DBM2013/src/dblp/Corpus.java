@@ -8,8 +8,14 @@ import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
+import org.gephi.graph.api.Edge;
+import org.gephi.graph.api.Graph;
+import org.gephi.graph.api.Node;
+import org.gephi.graph.api.UndirectedGraph;
+
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
+import utils.GraphEngine;
 import utils.IO;
 import utils.MatlabEngine;
 import utils.Printer;
@@ -345,15 +351,20 @@ public class Corpus {
 	
 	
 	/**
-	 * TODO: fare la documentazione!!!
+	 * Associa un keyword vector a ciascun concetto sulla base dei keyword vector
+	 * degli autori e del loro grado di appartenenza al concetto
+	 * 
 	 * @param path
 	 * @param fileName
-	 * @return
+	 * 
+	 * @return Table<Integer, String, Double> table contenente i keyword vector
+	 * 
 	 * @throws AuthorWithoutPapersException 
 	 * @throws MatlabInvocationException 
 	 * @throws MatlabConnectionException 
 	 * @throws NoAuthorsWithSuchIDException 
-	 * @throws Exception
+	 * @throws Exception 
+	 * 
 	 */
 	public Table<Integer, String, Double> getConceptsKeywordVectors(String path, String fileName) throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {
 		Table<Integer, String, Double> conceptsKeywordVectors = TreeBasedTable.create();
@@ -412,6 +423,51 @@ public class Corpus {
 		
 		return conceptsKeywordVectors;
 	}
+	
+	// Phase 3 - Task 1
+	/**
+	 * Crea un grafo dei coautori pesato in cui ci sia un arco tra due autori se sono
+	 * stati coautori di almeno un articolo, il cui peso rappresenti la similarita’
+	 * dei corrispondenti autori, misurata in termini di keyword vectors
+	 * 
+	 * @return Graph grafo dei coautori pesato
+	 */
+	public Graph getCoAuthorsGraphBasedOnKeywordVectors() {
+		
+		//TODO: verificare se e come spostare le chiamate in modo da nascondere il GraphEngine
+		GraphEngine ge = GraphEngine.getGraphEngine();
+        UndirectedGraph coAuthorsGraphBasedOnKeywordVectors = ge.getGraphModel().getUndirectedGraph();
+
+        ArrayList<Author> authorsList = this.getAuthors();
+        
+        // I passata: riempiamo il grafo con i nodi 
+        for (Author a : authorsList) {
+        	String authorID = a.getAuthorID().toString();
+        	Node n = ge.getGraphModel().factory().newNode(authorID);
+        	n.getNodeData().setLabel(authorID);
+        	coAuthorsGraphBasedOnKeywordVectors.addNode(n);        	
+        }
+        
+        // II passata: colleghiamo i nodi che rappresentano due autori che sono coautori con un arco
+        for (Author a : authorsList) {
+        	ArrayList<Integer> coAuthorsIDs = a.getCoAuthorsIDs();
+        	Node node1 = coAuthorsGraphBasedOnKeywordVectors.getNode(a.getAuthorID().toString());
+        	for(Integer authorID : coAuthorsIDs) {
+        		String authorIDString = authorID.toString();
+        		Node node2 = coAuthorsGraphBasedOnKeywordVectors.getNode(authorIDString);
+        		
+        		// se l'arco tra i 2 nodi non esiste gia', lo aggiungo
+        		if (coAuthorsGraphBasedOnKeywordVectors.getEdge(node1, node2) == null) {
+        			float weight = 2; //TODO: aggiungere il peso all'arco
+        			Edge edge = ge.getGraphModel().factory().newEdge(node1, node2, weight, false);
+        			coAuthorsGraphBasedOnKeywordVectors.addEdge(edge);
+        		}
+        	}     	
+        }
+        
+		return coAuthorsGraphBasedOnKeywordVectors;		
+	}
+	
 		
 	public ArrayList<Author> getAuthors() {
 		return authors;

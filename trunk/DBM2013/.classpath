@@ -9,6 +9,10 @@
 	<classpathentry kind="lib" path="libs/matlabcontrol-4.1.0.jar"/>
 	<classpathentry kind="lib" path="libs/guava-14.0.1.jar"/>
 	<classpathentry kind="con" path="at.bestsolution.efxclipse.tooling.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="lib" path="libs/gephi-toolkit.jar"/>
+	<classpathentry kind="lib" path="libs/gephi-toolkit.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/D:/DBM/workspace/DBM2013/libs/gephi-toolkit-javadoc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

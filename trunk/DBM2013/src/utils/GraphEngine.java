@@ -25,7 +25,6 @@ public class GraphEngine {
 			workspace = projectController.getCurrentWorkspace();
 			graphModel = Lookup.getDefault().lookup(GraphController.class).getModel();
 		}
-
 	}
 	
 	public static GraphEngine getGraphEngine() {
