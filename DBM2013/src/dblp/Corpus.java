@@ -431,8 +431,9 @@ public class Corpus {
 	 * dei corrispondenti autori, misurata in termini di keyword vectors
 	 * 
 	 * @return Graph grafo dei coautori pesato
+	 * @throws NoAuthorsWithSuchIDException 
 	 */
-	public Graph getCoAuthorsGraphBasedOnKeywordVectors() {
+	public Graph getCoAuthorsGraphBasedOnKeywordVectors() throws NoAuthorsWithSuchIDException {
 		
 		//TODO: verificare se e come spostare le chiamate in modo da nascondere il GraphEngine
 		GraphEngine ge = GraphEngine.getGraphEngine();
@@ -449,16 +450,17 @@ public class Corpus {
         }
         
         // II passata: colleghiamo i nodi che rappresentano due autori che sono coautori con un arco
-        for (Author a : authorsList) {
-        	ArrayList<Integer> coAuthorsIDs = a.getCoAuthorsIDs();
-        	Node node1 = coAuthorsGraphBasedOnKeywordVectors.getNode(a.getAuthorID().toString());
-        	for(Integer authorID : coAuthorsIDs) {
-        		String authorIDString = authorID.toString();
+        for (Author author1 : authorsList) {
+        	ArrayList<Integer> coAuthorsIDs = author1.getCoAuthorsIDs();
+        	Node node1 = coAuthorsGraphBasedOnKeywordVectors.getNode(author1.getAuthorID().toString());
+        	for(Integer author2ID : coAuthorsIDs) {
+        		String authorIDString = author2ID.toString();
+        		Author author2 = this.getAuthorByID(author2ID);
         		Node node2 = coAuthorsGraphBasedOnKeywordVectors.getNode(authorIDString);
         		
         		// se l'arco tra i 2 nodi non esiste gia', lo aggiungo
         		if (coAuthorsGraphBasedOnKeywordVectors.getEdge(node1, node2) == null) {
-        			float weight = 2; //TODO: aggiungere il peso all'arco
+        			float weight = (float) author1.getSimilarityOnKeywordVector(author2, this);
         			Edge edge = ge.getGraphModel().factory().newEdge(node1, node2, weight, false);
         			coAuthorsGraphBasedOnKeywordVectors.addEdge(edge);
         		}
