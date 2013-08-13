@@ -462,6 +462,7 @@ public class Corpus {
         		if (coAuthorsGraphBasedOnKeywordVectors.getEdge(node1, node2) == null) {
         			float weight = (float) author1.getSimilarityOnKeywordVector(author2, this);
         			Edge edge = ge.getGraphModel().factory().newEdge(node1, node2, weight, false);
+        			edge.getEdgeData().setLabel(String.valueOf(weight));
         			coAuthorsGraphBasedOnKeywordVectors.addEdge(edge);
         		}
         	}     	
@@ -470,7 +471,6 @@ public class Corpus {
 		return coAuthorsGraphBasedOnKeywordVectors;		
 	}
 	
-		
 	public ArrayList<Author> getAuthors() {
 		return authors;
 	}
