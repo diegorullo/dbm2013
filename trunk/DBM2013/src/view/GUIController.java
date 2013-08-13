@@ -105,6 +105,10 @@ public class GUIController implements Initializable {
 	@FXML
 	private static GridPane	resultsGridPane;
 
+	//FIXME: Warning soppressi, ma bisogna ancora parametrizzare i riferimenti ai tipi generici
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
+	
 	@Override
 	// This method is called by the FXMLLoader when initialization is complete
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
