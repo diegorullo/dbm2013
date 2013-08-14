@@ -428,7 +428,7 @@ public class Corpus {
 	/**
 	 * Crea un grafo dei coautori pesato in cui ci sia un arco tra due autori se sono
 	 * stati coautori di almeno un articolo, il cui peso rappresenti la similarita’
-	 * dei corrispondenti autori, misurata in termini di keyword vectors
+	 * dei corrispondenti autori, misurata in termini di keyword vectors o top 3 semantiche latenti degli autori (PCA e SVD).
 	 * 
 	 * @return Graph grafo dei coautori pesato
 	 * @throws NoAuthorsWithSuchIDException 
@@ -469,6 +469,60 @@ public class Corpus {
         }
         
 		return coAuthorsGraphBasedOnKeywordVectors;		
+	}
+	
+	// Phase 3 - Task 2
+	/**
+	 * Create un grafo degli articoli di cui si e’ stati coautori, in cui esiste un arco
+	 * tra due articoli se condividono almeno un autore, e in cui i pesi rappresentano la similarita'
+	 * tra i corrispondenti articoli misurata in termini di TF keyword-vectors o TF-IDF keyword-vectors.
+	 * 
+	 * @return Graph grafo degli articoli
+	 * @throws NoAuthorsWithSuchIDException 
+	 */
+	public Graph getCoAuthoredPapersGraphBasedOnKeywordVectors() throws NoAuthorsWithSuchIDException {
+		
+		//TODO: verificare se e come spostare le chiamate in modo da nascondere il GraphEngine
+		GraphEngine ge = GraphEngine.getGraphEngine();
+        UndirectedGraph coAuthoredPapersGraphBasedOnKeywordVectors = ge.getGraphModel().getUndirectedGraph();
+
+        ArrayList<Paper> papersList = this.getPapers();
+        
+        // I passata: riempiamo il grafo con i nodi 
+        for (Paper p : papersList) {
+        	String paperID = p.getPaperID().toString();
+        	Node n = ge.getGraphModel().factory().newNode(paperID);
+        	n.getNodeData().setLabel(paperID);
+        	coAuthoredPapersGraphBasedOnKeywordVectors.addNode(n);        	
+        }
+        
+        // II passata: colleghiamo i nodi che rappresentano due paper che hanno autori in comune con un arco
+        for (Paper paper1 : papersList) {
+        	ArrayList<Integer> paper1AuthorsIDs = paper1.getAuthors();
+        	Node node1 = coAuthoredPapersGraphBasedOnKeywordVectors.getNode(paper1.getPaperID().toString());
+        	
+        	// scorriamo tutti gli autori del paper1 e colleghiamo i loro paper al nodo
+        	for(Integer author2ID : paper1AuthorsIDs) {
+        		Author author2 = this.getAuthorByID(author2ID);
+        		
+        		for(Paper paper2 : author2.getPapers()) {
+	        		Node node2 = coAuthoredPapersGraphBasedOnKeywordVectors.getNode(paper2.getPaperID().toString());
+	        		
+	        		// se l'arco tra i 2 nodi non esiste gia', lo aggiungo
+	        		if (coAuthoredPapersGraphBasedOnKeywordVectors.getEdge(node1, node2) == null) {
+	        			
+	        			//TODO: calcolare il peso come similarita' tra gli articoli
+	        			// misurata in termini di TF keyword-vectors o TF-IDF keyword-vectors.
+	        			float weight = (float) 0.0; //(float) author1.getSimilarityOnKeywordVector(author2, this);
+	        			Edge edge = ge.getGraphModel().factory().newEdge(node1, node2, weight, false);
+	        			edge.getEdgeData().setLabel(String.valueOf(weight));
+	        			coAuthoredPapersGraphBasedOnKeywordVectors.addEdge(edge);
+	        		}
+        		}
+        	}     	
+        }
+        
+		return coAuthoredPapersGraphBasedOnKeywordVectors;		
 	}
 	
 	public ArrayList<Author> getAuthors() {
