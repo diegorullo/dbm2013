@@ -108,11 +108,11 @@ public class GraphEngineTest {
 	        //Export
 	        ExportController ec = Lookup.getDefault().lookup(ExportController.class);
 	        try {
-	        	File pdfFile = new File("[Phase 3 - Task 1] coAuthorsGraphBasedOnKeywordVectors.pdf");
-	        	File gexfFile = new File("[Phase 3 - Task 1] coAuthorsGraphBasedOnKeywordVectors.gexf");
-	        	ec.exportFile(pdfFile); //ec.exportFile(new File("[Phase 3 - Task 1] coAuthorsGraphBasedOnKeywordVectors.pdf"));
+	        	File pdfFile = new File("../data/[Phase 3 - Task 1] coAuthorsGraphBasedOnKeywordVectors.pdf");
+	        	File gexfFile = new File("../data/[Phase 3 - Task 1] coAuthorsGraphBasedOnKeywordVectors.gexf");
+	        	ec.exportFile(pdfFile); //ec.exportFile(new File("../data/[Phase 3 - Task 1] coAuthorsGraphBasedOnKeywordVectors.pdf"));
 	        	ec.exportFile(gexfFile);
-	            Desktop.getDesktop().open(pdfFile);
+	            // Desktop.getDesktop().open(pdfFile); //non sembra funzionare col path relativo
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
 	            return;
@@ -128,13 +128,12 @@ public class GraphEngineTest {
 	        Corpus dblp = factory.getCorpus();
 	        
 	        Graph graph = dblp.getCoAuthoredPapersGraphBasedOnKeywordVectors();
-	        System.out.println("ciao");
 	        //Count nodes and edges
 	        System.out.println("Nodes: " + graph.getNodeCount() + " Edges: " + graph.getEdgeCount());
 	        //Iterate over nodes
 	        for(Node n : graph.getNodes()) {
 		        Node[] coauthors = graph.getNeighbors(n).toArray();
-		        System.out.println(n.getNodeData().getLabel() + " has " + coauthors.length + " coauthors");
+		        System.out.println(n.getNodeData().getLabel() + " has " + coauthors.length + " coauthored papers");
 	        }
 	        
 	//      //Find node by id
@@ -190,11 +189,11 @@ public class GraphEngineTest {
 	        //Export
 	        ExportController ec = Lookup.getDefault().lookup(ExportController.class);
 	        try {
-	        	File pdfFile = new File("[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.pdf");
-	        	File gexfFile = new File("[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.gexf");
-	        	ec.exportFile(pdfFile); //ec.exportFile(new File("[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.pdf"));
+	        	File pdfFile = new File("../data/[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.pdf");
+	        	File gexfFile = new File("../data/[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.gexf");
+	        	ec.exportFile(pdfFile); //ec.exportFile(new File("../data/[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.pdf"));
 	        	ec.exportFile(gexfFile);
-	            Desktop.getDesktop().open(pdfFile);
+	            // Desktop.getDesktop().open(pdfFile); //non sembra funzionare col path relativo
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
 	            return;
