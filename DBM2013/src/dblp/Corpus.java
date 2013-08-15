@@ -513,7 +513,7 @@ public class Corpus {
 	        			
 	        			//TODO: calcolare il peso come similarita' tra gli articoli
 	        			// misurata in termini di TF keyword-vectors o TF-IDF keyword-vectors.
-	        			float weight = (float) 0.0; //(float) author1.getSimilarityOnKeywordVector(author2, this);
+	        			float weight = (float) paper1.getSimilarityBasedOnTFIDFVector(paper2, this); //(float) author1.getSimilarityOnKeywordVector(author2, this);
 	        			Edge edge = ge.getGraphModel().factory().newEdge(node1, node2, weight, false);
 	        			edge.getEdgeData().setLabel(String.valueOf(weight));
 	        			coAuthoredPapersGraphBasedOnKeywordVectors.addEdge(edge);

@@ -9,8 +9,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import utils.Normalization;
+import utils.Similarity;
 
-public class Paper implements Comparable<Paper>{
+public class Paper implements Comparable<Paper> {
 	//TODO: spiegare la scelta del 3
 	final static int titleWeight = 3;
 	private Integer paperID;
@@ -398,6 +399,19 @@ public class Paper implements Comparable<Paper>{
 	 */
 	public boolean containsKeyword(String keyword){
 		return this.getKeywords().contains(keyword);
+	}
+	
+	// Phase 3 - Task 2
+	/**
+	 * Calcola la similarita' tra il Paper ed un altro,
+	 * misurata in termini di TF-IDF keyword-vectors.
+	 * 
+	 * @param otherPaper l'altro paper con cui valutare la similarita'
+	 * @param corpus il corpus che contiene entrambi i Paper
+	 * @return il valore di similarità
+	 */
+	public double getSimilarityBasedOnTFIDFVector(Paper otherPaper, Corpus corpus) {		
+		return Similarity.getCosineSimilarity(this.getTFIDFVector(corpus), otherPaper.getTFIDFVector(corpus));
 	}
 	
 	public Integer getPaperID() {
