@@ -206,9 +206,9 @@ public class AuthorTest {
 	@Test
 	public void testGetOtherAuthorLuca() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException, NoAuthorsWithSuchIDException {
 		
-			System.out.println("Other" + authorLuca.getOtherAuthors(dummyCorpus));
+			System.out.println("Other authors (from Luca): " + authorLuca.getOtherAuthors(dummyCorpus));
 			
-			System.out.println("CoAuthor" + authorLuca.getCoAuthors(dummyCorpus));
+			System.out.println("Luca's CoAuthors: " + authorLuca.getCoAuthors(dummyCorpus));
 	}
 	
 

@@ -33,10 +33,10 @@ public class CorpusTest {
 			Factory f = new Factory();
 			Corpus dblp = f.getCorpus();
 			//"Maria Luisa Sapino"
-			Author authorCandan1ID = dblp.getAuthorByID(1677020);
-			Author authorCandan1Name = dblp.getAuthorByName("Maria Luisa Sapino");
+			Author authorSapinoID = dblp.getAuthorByID(1677020);
+			Author authorSapinoName = dblp.getAuthorByName("Maria Luisa Sapino");
 			
-			assertEquals(authorCandan1ID, authorCandan1Name);
+			assertEquals(authorSapinoID, authorSapinoName);
 		}
 	}
 

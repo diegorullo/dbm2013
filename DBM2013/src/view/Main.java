@@ -20,7 +20,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-
+		System.out.println("Launching the graphical interface...");
 		Application.launch(Main.class, (java.lang.String[]) null);
 	}
 
