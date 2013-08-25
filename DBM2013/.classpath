@@ -14,5 +14,7 @@
 			<attribute name="javadoc_location" value="file:/D:/DBM/workspace/DBM2013/libs/gephi-toolkit-javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/weka-src.jar"/>
+	<classpathentry kind="lib" path="libs/weka.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
