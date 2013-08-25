@@ -8,13 +8,14 @@ import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
 
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+
 import org.gephi.graph.api.Edge;
 import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.Node;
 import org.gephi.graph.api.UndirectedGraph;
 
-import matlabcontrol.MatlabConnectionException;
-import matlabcontrol.MatlabInvocationException;
 import utils.GraphEngine;
 import utils.IO;
 import utils.MatlabEngine;
@@ -44,7 +45,7 @@ public class Corpus {
 	}
 	
 	/**
-	 * Restituisce l'oggetto paper associato all'id dato.
+	 * Restituisce l'oggetto Paper associato all'id dato.
 	 * 
 	 * @param id
 	 * @return oggetto Paper associato all'id dato
@@ -524,6 +525,55 @@ public class Corpus {
         
 		return coAuthoredPapersGraphBasedOnKeywordVectors;		
 	}
+	
+	/**
+	 * Sappiamo a priori quanti cluster vogliamo (r), ad es. r=4.
+	 * 	1.	Scegliamo un leader a caso;
+	 * 	2.	come secondo punto scegliamo il punto più distante dal leader;
+	 * 	3.	così per il terzo e il quarto (i punti piu' distanti dai leader finora trovati).
+	 * 	4.	Ora assegniamo i punti al leader più vicino.
+	 * 
+	 * @param graph il grafo da clusterizzare
+	 * @param numberOfClusters il numero di cluster che vogliamo ottenere
+	 */
+//	public void clusterAuthorsByMaxAMin(Graph graph, int numberOfClusters) {
+//
+//		Author[] leaders = new Author[numberOfClusters];
+////		Node[] nodeLeaders = new Node[numberOfClusters];
+//		Random rand = new Random();
+//		
+//		//Elezione casuale del primo leader:
+//		//	seleziono casualmente un autore
+//		ArrayList<Author> authorsList = this.getAuthors();
+//		Author leader = authorsList.get((rand.nextInt() % authorsList.size()) + 1);
+//		leaders[0] = leader;
+////		nodeLeaders[0] = graph.getNode(leader.getAuthorID().toString());
+//		
+//		//Scegliamo i punti piu' distanti 
+//		for (int i = 1; i < numberOfClusters; i++) {
+//
+//			double currentDistance = 0;
+//			double currentMaxDistance = 0;
+//			double currentSummedDistance = 0;
+//			double currentMaxSummedDistance = 0;
+//			
+//			for (Author currentLeader : leaders) {
+//				if (currentLeader != null) {
+//					for(Author author : authorsList) {
+//						currentDistance = author.getSimilarityOnKeywordVector(currentLeader, this);
+//						if (currentDistance >= currentMaxDistance) {
+//							currentMaxDistance = currentDistance;
+//						}
+//					}
+//				}
+//				currentSummedDistance += currentMaxDistance;
+//			}
+//			if (currentSummedDistance >= currentMaxSummedDistance) {
+//				
+//			} 
+//		} 
+//
+//	}
 	
 	public ArrayList<Author> getAuthors() {
 		return authors;

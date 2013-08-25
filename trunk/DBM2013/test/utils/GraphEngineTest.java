@@ -40,7 +40,7 @@ public class GraphEngineTest {
 	@SuppressWarnings("rawtypes") //FIXME: vedere come risolvere i warning
 	@Test
 	public void testGetCoAuthorsGraphBasedOnKeywordVectors() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
-		if(!DEBUG) {
+		if(DEBUG) {
 			Factory factory = new Factory();
 	        Corpus dblp = factory.getCorpus();
 	        
@@ -66,7 +66,7 @@ public class GraphEngineTest {
 	        GraphModel graphModel = ge.getGraphModel();
 	        AttributeModel attributeModel = Lookup.getDefault().lookup(AttributeController.class).getModel();
 	
-	      RankingController rankingController = Lookup.getDefault().lookup(RankingController.class);
+	        RankingController rankingController = Lookup.getDefault().lookup(RankingController.class);
 	      
 	        //Rank color by Degree
 	        Ranking degreeRanking = rankingController.getModel().getRanking(Ranking.NODE_ELEMENT, Ranking.DEGREE_RANKING);
@@ -147,7 +147,7 @@ public class GraphEngineTest {
 	        GraphModel graphModel = ge.getGraphModel();
 	        AttributeModel attributeModel = Lookup.getDefault().lookup(AttributeController.class).getModel();
 	
-	      RankingController rankingController = Lookup.getDefault().lookup(RankingController.class);
+	        RankingController rankingController = Lookup.getDefault().lookup(RankingController.class);
 	      
 	        //Rank color by Degree
 	        Ranking degreeRanking = rankingController.getModel().getRanking(Ranking.NODE_ELEMENT, Ranking.DEGREE_RANKING);
