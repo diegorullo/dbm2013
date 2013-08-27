@@ -2,7 +2,9 @@ package dblp;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -11,10 +13,15 @@ import javax.naming.NameNotFoundException;
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 
+import org.gephi.data.attributes.api.AttributeController;
+import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.Edge;
 import org.gephi.graph.api.Graph;
+import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.Node;
 import org.gephi.graph.api.UndirectedGraph;
+import org.gephi.statistics.plugin.PageRank;
+import org.openide.util.Lookup;
 
 import utils.GraphEngine;
 import utils.IO;
@@ -526,54 +533,258 @@ public class Corpus {
 		return coAuthoredPapersGraphBasedOnKeywordVectors;		
 	}
 	
-	/**
-	 * Sappiamo a priori quanti cluster vogliamo (r), ad es. r=4.
-	 * 	1.	Scegliamo un leader a caso;
-	 * 	2.	come secondo punto scegliamo il punto più distante dal leader;
-	 * 	3.	così per il terzo e il quarto (i punti piu' distanti dai leader finora trovati).
-	 * 	4.	Ora assegniamo i punti al leader più vicino.
-	 * 
-	 * @param graph il grafo da clusterizzare
-	 * @param numberOfClusters il numero di cluster che vogliamo ottenere
-	 */
-//	public void clusterAuthorsByMaxAMin(Graph graph, int numberOfClusters) {
+	// Phase 3 - Task 2
+	
+//	public Author selectNextLeader(Author[] currentLeaders, int numberOfClusters) {
+//		Author nextLeader = null;
+//		ArrayList<Author> authors = this.getAuthors();
+//		
+//		double currentDistance = 0;
+//		double currentMaxDistance = 0;
+//		Author currentCandidate = null;
+//		
+//		double[] distanceFromLeader = new double[numberOfClusters];
+//		
+//		double currentSummedDistance = 0;
+//		double currentMaxSummedDistance = 0;
+//			
+//		for(int i = 0; i < numberOfClusters; i++) {
+//			Author currentLeader = currentLeaders[i];
+//			if(currentLeader != null) {
+//				for(Author currentAuthor : authors) {
+//					currentDistance = 1 - currentLeader.getSimilarityOnKeywordVector(currentAuthor, this);
+//					System.out.println(currentDistance);
+//					
+//					if (currentDistance > currentMaxDistance) {
+//						currentMaxDistance = currentDistance;
+//						System.out.println(" New max distance: " + currentMaxDistance);
+//						currentCandidate = currentAuthor;
+//						System.out.println(" New potential leader: " + currentCandidate.getName()  + " (" + currentCandidate.getAuthorID()  + ")");
+//												
+//						if (currentMaxDistance == 1) {
+//							break;
+//						} 
+//					}
+//				}
+//				
+//				
+//				
+//				currentSummedDistance += currentMaxDistance;
+//				
+//				System.out.println("\n\n ------ summary ------ ");
+//				System.out.println(" cd: " + currentDistance + " cmd: " + currentMaxDistance);
+//				System.out.println(" -> " + currentCandidate.getName()  + " (" + currentCandidate.getAuthorID()  + ")");
+//				System.out.println(" csd: " + currentSummedDistance + " cmsd: " + currentMaxSummedDistance);
+//				
+//				System.out.println("> Leader found: " + currentCandidate.getName()  + " (" + currentCandidate.getAuthorID()  + ")");
+//			}
+//		}
+//		
+//		
+//		return nextLeader;
+//	}
+//	
+//	/**
+//	 * Sappiamo a priori quanti cluster vogliamo (r), ad es. r=4.
+//	 * 	1.	Scegliamo un leader a caso;
+//	 * 	2.	come secondo punto scegliamo il punto più distante dal leader;
+//	 * 	3.	così per il terzo e il quarto (i punti piu' distanti dai leader finora trovati).
+//	 * 	4.	Ora assegniamo i punti al leader più vicino.
+//	 * 
+//	 * @param numberOfClusters il numero di cluster che vogliamo ottenere
+//	 * @throws NoAuthorsWithSuchIDException 
+//	 */
+//	public HashMap<Integer, Integer> clusterAuthorsByMaxAMin(int numberOfClusters) throws NoAuthorsWithSuchIDException {
+//		HashMap<Integer, Integer> clusters = new HashMap<Integer, Integer>();
 //
 //		Author[] leaders = new Author[numberOfClusters];
-////		Node[] nodeLeaders = new Node[numberOfClusters];
 //		Random rand = new Random();
 //		
 //		//Elezione casuale del primo leader:
 //		//	seleziono casualmente un autore
 //		ArrayList<Author> authorsList = this.getAuthors();
-//		Author leader = authorsList.get((rand.nextInt() % authorsList.size()) + 1);
-//		leaders[0] = leader;
-////		nodeLeaders[0] = graph.getNode(leader.getAuthorID().toString());
 //		
-//		//Scegliamo i punti piu' distanti 
-//		for (int i = 1; i < numberOfClusters; i++) {
+//		//TODO: controllare questo valore perche' a volte esce dalla dimensione dell'array
+//		int index = Math.abs(rand.nextInt() % (authorsList.size() - 1));		
+//		System.out.println("Random index: " + index);
+//		
+//		Author leader = authorsList.get(index);
+//		System.out.println("First leader selected: " + leader.getName() + " (" + leader.getAuthorID() + ")");
+//		
+//		leaders[0] = leader;
 //
-//			double currentDistance = 0;
-//			double currentMaxDistance = 0;
-//			double currentSummedDistance = 0;
-//			double currentMaxSummedDistance = 0;
+//		Author currentLeader = leader;
+//		double currentDistanceFromNodeToLeader;
+//		double currentMaxDistanceFromNodeToLeader;
+//		int currentFarthestNodeFromLeader;
+//		double currentSummedDistance;
+//		double currentMaxSummedDistance;
+//		int currentFarthestNodeFromEveryLeader;
+//		
+//		int leadersFound = 1;		
+//		
+////		// caso 2:
+////		System.out.println("Caso 2 -------------------");
+////		currentDistanceFromNodeToLeader = 0;
+////		currentMaxDistanceFromNodeToLeader = 0;
+////		currentFarthestNodeFromLeader = -1;
+////		currentSummedDistance = 0;
+////		currentMaxSummedDistance = 0;
+////		currentFarthestNodeFromEveryLeader = -1;
+////		
+////		for(Author author : authorsList) {
+////			currentDistanceFromNodeToLeader = 1 - author.getSimilarityOnKeywordVector(currentLeader, this);
+////			//	System.out.println("Checking: " + currentLeader.getAuthorID() + " - " + author.getAuthorID());
+////			if (currentDistanceFromNodeToLeader > currentMaxDistanceFromNodeToLeader) {
+////				currentMaxDistanceFromNodeToLeader = currentDistanceFromNodeToLeader;
+////				System.out.println(" New max distance: " + currentMaxDistanceFromNodeToLeader);
+////				currentFarthestNodeFromLeader = author.getAuthorID();
+////				System.out.println(" New potential leader: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName()  + " (" + currentFarthestNodeFromLeader  + ")");
+////				if (currentMaxDistanceFromNodeToLeader == 1) {
+////					break;
+////				} 
+////			}
+////		}
+////		System.out.println("> Second leader found: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName());
+////		leaders[leadersFound] = this.getAuthorByID(currentFarthestNodeFromLeader);
+////		leadersFound++;
+////		
+////		System.out.print("> Leaders: ");
+////		for(int i = 0; i < leadersFound; i++) {
+////			System.out.print(leaders[i].getName() + " ");
+////		}
+////		System.out.println("\n");
+//		
+//		for(int i = 0; i < leadersFound; i++) {
+//			System.out.println("++");
+//			currentLeader = leaders[i];
+//			System.out.println("> Analyzing leader: " + currentLeader.getName() + " (" + currentLeader.getAuthorID() + ")");
+//			currentDistanceFromNodeToLeader = 0;
+//			currentMaxDistanceFromNodeToLeader = 0;
+//			currentFarthestNodeFromLeader = -1;
+//			currentSummedDistance = 0;
+//			currentMaxSummedDistance = 0;
+//			currentFarthestNodeFromEveryLeader = -1;
 //			
-//			for (Author currentLeader : leaders) {
-//				if (currentLeader != null) {
-//					for(Author author : authorsList) {
-//						currentDistance = author.getSimilarityOnKeywordVector(currentLeader, this);
-//						if (currentDistance >= currentMaxDistance) {
-//							currentMaxDistance = currentDistance;
-//						}
-//					}
+//			for(Author author : authorsList) {
+//				currentDistanceFromNodeToLeader = 1 - author.getSimilarityOnKeywordVector(currentLeader, this);
+//				//	System.out.println("Checking: " + currentLeader.getAuthorID() + " - " + author.getAuthorID());
+//				if (currentDistanceFromNodeToLeader > currentMaxDistanceFromNodeToLeader) {
+//					currentMaxDistanceFromNodeToLeader = currentDistanceFromNodeToLeader;
+//					System.out.println(" New max distance: " + currentMaxDistanceFromNodeToLeader);
+//					currentFarthestNodeFromLeader = author.getAuthorID();
+//					System.out.println(" New potential leader: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName()  + " (" + currentFarthestNodeFromLeader  + ")");
+//					if (currentMaxDistanceFromNodeToLeader == 1) {
+//						break;
+//					} 
 //				}
-//				currentSummedDistance += currentMaxDistance;
 //			}
-//			if (currentSummedDistance >= currentMaxSummedDistance) {
-//				
-//			} 
-//		} 
-//
+//			currentSummedDistance += currentMaxDistanceFromNodeToLeader;
+//			System.out.println("currentSummedDistance: " + currentSummedDistance);
+//			System.out.println("> Another leader found: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName());
+//			leaders[leadersFound] = this.getAuthorByID(currentFarthestNodeFromLeader);
+//			leadersFound++;
+//		}
+//		
+//		System.out.print("> Leaders: ");
+//		for(int i1 = 0; i1 < leadersFound; i1++) {
+//			System.out.print(leaders[i1].getName() + " ");
+//		}
+//		System.out.println("\n");
+//		
+////		System.out.println("Second leader found: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName());
+////		leaders[leadersFound] = this.getAuthorByID(currentFarthestNodeFromLeader);
+////		leadersFound++;
+////		
+////		System.out.println("Leaders: ");
+////		for(int i = 0; i < leadersFound; i++) {
+////			System.out.print(leaders[i].getName() + " ");
+////		}
+//		
+////		//Scegliamo i punti piu' distanti come gli altri (r - 1) leader
+////		while (numberOfClusters - leadersFound > 0) {
+////
+////			currentDistanceFromNodeToLeader = 0;
+////			currentMaxDistanceFromNodeToLeader = 0;
+////			currentFarthestNodeFromLeader = -1;
+////			currentSummedDistance = 0;
+////			currentMaxSummedDistance = 0;
+////			currentFarthestNodeFromEveryLeader = -1;
+////			
+////			for (Author currentLeader : leaders) {
+////				if (currentLeader != null) {
+////					System.out.println(currentLeader.getName());
+////					for(Author author : authorsList) {
+////						currentDistanceFromNodeToLeader = author.getSimilarityOnKeywordVector(currentLeader, this);
+////						//	System.out.println("Checking: " + currentLeader.getAuthorID() + " - " + author.getAuthorID());
+////						if (currentDistanceFromNodeToLeader >= currentMaxDistanceFromNodeToLeader) {
+////							currentMaxDistanceFromNodeToLeader = currentDistanceFromNodeToLeader;
+////							currentFarthestNodeFromLeader = author.getAuthorID();
+////						}
+////					}
+////					System.out.println("currentMaxDistanceFromPointToLeader (" + currentFarthestNodeFromLeader + ") : " + currentMaxDistanceFromNodeToLeader);
+////				}
+////				currentSummedDistance += currentMaxDistanceFromNodeToLeader;
+////			}
+////			
+////			if (currentSummedDistance >= currentMaxSummedDistance) {
+////				currentMaxSummedDistance = currentSummedDistance;
+////				System.out.println("currentMaxDistanceFromPointToLeader (" + currentFarthestNodeFromLeader + ") : " + currentMaxDistanceFromNodeToLeader);
+////			}
+////		}
+//		
+//		return clusters;
 //	}
+	
+	
+	// Phase 3 - Task 4
+	
+	/**
+	 * Dato il grafo dei “co-autori”, individuare ed elencare i K nodi maggiormente dominanti
+	 * utilizzando l’algoritmo Page Rank (PR) (per un valore K dato in input).
+	 * 
+	 * Si veda “S. Brin and L. Page ”The anatomy of a large-scale hypertextual Web search engine”.
+	 * 	Computer Networks and ISDN Systems 30: 107 -117, 1998” 
+	 * 
+	 * @param graph il grafo da analizzare
+	 * @param k il numero di nodi dominanti richiesto
+	 * 
+	 * @return Node[] i k nodi maggiormente dominanti
+	 */
+	public Node[] pageRank(Graph graph, int k) {
+		Node[] mostDominantNodes;
+		
+		GraphModel graphModel = graph.getGraphModel();
+		AttributeController ac = Lookup.getDefault().lookup(AttributeController.class);
+		AttributeModel attributeModel = ac.getModel();
+		
+		//See visible graph stats
+		UndirectedGraph graphVisible = graphModel.getUndirectedGraphVisible();
+		
+		PageRank pageRank = new PageRank();
+		pageRank.execute(graphModel, attributeModel);
+		
+		//Sort nodes by Pagerank
+		Node[] nodes = graphVisible.getNodes().toArray();
+		Arrays.sort(nodes, new Comparator<Node>() {
+
+		    public int compare(Node o1, Node o2) {
+		      Double f1 = (Double) o1.getNodeData().getAttributes().getValue("pageranks");
+		      Double f2 = (Double) o2.getNodeData().getAttributes().getValue("pageranks");
+		      return f2.compareTo(f1);
+		    }
+		});
+
+		//Print top k
+		for (int i = 0; i < nodes.length && i < k; i++) {
+		    Double p = (Double) nodes[i].getNodeData().getAttributes().getValue("pageranks");
+		    System.out.println(nodes[i].getNodeData().getLabel() + " - " + p);
+		}
+		
+		mostDominantNodes = nodes;
+		
+		return mostDominantNodes;
+	}
 	
 	public ArrayList<Author> getAuthors() {
 		return authors;
