@@ -13,6 +13,7 @@ import weka.core.Instance;
 import weka.core.Instances;
 import dblp.Author;
 import dblp.Corpus;
+import exceptions.AuthorWithoutPapersException;
 
 public class Clusterer {
 	private SimpleKMeans simpleKMeans;
@@ -22,10 +23,12 @@ public class Clusterer {
 	 * @param author
 	 * @param corpus
 	 * @return l'Instance corrispondente all'Author
+	 * @throws AuthorWithoutPapersException 
+	 * @throws IOException 
 	 */
-	public Instance createInstance(Author author, Corpus corpus) {
+	public Instance createInstance(Author author, Corpus corpus) throws IOException, AuthorWithoutPapersException {
 		
-		TreeMap<String, Double> authorsKeywordVector = author.getWeightedTFIDFVector(corpus);
+		TreeMap<String, Double> authorsKeywordVector = author.getWeightedTFVector();
 		
 		ArrayList<String> corpusKeywords = corpus.getGlobalKeywordSet();
 		int corpusKeywordsCount = corpusKeywords.size();
@@ -72,8 +75,10 @@ public class Clusterer {
 	 * Crea l'oggetto Instances (aggregato di Weka Instance) con tutti gli Author del Corpus
 	 * @param corpus
 	 * @return oggetto Instances
+	 * @throws AuthorWithoutPapersException 
+	 * @throws IOException 
 	 */
-	public Instances createInstances(Corpus corpus) {
+	public Instances createInstances(Corpus corpus) throws IOException, AuthorWithoutPapersException {
 		
 		// Creo un oggetto vuoto Instances...
 		ArrayList<Attribute> attributesList = this.createAttributes(corpus);
@@ -93,8 +98,9 @@ public class Clusterer {
 	 *  - per esigenza dettata dal formato csv, la prima riga contiene i nomi degli Attribute
 	 * @param corpus
 	 * @param filename
+	 * @throws AuthorWithoutPapersException 
 	 */
-	public void printInstancesOnCSV(Corpus corpus, String filename) {
+	public void printInstancesOnCSV(Corpus corpus, String filename) throws AuthorWithoutPapersException {
 		try {
 			FileOutputStream file = new FileOutputStream("../data/" + filename);
 			PrintStream Output = new PrintStream(file);
@@ -107,7 +113,7 @@ public class Clusterer {
 			//... seguite dall'ID dell'autore
 			Output.println("authorID");
 			
-			//Stampo le istanze
+			// Stampo le istanze
 			Instances instances = this.createInstances(corpus);
 			for (Instance i : instances) {
 				Output.println(i.toString());
