@@ -1327,7 +1327,7 @@ public class Author implements Comparable<Author> {
 		return otherAuthorsPapers;
 	}
 	
-	//Task 2a
+	
 	
 	/**
 	 * Restituisce in ordine di rilevanza gli articoli piu’ rilevanti (di cui lui non e’ autore), basandosi 

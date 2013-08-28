@@ -3,6 +3,7 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
@@ -32,6 +33,7 @@ import dblp.Paper;
 import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoPaperWithSuchIDException;
+import exceptions.NoSuchTechniqueException;
 
 public class GUIController implements Initializable {
 
@@ -565,66 +567,38 @@ public class GUIController implements Initializable {
 							author = dblp.getAuthorByID(Integer.parseInt(authorid));
 							@SuppressWarnings("unused")
 							String output = null;
+							LinkedHashMap<String,Double> lhmOut = new LinkedHashMap<String,Double>(); 
 							if (modello.equals("keyword vectors")) {
-								String fileName = author.getAuthorID().toString();
-								ArrayList<ArrayList<Double>> scoreLatentMatrix = author
-										.getPCA(dblp, fileName, 5);
-								ArrayList<TreeMap<String, Double>> topNMatrix = author
-										.getTopN(scoreLatentMatrix, 5);
-								if (PRINT_ON_FILE) {
-									IO.printDocumentTermMatrixOnFile(
-											topNMatrix,
-											"../data/PCA_Top5_"
-													+ author.getAuthorID() + ".csv");
-								}
-								if (PRINT_ON_CONSOLE) {
-									System.out.println("Matrice Score("
-											+ author.getAuthorID() + "): ");
-									Printer.printMatrix(scoreLatentMatrix);
-									System.out.println("Matrice top 5 PCA ("
-											+ author.getAuthorID() + "): "
-											+ topNMatrix);
-									System.out
-											.println("----------------------------------------------------------------------\n");
-								}
-								output = "Top 5 PCA matrix:\n"
+								lhmOut = author.getSimilarAuthorsRankedByKeywordVector(dblp);
+								output = "Similar authors ranked by keyword vector:\n"
 										+ "-----------------------------------------------------\n"
-										+ topNMatrix.toString();
-								gUIPrintMatrix(scoreLatentMatrix);
-
+										+ lhmOut.toString();
 							} else if (modello.equals("vettori di differenziazione (TFIDF2)")) {
-								String authorID = author.getAuthorID().toString();
-								ArrayList<ArrayList<Double>> vMatrix = author
-										.getSVD(dblp, authorID, 5);
-								ArrayList<TreeMap<String, Double>> topNMatrix = author
-										.getTopN(vMatrix, 5);
-								if (PRINT_ON_FILE) {
-									IO.printDocumentTermMatrixOnFile(
-											topNMatrix,
-											"../data/SVD_Top5_"
-													+ author.getAuthorID() + ".csv");
-								}
-								if (PRINT_ON_CONSOLE) {
-									System.out.println("Matrice V ("
-											+ author.getAuthorID() + "):");
-									Printer.printMatrix(vMatrix);
-									System.out.println("Matrice top 5 SVD ("
-											+ author.getAuthorID() + "): "
-											+ topNMatrix);
-									System.out
-											.println("----------------------------------------------------------------------\n");
-
-								}
-								output = "Top 5 SVD:\n"
+								lhmOut = author.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
+								output = "Similar authors ranked by TFIDF2 vector:\n"
 										+ "-----------------------------------------------------\n"
-										+ topNMatrix;
-								 gUIPrintMatrix(vMatrix);
+										+ lhmOut.toString();
+							} else if (modello.equals("vettori di differenziazione (PF)")) {
+								lhmOut= author.getSimilarAuthorsRankedByPFVector(dblp);
+								output = "Similar authors ranked by PF vector:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
+							} else if (modello.equals("top-5 semantiche latenti (PCA)")) {
+								lhmOut = author.getSimilarAuthorsRankedByPCA(dblp);
+								output = "Similar authors ranked by PCA:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
+							} else if (modello.equals("top-5 semantiche latenti (SVD)")) {
+								lhmOut = author.getSimilarAuthorsRankedBySVD(dblp);
+								output = "Similar authors ranked by SVD:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
 							}
-							// resultsTextArea.setText(output);
-
+							resultsTextArea.setText(output);
 						} else {
 							resultsTextArea.setText("authorid non valido!");
 						}
+						
 					} catch (NoAuthorsWithSuchIDException
 							| AuthorWithoutPapersException | NumberFormatException e1) {
 						// TODO Auto-generated catch block
@@ -633,6 +607,9 @@ public class GUIController implements Initializable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (MatlabInvocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchTechniqueException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -663,6 +640,22 @@ public class GUIController implements Initializable {
 							}
 						}
 					});
+			
+			//PHASE 2 - 1C
+				//TODO: 1339 (kw vector)
+				//TODO: 1379 (TFID2)
+				//TODO: 1417 (PF)
+				//TODO: 1458 (PCA)
+				//TODO: 1503 (SVD)
+			
+			//PHASE 2 - 2A
+				//TODO: da Corpus: 177
+			//PHASE 2 - 2B
+				//TODO: da Corpus: 245
+			//PHASE 2 - 3A
+				//TODO: da Corpus: 260
+			//PHASE 2 - 3B
+				//TODO: da Corpus: 383
 
 		}
 
