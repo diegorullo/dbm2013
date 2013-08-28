@@ -565,7 +565,7 @@ public class GUIController implements Initializable {
 							author = dblp.getAuthorByID(Integer.parseInt(authorid));
 							@SuppressWarnings("unused")
 							String output = null;
-							if (modello.equals("PCA")) {
+							if (modello.equals("keyword vectors")) {
 								String fileName = author.getAuthorID().toString();
 								ArrayList<ArrayList<Double>> scoreLatentMatrix = author
 										.getPCA(dblp, fileName, 5);
@@ -592,7 +592,7 @@ public class GUIController implements Initializable {
 										+ topNMatrix.toString();
 								gUIPrintMatrix(scoreLatentMatrix);
 
-							} else if (modello.equals("SVD")) {
+							} else if (modello.equals("vettori di differenziazione (TFIDF2)")) {
 								String authorID = author.getAuthorID().toString();
 								ArrayList<ArrayList<Double>> vMatrix = author
 										.getSVD(dblp, authorID, 5);
