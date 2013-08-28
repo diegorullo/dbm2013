@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.naming.NameNotFoundException;
@@ -16,6 +20,7 @@ import matlabcontrol.MatlabInvocationException;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.Edge;
+import org.gephi.graph.api.EdgeIterable;
 import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.Node;
@@ -25,6 +30,7 @@ import org.openide.util.Lookup;
 
 import utils.GraphEngine;
 import utils.IO;
+import utils.MapUtils;
 import utils.MatlabEngine;
 import utils.Printer;
 
@@ -533,209 +539,9 @@ public class Corpus {
 		return coAuthoredPapersGraphBasedOnKeywordVectors;		
 	}
 	
-	// Phase 3 - Task 2
-	
-//	public Author selectNextLeader(Author[] currentLeaders, int numberOfClusters) {
-//		Author nextLeader = null;
-//		ArrayList<Author> authors = this.getAuthors();
-//		
-//		double currentDistance = 0;
-//		double currentMaxDistance = 0;
-//		Author currentCandidate = null;
-//		
-//		double[] distanceFromLeader = new double[numberOfClusters];
-//		
-//		double currentSummedDistance = 0;
-//		double currentMaxSummedDistance = 0;
-//			
-//		for(int i = 0; i < numberOfClusters; i++) {
-//			Author currentLeader = currentLeaders[i];
-//			if(currentLeader != null) {
-//				for(Author currentAuthor : authors) {
-//					currentDistance = 1 - currentLeader.getSimilarityOnKeywordVector(currentAuthor, this);
-//					System.out.println(currentDistance);
-//					
-//					if (currentDistance > currentMaxDistance) {
-//						currentMaxDistance = currentDistance;
-//						System.out.println(" New max distance: " + currentMaxDistance);
-//						currentCandidate = currentAuthor;
-//						System.out.println(" New potential leader: " + currentCandidate.getName()  + " (" + currentCandidate.getAuthorID()  + ")");
-//												
-//						if (currentMaxDistance == 1) {
-//							break;
-//						} 
-//					}
-//				}
-//				
-//				
-//				
-//				currentSummedDistance += currentMaxDistance;
-//				
-//				System.out.println("\n\n ------ summary ------ ");
-//				System.out.println(" cd: " + currentDistance + " cmd: " + currentMaxDistance);
-//				System.out.println(" -> " + currentCandidate.getName()  + " (" + currentCandidate.getAuthorID()  + ")");
-//				System.out.println(" csd: " + currentSummedDistance + " cmsd: " + currentMaxSummedDistance);
-//				
-//				System.out.println("> Leader found: " + currentCandidate.getName()  + " (" + currentCandidate.getAuthorID()  + ")");
-//			}
-//		}
-//		
-//		
-//		return nextLeader;
-//	}
-//	
-//	/**
-//	 * Sappiamo a priori quanti cluster vogliamo (r), ad es. r=4.
-//	 * 	1.	Scegliamo un leader a caso;
-//	 * 	2.	come secondo punto scegliamo il punto più distante dal leader;
-//	 * 	3.	così per il terzo e il quarto (i punti piu' distanti dai leader finora trovati).
-//	 * 	4.	Ora assegniamo i punti al leader più vicino.
-//	 * 
-//	 * @param numberOfClusters il numero di cluster che vogliamo ottenere
-//	 * @throws NoAuthorsWithSuchIDException 
-//	 */
-//	public HashMap<Integer, Integer> clusterAuthorsByMaxAMin(int numberOfClusters) throws NoAuthorsWithSuchIDException {
-//		HashMap<Integer, Integer> clusters = new HashMap<Integer, Integer>();
-//
-//		Author[] leaders = new Author[numberOfClusters];
-//		Random rand = new Random();
-//		
-//		//Elezione casuale del primo leader:
-//		//	seleziono casualmente un autore
-//		ArrayList<Author> authorsList = this.getAuthors();
-//		
-//		//TODO: controllare questo valore perche' a volte esce dalla dimensione dell'array
-//		int index = Math.abs(rand.nextInt() % (authorsList.size() - 1));		
-//		System.out.println("Random index: " + index);
-//		
-//		Author leader = authorsList.get(index);
-//		System.out.println("First leader selected: " + leader.getName() + " (" + leader.getAuthorID() + ")");
-//		
-//		leaders[0] = leader;
-//
-//		Author currentLeader = leader;
-//		double currentDistanceFromNodeToLeader;
-//		double currentMaxDistanceFromNodeToLeader;
-//		int currentFarthestNodeFromLeader;
-//		double currentSummedDistance;
-//		double currentMaxSummedDistance;
-//		int currentFarthestNodeFromEveryLeader;
-//		
-//		int leadersFound = 1;		
-//		
-////		// caso 2:
-////		System.out.println("Caso 2 -------------------");
-////		currentDistanceFromNodeToLeader = 0;
-////		currentMaxDistanceFromNodeToLeader = 0;
-////		currentFarthestNodeFromLeader = -1;
-////		currentSummedDistance = 0;
-////		currentMaxSummedDistance = 0;
-////		currentFarthestNodeFromEveryLeader = -1;
-////		
-////		for(Author author : authorsList) {
-////			currentDistanceFromNodeToLeader = 1 - author.getSimilarityOnKeywordVector(currentLeader, this);
-////			//	System.out.println("Checking: " + currentLeader.getAuthorID() + " - " + author.getAuthorID());
-////			if (currentDistanceFromNodeToLeader > currentMaxDistanceFromNodeToLeader) {
-////				currentMaxDistanceFromNodeToLeader = currentDistanceFromNodeToLeader;
-////				System.out.println(" New max distance: " + currentMaxDistanceFromNodeToLeader);
-////				currentFarthestNodeFromLeader = author.getAuthorID();
-////				System.out.println(" New potential leader: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName()  + " (" + currentFarthestNodeFromLeader  + ")");
-////				if (currentMaxDistanceFromNodeToLeader == 1) {
-////					break;
-////				} 
-////			}
-////		}
-////		System.out.println("> Second leader found: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName());
-////		leaders[leadersFound] = this.getAuthorByID(currentFarthestNodeFromLeader);
-////		leadersFound++;
-////		
-////		System.out.print("> Leaders: ");
-////		for(int i = 0; i < leadersFound; i++) {
-////			System.out.print(leaders[i].getName() + " ");
-////		}
-////		System.out.println("\n");
-//		
-//		for(int i = 0; i < leadersFound; i++) {
-//			System.out.println("++");
-//			currentLeader = leaders[i];
-//			System.out.println("> Analyzing leader: " + currentLeader.getName() + " (" + currentLeader.getAuthorID() + ")");
-//			currentDistanceFromNodeToLeader = 0;
-//			currentMaxDistanceFromNodeToLeader = 0;
-//			currentFarthestNodeFromLeader = -1;
-//			currentSummedDistance = 0;
-//			currentMaxSummedDistance = 0;
-//			currentFarthestNodeFromEveryLeader = -1;
-//			
-//			for(Author author : authorsList) {
-//				currentDistanceFromNodeToLeader = 1 - author.getSimilarityOnKeywordVector(currentLeader, this);
-//				//	System.out.println("Checking: " + currentLeader.getAuthorID() + " - " + author.getAuthorID());
-//				if (currentDistanceFromNodeToLeader > currentMaxDistanceFromNodeToLeader) {
-//					currentMaxDistanceFromNodeToLeader = currentDistanceFromNodeToLeader;
-//					System.out.println(" New max distance: " + currentMaxDistanceFromNodeToLeader);
-//					currentFarthestNodeFromLeader = author.getAuthorID();
-//					System.out.println(" New potential leader: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName()  + " (" + currentFarthestNodeFromLeader  + ")");
-//					if (currentMaxDistanceFromNodeToLeader == 1) {
-//						break;
-//					} 
-//				}
-//			}
-//			currentSummedDistance += currentMaxDistanceFromNodeToLeader;
-//			System.out.println("currentSummedDistance: " + currentSummedDistance);
-//			System.out.println("> Another leader found: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName());
-//			leaders[leadersFound] = this.getAuthorByID(currentFarthestNodeFromLeader);
-//			leadersFound++;
-//		}
-//		
-//		System.out.print("> Leaders: ");
-//		for(int i1 = 0; i1 < leadersFound; i1++) {
-//			System.out.print(leaders[i1].getName() + " ");
-//		}
-//		System.out.println("\n");
-//		
-////		System.out.println("Second leader found: " + this.getAuthorByID(currentFarthestNodeFromLeader).getName());
-////		leaders[leadersFound] = this.getAuthorByID(currentFarthestNodeFromLeader);
-////		leadersFound++;
-////		
-////		System.out.println("Leaders: ");
-////		for(int i = 0; i < leadersFound; i++) {
-////			System.out.print(leaders[i].getName() + " ");
-////		}
-//		
-////		//Scegliamo i punti piu' distanti come gli altri (r - 1) leader
-////		while (numberOfClusters - leadersFound > 0) {
-////
-////			currentDistanceFromNodeToLeader = 0;
-////			currentMaxDistanceFromNodeToLeader = 0;
-////			currentFarthestNodeFromLeader = -1;
-////			currentSummedDistance = 0;
-////			currentMaxSummedDistance = 0;
-////			currentFarthestNodeFromEveryLeader = -1;
-////			
-////			for (Author currentLeader : leaders) {
-////				if (currentLeader != null) {
-////					System.out.println(currentLeader.getName());
-////					for(Author author : authorsList) {
-////						currentDistanceFromNodeToLeader = author.getSimilarityOnKeywordVector(currentLeader, this);
-////						//	System.out.println("Checking: " + currentLeader.getAuthorID() + " - " + author.getAuthorID());
-////						if (currentDistanceFromNodeToLeader >= currentMaxDistanceFromNodeToLeader) {
-////							currentMaxDistanceFromNodeToLeader = currentDistanceFromNodeToLeader;
-////							currentFarthestNodeFromLeader = author.getAuthorID();
-////						}
-////					}
-////					System.out.println("currentMaxDistanceFromPointToLeader (" + currentFarthestNodeFromLeader + ") : " + currentMaxDistanceFromNodeToLeader);
-////				}
-////				currentSummedDistance += currentMaxDistanceFromNodeToLeader;
-////			}
-////			
-////			if (currentSummedDistance >= currentMaxSummedDistance) {
-////				currentMaxSummedDistance = currentSummedDistance;
-////				System.out.println("currentMaxDistanceFromPointToLeader (" + currentFarthestNodeFromLeader + ") : " + currentMaxDistanceFromNodeToLeader);
-////			}
-////		}
-//		
-//		return clusters;
-//	}
-	
+	// Phase 3 - Task 2 (Clustering)
+	// -- rimossi metodi "home made" (presenti fino a rev. 340) --
+	// -- per questa fase vedere la src.utils.Clusterer.java --
 	
 	// Phase 3 - Task 4
 	
@@ -784,6 +590,67 @@ public class Corpus {
 		mostDominantNodes = nodes;
 		
 		return mostDominantNodes;
+	}
+	
+	// Phase 3 - Task 5
+	/**
+	 * Dato il grafo dei coautori e dato un autore,
+	 * individuare ed elencare i K nodi piu' simili
+	 * dal punto di vista del contenuto (per un valore K dato in input).
+	 * 
+	 * @param graph il grafo
+	 * @param author l'autore di partenza
+	 * @param k il numero di autori richiesti
+	 * @return Map<String, Double> i K autori piu' simili all'autore, con relativa similarita'
+	 */
+	public Map<String, Double> getKMostSimilarAuthors(Graph graph, Author author, int k) {
+		Map<String, Double> kMostSimilarAuthors = new LinkedHashMap<String, Double>();
+		
+		// Recupero il nodo corrispondente all'autore
+		String authorIDLabel = author.getAuthorID().toString();
+		// (i nodi sono etichettati con una stringa che contiene l'authorID)
+		Node author1Node = graph.getNode(authorIDLabel);
+
+		// Recupero gli archi incidenti nel nodo costituito dall'autore
+		EdgeIterable nodeEdges = graph.getEdges(author1Node);
+		
+		// Recupero i nodi collegati al nodo dell'autore
+		HashMap<String, Double> connectedNodes = new HashMap<String, Double>();
+		Node source, target;
+		for(Edge anEdge : nodeEdges) {
+			source = anEdge.getSource();
+			target = anEdge.getTarget();
+			if(source.equals(author1Node)) {
+				connectedNodes.put(target.getNodeData().getLabel(), (double) anEdge.getWeight());
+			}
+			else {
+				connectedNodes.put(source.getNodeData().getLabel(), (double) anEdge.getWeight());
+			}
+		}
+		
+		// Ordino la HashMap in maniera decrescente sui valori
+		
+//		System.out.println("Before:");
+//		MapUtils.printMapStringDouble(connectedNodes);
+		@SuppressWarnings("unchecked")
+		Map<String, Double> sortedConnectedNodes = MapUtils.sortByComparator(connectedNodes);
+//		System.out.println("After:");
+//		MapUtils.printMapStringDouble(sortedConnectedNodes);
+		
+//		System.out.println("Found " + sortedConnectedNodes.size() + " authors");
+		
+		Set<Entry<String, Double>> connectedNodesEntrySet = sortedConnectedNodes.entrySet();
+		for(Entry<String, Double> connectedNode : connectedNodesEntrySet) {
+			if (k > 0) {
+				kMostSimilarAuthors.put(connectedNode.getKey(), connectedNode.getValue());
+				k--;
+			}
+			else {
+				break;
+			}
+		}		
+		
+		return kMostSimilarAuthors;
 	}
 	
 	public ArrayList<Author> getAuthors() {

@@ -17,6 +17,7 @@ import weka.core.Instances;
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Factory;
+import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 
 public class ClustererTest {
@@ -36,7 +37,7 @@ public class ClustererTest {
 	}
 	
 	@Test
-	public void testCreateInstance() throws NoAuthorsWithSuchIDException {
+	public void testCreateInstance() throws NoAuthorsWithSuchIDException, IOException, AuthorWithoutPapersException {
 		//Creiamo
 		
 		if (DEBUG) {			
@@ -67,7 +68,7 @@ public class ClustererTest {
 	}
 	
 	@Test
-	public void testCreateInstances() {
+	public void testCreateInstances() throws IOException, AuthorWithoutPapersException {
 		if (DEBUG) {								
 			Instances instances = clusterer.createInstances(dblp);
 			
@@ -82,11 +83,16 @@ public class ClustererTest {
 	}
 	
 	@Test
-	public void testClusterer() {
-		if (DEBUG) {			
+	public void testClusterer() throws IOException, AuthorWithoutPapersException {
+		if (!DEBUG) {			
 			SimpleKMeans sKM = clusterer.getSimpleKMeans();
+			int numClusters = 10;
+			
+			sKM.setSeed(numClusters * 2);
+			sKM.setPreserveInstancesOrder(true);
+			
 			try {
-				sKM.setNumClusters(4);
+				sKM.setNumClusters(numClusters);
 			} catch (Exception e1) {
 				System.err.println("Error setting the number of clusters!");
 				e1.printStackTrace();
@@ -104,7 +110,7 @@ public class ClustererTest {
 //			for(String s: sKM.getOptions()) {
 //				System.out.println("sKM option: " + s);
 //			}
-			
+				
 			if (PRINT) {
 				for (Instance anInstance : instances) {
 					// Uso l'ultimo attributo (contiene l'authorID) come nome dell'istanza
@@ -122,7 +128,7 @@ public class ClustererTest {
 	}
 	
 	@Test
-	public void testPrintInstancesOnCSV() {
+	public void testPrintInstancesOnCSV() throws AuthorWithoutPapersException {
 		if (DEBUG) {			
 			clusterer.printInstancesOnCSV(dblp, "instances.csv");
 		}
