@@ -148,14 +148,14 @@ public class ClustererTest {
 	}
 	
 	@Test
-	public void testClusterAuthorsByFartestFirst() throws IOException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {		
+	public void testClusterAuthorsByFarthestFirst() throws IOException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {		
 		if (DEBUG) {
 			int numClusters = 11; 
 
-			Map<Integer, Integer> clusters = clusterer.clusterAuthorsByFartestFirst(dblp, numClusters);
+			Map<Integer, Integer> clusters = clusterer.clusterAuthorsByFarthestFirst(dblp, numClusters);
 			
 			if (PRINT) {
-				System.out.println("Clustering degli autori tramite FartestFirst:\n");
+				System.out.println("Clustering degli autori tramite FarthestFirst:\n");
 				Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
 				for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
 					int authorID = clusteredAuthor.getKey();
