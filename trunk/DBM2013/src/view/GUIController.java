@@ -100,6 +100,14 @@ public class GUIController implements Initializable {
 	@FXML
 	private ComboBox<String> phase2Task1cAuthorIDComboBox;
 	
+	// PHASE 2 - Task 2a - controls injection
+	@FXML
+	private Button phase2Task2aExecuteButton;
+	
+	// PHASE 2 - Task 2b - controls injection
+	@FXML
+	private Button phase2Task2bExecuteButton;
+	
 	// exploreDB - controls injection
 	@FXML
 	private TableView<String> exploreDBAuthorsTableView;
@@ -650,12 +658,6 @@ public class GUIController implements Initializable {
 						}
 					});
 			
-			//PHASE 2 - 1C
-				//TODO: 1339 (kw vector)
-				//TODO: 1379 (TFID2)
-				//TODO: 1417 (PF)
-				//TODO: 1458 (PCA)
-				//TODO: 1503 (SVD)
 			// PHASE 2 - Task 1c - controls settings
 			phase2Task1cAuthorIDComboBox.setItems(authorsIDs);
 			phase2Task1cModelComboBox.getItems().clear();
@@ -747,14 +749,76 @@ public class GUIController implements Initializable {
 							}
 						}
 					});
+
+			// PHASE 2 - Task 2a - EVENT HANDLER
+			phase2Task2aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsTextArea.clear();
+					resultsTextArea.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+					
+					ArrayList<ArrayList<Double>> top3SVDOut = new ArrayList<ArrayList<Double>>();
+					//FIXME: inizializzare path e inputFileName!!!
+					String path = null;
+					String inputFileName = null;
+					try {
+						top3SVDOut = dblp.getTop3SVDAuthor(path, inputFileName);
+					} catch (MatlabConnectionException
+							| MatlabInvocationException
+							| AuthorWithoutPapersException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					String output = null;
+					output = "Top 3 SVD Author:\n"
+										+ "-----------------------------------------------------\n"
+										+ top3SVDOut.toString();
+							
+					resultsTextArea.setText(output);														
+				}
+			});
+			
+			// PHASE 2 - Task 2a - EVENT HANDLER
+			phase2Task2bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsTextArea.clear();
+					resultsTextArea.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+					
+					ArrayList<ArrayList<Double>> top3SVDCoAuthorOut = new ArrayList<ArrayList<Double>>();
+					//FIXME: inizializzare path e inputFileName!!!
+					String path = null;
+					String inputFileName = null;
+					try {
+						top3SVDCoAuthorOut = dblp.getTop3SVDCoAuthor(path, inputFileName);
+					} catch (MatlabConnectionException
+							| MatlabInvocationException
+							| AuthorWithoutPapersException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoAuthorsWithSuchIDException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					String output = null;
+					output = "Top 3 SVD Author:\n"
+										+ "-----------------------------------------------------\n"
+										+ top3SVDCoAuthorOut.toString();
+							
+					resultsTextArea.setText(output);														
+				}
+			});
+			
 			//PHASE 2 - 2A
-				//TODO: da Corpus: 177
+			//TODO: da Corpus: 177 (OK)
 			//PHASE 2 - 2B
-				//TODO: da Corpus: 245
+			//TODO: da Corpus: 245 (OK)
 			//PHASE 2 - 3A
-				//TODO: da Corpus: 260
+			//TODO: da Corpus: 260
 			//PHASE 2 - 3B
-				//TODO: da Corpus: 383
+			//TODO: da Corpus: 383	
 
 		}
 
