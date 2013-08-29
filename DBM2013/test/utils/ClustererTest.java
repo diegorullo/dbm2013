@@ -3,6 +3,9 @@ package utils;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
@@ -25,7 +28,7 @@ public class ClustererTest {
 	static Corpus dblp;
 	static Clusterer clusterer;
 
-	private final static boolean DEBUG = true;
+	private final static boolean DEBUG = false;
 	private final static boolean PRINT = true;
 	
 	@BeforeClass	
@@ -84,7 +87,7 @@ public class ClustererTest {
 	
 	@Test
 	public void testClusterer() throws IOException, AuthorWithoutPapersException {
-		if (!DEBUG) {			
+		if (DEBUG) {			
 			SimpleKMeans sKM = clusterer.getSimpleKMeans();
 			int numClusters = 10;
 			
@@ -123,6 +126,22 @@ public class ClustererTest {
 					}
 				}
 				System.out.println("----------------------------------\n\n");
+			}
+		}
+	}
+	
+	@Test
+	public void testClusterAuthorsBySimpleKMeans() throws IOException, AuthorWithoutPapersException, NoAuthorsWithSuchIDException {		
+		if (DEBUG) {
+			int numClusters = 10; 
+
+			Map<Integer, Integer> clusters = clusterer.clusterAuthorsBySimpleKMeans(dblp, numClusters);
+			
+			System.out.println("Clustering degli autori tramite SimpleKMeans:\n");
+			Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
+			for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
+				int authorID = clusteredAuthor.getKey();
+				System.out.println(dblp.getAuthorByID(authorID).getName() + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
 			}
 		}
 	}
