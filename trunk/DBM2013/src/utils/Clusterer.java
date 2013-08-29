@@ -4,6 +4,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import weka.clusterers.SimpleKMeans;
@@ -123,6 +125,49 @@ public class Clusterer {
 			System.out.println("Errore: " + e);
 			System.exit(1);
 		}
+	}
+	
+	public Map<Integer, Integer> clusterAuthorsBySimpleKMeans(Corpus corpus, int numClusters) throws IOException, AuthorWithoutPapersException {
+		Map<Integer, Integer> clusters = new HashMap<Integer, Integer>();
+				
+		this.simpleKMeans.setSeed(numClusters * 2);
+		this.simpleKMeans.setPreserveInstancesOrder(true);
+		this.simpleKMeans.setNumExecutionSlots(2);
+		
+		try {
+			this.simpleKMeans.setNumClusters(numClusters);
+		} catch (Exception e1) {
+			System.err.println("Error setting the number of clusters!");
+			e1.printStackTrace();
+		}
+		
+		Instances instances = this.createInstances(corpus);
+		
+		try {
+			this.simpleKMeans.buildClusterer(instances);
+		} catch (Exception e) {
+			System.err.println("Error building the clusterer!");
+			e.printStackTrace();
+		}
+		
+//		System.out.println("Options: ");
+//		for(String s: this.simpleKMeans.getOptions()) {
+//			System.out.println("o: " + s);
+//		}			
+
+		for (Instance anInstance : instances) {
+			// Uso l'ultimo attributo (contiene l'authorID) come nome dell'istanza
+			int lastAttribute = anInstance.numAttributes() - 1;
+			try {
+				clusters.put((int) anInstance.value(lastAttribute), this.simpleKMeans.clusterInstance(anInstance));
+				//System.out.println("i: " + (int)anInstance.value(lastAttribute) + " c: " + this.simpleKMeans.clusterInstance(anInstance));
+			} catch (Exception e) {
+				System.err.println("Error clustering the instance " + anInstance + "!");
+				e.printStackTrace();
+			}
+		}
+		
+		return clusters;		
 	}
 	
 	public Clusterer() {
