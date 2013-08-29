@@ -759,11 +759,11 @@ public class GUIController implements Initializable {
 					Corpus dblp = Main.getDblp();
 					
 					ArrayList<ArrayList<Double>> top3SVDOut = new ArrayList<ArrayList<Double>>();
-					//FIXME: inizializzare path e inputFileName!!!
-					String path = null;
-					String inputFileName = null;
+					String startingDirectory = System.getProperty("user.dir");
+		            String path = startingDirectory + "/../data/";
+		            String fileName = "SimilarityMatrixAuthor.csv";
 					try {
-						top3SVDOut = dblp.getTop3SVDAuthor(path, inputFileName);
+						top3SVDOut = dblp.getTop3SVDAuthor(path, fileName);
 					} catch (MatlabConnectionException
 							| MatlabInvocationException
 							| AuthorWithoutPapersException e) {
@@ -779,7 +779,7 @@ public class GUIController implements Initializable {
 				}
 			});
 			
-			// PHASE 2 - Task 2a - EVENT HANDLER
+			// PHASE 2 - Task 2b - EVENT HANDLER
 			phase2Task2bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
@@ -788,11 +788,11 @@ public class GUIController implements Initializable {
 					Corpus dblp = Main.getDblp();
 					
 					ArrayList<ArrayList<Double>> top3SVDCoAuthorOut = new ArrayList<ArrayList<Double>>();
-					//FIXME: inizializzare path e inputFileName!!!
-					String path = null;
-					String inputFileName = null;
+					String startingDirectory = System.getProperty("user.dir");
+		            String path = startingDirectory + "/../data/";
+		            String fileName = "SimilarityMatrixCoAuthor.csv";
 					try {
-						top3SVDCoAuthorOut = dblp.getTop3SVDCoAuthor(path, inputFileName);
+						top3SVDCoAuthorOut = dblp.getTop3SVDCoAuthor(path, fileName);
 					} catch (MatlabConnectionException
 							| MatlabInvocationException
 							| AuthorWithoutPapersException e) {
