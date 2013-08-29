@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import weka.clusterers.FarthestFirst;
 import weka.clusterers.SimpleKMeans;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -19,6 +20,7 @@ import exceptions.AuthorWithoutPapersException;
 
 public class Clusterer {
 	private SimpleKMeans simpleKMeans;
+	private FarthestFirst farthestFirst;
 	
 	/**
 	 * Crea un'Instance (Weka Instance = oggetto della clusterizzazione) a partire da un Author e dal Corpus a cui questo appartiene
@@ -95,38 +97,7 @@ public class Clusterer {
 		return instances;
 	}
 	
-	/**
-	 * Stampa su file .csv le tutte le istanze generate a partire dagli Author del Corpus,
-	 *  - per esigenza dettata dal formato csv, la prima riga contiene i nomi degli Attribute
-	 * @param corpus
-	 * @param filename
-	 * @throws AuthorWithoutPapersException 
-	 */
-	public void printInstancesOnCSV(Corpus corpus, String filename) throws AuthorWithoutPapersException {
-		try {
-			FileOutputStream file = new FileOutputStream("../data/" + filename);
-			PrintStream Output = new PrintStream(file);
 
-			// Stampo l'intestazione costituita dai nomi di attributi (ovvero le keyword)...
-			ArrayList<String> attributeNames = corpus.getGlobalKeywordSet();
-			for(String attributeName : attributeNames) {
-				Output.print(attributeName + ",");
-			}
-			//... seguite dall'ID dell'autore
-			Output.println("authorID");
-			
-			// Stampo le istanze
-			Instances instances = this.createInstances(corpus);
-			for (Instance i : instances) {
-				Output.println(i.toString());
-			}
-			Output.close();
-		} catch (IOException e) {
-			System.out.println("Errore: " + e);
-			System.exit(1);
-		}
-	}
-	
 	public Map<Integer, Integer> clusterAuthorsBySimpleKMeans(Corpus corpus, int numClusters) throws IOException, AuthorWithoutPapersException {
 		Map<Integer, Integer> clusters = new HashMap<Integer, Integer>();
 				
@@ -170,11 +141,90 @@ public class Clusterer {
 		return clusters;		
 	}
 	
+	public Map<Integer, Integer> clusterAuthorsByFartestFirst(Corpus corpus, int numClusters) throws IOException, AuthorWithoutPapersException {
+		Map<Integer, Integer> clusters = new HashMap<Integer, Integer>();
+				
+		this.farthestFirst.setSeed(numClusters * 2);
+		try {
+			this.farthestFirst.setNumClusters(numClusters);
+		} catch (Exception e1) {
+			System.err.println("Error setting the number of clusters!");
+			e1.printStackTrace();
+		}
+		
+		Instances instances = this.createInstances(corpus);
+		
+		try {
+			this.farthestFirst.buildClusterer(instances);
+		} catch (Exception e) {
+			System.err.println("Error building the clusterer!");
+			e.printStackTrace();
+		}
+		
+//		System.out.println("Options: ");
+//		for(String s: this.farthestFirst.getOptions()) {
+//			System.out.println("o: " + s);
+//		}			
+
+		for (Instance anInstance : instances) {
+			// Uso l'ultimo attributo (contiene l'authorID) come nome dell'istanza
+			int lastAttribute = anInstance.numAttributes() - 1;
+			try {
+				clusters.put((int) anInstance.value(lastAttribute), this.farthestFirst.clusterInstance(anInstance));
+				//System.out.println("i: " + (int)anInstance.value(lastAttribute) + " c: " + this.farthestFirst.clusterInstance(anInstance));
+			} catch (Exception e) {
+				System.err.println("Error clustering the instance " + anInstance + "!");
+				e.printStackTrace();
+			}
+		}
+		
+		return clusters;		
+	}
+	
+	
+	/**
+	 * Stampa su file .csv le tutte le istanze generate a partire dagli Author del Corpus,
+	 *  - per esigenza dettata dal formato csv, la prima riga contiene i nomi degli Attribute
+	 * @param corpus
+	 * @param filename
+	 * @throws AuthorWithoutPapersException 
+	 */
+	public void printInstancesOnCSV(Corpus corpus, String filename) throws AuthorWithoutPapersException {
+		try {
+			FileOutputStream file = new FileOutputStream("../data/" + filename);
+			PrintStream Output = new PrintStream(file);
+
+			// Stampo l'intestazione costituita dai nomi di attributi (ovvero le keyword)...
+			ArrayList<String> attributeNames = corpus.getGlobalKeywordSet();
+			for(String attributeName : attributeNames) {
+				Output.print(attributeName + ",");
+			}
+			//... seguite dall'ID dell'autore
+			Output.println("authorID");
+			
+			// Stampo le istanze
+			Instances instances = this.createInstances(corpus);
+			for (Instance i : instances) {
+				Output.println(i.toString());
+			}
+			Output.close();
+		} catch (IOException e) {
+			System.out.println("Errore: " + e);
+			System.exit(1);
+		}
+	}
+	
+	
 	public Clusterer() {
 		simpleKMeans = new SimpleKMeans();
+		farthestFirst = new FarthestFirst();
 	}
 	
 	public SimpleKMeans getSimpleKMeans() {
 		return simpleKMeans;
+	}
+	
+	public FarthestFirst getFarthestFirst() {
+		return farthestFirst;
 	}
 }
