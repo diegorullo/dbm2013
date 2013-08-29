@@ -254,7 +254,11 @@
                                     </HBox>
                                     <HBox layoutX="12.0" layoutY="86.0" prefHeight="18.0" prefWidth="319.0">
                                       <children>
-                                        <Label text="1.b" textFill="#0029ff" />
+                                        <Label text="1.b">
+                                          <textFill>
+                                            <Color blue="1.000" green="0.161" red="0.000" fx:id="x7" />
+                                          </textFill>
+                                        </Label>
                                       </children>
                                     </HBox>
                                     <HBox layoutX="12.0" layoutY="104.0" prefHeight="26.0" prefWidth="327.0">
@@ -303,7 +307,41 @@
                                         <Label fx:id="phase2Task1bTitleLabel" prefWidth="272.0" text="....." />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="12.0" layoutY="172.0" prefHeight="69.0" prefWidth="327.0" />
+                                    <HBox layoutX="12.0" layoutY="174.0" prefHeight="18.0" prefWidth="327.0">
+                                      <children>
+                                        <Label text="1.c" textFill="$x7" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="14.0" layoutY="192.0" prefHeight="25.0" prefWidth="325.0">
+                                      <children>
+                                        <Label text="Author:" />
+                                        <ComboBox fx:id="phase2Task1cAuthorIDComboBox" promptText="Author">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
+                                        </ComboBox>
+                                        <ComboBox fx:id="phase2Task1cModelComboBox" promptText="Model">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
+                                        </ComboBox>
+                                        <Button fx:id="phase2Task1cExecuteButton" mnemonicParsing="false" text="Execute" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="14.0" layoutY="217.0" prefHeight="32.0" prefWidth="325.0">
+                                      <children>
+                                        <Label text="Author:" />
+                                        <Label fx:id="phase2Task1cTitleLabel" text="....." />
+                                      </children>
+                                    </HBox>
                                   </children>
                                 </AnchorPane>
                               </content>

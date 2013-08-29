@@ -90,6 +90,16 @@ public class GUIController implements Initializable {
 	@FXML
 	private ComboBox<String> phase2Task1bAuthorIDComboBox;
 	
+	// PHASE 2 - Task 1c - controls injection
+	@FXML
+	private Button phase2Task1cExecuteButton;
+	@FXML
+	private Label phase2Task1cTitleLabel;
+	@FXML
+	private ComboBox<String> phase2Task1cModelComboBox;
+	@FXML
+	private ComboBox<String> phase2Task1cAuthorIDComboBox;
+	
 	// exploreDB - controls injection
 	@FXML
 	private TableView<String> exploreDBAuthorsTableView;
@@ -565,7 +575,6 @@ public class GUIController implements Initializable {
 							Corpus dblp = Main.getDblp();
 							Author author = null;
 							author = dblp.getAuthorByID(Integer.parseInt(authorid));
-							@SuppressWarnings("unused")
 							String output = null;
 							LinkedHashMap<String,Double> lhmOut = new LinkedHashMap<String,Double>(); 
 							if (modello.equals("keyword vectors")) {
@@ -647,7 +656,97 @@ public class GUIController implements Initializable {
 				//TODO: 1417 (PF)
 				//TODO: 1458 (PCA)
 				//TODO: 1503 (SVD)
-			
+			// PHASE 2 - Task 1c - controls settings
+			phase2Task1cAuthorIDComboBox.setItems(authorsIDs);
+			phase2Task1cModelComboBox.getItems().clear();
+			phase2Task1cModelComboBox.getItems().addAll("keyword vectors", "vettori di differenziazione (TFIDF2)", "vettori di differenziazione (PF)", "top-5 semantiche latenti (PCA)", "top-5 semantiche latenti (SVD)");
+			phase2Task1cModelComboBox.getSelectionModel().selectFirst();
+			phase2Task1cTitleLabel.setText("nome autore selezionato");
+
+			// PHASE 2 - Task 1c - EVENT HANDLER
+			phase2Task1cExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsTextArea.clear();
+					resultsTextArea.setText("Attendere prego!\n");
+					String modello = phase2Task1cModelComboBox.getValue();
+					String authorid = phase2Task1cAuthorIDComboBox.getValue();
+					try {
+						if (authorid != null && !authorid.equals("")) {
+							Corpus dblp = Main.getDblp();
+							Author author = null;
+							author = dblp.getAuthorByID(Integer.parseInt(authorid));
+							String output = null;
+							LinkedHashMap<String,Double> lhmOut = new LinkedHashMap<String,Double>(); 
+							if (modello.equals("keyword vectors")) {
+								lhmOut = author.getRelevantPapersRankedByKeywordVector(dblp);
+								output = "Relevant papers ranked by keyword vector:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
+							} else if (modello.equals("vettori di differenziazione (TFIDF2)")) {
+								lhmOut = author.getRelevantPapersRankedByTFIDF2Vector(dblp);
+								output = "Relevant papers ranked by TFIDF2 vector:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
+							} else if (modello.equals("vettori di differenziazione (PF)")) {
+								lhmOut= author.getRelevantPapersRankedByPFVector(dblp);
+								output = "Relevant papers ranked by PF vector:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
+							} else if (modello.equals("top-5 semantiche latenti (PCA)")) {
+								lhmOut = author.getRelevantPapersRankedByPCA(dblp);
+								output = "Relevant papers ranked by PCA:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
+							} else if (modello.equals("top-5 semantiche latenti (SVD)")) {
+								lhmOut = author.getRelevantPapersRankedBySVD(dblp);
+								output = "Relevant papers ranked by SVD:\n"
+										+ "-----------------------------------------------------\n"
+										+ lhmOut.toString();
+							}
+							resultsTextArea.setText(output);
+						} else {
+							resultsTextArea.setText("authorid non valido!");
+						}
+						
+					} catch (NoAuthorsWithSuchIDException
+							| AuthorWithoutPapersException | NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (MatlabConnectionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MatlabInvocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+
+			phase2Task1cAuthorIDComboBox
+					.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							try {
+								String authorid = phase2Task1cAuthorIDComboBox
+										.getValue();
+								if (authorid != null && !authorid.equals("")) {
+									Corpus dblp = Main.getDblp();
+									Author author = null;
+									author = dblp.getAuthorByID(Integer
+											.parseInt(authorid));
+									String name = author.getName();
+									phase2Task1cTitleLabel.setText(name);
+								} else {
+									resultsTextArea.setText("authorid non valido!");
+								}
+							} catch (NumberFormatException
+									| NoAuthorsWithSuchIDException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					});
 			//PHASE 2 - 2A
 				//TODO: da Corpus: 177
 			//PHASE 2 - 2B
