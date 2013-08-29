@@ -989,8 +989,33 @@ public class Author implements Comparable<Author> {
 		
 		myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
 		otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
-		myMatrixWithKeywords = this.getTopN(myMatrix, myMatrix.size());
-		otherMatrixWithKeywords = otherAuthor.getTopN(otherMatrix, otherMatrix.size());
+		
+		int mySize = myMatrixWithKeywords.size(), otherSize = otherMatrixWithKeywords.size();	
+
+//		if(myMatrixWithKeywords.size() != 5) {
+//			System.err.println("[myMatrixWithKeywords]Expected 5, but was: " + mySize);
+//		}		
+//		if(otherMatrixWithKeywords.size() != 5) {
+//			System.err.println("[otherMatrixWithKeywords]Expected 5, but was: " + otherSize);
+//		}
+		
+		/* Allineiamo la dimensione delle 2 matrixWithKeywords */
+		if (mySize > otherSize) {
+			//Tronco myMatrixWithKeywords a otherSize
+			ArrayList<TreeMap<String, Double>> myNewMatrixWithKeywords = new ArrayList<TreeMap<String, Double>>();
+			for(int i = 0; i < otherSize; i++) {
+				myNewMatrixWithKeywords.add(myMatrixWithKeywords.get(i));
+			}
+			myMatrixWithKeywords = myNewMatrixWithKeywords;
+		}
+		else if (mySize < otherSize) {
+			//Tronco otherMatrixWithKeywords a mySize
+			ArrayList<TreeMap<String, Double>> otherNewMatrixWithKeywords = new ArrayList<TreeMap<String, Double>>();
+			for(int i = 0; i < mySize; i++) {
+				otherNewMatrixWithKeywords.add(otherMatrixWithKeywords.get(i));
+			}
+			otherMatrixWithKeywords = otherNewMatrixWithKeywords;
+		}
 		
 		// Normalizziamo i vettori di concetti per pesarne la varianza
 		myConceptsEigenValues = Normalization.normalize(myConceptsEigenValues);
@@ -1003,7 +1028,8 @@ public class Author implements Comparable<Author> {
 
 		// Calcolo della media pesata (tramite gli autovalori) delle similarita'
 		double denominatore = 0.0;
-		for(int i = 0; i < myMatrixWithKeywords.size(); i++) {			
+		for(int i = 0; i < myMatrixWithKeywords.size(); i++) {		
+			//System.out.println("i: " + i);
 			TreeMap<String,Double> myCurrentConceptEigenVector = myMatrixWithKeywords.get(i);
 			TreeMap<String,Double> otherCurrentConceptEigenVector = otherMatrixWithKeywords.get(i);
 			
@@ -1055,6 +1081,12 @@ public class Author implements Comparable<Author> {
 //					System.out.println("Similarity = " + similarity + "\n");
 				}
 			}
+		}
+		
+		// System.out.println("N: " + similarity + ", D: " + denominatore);
+		
+		if (denominatore == 0) {
+			denominatore = 1;
 		}
 		
 		// In questo modo si calcola la similarità basandosi sul confronto delle matrici dei concetti

@@ -467,7 +467,7 @@ public class MatlabEngineTest {
    
     @Test
     public void testGetPCAOn1636579() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
-            if(!DEBUG) {                   
+            if(DEBUG) {                   
                     Factory f = new Factory();
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1636579);
@@ -485,7 +485,7 @@ public class MatlabEngineTest {
     
     @Test
     public void testGetPCAOn1677020() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException, AuthorWithoutPapersException {
-            if(!DEBUG) {                   
+            if(DEBUG) {                   
                     Factory f = new Factory();
                     Corpus dblp = f.getCorpus();
                     Author testAuthor = dblp.getAuthorByID(1677020);
@@ -501,4 +501,42 @@ public class MatlabEngineTest {
             }
     }
     	
+    
+	@Test
+	public void testGetPCAOn1636578Top5() throws SQLException, MatlabConnectionException, MatlabInvocationException, NoAuthorsWithSuchIDException, IOException, AuthorWithoutPapersException {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(1636578);
+			String fileName = testAuthor.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 5);
+
+			if(PRINT) {
+				System.out.println("Letta matrice dei (top 5) concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+    
+	
+	@Test
+	public void testGetPCAOn1635070Top5() throws SQLException, MatlabConnectionException, MatlabInvocationException, NoAuthorsWithSuchIDException, IOException, AuthorWithoutPapersException {
+		if(DEBUG) {
+			
+			Factory f = new Factory();
+        	Corpus dblp = f.getCorpus();
+			Author testAuthor = dblp.getAuthorByID(1635070);
+			String fileName = testAuthor.getAuthorID().toString();
+			ArrayList<ArrayList<Double>> concepts = testAuthor.getPCA(dblp, fileName, 5);
+
+			if(PRINT) {
+				System.out.println("Letta matrice dei (top 5) concetti da file:");
+				Printer.printMatrix(concepts);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
+		}
+	}
+		
 }

@@ -433,20 +433,61 @@ public class AuthorTestSimilarityMatrices {
 		}
 	}
 	
+	 // WARNING: test molto pesante
+	@Test
+	public void testGetSimilarityPCACandanVSAll() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(DEBUG) {		
+			ArrayList<Author> authorsList = dblp.getAuthors();
+			Double similCandan;
+			for (Author otherAuthor : authorsList) {
+				System.out.print("Similarità Candan-" + otherAuthor.getName() + " (PCA): ");
+				similCandan = authorCandan.getSimilarityOnConceptsMatrix(otherAuthor, dblp, "PCA");
+				if(PRINT) {
+					System.out.println(similCandan);
+					System.out.println("----------------------------------------------------------------------\n");
+				}
+			}
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	// WARNING: test molto pesante!
+	@Test
+	public void testGetSimilarityPCAAllVSAll() throws MatlabConnectionException, MatlabInvocationException, AuthorWithoutPapersException, NoSuchTechniqueException {
+		
+		if(false) {		
+			ArrayList<Author> authorsList = dblp.getAuthors();
+			Double similarity;
+			for (Author firstAuthor : authorsList) {
+				for (Author otherAuthor : authorsList) {
+					System.out.print("Similarità " + firstAuthor.getName() + "-" + otherAuthor.getName() + " (PCA): ");
+					similarity = firstAuthor.getSimilarityOnConceptsMatrix(otherAuthor, dblp, "PCA");
+					if(PRINT) {
+						System.out.println(similarity);
+						System.out.println("----------------------------------------------------------------------\n");
+					}
+				}
+			}
+		}
+	}
+	
 	@Test
 	public void testZero() {
-		@SuppressWarnings("all")
-		boolean test1 = (0.0 == -0.0);
-		assertTrue(test1);
-		
-		Double zeroPlus = 0.0, zeroMinus = -0.0;
-		boolean test2 = (zeroPlus.toString().equals(zeroMinus.toString()));
-		assertFalse(test2);
-		
-		if(PRINT) {
-			System.out.println("0.0 == -0.0? " + test1);
-			System.out.println("0.0.toString() == -0.0.toString()? " + test2);
-			System.out.println("----------------------------------------------------------------------\n");
+		if(DEBUG) {
+			@SuppressWarnings("all")
+			boolean test1 = (0.0 == -0.0);
+			assertTrue(test1);
+			
+			Double zeroPlus = 0.0, zeroMinus = -0.0;
+			boolean test2 = (zeroPlus.toString().equals(zeroMinus.toString()));
+			assertFalse(test2);
+			
+			if(PRINT) {
+				System.out.println("0.0 == -0.0? " + test1);
+				System.out.println("0.0.toString() == -0.0.toString()? " + test2);
+				System.out.println("----------------------------------------------------------------------\n");
+			}
 		}
 	}
 	
