@@ -24,69 +24,6 @@
                       <children>
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
-                            <TitledPane fx:id="x4" animated="false" text="Task 3">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                  <children>
-                                    <HBox layoutX="14.0" minHeight="20.0" prefHeight="29.0" prefWidth="325.0" AnchorPane.bottomAnchor="477.0" AnchorPane.topAnchor="14.0">
-                                      <children>
-                                        <Label text="Author:">
-                                          <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5" />
-                                          </HBox.margin>
-                                        </Label>
-                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author ID">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2014" />
-                                          </HBox.margin>
-                                        </ComboBox>
-                                        <ComboBox id="phase1Task1ModelComboBox" fx:id="phase1Task3ModelComboBox" promptText="Model">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2003" />
-                                          </HBox.margin>
-                                        </ComboBox>
-                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" text="Execute">
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2004" />
-                                          </HBox.margin>
-                                        </Button>
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="14.0" layoutY="43.0" prefHeight="21.0" prefWidth="325.0">
-                                      <children>
-                                        <Label prefWidth="56.0" text="Author:" />
-                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task3TitleLabel" prefWidth="289.0" text="..." />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="14.0" layoutY="64.0" prefHeight="147.5" prefWidth="325.0">
-                                      <children>
-                                        <Label prefHeight="155.0" prefWidth="325.0" text="Stampa il vettore delle chiavi per un dato autore rispetto al modello vettoriale selezionato ( TF-IDF2 and PF).Il vettore è costruito considerando tutti i coautori di un dato autore e mette in luce il modo in cui gli articoli dell’autore dato differiscono da quelli dei suoi coautori." textAlignment="JUSTIFY" wrapText="true">
-                                          <textFill>
-                                            <Color blue="0.600" green="0.096" red="0.000" fx:id="x2" />
-                                          </textFill>
-                                        </Label>
-                                      </children>
-                                    </HBox>
-                                  </children>
-                                </AnchorPane>
-                              </content>
-                            </TitledPane>
-                          </expandedPane>
-                          <panes>
                             <TitledPane fx:id="x1" animated="false" text="Task 1">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -134,6 +71,9 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
+                          </expandedPane>
+                          <panes>
+                            <fx:reference source="x1" />
                             <TitledPane animated="false" text="Task 2">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="351.0">
@@ -184,14 +124,74 @@
                                     </HBox>
                                     <HBox layoutX="14.0" layoutY="64.0" prefHeight="117.0" prefWidth="326.0">
                                       <children>
-                                        <Label prefHeight="124.0" prefWidth="325.0" text="Stampa a video di un ”combined keyword vector” per un dato autore, secondo il modello vettoriale selezionato. Nel ”combined keyword vector”, gli articoli piu’ recenti pesano di piu’ di quelli piu’ vecchi." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
+                                        <Label prefHeight="124.0" prefWidth="325.0" text="Stampa a video di un ”combined keyword vector” per un dato autore, secondo il modello vettoriale selezionato. Nel ”combined keyword vector”, gli articoli piu’ recenti pesano di piu’ di quelli piu’ vecchi." textAlignment="JUSTIFY" wrapText="true">
+                                          <textFill>
+                                            <Color blue="0.600" green="0.096" red="0.000" fx:id="x2" />
+                                          </textFill>
+                                        </Label>
                                       </children>
                                     </HBox>
                                   </children>
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <fx:reference source="x4" />
+                            <TitledPane fx:id="x4" animated="false" text="Task 3">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <HBox layoutX="14.0" minHeight="20.0" prefHeight="29.0" prefWidth="325.0" AnchorPane.bottomAnchor="477.0" AnchorPane.topAnchor="14.0">
+                                      <children>
+                                        <Label text="Author:">
+                                          <HBox.margin>
+                                            <Insets right="10.0" fx:id="x5" />
+                                          </HBox.margin>
+                                        </Label>
+                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author ID">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2014" />
+                                          </HBox.margin>
+                                        </ComboBox>
+                                        <ComboBox id="phase1Task1ModelComboBox" fx:id="phase1Task3ModelComboBox" promptText="Model">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2003" />
+                                          </HBox.margin>
+                                        </ComboBox>
+                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" text="Execute">
+                                          <HBox.margin>
+                                            <Insets right="20.0" fx:id="x2004" />
+                                          </HBox.margin>
+                                        </Button>
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="14.0" layoutY="43.0" prefHeight="21.0" prefWidth="325.0">
+                                      <children>
+                                        <Label prefWidth="56.0" text="Author:" />
+                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task3TitleLabel" prefWidth="289.0" text="..." />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="14.0" layoutY="64.0" prefHeight="147.5" prefWidth="325.0">
+                                      <children>
+                                        <Label prefHeight="155.0" prefWidth="325.0" text="Stampa il vettore delle chiavi per un dato autore rispetto al modello vettoriale selezionato ( TF-IDF2 and PF).Il vettore è costruito considerando tutti i coautori di un dato autore e mette in luce il modo in cui gli articoli dell’autore dato differiscono da quelli dei suoi coautori." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
                           </panes>
                         </Accordion>
                       </children>
@@ -204,13 +204,67 @@
                       <children>
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
+                            <TitledPane fx:id="x5" animated="false" text="Task 2">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <HBox layoutX="6.0" prefHeight="23.0" prefWidth="339.0">
+                                      <children>
+                                        <Label prefWidth="28.0" text="2.a" textFill="$x2" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="17.0" minHeight="6.0" prefHeight="26.0" prefWidth="347.0">
+                                      <children>
+                                        <Button fx:id="phase2Task2aExecuteButton" contentDisplay="CENTER" mnemonicParsing="false" text="Execute" textAlignment="CENTER">
+                                          <HBox.margin>
+                                            <Insets left="130.0" fx:id="x9" />
+                                          </HBox.margin>
+                                        </Button>
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="38.0" prefHeight="80.0" prefWidth="355.0">
+                                      <children>
+                                        <Label prefHeight="92.0" prefWidth="355.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ author-author creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="118.0" prefHeight="23.0" prefWidth="333.0">
+                                      <children>
+                                        <Separator prefHeight="12.0" prefWidth="333.0" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="130.0" prefHeight="16.0" prefWidth="333.0">
+                                      <children>
+                                        <Label text="2.b" textFill="$x2" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="146.0" prefHeight="24.0" prefWidth="333.0">
+                                      <children>
+                                        <Button fx:id="phase2Task2bExecuteButton" mnemonicParsing="false" text="Execute" HBox.margin="$x9" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="170.0" prefHeight="80.0" prefWidth="333.0">
+                                      <children>
+                                        <Label prefHeight="78.0" prefWidth="333.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ coauthor-coauthor creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="250.0" prefHeight="11.0" prefWidth="333.0">
+                                      <children>
+                                        <Separator prefHeight="13.0" prefWidth="333.0" />
+                                      </children>
+                                    </HBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </expandedPane>
+                          <panes>
                             <TitledPane fx:id="x3" animated="false" text="Task 1">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
                                     <HBox layoutX="13.0" layoutY="14.0" prefHeight="16.0" prefWidth="328.0">
                                       <children>
-                                        <Label prefWidth="47.0" text="1.a" textFill="#0021cc" />
+                                        <Label prefHeight="78.0" prefWidth="326.0" text="1.a" textFill="#0021cc" />
                                       </children>
                                     </HBox>
                                     <HBox layoutX="12.0" layoutY="30.0" prefHeight="22.0" prefWidth="308.0">
@@ -247,12 +301,17 @@
                                         <Label fx:id="phase2Task1aTitleLabel" prefWidth="231.0" text="..." />
                                       </children>
                                     </HBox>
-                                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="76.0" spacing="5.0">
+                                    <HBox layoutX="7.0" layoutY="85.0" prefHeight="40.0" prefWidth="332.0">
+                                      <children>
+                                        <Label text="Restituisce le top-5 semantiche latenti (topics) utilizzando, PCA (nello spazio TF-IDF), e SVD (nello spazio TF-IDF)." textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                    <HBox id="HBox" alignment="CENTER" layoutX="9.0" layoutY="134.0" spacing="5.0">
                                       <children>
                                         <Separator prefHeight="19.0" prefWidth="327.0" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="12.0" layoutY="86.0" prefHeight="18.0" prefWidth="319.0">
+                                    <HBox layoutX="11.0" layoutY="172.0" prefHeight="18.0" prefWidth="319.0">
                                       <children>
                                         <Label text="1.b">
                                           <textFill>
@@ -261,7 +320,7 @@
                                         </Label>
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="12.0" layoutY="104.0" prefHeight="26.0" prefWidth="327.0">
+                                    <HBox layoutX="14.0" layoutY="190.0" prefHeight="26.0" prefWidth="327.0">
                                       <children>
                                         <Label prefWidth="65.0" text="Author:">
                                           <HBox.margin>
@@ -296,23 +355,28 @@
                                         </Button>
                                       </children>
                                     </HBox>
-                                    <HBox id="HBox" alignment="CENTER" layoutX="12.0" layoutY="172.0" spacing="5.0">
-                                      <children>
-                                        <Separator prefWidth="327.0" />
-                                      </children>
-                                    </HBox>
-                                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="130.0" spacing="5.0">
+                                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="216.0" spacing="5.0">
                                       <children>
                                         <Label text="Author:" />
                                         <Label fx:id="phase2Task1bTitleLabel" prefWidth="272.0" text="....." />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="12.0" layoutY="174.0" prefHeight="18.0" prefWidth="327.0">
+                                    <HBox layoutX="12.0" layoutY="232.0" prefHeight="79.0" prefWidth="329.0">
+                                      <children>
+                                        <Label prefHeight="78.0" prefWidth="329.0" text="Restituisce in ordine di similarita’ i 10 autori piu’ simili, confrontando i rispettivi keyword vectors, vettori di differenziazione (TF-IDF2 o PF), e le top-5 semantiche latenti (PCA, SVD)." textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="10.0" layoutY="312.0" prefHeight="15.0" prefWidth="329.0">
+                                      <children>
+                                        <Separator prefWidth="327.0" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="13.0" layoutY="327.0" prefHeight="18.0" prefWidth="327.0">
                                       <children>
                                         <Label text="1.c" textFill="$x7" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="14.0" layoutY="192.0" prefHeight="25.0" prefWidth="325.0">
+                                    <HBox layoutX="11.0" layoutY="345.0" prefHeight="25.0" prefWidth="325.0">
                                       <children>
                                         <Label text="Author:" />
                                         <ComboBox fx:id="phase2Task1cAuthorIDComboBox" promptText="Author">
@@ -336,24 +400,27 @@
                                         <Button fx:id="phase2Task1cExecuteButton" mnemonicParsing="false" text="Execute" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="14.0" layoutY="217.0" prefHeight="32.0" prefWidth="325.0">
+                                    <HBox layoutX="13.0" layoutY="390.0" prefHeight="116.0" prefWidth="325.0">
+                                      <children>
+                                        <Label prefHeight="107.0" prefWidth="305.0" text="Dato un autore restituisce in ordine di rilevanza gli articoli per lui piu’ rilevanti (di cui lui non e’ autore), basandosi sulla similarita’ tra i seguenti vettori relativi all’utente dato (keyword vector, differentiation vector [TF-IDF2 or PF], e top-5 semantiche latenti [PCA, o SVD]ed i document vector degli articoli (TF-IDF)." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="13.0" layoutY="370.0" minHeight="12.0" prefHeight="20.0" prefWidth="305.0">
                                       <children>
                                         <Label text="Author:" />
                                         <Label fx:id="phase2Task1cTitleLabel" text="....." />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="12.0" layoutY="503.0" prefHeight="11.0" prefWidth="305.0">
+                                      <children>
+                                        <Separator prefHeight="13.0" prefWidth="305.0" />
                                       </children>
                                     </HBox>
                                   </children>
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                          </expandedPane>
-                          <panes>
-                            <fx:reference source="x3" />
-                            <TitledPane animated="false" text="Task 2">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
-                            </TitledPane>
+                            <fx:reference source="x5" />
                             <TitledPane id="x3" animated="false" text="Task 3">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
@@ -369,11 +436,24 @@
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
-                        <ScrollPane prefHeight="460.0" prefWidth="286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <content>
-                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                          </content>
-                        </ScrollPane>
+                        <AnchorPane id="Content" layoutX="78.0" layoutY="195.0" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                          <children>
+                            <Accordion layoutX="29.0" layoutY="-9.0">
+                              <expandedPane>
+                                <TitledPane fx:id="x8" animated="false" text="untitled" />
+                              </expandedPane>
+                              <panes>
+                                <TitledPane animated="false" text="untitled">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                  </content>
+                                </TitledPane>
+                                <fx:reference source="x8" />
+                              </panes>
+                            </Accordion>
+                          </children>
+                        </AnchorPane>
+                        <AnchorPane id="Content" layoutX="7.0" layoutY="6.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                       </children>
                     </AnchorPane>
                   </content>
