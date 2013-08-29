@@ -141,7 +141,7 @@ public class Clusterer {
 		return clusters;		
 	}
 	
-	public Map<Integer, Integer> clusterAuthorsByFartestFirst(Corpus corpus, int numClusters) throws IOException, AuthorWithoutPapersException {
+	public Map<Integer, Integer> clusterAuthorsByFarthestFirst(Corpus corpus, int numClusters) throws IOException, AuthorWithoutPapersException {
 		Map<Integer, Integer> clusters = new HashMap<Integer, Integer>();
 				
 		this.farthestFirst.setSeed(numClusters * 2);

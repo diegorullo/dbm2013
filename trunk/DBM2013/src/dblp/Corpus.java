@@ -1,6 +1,9 @@
 package dblp;
 
+import java.awt.Color;
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,6 +20,7 @@ import javax.naming.NameNotFoundException;
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 
+import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.Edge;
@@ -25,6 +29,18 @@ import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.Node;
 import org.gephi.graph.api.UndirectedGraph;
+import org.gephi.io.exporter.api.ExportController;
+import org.gephi.preview.api.PreviewController;
+import org.gephi.preview.api.PreviewModel;
+import org.gephi.preview.api.PreviewProperty;
+import org.gephi.preview.types.DependantOriginalColor;
+import org.gephi.preview.types.EdgeColor;
+import org.gephi.ranking.api.Ranking;
+import org.gephi.ranking.api.RankingController;
+import org.gephi.ranking.api.Transformer;
+import org.gephi.ranking.plugin.transformer.AbstractColorTransformer;
+import org.gephi.ranking.plugin.transformer.AbstractSizeTransformer;
+import org.gephi.statistics.plugin.GraphDistance;
 import org.gephi.statistics.plugin.PageRank;
 import org.openide.util.Lookup;
 
@@ -42,6 +58,7 @@ import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoAuthorsWithSuchNameException;
 import exceptions.NoPaperWithSuchIDException;
 import exceptions.WrongClusteringException;
+import exceptions.WrongFileTypeException;
 
 public class Corpus {
 
@@ -484,7 +501,7 @@ public class Corpus {
         
 		return coAuthorsGraphBasedOnKeywordVectors;		
 	}
-	
+		
 	// Phase 3 - Task 2
 	/**
 	 * Create un grafo degli articoli di cui si e’ stati coautori, in cui esiste un arco
@@ -537,6 +554,91 @@ public class Corpus {
         }
         
 		return coAuthoredPapersGraphBasedOnKeywordVectors;		
+	}
+	
+
+	/**
+	 * Crea (e apre) un file che consente di visualizzare graficamente il grafo dei coautori.
+	 * 
+	 * E' possibile scegliere come file di output sia il formato PDF che GEXF (per Gephi).
+	 * 
+	 * @param type il tipo di file: PDF o GEXF
+	 * @throws WrongFileTypeException
+	 * @throws NoAuthorsWithSuchIDException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("rawtypes") //FIXME: vedere come risolvere i warning
+	public void printGraphOnFile(Graph graph, String fileName, String type) throws WrongFileTypeException, NoAuthorsWithSuchIDException, IOException {
+        
+        //Count nodes and edges
+        System.out.println("Nodes: " + graph.getNodeCount() + " Edges: " + graph.getEdgeCount());
+        //Iterate over nodes
+        for(Node n : graph.getNodes()) {
+	        Node[] coauthors = graph.getNeighbors(n).toArray();
+	        System.out.println(n.getNodeData().getLabel() + " has " + coauthors.length + " coauthors");
+        }
+        
+        GraphEngine ge = GraphEngine.getGraphEngine();
+        GraphModel graphModel = ge.getGraphModel();
+        AttributeModel attributeModel = Lookup.getDefault().lookup(AttributeController.class).getModel();
+
+        RankingController rankingController = Lookup.getDefault().lookup(RankingController.class);
+      
+        //Rank color by Degree
+        Ranking degreeRanking = rankingController.getModel().getRanking(Ranking.NODE_ELEMENT, Ranking.DEGREE_RANKING);
+        AbstractColorTransformer colorTransformer = (AbstractColorTransformer) rankingController.getModel().getTransformer(Ranking.NODE_ELEMENT, Transformer.RENDERABLE_COLOR);
+        
+        colorTransformer.setColors(new Color[]{new Color(0x66CCCC), new Color(0x7EB6FF)});
+        rankingController.transform(degreeRanking, colorTransformer);
+
+        //Get Centrality
+        GraphDistance distance = new GraphDistance();
+        distance.setDirected(true);
+        distance.execute(graphModel, attributeModel);
+
+        //Rank size by centrality
+        AttributeColumn centralityColumn = attributeModel.getNodeTable().getColumn(GraphDistance.BETWEENNESS);
+        Ranking centralityRanking = rankingController.getModel().getRanking(Ranking.NODE_ELEMENT, centralityColumn.getId());
+        AbstractSizeTransformer sizeTransformer = (AbstractSizeTransformer) rankingController.getModel().getTransformer(Ranking.NODE_ELEMENT, Transformer.RENDERABLE_SIZE);
+        sizeTransformer.setMinSize(5);
+        sizeTransformer.setMaxSize(30);
+        rankingController.transform(centralityRanking, sizeTransformer);
+
+        //Rank label size - set a multiplier size
+        Ranking centralityRanking2 = rankingController.getModel().getRanking(Ranking.NODE_ELEMENT, centralityColumn.getId());
+        AbstractSizeTransformer labelSizeTransformer = (AbstractSizeTransformer) rankingController.getModel().getTransformer(Ranking.NODE_ELEMENT, Transformer.LABEL_SIZE);
+        labelSizeTransformer.setMinSize(1);
+        labelSizeTransformer.setMaxSize(3);
+        rankingController.transform(centralityRanking2,labelSizeTransformer);
+
+        //Set 'show labels' option in Preview - and disable node size influence on text size
+        PreviewModel previewModel = Lookup.getDefault().lookup(PreviewController.class).getModel();
+        previewModel.getProperties().putValue(PreviewProperty.EDGE_COLOR, new EdgeColor(new Color(0x7EB6FF)));
+        previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_COLOR, new DependantOriginalColor(new Color(0x101010)));
+        
+        previewModel.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS, Boolean.TRUE);
+        previewModel.getProperties().putValue(PreviewProperty.SHOW_EDGE_LABELS, Boolean.TRUE);
+        previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_PROPORTIONAL_SIZE, Boolean.FALSE);
+
+        //Export
+        ExportController ec = Lookup.getDefault().lookup(ExportController.class);
+       	
+    	File parentDirectory = new File(System.getProperty("user.dir")).getParentFile();
+    	
+    	switch(type) {
+        	case "PDF":
+        		File pdfFile = new File(parentDirectory + "/data/" + fileName + ".pdf");
+        		ec.exportFile(pdfFile);
+        		Desktop.getDesktop().open(pdfFile);
+        		break;
+        	case "GEXF":
+        		File gexfFile = new File(parentDirectory + "/data/" + fileName + ".gexf");
+            	ec.exportFile(gexfFile);
+            	Desktop.getDesktop().open(gexfFile);
+        		break;
+        	default:
+        		throw new WrongFileTypeException("Wrong file type exception: try with \"PDF\" or \"GEXF\".");
+    	}       	
 	}
 	
 	// Phase 3 - Task 2 (Clustering)

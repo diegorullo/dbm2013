@@ -26,6 +26,7 @@ import org.gephi.ranking.api.Transformer;
 import org.gephi.ranking.plugin.transformer.AbstractColorTransformer;
 import org.gephi.ranking.plugin.transformer.AbstractSizeTransformer;
 import org.gephi.statistics.plugin.GraphDistance;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openide.util.Lookup;
 
@@ -35,7 +36,15 @@ import exceptions.NoAuthorsWithSuchIDException;
 
 public class GraphEngineTest {
 
-	private final static boolean DEBUG = true;
+	static Corpus dblp;
+	
+	private final static boolean DEBUG = false;
+	
+	@BeforeClass	
+	public static void getEnvironment() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException {
+		Factory f = new Factory();
+		dblp = f.getCorpus();		
+	}
 	
 	@SuppressWarnings("rawtypes") //FIXME: vedere come risolvere i warning
 	@Test
@@ -119,7 +128,7 @@ public class GraphEngineTest {
 		}        
 	}
 	
-	@SuppressWarnings("rawtypes") //FIXME: vedere come risolvere i warning
+	@SuppressWarnings("rawtypes") 
 	@Test
 	public void testGetCoAuthoredPapersGraphBasedOnKeywordVectors() throws SQLException, MatlabConnectionException, MatlabInvocationException, IOException, NoAuthorsWithSuchIDException {
 		if(DEBUG) {
@@ -188,7 +197,7 @@ public class GraphEngineTest {
 	        //Export
 	        ExportController ec = Lookup.getDefault().lookup(ExportController.class);
 	        try {
-	        	File pdfFile = new File("../data/[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.pdf");
+	        	File pdfFile = new File("/data/[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.pdf");
 	        	File gexfFile = new File("../data/[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.gexf");
 	        	ec.exportFile(pdfFile); //ec.exportFile(new File("../data/[Phase 3 - Task 2] coAuthoredPapersGraphBasedOnKeywordVectors.pdf"));
 	        	ec.exportFile(gexfFile);
@@ -197,6 +206,50 @@ public class GraphEngineTest {
 	            ex.printStackTrace();
 	            return;
 	        }
+		}
+	}
+	
+	@Test
+	public void testPrintCoAuthorsGraphOnFilePDF() throws Exception {
+		
+		if(!DEBUG) {
+			String type = "PDF";
+			String fileName = "coAuthorsGraphBasedOnKeywordVectors";
+			Graph graph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
+			dblp.printGraphOnFile(graph, fileName, type);
+		}
+	}
+	
+	@Test
+	public void testPrintCoAuthorsGraphOnFileGEXF() throws Exception {
+		
+		if(!DEBUG) {
+			String type = "GEXF";
+			String fileName = "coAuthorsGraphBasedOnKeywordVectors";
+			Graph graph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
+			dblp.printGraphOnFile(graph, fileName, type);
+		}
+	}
+
+	@Test
+	public void testPrintCoAuthoredPapersGraphBasedOnKeywordVectorsOnFilePDF() throws Exception {
+		
+		if(!DEBUG) {
+			String type = "PDF";
+			String fileName = "coAuthoredPapersGraphBasedOnKeywordVectors";
+			Graph graph = dblp.getCoAuthoredPapersGraphBasedOnKeywordVectors();
+			dblp.printGraphOnFile(graph, fileName, type);
+		}
+	}
+	
+	@Test
+	public void testPrintCoAuthoredPapersGraphBasedOnKeywordVectorsOnFileGEXF() throws Exception {
+		
+		if(!DEBUG) {
+			String type = "GEXF";
+			String fileName = "coAuthoredPapersGraphBasedOnKeywordVectors";
+			Graph graph = dblp.getCoAuthoredPapersGraphBasedOnKeywordVectors();
+			dblp.printGraphOnFile(graph, fileName, type);
 		}
 	}
 }
