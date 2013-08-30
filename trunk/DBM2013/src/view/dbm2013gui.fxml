@@ -10,7 +10,7 @@
 <?import javafx.scene.text.*?>
 <?import view.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml" fx:controller="view.GUIController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="view.GUIController">
   <children>
     <SplitPane dividerPositions="0.44862155388471175" focusTraversable="true" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
       <items>
@@ -204,52 +204,51 @@
                       <children>
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
-                            <TitledPane fx:id="x5" animated="false" text="Task 2">
+                            <TitledPane fx:id="x3" animated="false" text="Task 3">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <HBox layoutX="6.0" prefHeight="23.0" prefWidth="339.0">
+                                    <HBox layoutX="7.0" layoutY="7.0" prefHeight="18.0" prefWidth="332.0">
                                       <children>
-                                        <Label prefWidth="28.0" text="2.a" textFill="$x2" />
+                                        <Label text="3.a" textFill="$x2" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="6.0" layoutY="17.0" minHeight="6.0" prefHeight="26.0" prefWidth="347.0">
+                                    <HBox layoutX="7.0" layoutY="25.0" prefHeight="17.0" prefWidth="332.0">
                                       <children>
-                                        <Button fx:id="phase2Task2aExecuteButton" contentDisplay="CENTER" mnemonicParsing="false" text="Execute" textAlignment="CENTER">
+                                        <Button fx:id="phase2Task3aExecuteButton" mnemonicParsing="false" text="Execute">
                                           <HBox.margin>
-                                            <Insets left="130.0" fx:id="x9" />
+                                            <Insets left="140.0" />
                                           </HBox.margin>
                                         </Button>
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="6.0" layoutY="38.0" prefHeight="80.0" prefWidth="355.0">
+                                    <HBox layoutX="7.0" layoutY="46.0" prefHeight="82.0" prefWidth="332.0">
                                       <children>
-                                        <Label prefHeight="92.0" prefWidth="355.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ author-author creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
+                                        <Label prefHeight="79.0" prefWidth="332.0" text="Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarita’coauthor-coauthor (o author-author) e suddivida gli autori in 3 gruppo sulla base del loro grado di appartenenza alle 3 semantiche." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="6.0" layoutY="118.0" prefHeight="23.0" prefWidth="333.0">
+                                    <HBox layoutX="7.0" layoutY="128.0" prefHeight="20.0" prefWidth="332.0">
                                       <children>
-                                        <Separator prefHeight="12.0" prefWidth="333.0" />
+                                        <Separator prefWidth="332.0" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="6.0" layoutY="130.0" prefHeight="16.0" prefWidth="333.0">
+                                    <HBox layoutX="7.0" layoutY="148.0" prefHeight="21.0" prefWidth="332.0">
                                       <children>
-                                        <Label text="2.b" textFill="$x2" />
+                                        <Label text="3.b" textFill="$x2" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="6.0" layoutY="146.0" prefHeight="24.0" prefWidth="333.0">
+                                    <HBox layoutX="7.0" layoutY="169.0" prefHeight="24.0" prefWidth="332.0">
                                       <children>
-                                        <Button fx:id="phase2Task2bExecuteButton" mnemonicParsing="false" text="Execute" HBox.margin="$x9" />
+                                        <Button id="phase2Task3bButton" fx:id="phase2Task3bExecuteButton" mnemonicParsing="false" text="Execute" textAlignment="JUSTIFY">
+                                          <HBox.margin>
+                                            <Insets left="140.0" />
+                                          </HBox.margin>
+                                        </Button>
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="6.0" layoutY="170.0" prefHeight="80.0" prefWidth="333.0">
+                                    <HBox layoutX="7.0" layoutY="193.0" prefHeight="106.0" prefWidth="324.0">
                                       <children>
-                                        <Label prefHeight="78.0" prefWidth="333.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ coauthor-coauthor creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="250.0" prefHeight="11.0" prefWidth="333.0">
-                                      <children>
-                                        <Separator prefHeight="13.0" prefWidth="333.0" />
+                                        <Label prefWidth="324.0" text="Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarita’coauthor-coauthor (o author-author) e associ un keyword vector a ciascuna semantica/gruppo sulla base dei keywordvectorsdegli autori e del loro grado di appartenenza alla corrispondente semantica latente/gruppo." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
                                       </children>
                                     </HBox>
                                   </children>
@@ -258,7 +257,7 @@
                             </TitledPane>
                           </expandedPane>
                           <panes>
-                            <TitledPane fx:id="x3" animated="false" text="Task 1">
+                            <TitledPane id="x3" animated="false" text="Task 1">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -420,12 +419,59 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <fx:reference source="x5" />
-                            <TitledPane id="x3" animated="false" text="Task 3">
+                            <TitledPane id="x5" animated="false" text="Task 2">
                               <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <HBox layoutX="6.0" prefHeight="23.0" prefWidth="339.0">
+                                      <children>
+                                        <Label prefWidth="28.0" text="2.a" textFill="$x2" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="17.0" minHeight="6.0" prefHeight="26.0" prefWidth="347.0">
+                                      <children>
+                                        <Button fx:id="phase2Task2aExecuteButton" contentDisplay="CENTER" mnemonicParsing="false" text="Execute" textAlignment="CENTER">
+                                          <HBox.margin>
+                                            <Insets left="130.0" fx:id="x9" />
+                                          </HBox.margin>
+                                        </Button>
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="38.0" prefHeight="80.0" prefWidth="355.0">
+                                      <children>
+                                        <Label prefHeight="92.0" prefWidth="355.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ author-author creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="118.0" prefHeight="23.0" prefWidth="333.0">
+                                      <children>
+                                        <Separator prefHeight="12.0" prefWidth="333.0" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="130.0" prefHeight="16.0" prefWidth="333.0">
+                                      <children>
+                                        <Label text="2.b" textFill="$x2" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="146.0" prefHeight="24.0" prefWidth="333.0">
+                                      <children>
+                                        <Button fx:id="phase2Task2bExecuteButton" mnemonicParsing="false" text="Execute" HBox.margin="$x9" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="170.0" prefHeight="80.0" prefWidth="333.0">
+                                      <children>
+                                        <Label prefHeight="78.0" prefWidth="333.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ coauthor-coauthor creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
+                                      </children>
+                                    </HBox>
+                                    <HBox layoutX="6.0" layoutY="250.0" prefHeight="11.0" prefWidth="333.0">
+                                      <children>
+                                        <Separator prefHeight="13.0" prefWidth="333.0" />
+                                      </children>
+                                    </HBox>
+                                  </children>
+                                </AnchorPane>
                               </content>
                             </TitledPane>
+                            <fx:reference source="x3" />
                           </panes>
                         </Accordion>
                       </children>
@@ -438,19 +484,7 @@
                       <children>
                         <AnchorPane id="Content" layoutX="78.0" layoutY="195.0" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                           <children>
-                            <Accordion layoutX="29.0" layoutY="-9.0">
-                              <expandedPane>
-                                <TitledPane fx:id="x8" animated="false" text="untitled" />
-                              </expandedPane>
-                              <panes>
-                                <TitledPane animated="false" text="untitled">
-                                  <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                  </content>
-                                </TitledPane>
-                                <fx:reference source="x8" />
-                              </panes>
-                            </Accordion>
+                            <Accordion expandedPane="$null" layoutX="29.0" layoutY="-9.0" />
                           </children>
                         </AnchorPane>
                         <AnchorPane id="Content" layoutX="7.0" layoutY="6.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
