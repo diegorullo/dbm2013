@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.TreeMap;
+
 
 import com.google.common.collect.Table;
 
@@ -21,14 +24,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Paper;
@@ -129,12 +136,18 @@ public class GUIController implements Initializable {
 	@FXML
 	private TableColumn<Author, String> colPapers;
 
-	// Results TextArea - controls injection
+	// Output - controls injection
 	@FXML
 	private static TextArea resultsTextArea;
 	
 	@FXML
 	private static GridPane	resultsGridPane;
+	
+	@FXML
+	private static ListView<String> resultsListView;
+	
+	@FXML
+	private static Label resultsLabel;
 
 	//FIXME: Warning soppressi, ma bisogna ancora parametrizzare i riferimenti ai tipi generici
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -586,10 +599,11 @@ public class GUIController implements Initializable {
 			phase2Task1bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					resultsTextArea.clear();
-					resultsTextArea.setText("Attendere prego!\n");
+					
+
 					String modello = phase2Task1bModelComboBox.getValue();
 					String authorid = phase2Task1bAuthorIDComboBox.getValue();
+					ObservableList p2t1bOL = FXCollections.observableArrayList();
 					try {
 						if (authorid != null && !authorid.equals("")) {
 							Corpus dblp = Main.getDblp();
@@ -602,6 +616,15 @@ public class GUIController implements Initializable {
 								output = "Similar authors ranked by keyword vector:\n"
 										+ "-----------------------------------------------------\n"
 										+ lhmOut.toString();
+								resultsLabel.setText("Similar authors ranked by keyword vector:");
+								ArrayList<String> similarAuthors = new ArrayList<String>();
+								Set<Entry<String, Double>> lEntrySet = lhmOut.entrySet();
+								for (Entry<String, Double> e: lEntrySet){
+									p2t1bOL.add("[" + e.getValue() + "] " + e.getKey());
+								}
+								
+								
+								
 							} else if (modello.equals("vettori di differenziazione (TFIDF2)")) {
 								lhmOut = author.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
 								output = "Similar authors ranked by TFIDF2 vector:\n"
@@ -623,7 +646,7 @@ public class GUIController implements Initializable {
 										+ "-----------------------------------------------------\n"
 										+ lhmOut.toString();
 							}
-							resultsTextArea.setText(output);
+							resultsListView.setItems(p2t1bOL);
 						} else {
 							resultsTextArea.setText("authorid non valido!");
 						}
@@ -763,33 +786,60 @@ public class GUIController implements Initializable {
 					});
 
 			// PHASE 2 - Task 2a - EVENT HANDLER
+//			phase2Task2aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+//				@Override
+//				public void handle(ActionEvent event) {
+//					resultsTextArea.clear();
+//					resultsTextArea.setText("Attendere prego!\n");
+//					Corpus dblp = Main.getDblp();
+//					
+//					ArrayList<ArrayList<Double>> top3SVDOut = new ArrayList<ArrayList<Double>>();
+//					String startingDirectory = System.getProperty("user.dir");
+//		            String path = startingDirectory + "/../data/";
+//		            String fileName = "SimilarityMatrixAuthor.csv";
+//					try {
+//						top3SVDOut = dblp.getTop3SVDAuthor(path, fileName);
+//					} catch (MatlabConnectionException
+//							| MatlabInvocationException
+//							| AuthorWithoutPapersException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					String output = null;
+//					output = "Top 3 SVD Author:\n"
+//										+ "-----------------------------------------------------\n"
+//										+ top3SVDOut.toString();
+//							
+//					resultsTextArea.setText(output);														
+//				}
+//			});
+			
 			phase2Task2aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					resultsTextArea.clear();
-					resultsTextArea.setText("Attendere prego!\n");
-					Corpus dblp = Main.getDblp();
-					
-					ArrayList<ArrayList<Double>> top3SVDOut = new ArrayList<ArrayList<Double>>();
-					String startingDirectory = System.getProperty("user.dir");
-		            String path = startingDirectory + "/../data/";
-		            String fileName = "SimilarityMatrixAuthor.csv";
-					try {
-						top3SVDOut = dblp.getTop3SVDAuthor(path, fileName);
-					} catch (MatlabConnectionException
-							| MatlabInvocationException
-							| AuthorWithoutPapersException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+                @Override
+                public void handle(ActionEvent event) {
+                	
+					 Corpus dblp = Main.getDblp();
+					 ArrayList<String> papersList = new ArrayList<String>();
+					        
+					 for(Paper p : dblp.getPapers()) {
+						 papersList.add("(" + p.getPaperID() + ") " + p.getTitle());
 					}
-					String output = null;
-					output = "Top 3 SVD Author:\n"
-										+ "-----------------------------------------------------\n"
-										+ top3SVDOut.toString();
-							
-					resultsTextArea.setText(output);														
-				}
-			});
+					ObservableList<String> observableList = FXCollections.observableArrayList(papersList);
+					
+					TextArea resultsTextArea2 = new TextArea();
+					resultsTextArea2.clear();
+					resultsTextArea2.setText(papersList.toString());
+                	 
+					 Stage stage = new Stage();
+					 AnchorPane resultPane = new AnchorPane();
+					 resultPane.getChildren().add(resultsTextArea2);
+					 Scene resultScene = new Scene(resultPane);
+					 stage.setScene(resultScene);
+					 stage.centerOnScreen();
+					 stage.setTitle("Results");
+					 stage.show();                                                                                
+                }
+        });
 			
 			// PHASE 2 - Task 2b - EVENT HANDLER
 			phase2Task2bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
