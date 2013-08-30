@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
+import com.google.common.collect.Table;
+
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 
@@ -34,6 +36,7 @@ import exceptions.AuthorWithoutPapersException;
 import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoPaperWithSuchIDException;
 import exceptions.NoSuchTechniqueException;
+import exceptions.WrongClusteringException;
 
 public class GUIController implements Initializable {
 
@@ -107,6 +110,14 @@ public class GUIController implements Initializable {
 	// PHASE 2 - Task 2b - controls injection
 	@FXML
 	private Button phase2Task2bExecuteButton;
+	
+	// PHASE 2 - Task 3a - controls injection
+	@FXML
+	private Button phase2Task3aExecuteButton;
+	
+	// PHASE 2 - Task 3b - controls injection
+	@FXML
+	private Button phase2Task3bExecuteButton;
 	
 	// exploreDB - controls injection
 	@FXML
@@ -221,6 +232,7 @@ public class GUIController implements Initializable {
 			public void handle(ActionEvent event) {
 
 				// System.out.println("hai premuto submit (task 1)\n");
+				resultsTextArea.setStyle("-fx-font-family: monospace");
 				resultsTextArea.clear();
 				resultsTextArea.setText("Attendere prego!\n");
 				String modello = phase1Task1ModelComboBox.getValue();
@@ -803,7 +815,7 @@ public class GUIController implements Initializable {
 						e.printStackTrace();
 					}
 					String output = null;
-					output = "Top 3 SVD Author:\n"
+					output = "Top 3 SVD CoAuthor:\n"
 										+ "-----------------------------------------------------\n"
 										+ top3SVDCoAuthorOut.toString();
 							
@@ -811,14 +823,87 @@ public class GUIController implements Initializable {
 				}
 			});
 			
-			//PHASE 2 - 2A
-			//TODO: da Corpus: 177 (OK)
-			//PHASE 2 - 2B
-			//TODO: da Corpus: 245 (OK)
-			//PHASE 2 - 3A
-			//TODO: da Corpus: 260
-			//PHASE 2 - 3B
-			//TODO: da Corpus: 383	
+			// PHASE 2 - Task 3a - EVENT HANDLER
+			phase2Task3aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsTextArea.clear();
+					resultsTextArea.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+					
+					TreeMap<Integer, ArrayList<Author>> clustersBasedOnConcepts = new TreeMap<Integer, ArrayList<Author>>();
+					
+					String startingDirectory = System.getProperty("user.dir");
+		            String path = startingDirectory + "/../data/";
+		            String fileName = "SimilarityMatrixAuthorForClusters.csv";
+					
+					try {
+						clustersBasedOnConcepts = dblp.getClustersBasedOnConcepts(path, fileName);
+					} catch (MatlabConnectionException
+							| MatlabInvocationException
+							| AuthorWithoutPapersException
+							| NoAuthorsWithSuchIDException
+							| WrongClusteringException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println("Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author");
+					System.out.println("Gruppo autori caratterizzati dalla semantica 1:");
+					Printer.printAuthorsList(clustersBasedOnConcepts.get(0));
+					System.out.println("Gruppo autori caratterizzati dalla semantica 2:");
+					Printer.printAuthorsList(clustersBasedOnConcepts.get(1));
+					System.out.println("Gruppo autori caratterizzati dalla semantica 3:");
+					Printer.printAuthorsList(clustersBasedOnConcepts.get(2));
+					
+					String output = null;
+					output = "Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author:\n"
+										+ "-----------------------------------------------------\n"
+										+ "Gruppo autori caratterizzati dalla semantica 1:\n"
+										+ clustersBasedOnConcepts.get(0).toString() + "\n"
+										+ "-----------------------------------------------------\n"
+										+ "Gruppo autori caratterizzati dalla semantica 2:\n"
+										+ clustersBasedOnConcepts.get(1).toString() + "\n"
+										+ "-----------------------------------------------------\n"
+										+ "Gruppo autori caratterizzati dalla semantica 3:\n"
+										+ clustersBasedOnConcepts.get(2).toString() + "\n";
+							 
+					resultsTextArea.setText(output);														
+				}
+			});
+			
+			// PHASE 2 - Task 3b - EVENT HANDLER
+			phase2Task3bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsTextArea.clear();
+					resultsTextArea.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+					
+					Table<Integer, String, Double> conceptsKeywordVectors = null;
+					
+					String startingDirectory = System.getProperty("user.dir");
+		            String path = startingDirectory + "/../data/";
+		            String fileName = "SimilarityMatrixAuthorForConceptsVectors.csv";		            
+		            try {
+						conceptsKeywordVectors = dblp.getConceptsKeywordVectors(path, fileName);
+					} catch (MatlabConnectionException
+							| MatlabInvocationException
+							| AuthorWithoutPapersException
+							| NoAuthorsWithSuchIDException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		            System.out.println("Matrice Concetti Keyword");
+		            System.out.println("-----------------------------------------------");
+		            Printer.printConceptsKeywordsTableWithCaptions(conceptsKeywordVectors);
+					
+					String output = null;
+					output = "Matrice Concetti Keyword\n"
+										+ "-----------------------------------------------------\n"
+										+ conceptsKeywordVectors.toString() + "\n";							 
+					resultsTextArea.setText(output);														
+				}
+			});
 
 		}
 
