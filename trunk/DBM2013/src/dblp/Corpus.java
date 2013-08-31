@@ -506,7 +506,7 @@ public class Corpus {
 	/**
 	 * Create un grafo degli articoli di cui si e’ stati coautori, in cui esiste un arco
 	 * tra due articoli se condividono almeno un autore, e in cui i pesi rappresentano la similarita'
-	 * tra i corrispondenti articoli misurata in termini di TF keyword-vectors o TF-IDF keyword-vectors.
+	 * tra i corrispondenti articoli misurata in termini di TF-IDF keyword-vectors.
 	 * 
 	 * @return Graph grafo degli articoli
 	 * @throws NoAuthorsWithSuchIDException 
@@ -641,7 +641,7 @@ public class Corpus {
     	}       	
 	}
 	
-	// Phase 3 - Task 2 (Clustering)
+	// Phase 3 - Task 3 (Clustering)
 	// -- rimossi metodi "home made" (presenti fino a rev. 340) --
 	// -- per questa fase vedere la src.utils.Clusterer.java --
 	

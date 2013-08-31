@@ -28,14 +28,26 @@
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <HBox layoutX="14.0" minHeight="20.0" prefHeight="20.0" prefWidth="325.0" AnchorPane.bottomAnchor="481.0" AnchorPane.topAnchor="10.0">
+                                    <HBox minHeight="20.0" prefHeight="20.0" prefWidth="-1.0" AnchorPane.bottomAnchor="391.5" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="99.5">
                                       <children>
                                         <Label text="Paper:">
                                           <HBox.margin>
                                             <Insets right="10.0" fx:id="x4000" />
                                           </HBox.margin>
                                         </Label>
-                                        <ComboBox fx:id="phase1Task1PaperIDComboBox" promptText="Paper ID">
+                                        <ComboBox fx:id="phase1Task1PaperIDComboBox" prefHeight="21.0" prefWidth="75.0" promptText="Paper ID">
+                                          <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                              <String fx:value="Item 1" />
+                                              <String fx:value="Item 2" />
+                                              <String fx:value="Item 3" />
+                                            </FXCollections>
+                                          </items>
+                                          <HBox.margin>
+                                            <Insets right="10.0" fx:id="x4000" />
+                                          </HBox.margin>
+                                        </ComboBox>
+                                        <ComboBox fx:id="phase1Task1ModelComboBox" prefHeight="21.0" prefWidth="75.0" promptText="Model" HBox.margin="$x4000">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -44,27 +56,29 @@
                                             </FXCollections>
                                           </items>
                                         </ComboBox>
-                                        <ComboBox fx:id="phase1Task1ModelComboBox" promptText="Model">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                        </ComboBox>
-                                        <Button fx:id="phase1Task1ExecuteButton" mnemonicParsing="false" text="Execute" />
+                                        <Button fx:id="phase1Task1ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="14.0" layoutY="39.0" prefHeight="21.0" prefWidth="325.0">
+                                    <HBox layoutY="129.0" prefHeight="21.0" prefWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                       <children>
-                                        <Label text="Title:" />
-                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task1TitleLabel" prefWidth="289.0" text="..." />
+                                        <Label prefWidth="36.0" text="Title:" />
+                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task1TitleLabel" prefWidth="289.0" text="...">
+                                          <HBox.margin>
+                                            <Insets fx:id="x8" />
+                                          </HBox.margin>
+                                        </Label>
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="14.0" layoutY="68.0" prefHeight="100.0" prefWidth="316.0">
+                                    <HBox layoutY="14.0" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                       <children>
-                                        <Label prefHeight="92.0" prefWidth="316.0" text="Stampa a video il keyword vector, sotto forma di sequenza di coppie keyword-weight, ordinate in modo decrescente rispetto ai pesi, per l’articolo selezionato, rispetto al modello di pesi considerato (TF/TF-IDF)." textFill="#001899" wrapText="true" />
+                                        <Label prefHeight="-1.0" prefWidth="325.0" text="Stampa a video il keyword vector, sotto forma di sequenza di coppie keyword-weight, ordinate in modo decrescente rispetto ai pesi, per l’articolo selezionato, rispetto al modello di pesi considerato (TF oppure TFIDF)." wrapText="true">
+                                          <textFill>
+                                            <Color blue="0.600" green="0.094" red="0.000" fx:id="x9" />
+                                          </textFill>
+                                          <HBox.margin>
+                                            <Insets bottom="20.0" fx:id="x15" />
+                                          </HBox.margin>
+                                        </Label>
                                       </children>
                                     </HBox>
                                   </children>
@@ -78,14 +92,14 @@
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="73.0" prefWidth="351.0">
                                   <children>
-                                    <HBox layoutX="14.0" minHeight="20.0" prefHeight="29.0" prefWidth="325.0" AnchorPane.bottomAnchor="477.0" AnchorPane.topAnchor="14.0">
+                                    <HBox minHeight="20.0" prefHeight="-1.0" prefWidth="325.0" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="98.0">
                                       <children>
                                         <Label text="Author:">
                                           <HBox.margin>
                                             <Insets right="10.0" fx:id="x5000" />
                                           </HBox.margin>
                                         </Label>
-                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase1Task2AuthorIDComboBox" promptText="Author ID">
+                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase1Task2AuthorIDComboBox" prefHeight="21.0" prefWidth="80.0" promptText="Author ID" HBox.margin="$x4000">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -93,11 +107,8 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2000" />
-                                          </HBox.margin>
                                         </ComboBox>
-                                        <ComboBox id="phase1Task1ModelComboBox" fx:id="phase1Task2ModelComboBox" promptText="Model">
+                                        <ComboBox id="phase1Task1ModelComboBox" fx:id="phase1Task2ModelComboBox" prefWidth="75.0" promptText="Model" HBox.margin="$x4000">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -105,26 +116,23 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2001" />
-                                          </HBox.margin>
                                         </ComboBox>
-                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task2ExecuteButton" mnemonicParsing="false" text="Execute" />
+                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task2ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="13.0" layoutY="43.0" prefHeight="21.0" prefWidth="325.0">
+                                    <HBox layoutY="127.0" prefHeight="21.0" prefWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                       <children>
                                         <Label prefWidth="61.0" text="Author:">
                                           <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5001" />
+                                            <Insets right="10.0" fx:id="x50099" />
                                           </HBox.margin>
                                         </Label>
                                         <Label id="phase1Text1TitleLabel" fx:id="phase1Task2TitleLabel" prefWidth="290.0" text="..." />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="14.0" layoutY="64.0" prefHeight="117.0" prefWidth="326.0">
+                                    <HBox prefHeight="-1.0" prefWidth="326.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                       <children>
-                                        <Label prefHeight="124.0" prefWidth="325.0" text="Stampa a video di un ”combined keyword vector” per un dato autore, secondo il modello vettoriale selezionato. Nel ”combined keyword vector”, gli articoli piu’ recenti pesano di piu’ di quelli piu’ vecchi." textAlignment="JUSTIFY" wrapText="true">
+                                        <Label prefHeight="-1.0" prefWidth="-1.0" text="Stampa a video di un ”combined keyword vector” per un dato autore, secondo il modello vettoriale selezionato. Nel ”combined keyword vector”, gli articoli piu’ recenti pesano piu’ di quelli piu’ vecchi." textAlignment="JUSTIFY" wrapText="true" HBox.margin="$x15">
                                           <textFill>
                                             <Color blue="0.600" green="0.096" red="0.000" fx:id="x2" />
                                           </textFill>
@@ -139,14 +147,14 @@
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <HBox layoutX="14.0" minHeight="20.0" prefHeight="29.0" prefWidth="325.0" AnchorPane.bottomAnchor="477.0" AnchorPane.topAnchor="14.0">
+                                    <HBox minHeight="20.0" prefHeight="29.0" prefWidth="325.0" AnchorPane.bottomAnchor="377.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="114.0">
                                       <children>
                                         <Label text="Author:">
                                           <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5" />
+                                            <Insets right="10.0" fx:id="x5004" />
                                           </HBox.margin>
                                         </Label>
-                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase1Task3AuthorIDComboBox" promptText="Author ID">
+                                        <ComboBox id="phase1Task1PaperIDComboBox" fx:id="phase1Task3AuthorIDComboBox" prefHeight="21.0" prefWidth="80.0" promptText="Author ID">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -155,10 +163,10 @@
                                             </FXCollections>
                                           </items>
                                           <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2014" />
+                                            <Insets right="10.0" fx:id="x5005" />
                                           </HBox.margin>
                                         </ComboBox>
-                                        <ComboBox id="phase1Task1ModelComboBox" fx:id="phase1Task3ModelComboBox" promptText="Model">
+                                        <ComboBox id="phase1Task1ModelComboBox" fx:id="phase1Task3ModelComboBox" prefWidth="75.0" promptText="Model" HBox.margin="$x4000">
                                           <items>
                                             <FXCollections fx:factory="observableArrayList">
                                               <String fx:value="Item 1" />
@@ -166,26 +174,23 @@
                                               <String fx:value="Item 3" />
                                             </FXCollections>
                                           </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2003" />
-                                          </HBox.margin>
                                         </ComboBox>
-                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" text="Execute">
+                                        <Button id="phase1Task1ExecuteButton" fx:id="phase1Task3ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
                                           <HBox.margin>
                                             <Insets right="20.0" fx:id="x2004" />
                                           </HBox.margin>
                                         </Button>
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="14.0" layoutY="43.0" prefHeight="21.0" prefWidth="325.0">
+                                    <HBox layoutY="143.0" prefHeight="21.0" prefWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                       <children>
-                                        <Label prefWidth="56.0" text="Author:" />
-                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task3TitleLabel" prefWidth="289.0" text="..." />
+                                        <Label prefWidth="43.0" text="Author:" />
+                                        <Label id="phase1Text1TitleLabel" fx:id="phase1Task3TitleLabel" prefWidth="267.0" text="..." />
                                       </children>
                                     </HBox>
-                                    <HBox layoutX="14.0" layoutY="64.0" prefHeight="147.5" prefWidth="325.0">
+                                    <HBox prefHeight="-1.0" prefWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                       <children>
-                                        <Label prefHeight="155.0" prefWidth="325.0" text="Stampa il vettore delle chiavi per un dato autore rispetto al modello vettoriale selezionato ( TF-IDF2 and PF).Il vettore è costruito considerando tutti i coautori di un dato autore e mette in luce il modo in cui gli articoli dell’autore dato differiscono da quelli dei suoi coautori." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
+                                        <Label prefHeight="-1.0" prefWidth="325.0" text="Stampa il vettore delle chiavi per un dato autore rispetto al modello vettoriale selezionato (TFIDF2 o PF). Il vettore è costruito considerando tutti i coautori di un dato autore e mette in luce il modo in cui gli articoli dell’autore dato differiscono da quelli dei suoi coautori." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" HBox.margin="$x15" />
                                       </children>
                                     </HBox>
                                   </children>
@@ -208,49 +213,42 @@
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <HBox layoutX="7.0" layoutY="7.0" prefHeight="18.0" prefWidth="332.0">
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <children>
-                                        <Label text="3.a" textFill="$x2" />
+                                        <Label text="3.a) Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarita’coauthor-coauthor (o author-author) e suddivida gli autori in 3 gruppo sulla base del loro grado di appartenenza alle 3 semantiche." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12004" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="17.0" prefWidth="332.0">
+                                          <children>
+                                            <Button fx:id="phase2Task3aExecuteButton" mnemonicParsing="false" text="Execute">
+                                              <HBox.margin>
+                                                <Insets left="140.0" right="140.0" fx:id="x7" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" fx:id="x16001" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="332.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" fx:id="x16001" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="3.b) Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarita’coauthor-coauthor (o author-author) e associ un keyword vector a ciascuna semantica/gruppo sulla base dei keyword vector degli autori e del loro grado di appartenenza alla corrispondente semantica latente/gruppo." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="24.0" prefWidth="332.0" VBox.margin="$x8">
+                                          <children>
+                                            <Button id="phase2Task3bButton" fx:id="phase2Task3bExecuteButton" mnemonicParsing="false" text="Execute" textAlignment="JUSTIFY" HBox.margin="$x7" />
+                                          </children>
+                                        </HBox>
                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="7.0" layoutY="25.0" prefHeight="17.0" prefWidth="332.0">
-                                      <children>
-                                        <Button fx:id="phase2Task3aExecuteButton" mnemonicParsing="false" text="Execute">
-                                          <HBox.margin>
-                                            <Insets left="140.0" />
-                                          </HBox.margin>
-                                        </Button>
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="7.0" layoutY="46.0" prefHeight="82.0" prefWidth="332.0">
-                                      <children>
-                                        <Label prefHeight="79.0" prefWidth="332.0" text="Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarita’coauthor-coauthor (o author-author) e suddivida gli autori in 3 gruppo sulla base del loro grado di appartenenza alle 3 semantiche." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="7.0" layoutY="128.0" prefHeight="20.0" prefWidth="332.0">
-                                      <children>
-                                        <Separator prefWidth="332.0" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="7.0" layoutY="148.0" prefHeight="21.0" prefWidth="332.0">
-                                      <children>
-                                        <Label text="3.b" textFill="$x2" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="7.0" layoutY="169.0" prefHeight="24.0" prefWidth="332.0">
-                                      <children>
-                                        <Button id="phase2Task3bButton" fx:id="phase2Task3bExecuteButton" mnemonicParsing="false" text="Execute" textAlignment="JUSTIFY">
-                                          <HBox.margin>
-                                            <Insets left="140.0" />
-                                          </HBox.margin>
-                                        </Button>
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="7.0" layoutY="193.0" prefHeight="106.0" prefWidth="324.0">
-                                      <children>
-                                        <Label prefWidth="324.0" text="Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarita’coauthor-coauthor (o author-author) e associ un keyword vector a ciascuna semantica/gruppo sulla base dei keywordvectorsdegli autori e del loro grado di appartenenza alla corrispondente semantica latente/gruppo." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
+                                    </VBox>
                                   </children>
                                 </AnchorPane>
                               </content>
@@ -261,212 +259,204 @@
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <HBox layoutX="13.0" layoutY="14.0" prefHeight="16.0" prefWidth="328.0">
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <children>
-                                        <Label prefHeight="78.0" prefWidth="326.0" text="1.a" textFill="#0021cc" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="12.0" layoutY="30.0" prefHeight="22.0" prefWidth="308.0">
-                                      <children>
-                                        <Label prefWidth="49.0" text="Author:">
-                                          <HBox.margin>
-                                            <Insets right="10.0" top="2.0" />
-                                          </HBox.margin>
+                                        <Label prefHeight="-1.0" prefWidth="-1.0" text="1.a) Restituisce le top-5 semantiche latenti (topics) utilizzando, PCA (nello spazio TFIDF), e SVD (nello spazio TFIDF)." textFill="$x9" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12005" />
+                                          </VBox.margin>
                                         </Label>
-                                        <ComboBox id="phase2Task1aPaperIDComboBox" fx:id="phase2Task1aAuthorIDComboBox" promptText="Author ID">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                        </ComboBox>
-                                        <ComboBox fx:id="phase2Task1aModelComboBox" promptText="Model">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                        </ComboBox>
-                                        <Button fx:id="phase2Task1aExecuteButton" mnemonicParsing="false" prefWidth="72.0" text="Execute" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="13.0" layoutY="52.0" prefHeight="24.0" prefWidth="310.0">
-                                      <children>
-                                        <Label prefWidth="46.0" text="Author:" />
-                                        <Label fx:id="phase2Task1aTitleLabel" prefWidth="231.0" text="..." />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="7.0" layoutY="85.0" prefHeight="40.0" prefWidth="332.0">
-                                      <children>
-                                        <Label text="Restituisce le top-5 semantiche latenti (topics) utilizzando, PCA (nello spazio TF-IDF), e SVD (nello spazio TF-IDF)." textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
-                                    <HBox id="HBox" alignment="CENTER" layoutX="9.0" layoutY="134.0" spacing="5.0">
-                                      <children>
-                                        <Separator prefHeight="19.0" prefWidth="327.0" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="11.0" layoutY="172.0" prefHeight="18.0" prefWidth="319.0">
-                                      <children>
-                                        <Label text="1.b">
-                                          <textFill>
-                                            <Color blue="1.000" green="0.161" red="0.000" fx:id="x7" />
-                                          </textFill>
+                                        <HBox prefHeight="22.0" prefWidth="-1.0">
+                                          <children>
+                                            <Label prefWidth="40.0" text="Author:">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </Label>
+                                            <ComboBox id="phase2Task1aPaperIDComboBox" fx:id="phase2Task1aAuthorIDComboBox" prefHeight="21.0" prefWidth="80.0" promptText="Author ID">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <ComboBox fx:id="phase2Task1aModelComboBox" prefWidth="75.0" promptText="Model">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <Button fx:id="phase2Task1aExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets left="10.0" right="10.0" fx:id="x11004" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <Label prefWidth="40.0" text="Author:">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </Label>
+                                            <Label fx:id="phase2Task1aTitleLabel" prefWidth="277.0" text="..." HBox.margin="$x8" />
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets left="10.0" right="10.0" top="10.0" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefHeight="19.0" prefWidth="-1.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10001" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label prefWidth="-1.0" text="1.b) Restituisce in ordine di similarita’ i 10 autori piu’ simili, confrontando i rispettivi keyword vectors, vettori di differenziazione (TFIDF2 o PF), e le top-5 semantiche latenti (PCA, SVD)." textFill="$x9" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10002" />
+                                          </VBox.margin>
                                         </Label>
+                                        <HBox prefHeight="26.0" prefWidth="-1.0">
+                                          <children>
+                                            <Label prefWidth="40.0" text="Author:">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </Label>
+                                            <ComboBox fx:id="phase2Task1bAuthorIDComboBox" prefHeight="21.0" prefWidth="80.0" promptText="Author ID">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <ComboBox fx:id="phase2Task1bModelComboBox" prefWidth="75.0" promptText="Model">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <Button fx:id="phase2Task1bExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                              <HBox.margin>
+                                                <Insets right="20.0" fx:id="x2013" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <HBox id="HBox" alignment="CENTER" prefWidth="-1.0" spacing="0.0" VBox.margin="$x10000">
+                                          <children>
+                                            <Label prefWidth="40.0" text="Author:">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </Label>
+                                            <Label fx:id="phase2Task1bTitleLabel" prefWidth="277.0" text="..." HBox.margin="$x8" />
+                                          </children>
+                                        </HBox>
+                                        <Separator prefWidth="327.0" VBox.margin="$x10000" />
+                                        <Label text="1.c) Dato un autore, restituisce in ordine di rilevanza gli articoli per lui piu’ rilevanti (di cui lui non e’ autore), basandosi sulla similarita’ tra i seguenti vettori relativi all’utente dato (keyword vector, differentiation vector [TFIDF2 o PF], e top-5 semantiche latenti [PCA, o SVD] ed i document vector degli articoli (TFIDF)." textFill="$x9" wrapText="true" VBox.margin="$x10000" />
+                                        <HBox prefHeight="25.0" prefWidth="-1.0" VBox.margin="$x10000">
+                                          <children>
+                                            <Label text="Author:">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </Label>
+                                            <ComboBox fx:id="phase2Task1cAuthorIDComboBox" prefWidth="80.0" promptText="Author ID">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <ComboBox fx:id="phase2Task1cModelComboBox" prefWidth="75.0" promptText="Model">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <Button fx:id="phase2Task1cExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
+                                          </children>
+                                        </HBox>
+                                        <HBox minHeight="-1.0" prefHeight="20.0" prefWidth="-1.0" VBox.margin="$x10000">
+                                          <children>
+                                            <Label text="Author:">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </Label>
+                                            <Label fx:id="phase2Task1cTitleLabel" prefWidth="249.0" text="..." HBox.margin="$x8" />
+                                          </children>
+                                        </HBox>
                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="14.0" layoutY="190.0" prefHeight="26.0" prefWidth="327.0">
-                                      <children>
-                                        <Label prefWidth="65.0" text="Author:">
-                                          <HBox.margin>
-                                            <Insets right="10.0" fx:id="x5002" />
-                                          </HBox.margin>
-                                        </Label>
-                                        <ComboBox fx:id="phase2Task1bAuthorIDComboBox" promptText="Author">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                        </ComboBox>
-                                        <ComboBox fx:id="phase2Task1bModelComboBox" promptText="Model">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2012" />
-                                          </HBox.margin>
-                                        </ComboBox>
-                                        <Button fx:id="phase2Task1bExecuteButton" mnemonicParsing="false" text="Execute">
-                                          <HBox.margin>
-                                            <Insets right="20.0" fx:id="x2013" />
-                                          </HBox.margin>
-                                        </Button>
-                                      </children>
-                                    </HBox>
-                                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="216.0" spacing="5.0">
-                                      <children>
-                                        <Label text="Author:" />
-                                        <Label fx:id="phase2Task1bTitleLabel" prefWidth="272.0" text="....." />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="12.0" layoutY="232.0" prefHeight="79.0" prefWidth="329.0">
-                                      <children>
-                                        <Label prefHeight="78.0" prefWidth="329.0" text="Restituisce in ordine di similarita’ i 10 autori piu’ simili, confrontando i rispettivi keyword vectors, vettori di differenziazione (TF-IDF2 o PF), e le top-5 semantiche latenti (PCA, SVD)." textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="10.0" layoutY="312.0" prefHeight="15.0" prefWidth="329.0">
-                                      <children>
-                                        <Separator prefWidth="327.0" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="13.0" layoutY="327.0" prefHeight="18.0" prefWidth="327.0">
-                                      <children>
-                                        <Label text="1.c" textFill="$x7" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="11.0" layoutY="345.0" prefHeight="25.0" prefWidth="325.0">
-                                      <children>
-                                        <Label text="Author:" />
-                                        <ComboBox fx:id="phase2Task1cAuthorIDComboBox" promptText="Author">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                        </ComboBox>
-                                        <ComboBox fx:id="phase2Task1cModelComboBox" promptText="Model">
-                                          <items>
-                                            <FXCollections fx:factory="observableArrayList">
-                                              <String fx:value="Item 1" />
-                                              <String fx:value="Item 2" />
-                                              <String fx:value="Item 3" />
-                                            </FXCollections>
-                                          </items>
-                                        </ComboBox>
-                                        <Button fx:id="phase2Task1cExecuteButton" mnemonicParsing="false" text="Execute" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="13.0" layoutY="390.0" prefHeight="116.0" prefWidth="325.0">
-                                      <children>
-                                        <Label prefHeight="107.0" prefWidth="305.0" text="Dato un autore restituisce in ordine di rilevanza gli articoli per lui piu’ rilevanti (di cui lui non e’ autore), basandosi sulla similarita’ tra i seguenti vettori relativi all’utente dato (keyword vector, differentiation vector [TF-IDF2 or PF], e top-5 semantiche latenti [PCA, o SVD]ed i document vector degli articoli (TF-IDF)." textAlignment="JUSTIFY" textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="13.0" layoutY="370.0" minHeight="12.0" prefHeight="20.0" prefWidth="305.0">
-                                      <children>
-                                        <Label text="Author:" />
-                                        <Label fx:id="phase2Task1cTitleLabel" text="....." />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="12.0" layoutY="503.0" prefHeight="11.0" prefWidth="305.0">
-                                      <children>
-                                        <Separator prefHeight="13.0" prefWidth="305.0" />
-                                      </children>
-                                    </HBox>
+                                    </VBox>
                                   </children>
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane id="x5" animated="false" text="Task 2">
+                            <TitledPane id="x5006" animated="false" text="Task 2">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <HBox layoutX="6.0" prefHeight="23.0" prefWidth="339.0">
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <children>
-                                        <Label prefWidth="28.0" text="2.a" textFill="$x2" />
+                                        <Label prefHeight="-1.0" prefWidth="-1.0" text="2.a) Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrice di similarita’ author-author creata utilizzando i keyword vector, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12004" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox minHeight="6.0" prefHeight="26.0" prefWidth="347.0">
+                                          <children>
+                                            <Button fx:id="phase2Task2aExecuteButton" contentDisplay="CENTER" mnemonicParsing="false" text="Execute" textAlignment="CENTER" HBox.margin="$x7" />
+                                          </children>
+                                          <padding>
+                                            <Insets bottom="10.0" fx:id="x16001" />
+                                          </padding>
+                                        </HBox>
+                                        <Separator prefHeight="13.0" prefWidth="333.0" VBox.margin="$x10000" />
+                                        <Label prefHeight="-1.0" prefWidth="-1.0" text="2.b) Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrice di similarita’ coauthor-coauthor creata utilizzando i keyword vector, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" VBox.margin="$x10000" />
+                                        <HBox prefHeight="24.0" prefWidth="333.0">
+                                          <children>
+                                            <Button fx:id="phase2Task2bExecuteButton" mnemonicParsing="false" text="Execute" HBox.margin="$x7" />
+                                          </children>
+                                        </HBox>
                                       </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="17.0" minHeight="6.0" prefHeight="26.0" prefWidth="347.0">
-                                      <children>
-                                        <Button fx:id="phase2Task2aExecuteButton" contentDisplay="CENTER" mnemonicParsing="false" text="Execute" textAlignment="CENTER">
-                                          <HBox.margin>
-                                            <Insets left="130.0" fx:id="x9" />
-                                          </HBox.margin>
-                                        </Button>
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="38.0" prefHeight="80.0" prefWidth="355.0">
-                                      <children>
-                                        <Label prefHeight="92.0" prefWidth="355.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ author-author creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="118.0" prefHeight="23.0" prefWidth="333.0">
-                                      <children>
-                                        <Separator prefHeight="12.0" prefWidth="333.0" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="130.0" prefHeight="16.0" prefWidth="333.0">
-                                      <children>
-                                        <Label text="2.b" textFill="$x2" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="146.0" prefHeight="24.0" prefWidth="333.0">
-                                      <children>
-                                        <Button fx:id="phase2Task2bExecuteButton" mnemonicParsing="false" text="Execute" HBox.margin="$x9" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="170.0" prefHeight="80.0" prefWidth="333.0">
-                                      <children>
-                                        <Label prefHeight="78.0" prefWidth="333.0" text="Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrix di similarita’ coauthor-coauthor creata utilizzando i keyword vectors, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" />
-                                      </children>
-                                    </HBox>
-                                    <HBox layoutX="6.0" layoutY="250.0" prefHeight="11.0" prefWidth="333.0">
-                                      <children>
-                                        <Separator prefHeight="13.0" prefWidth="333.0" />
-                                      </children>
-                                    </HBox>
+                                    </VBox>
                                   </children>
                                 </AnchorPane>
                               </content>
@@ -488,6 +478,220 @@
                           </children>
                         </AnchorPane>
                         <AnchorPane id="Content" layoutX="7.0" layoutY="6.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <expandedPane>
+                            <TitledPane fx:id="x5" animated="false" text="Task 1 - 2">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <children>
+                                        <Label text="Task 1) Crea il grafo dei coautori pesato, in cui c'e' un arco tra due autori se sono stati coautori di almeno un articolo, il cui peso rappresenta la similarita' dei corrispondenti autori, misurata in termini di keyword vector." textFill="$x9" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12001" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="200.0">
+                                          <children>
+                                            <Button id="phase2Task3aExecuteButton" fx:id="phase3Task1ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                              <HBox.margin>
+                                                <Insets left="140.0" fx:id="x13002" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10004" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="200.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10005" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="Task 2) Crea il grafo degli articoli di cui si e’ stati coautori, in cui esiste un arco tra due articoli se condividono almeno un autore, e in cui i pesi rappresentano la similarita' tra i corrispondenti articoli, misurata in termini di TFIDF keyword vector." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10006" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <Button fx:id="phase3Task2ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                              <HBox.margin>
+                                                <Insets left="140.0" fx:id="x13001" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets left="10.0" right="10.0" fx:id="x11002" />
+                                          </VBox.margin>
+                                        </HBox>
+                                      </children>
+                                    </VBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </expandedPane>
+                          <panes>
+                            <fx:reference source="x5" />
+                            <TitledPane fx:id="x14" animated="false" text="Task 3 - 4">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <children>
+                                        <Label text="Task 3) Dato il grafo dei “co-autori”, identifica K cluster (con K dato in input), usando un algoritmo a scelta tra SimpleKMeans o FarthestFirst." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12002" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <TextField fx:id="phase3Task3TextField" prefWidth="85.0" text="# clusters (K)">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x5001" />
+                                              </HBox.margin>
+                                            </TextField>
+                                            <ComboBox id="phase3Task4ComboBox" fx:id="phase3Task3ComboBox" prefWidth="85.0" promptText="Algorithm">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x5002" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <Button fx:id="phase3Task3ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                              <HBox.margin>
+                                                <Insets fx:id="x8" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10007" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="200.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10008" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="Task 4) Dato il grafo dei “co-autori”, individua ed elenca i K nodi maggiormente dominanti utilizzando l’algoritmo PageRank (PR), per un valore K dato in input." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10009" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <TextField fx:id="phase3Task4TextField" prefWidth="85.0" text="# nodes (K)">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x5003" />
+                                              </HBox.margin>
+                                            </TextField>
+                                            <Button fx:id="phase3Task4ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                              <HBox.margin>
+                                                <Insets fx:id="x8" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets left="10.0" right="10.0" fx:id="x11003" />
+                                          </VBox.margin>
+                                        </HBox>
+                                      </children>
+                                    </VBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                            <TitledPane fx:id="x17" animated="false" text="Task 5 - 7">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <children>
+                                        <Label text="Task 5) Dato il grafo dei “co-autori” e dato un autore, individua ed elenca i K nodi più simili dal punto di vista del contenuto (per un valore K dato in input)." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12006" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <ComboBox fx:id="phase3Task5ComboBox" prefWidth="80.0" promptText="Author ID">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x5007" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <TextField fx:id="phase3Task5TextField" prefWidth="85.0" text="# nodes (K)">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </TextField>
+                                            <Button fx:id="phase3Task5ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10003" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="200.0" VBox.margin="$x10000" />
+                                        <Label text="Task 6) Dato il grafo dei “co-autori” e dato un autore, individua ed elenca i K nodi più simili dal punto di vista strutturale, utilizzando il Personalized PageRank (PPR) (per un valore K dato in input)." textFill="$x2" wrapText="true" VBox.margin="$x10000" />
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0" VBox.margin="$x10000">
+                                          <children>
+                                            <ComboBox fx:id="phase3Task6ComboBox" prefWidth="80.0" promptText="Author ID">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <TextField fx:id="phase3Task6TextField" prefWidth="85.0" text="# nodes (K)">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </TextField>
+                                            <Button fx:id="phase3Task6ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
+                                          </children>
+                                          <padding>
+                                            <Insets fx:id="x8" />
+                                          </padding>
+                                        </HBox>
+                                        <Separator prefWidth="200.0" VBox.margin="$x10000" />
+                                        <Label text="Task 7: Implementa un algoritmo di relevance feedback probabilistico per modificare l’ importanza delle chiavi per migliorare l’accuratezza dei match rispetto al contenuto. Il sistema restituisce in output le revisioni suggerite nell’importanza relativa delle chiavi nella query." textFill="$x2" wrapText="true" VBox.margin="$x10000" />
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <Button fx:id="phase3Task7ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                              <HBox.margin>
+                                                <Insets left="140.0" fx:id="x13001" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets left="10.0" right="10.0" fx:id="x11001" />
+                                          </VBox.margin>
+                                        </HBox>
+                                      </children>
+                                    </VBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </panes>
+                        </Accordion>
                       </children>
                     </AnchorPane>
                   </content>
@@ -529,11 +733,23 @@
                 <ListView fx:id="resultsListView" prefHeight="200.0" prefWidth="200.0" />
               </center>
               <top>
-                <HBox prefHeight="45.0" prefWidth="437.0">
+                <VBox prefHeight="-1.0" prefWidth="100.0">
                   <children>
-                    <Label fx:id="resultsLabel" text="Label" />
+                    <Label id="resultsLabel" fx:id="resultsTitle" text="Query results:">
+                      <font>
+                        <Font name="System Bold" size="14.0" />
+                      </font>
+                      <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12003" />
+                      </VBox.margin>
+                    </Label>
+                    <Label fx:id="resultsLabel" text="...">
+                      <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10010" />
+                      </VBox.margin>
+                    </Label>
                   </children>
-                </HBox>
+                </VBox>
               </top>
             </BorderPane>
           </children>
