@@ -3,21 +3,11 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
-
-
-import com.google.common.collect.Table;
-
-import matlabcontrol.MatlabConnectionException;
-import matlabcontrol.MatlabInvocationException;
-
-import utils.IO;
-import utils.Printer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,14 +20,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import matlabcontrol.MatlabConnectionException;
+import matlabcontrol.MatlabInvocationException;
+import utils.IO;
+import utils.Printer;
+
+import com.google.common.collect.Table;
+
 import dblp.Author;
 import dblp.Corpus;
 import dblp.Paper;
@@ -49,7 +46,6 @@ import exceptions.WrongClusteringException;
 
 public class GUIController implements Initializable {
 
-	private final static boolean PRINT_ON_CONSOLE = true;
 	private final static boolean PRINT_ON_FILE = !true;
 
 	// PHASE 1 - Task 1 - controls injection
@@ -516,35 +512,6 @@ public class GUIController implements Initializable {
 		phase2Task1aModelComboBox.getItems().addAll("PCA", "SVD");
 		phase2Task1aModelComboBox.getSelectionModel().selectFirst();
 		phase2Task1aTitleLabel.setText("Nome dell'autore selezionato");
-
-		
-//		// PHASE 2 - Task 2a - EVENT HANDLER
-//		phase2Task2aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//
-//				Corpus dblp = Main.getDblp();
-//				ArrayList<String> papersList = new ArrayList<String>();
-//
-//				for (Paper p : dblp.getPapers()) {
-//					papersList.add("(" + p.getPaperID() + ") " + p.getTitle());
-//				}
-//
-//				TextArea resultsTextArea = new TextArea();
-//				resultsTextArea.clear();
-//				resultsTextArea.setText(papersList.toString());
-//
-//				Stage stage = new Stage();
-//				AnchorPane resultPane = new AnchorPane();
-//				resultPane.getChildren().add(resultsTextArea);
-//				Scene resultScene = new Scene(resultPane);
-//				stage.setScene(resultScene);
-//				stage.centerOnScreen();
-//				stage.setTitle("Results");
-//				stage.show();
-//			}
-//		});
-		
 		
 		// PHASE 2 - Task 1a - EVENT HANDLER
 		phase2Task1aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -555,6 +522,8 @@ public class GUIController implements Initializable {
 				String authorid = phase2Task1aAuthorIDComboBox.getValue();
 				
 				TextArea resultsTextArea = new TextArea();
+				resultsTextArea.clear();
+				resultsTextArea.setPrefColumnCount(Integer.MAX_VALUE);
 				
 				try {
 					if (authorid != null && !authorid.equals("")) {
@@ -570,35 +539,29 @@ public class GUIController implements Initializable {
 								IO.printDocumentTermMatrixOnFile(topNMatrix,"../data/PCA_Top5_"	+ author.getAuthorID() + ".csv");
 							}
 
-							resultsTextArea.clear();
-							
-							resultsTextArea.appendText("\n\nTop-5 latent semantics (PCA) for " + author.getName() + " (" + author.getAuthorID() + "):\n");
+							resultsTextArea.appendText("Top-5 latent semantics (PCA) for " + author.getName() + " (" + author.getAuthorID() + "):\n\n");
 							printDocumentTermMatrixOnTextArea(topNMatrix, author, resultsTextArea);
-							resultsTextArea.appendText("----------------------------------------------------------------------\n");
-
-
+							
 						} else if (modello.equals("SVD")) {
 							String authorID = author.getAuthorID().toString();
-							ArrayList<ArrayList<Double>> vMatrix = author
-									.getSVD(dblp, authorID, 5);
-							ArrayList<TreeMap<String, Double>> topNMatrix = author
-									.getTopN(vMatrix, 5);
+							ArrayList<ArrayList<Double>> vMatrix = author.getSVD(dblp, authorID, 5);
+							ArrayList<TreeMap<String, Double>> topNMatrix = author.getTopN(vMatrix, 5);
 							if (PRINT_ON_FILE) {
 								IO.printDocumentTermMatrixOnFile(topNMatrix, "../data/SVD_Top5_" + author.getAuthorID() + ".csv");
 							}
 							
-							resultsTextArea.clear();
-							
-							resultsTextArea.appendText("\n\nTop-5 latent semantics (SVD) for " + author.getName() + " (" + author.getAuthorID() + "):\n");
+							resultsTextArea.appendText("Top-5 latent semantics (SVD) for " + author.getName() + " (" + author.getAuthorID() + "):\n\n");
 							printDocumentTermMatrixOnTextArea(topNMatrix, author, resultsTextArea);
-							resultsTextArea.appendText("----------------------------------------------------------------------\n");
 						}
 						
 						Stage stage = new Stage();
-						AnchorPane resultPane = new AnchorPane();
-						resultPane.setPrefSize(800, 600);
-						resultPane.getChildren().add(resultsTextArea);
-						resultsTextArea.setPrefSize(Double.MAX_VALUE, Double.MAX_VALUE);
+						ScrollPane resultPane = new ScrollPane();
+						resultPane.setPrefSize(800,250);
+						resultPane.setFitToWidth(true);
+						resultPane.setFitToHeight(true);
+						resultsTextArea.setPrefSize(800,250);
+						resultPane.setContent(resultsTextArea);
+						
 						Scene resultScene = new Scene(resultPane);
 						stage.setScene(resultScene);
 						stage.centerOnScreen();
@@ -619,18 +582,15 @@ public class GUIController implements Initializable {
 			}
 		});
 
-		phase2Task1aAuthorIDComboBox
-				.setOnAction(new EventHandler<ActionEvent>() {
+		phase2Task1aAuthorIDComboBox.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						try {
-							String authorid = phase2Task1aAuthorIDComboBox
-									.getValue();
+							String authorid = phase2Task1aAuthorIDComboBox.getValue();
 							if (authorid != null && !authorid.equals("")) {
 								Corpus dblp = Main.getDblp();
 								Author author = null;
-								author = dblp.getAuthorByID(Integer
-										.parseInt(authorid));
+								author = dblp.getAuthorByID(Integer.parseInt(authorid));
 								String name = author.getName();
 								phase2Task1aTitleLabel.setText(name);
 							} else {
@@ -648,7 +608,7 @@ public class GUIController implements Initializable {
 	// PHASE 2 - Task 1b - controls settings
 			phase2Task1bAuthorIDComboBox.setItems(authorsIDs);
 			phase2Task1bModelComboBox.getItems().clear();
-			phase2Task1bModelComboBox.getItems().addAll("keyword vectors", "vettori di differenziazione (TFIDF2)", "vettori di differenziazione (PF)", "top-5 semantiche latenti (PCA)", "top-5 semantiche latenti (SVD)");
+			phase2Task1bModelComboBox.getItems().addAll("Keyword vector", "TFIDF2 vector", "PF vector", "Top-5 latent semantics (PCA)", "Top-5 latent semantics (SVD)");
 			phase2Task1bModelComboBox.getSelectionModel().selectFirst();
 			phase2Task1bTitleLabel.setText("Nome dell'autore selezionato");
 
@@ -656,54 +616,49 @@ public class GUIController implements Initializable {
 			phase2Task1bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					
-
 					String modello = phase2Task1bModelComboBox.getValue();
 					String authorid = phase2Task1bAuthorIDComboBox.getValue();
-					ObservableList p2t1bOL = FXCollections.observableArrayList();
+					ObservableList resultsObservableList = FXCollections.observableArrayList();
+					
 					try {
 						if (authorid != null && !authorid.equals("")) {
 							Corpus dblp = Main.getDblp();
 							Author author = null;
 							author = dblp.getAuthorByID(Integer.parseInt(authorid));
-							String output = null;
-							LinkedHashMap<String,Double> lhmOut = new LinkedHashMap<String,Double>(); 
-							if (modello.equals("keyword vectors")) {
-								lhmOut = author.getSimilarAuthorsRankedByKeywordVector(dblp);
-								output = "Similar authors ranked by keyword vector:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
+
+							if (modello.equals("Keyword vector")) {								
 								resultsLabel.setText("Similar authors ranked by keyword vector:");
-								ArrayList<String> similarAuthors = new ArrayList<String>();
-								Set<Entry<String, Double>> lEntrySet = lhmOut.entrySet();
-								for (Entry<String, Double> e: lEntrySet){
-									p2t1bOL.add("[" + e.getValue() + "] " + e.getKey());
+								Set<Entry<String, Double>> entrySet = author.getSimilarAuthorsRankedByKeywordVector(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
+								}		
+								
+							} else if (modello.equals("TFIDF2 vector")) {
+								resultsLabel.setText("Similar authors ranked by TFIDF2 vector:");
+								Set<Entry<String, Double>> entrySet = author.getSimilarAuthorsRankedByTFIDF2Vector(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
 								}
-								
-								
-								
-							} else if (modello.equals("vettori di differenziazione (TFIDF2)")) {
-								lhmOut = author.getSimilarAuthorsRankedByTFIDF2Vector(dblp);
-								output = "Similar authors ranked by TFIDF2 vector:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
-							} else if (modello.equals("vettori di differenziazione (PF)")) {
-								lhmOut= author.getSimilarAuthorsRankedByPFVector(dblp);
-								output = "Similar authors ranked by PF vector:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
-							} else if (modello.equals("top-5 semantiche latenti (PCA)")) {
-								lhmOut = author.getSimilarAuthorsRankedByPCA(dblp);
-								output = "Similar authors ranked by PCA:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
-							} else if (modello.equals("top-5 semantiche latenti (SVD)")) {
-								lhmOut = author.getSimilarAuthorsRankedBySVD(dblp);
-								output = "Similar authors ranked by SVD:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
+							} else if (modello.equals("PF vector")) {
+								resultsLabel.setText("Similar authors ranked by PF vector:");
+								Set<Entry<String, Double>> entrySet = author.getSimilarAuthorsRankedByPFVector(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
+								}
+							} else if (modello.equals("Top-5 latent semantics (PCA)")) {								
+								resultsLabel.setText("Similar authors ranked by Top-5 latent semantics (PCA):");
+								Set<Entry<String, Double>> entrySet = author.getSimilarAuthorsRankedByPCA(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
+								}
+							} else if (modello.equals("Top-5 latent semantics (SVD)")) {
+								resultsLabel.setText("Similar authors ranked by Top-5 latent semantics (SVD):");
+								Set<Entry<String, Double>> entrySet = author.getSimilarAuthorsRankedBySVD(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
+								}
 							}
-							resultsListView.setItems(p2t1bOL);
+							resultsListView.setItems(resultsObservableList);
 						} else {
 							resultsLabel.setText("Author ID non valido!");
 						}
@@ -721,25 +676,21 @@ public class GUIController implements Initializable {
 				}
 			});
 
-			phase2Task1bAuthorIDComboBox
-					.setOnAction(new EventHandler<ActionEvent>() {
+			phase2Task1bAuthorIDComboBox.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent event) {
 							try {
-								String authorid = phase2Task1bAuthorIDComboBox
-										.getValue();
+								String authorid = phase2Task1bAuthorIDComboBox.getValue();
 								if (authorid != null && !authorid.equals("")) {
 									Corpus dblp = Main.getDblp();
 									Author author = null;
-									author = dblp.getAuthorByID(Integer
-											.parseInt(authorid));
+									author = dblp.getAuthorByID(Integer.parseInt(authorid));
 									String name = author.getName();
 									phase2Task1bTitleLabel.setText(name);
 								} else {
 									resultsLabel.setText("Author ID non valido!");
 								}
-							} catch (NumberFormatException
-									| NoAuthorsWithSuchIDException e) {
+							} catch (NumberFormatException | NoAuthorsWithSuchIDException e) {
 								e.printStackTrace();
 							}
 						}
@@ -748,7 +699,7 @@ public class GUIController implements Initializable {
 			// PHASE 2 - Task 1c - controls settings
 			phase2Task1cAuthorIDComboBox.setItems(authorsIDs);
 			phase2Task1cModelComboBox.getItems().clear();
-			phase2Task1cModelComboBox.getItems().addAll("keyword vectors", "vettori di differenziazione (TFIDF2)", "vettori di differenziazione (PF)", "top-5 semantiche latenti (PCA)", "top-5 semantiche latenti (SVD)");
+			phase2Task1cModelComboBox.getItems().addAll("Keyword vector", "TFIDF2 vector", "PF vector", "Top-5 latent semantics (PCA)", "Top-5 latent semantics (SVD)");
 			phase2Task1cModelComboBox.getSelectionModel().selectFirst();
 			phase2Task1cTitleLabel.setText("Nome dell'autore selezionato");
 
@@ -759,40 +710,43 @@ public class GUIController implements Initializable {
 					resultsLabel.setText("Attendere prego!\n");
 					String modello = phase2Task1cModelComboBox.getValue();
 					String authorid = phase2Task1cAuthorIDComboBox.getValue();
+					ObservableList resultsObservableList = FXCollections.observableArrayList();
 					try {
 						if (authorid != null && !authorid.equals("")) {
 							Corpus dblp = Main.getDblp();
-							Author author = null;
-							author = dblp.getAuthorByID(Integer.parseInt(authorid));
-							String output = null;
-							LinkedHashMap<String,Double> lhmOut = new LinkedHashMap<String,Double>(); 
-							if (modello.equals("keyword vectors")) {
-								lhmOut = author.getRelevantPapersRankedByKeywordVector(dblp);
-								output = "Relevant papers ranked by keyword vector:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
-							} else if (modello.equals("vettori di differenziazione (TFIDF2)")) {
-								lhmOut = author.getRelevantPapersRankedByTFIDF2Vector(dblp);
-								output = "Relevant papers ranked by TFIDF2 vector:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
-							} else if (modello.equals("vettori di differenziazione (PF)")) {
-								lhmOut= author.getRelevantPapersRankedByPFVector(dblp);
-								output = "Relevant papers ranked by PF vector:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
-							} else if (modello.equals("top-5 semantiche latenti (PCA)")) {
-								lhmOut = author.getRelevantPapersRankedByPCA(dblp);
-								output = "Relevant papers ranked by PCA:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
-							} else if (modello.equals("top-5 semantiche latenti (SVD)")) {
-								lhmOut = author.getRelevantPapersRankedBySVD(dblp);
-								output = "Relevant papers ranked by SVD:\n"
-										+ "-----------------------------------------------------\n"
-										+ lhmOut.toString();
+							Author author = dblp.getAuthorByID(Integer.parseInt(authorid)); 
+							if (modello.equals("Keyword vector")) {								
+								resultsLabel.setText("Relevant papers ranked by keyword vector:");
+								Set<Entry<String, Double>> entrySet = author.getRelevantPapersRankedByKeywordVector(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
+								}
+							} else if (modello.equals("TFIDF2 vector")) {
+								resultsLabel.setText("Relevant papers ranked by TFIDF2 vector:");
+								Set<Entry<String, Double>> entrySet = author.getRelevantPapersRankedByTFIDF2Vector(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
+								}
+							} else if (modello.equals("PF vector")) {
+								resultsLabel.setText("Relevant papers ranked by PF vector:");
+								Set<Entry<String, Double>> entrySet = author.getRelevantPapersRankedByPFVector(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add("[" + e.getValue() + "] " + e.getKey());
+								}
+							} else if (modello.equals("Top-5 latent semantics (PCA)")) {
+								resultsLabel.setText("Relevant papers ranked by top-5 latent semantics (PCA):");
+								Set<Entry<String, Double>> entrySet = author.getRelevantPapersRankedByPCA(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add(e.getKey());
+								}
+							} else if (modello.equals("Top-5 latent semantics (SVD)")) {
+								resultsLabel.setText("Relevant papers ranked by top-5 latent semantics (SVD):");
+								Set<Entry<String, Double>> entrySet = author.getRelevantPapersRankedBySVD(dblp).entrySet();
+								for (Entry<String, Double> e : entrySet){
+									resultsObservableList.add(e.getKey());
+								}
 							}
-//						FIXME!!!	resultsTextArea.setText(output);
+							resultsListView.setItems(resultsObservableList);
 						} else {
 							resultsLabel.setText("authorid non valido!");
 						}
@@ -808,13 +762,11 @@ public class GUIController implements Initializable {
 				}
 			});
 
-			phase2Task1cAuthorIDComboBox
-					.setOnAction(new EventHandler<ActionEvent>() {
+			phase2Task1cAuthorIDComboBox.setOnAction(new EventHandler<ActionEvent>() {
 						@Override
 						public void handle(ActionEvent event) {
 							try {
-								String authorid = phase2Task1cAuthorIDComboBox
-										.getValue();
+								String authorid = phase2Task1cAuthorIDComboBox.getValue();
 								if (authorid != null && !authorid.equals("")) {
 									Corpus dblp = Main.getDblp();
 									Author author = null;
@@ -836,25 +788,37 @@ public class GUIController implements Initializable {
 			phase2Task2aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-	
+					resultsLabel.setText("Attendere prego!\n");
 					Corpus dblp = Main.getDblp();
-					ArrayList<String> papersList = new ArrayList<String>();
-	
-					for (Paper p : dblp.getPapers()) {
-						papersList.add("(" + p.getPaperID() + ") " + p.getTitle());
-					}
-	
+					
 					TextArea resultsTextArea = new TextArea();
 					resultsTextArea.clear();
-					resultsTextArea.setText(papersList.toString());
-	
+					
+					String startingDirectory = System.getProperty("user.dir");
+		            String path = startingDirectory + "/../data/";
+		            String fileName = "SimilarityMatrixAuthor.csv";
+					try {
+						ArrayList<ArrayList<Double>> top3SVDAuthorMatrix = dblp.getTop3SVDAuthor(path, fileName);
+						resultsTextArea.appendText("Top-3 SVD author-author similarity matrix:\n\n");
+						printMatrixOnTextArea(top3SVDAuthorMatrix, resultsTextArea);
+					} catch (MatlabConnectionException
+							| MatlabInvocationException
+							| AuthorWithoutPapersException e) {
+						e.printStackTrace();
+					}
+					
 					Stage stage = new Stage();
-					AnchorPane resultPane = new AnchorPane();
-					resultPane.getChildren().add(resultsTextArea);
+					ScrollPane resultPane = new ScrollPane();
+					resultPane.setPrefSize(800,250);
+					resultPane.setFitToWidth(true);
+					resultPane.setFitToHeight(true);
+					resultsTextArea.setPrefSize(800,250);
+					resultPane.setContent(resultsTextArea);
+					
 					Scene resultScene = new Scene(resultPane);
 					stage.setScene(resultScene);
 					stage.centerOnScreen();
-					stage.setTitle("Results");
+					stage.setTitle("Top-3 SVD author-author similarity matrix");
 					stage.show();
 				}
 			});
@@ -863,28 +827,39 @@ public class GUIController implements Initializable {
 			phase2Task2bExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
+					
 					resultsLabel.setText("Attendere prego!\n");
 					Corpus dblp = Main.getDblp();
 					
-					ArrayList<ArrayList<Double>> top3SVDCoAuthorOut = new ArrayList<ArrayList<Double>>();
+					TextArea resultsTextArea = new TextArea();
+					resultsTextArea.clear();
+					
 					String startingDirectory = System.getProperty("user.dir");
 		            String path = startingDirectory + "/../data/";
 		            String fileName = "SimilarityMatrixCoAuthor.csv";
 					try {
-						top3SVDCoAuthorOut = dblp.getTop3SVDCoAuthor(path, fileName);
+						ArrayList<ArrayList<Double>> top3SVDCoAuthorMatrix = dblp.getTop3SVDAuthor(path, fileName);
+						resultsTextArea.appendText("Top-3 SVD coauthor-couthor similarity matrix:\n\n");
+						printMatrixOnTextArea(top3SVDCoAuthorMatrix, resultsTextArea);
 					} catch (MatlabConnectionException
 							| MatlabInvocationException
 							| AuthorWithoutPapersException e) {
 						e.printStackTrace();
-					} catch (NoAuthorsWithSuchIDException e) {
-						e.printStackTrace();
 					}
-					String output = null;
-					output = "Top 3 SVD CoAuthor:\n"
-										+ "-----------------------------------------------------\n"
-										+ top3SVDCoAuthorOut.toString();
-							
-//					FIXME!!!resultsTextArea.setText(output);														
+					
+					Stage stage = new Stage();
+					ScrollPane resultPane = new ScrollPane();
+					resultPane.setPrefSize(800,250);
+					resultPane.setFitToWidth(true);
+					resultPane.setFitToHeight(true);
+					resultsTextArea.setPrefSize(800,250);
+					resultPane.setContent(resultsTextArea);
+					
+					Scene resultScene = new Scene(resultPane);
+					stage.setScene(resultScene);
+					stage.centerOnScreen();
+					stage.setTitle("Top-3 SVD coauthor-couthor similarity matrix");
+					stage.show();													
 				}
 			});
 			
@@ -993,10 +968,12 @@ public class GUIController implements Initializable {
 	}
 	
 	public void printMatrixOnTextArea(ArrayList<ArrayList<Double>> matrix, TextArea textArea) {
+		
+		textArea.setStyle("-fx-font-family: monospace");
+		
 		for (ArrayList<Double> riga : matrix) {
 			for (Double cella : riga) {
-				textArea.appendText(String.format("\t%.7f", cella));
-				textArea.appendText(",");
+				textArea.appendText(stretchTo18(String.format("\t%.7f,", cella)));
 			}
 			textArea.appendText("\n");
 		}
@@ -1006,19 +983,33 @@ public class GUIController implements Initializable {
 	
 	public void printDocumentTermMatrixOnTextArea(ArrayList<TreeMap<String, Double>> documentTermMatrix, Author author, TextArea textArea) throws AuthorWithoutPapersException {
 
+		textArea.setStyle("-fx-font-family: monospace");
+		
 		for (String s : author.getKeywordSet()) {
-			textArea.appendText(s + ",\t\t");
+//			System.err.print(stretchTo18(s + ","));
+			textArea.appendText(stretchTo18(s + ","));
 		}
+		
+//		System.err.println();
 		textArea.appendText("\n");
+
 		for (TreeMap<String, Double> riga : documentTermMatrix) {
 			for (Map.Entry<String, Double> cella : riga.entrySet()) {
-				textArea.appendText(String.format("%.4f", cella.getValue()));
-				textArea.appendText(",\t\t");
+//				System.err.print(stretchTo18(String.format("%.4f,", cella.getValue())));
+				textArea.appendText(stretchTo18(String.format("%.4f,", cella.getValue())));
 			}
+//			System.err.println();
 			textArea.appendText("\n");
 		}
 
 		return;
+	}
+	
+	public String stretchTo18(String s) {
+		while (s.length() < 18) {
+			s = s + " ";
+		}
+		return s;
 	}
 
 }
