@@ -683,11 +683,11 @@ public class Corpus {
 		    }
 		});
 
-		//Print top k
-		for (int i = 0; i < nodes.length && i < k; i++) {
-		    Double p = (Double) nodes[i].getNodeData().getAttributes().getValue("pageranks");
-		    System.out.println(nodes[i].getNodeData().getLabel() + " - " + p);
-		}
+//		//Print top k
+//		for (int i = 0; i < nodes.length && i < k; i++) {
+//		    Double p = (Double) nodes[i].getNodeData().getAttributes().getValue("pageranks");
+//		    System.out.println(nodes[i].getNodeData().getLabel() + " - " + p);
+//		}
 		
 		mostDominantNodes = nodes;
 		

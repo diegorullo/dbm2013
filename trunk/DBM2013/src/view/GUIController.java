@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import matlabcontrol.MatlabConnectionException;
@@ -197,6 +199,10 @@ public class GUIController implements Initializable {
 	
 	@FXML
 	private static Label resultsLabel;
+	
+	@FXML
+	private static ListView<String> cluster1ListView, cluster2ListView, cluster3ListView;
+	
 
 	//FIXME: Warning soppressi, ma bisogna ancora parametrizzare i riferimenti ai tipi generici
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -481,18 +487,15 @@ public class GUIController implements Initializable {
 			}
 		});
 
-		phase1Task3AuthorIDComboBox
-				.setOnAction(new EventHandler<ActionEvent>() {
+		phase1Task3AuthorIDComboBox.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						try {
-							String authorid = phase1Task3AuthorIDComboBox
-									.getValue();
+							String authorid = phase1Task3AuthorIDComboBox.getValue();
 							if (authorid != null && !authorid.equals("")) {
 								Corpus dblp = Main.getDblp();
 								Author author = null;
-								author = dblp.getAuthorByID(Integer
-										.parseInt(authorid));
+								author = dblp.getAuthorByID(Integer.parseInt(authorid));
 								String name = author.getName();
 								phase1Task3TitleLabel.setText(name);
 							} else {
@@ -867,6 +870,7 @@ public class GUIController implements Initializable {
 			phase2Task3aExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
+					
 					resultsLabel.setText("Attendere prego!\n");
 					Corpus dblp = Main.getDblp();
 					
@@ -875,15 +879,43 @@ public class GUIController implements Initializable {
 					String startingDirectory = System.getProperty("user.dir");
 		            String path = startingDirectory + "/../data/";
 		            String fileName = "SimilarityMatrixAuthorForClusters.csv";
-					
+
 					try {
+//						Scene scene = new Scene((AnchorPane)fxmlLoader.load());
+						AnchorPane ap = (AnchorPane) FXMLLoader.load(Main.class.getResource("Phase2Task3Agui.fxml"));
+						Scene scene = new Scene(ap);
+						Stage stage = new Stage();
+						stage.setScene(scene);
+						stage.centerOnScreen();
+						stage.setTitle("Authors clustered according to the top-3 SVD similarity matrix");						
+						
 						clustersBasedOnConcepts = dblp.getClustersBasedOnConcepts(path, fileName);
-					} catch (MatlabConnectionException
+						ObservableList<String> cluster1ObservableList = FXCollections.observableArrayList();
+						ObservableList<String> cluster2ObservableList = FXCollections.observableArrayList();
+						ObservableList<String> cluster3ObservableList = FXCollections.observableArrayList();
+						
+						for(Author author1 : clustersBasedOnConcepts.get(0)) {
+							cluster1ObservableList.add(author1.getName() + " (" + author1.getAuthorID() + ")");
+						}
+						for(Author author2 : clustersBasedOnConcepts.get(1)) {
+							cluster2ObservableList.add(author2.getName() + " (" + author2.getAuthorID() + ")");
+						}
+						for(Author author3 : clustersBasedOnConcepts.get(2)) {
+							cluster3ObservableList.add(author3.getName() + " (" + author3.getAuthorID() + ")");
+						}
+												
+						cluster1ListView.setItems(cluster1ObservableList);
+						cluster2ListView.setItems(cluster2ObservableList);
+						cluster3ListView.setItems(cluster3ObservableList);
+						
+
+						stage.show();
+						
+					} catch (IOException | MatlabConnectionException
 							| MatlabInvocationException
 							| AuthorWithoutPapersException
 							| NoAuthorsWithSuchIDException
 							| WrongClusteringException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					System.out.println("Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author");
@@ -1003,6 +1035,29 @@ public class GUIController implements Initializable {
 		}
 
 		return;
+	}
+	
+	
+	//FIXME: da testare
+	public void printConceptsKeywordsTableWithCaptions(Table<Integer, String, Double> table, TextArea textArea) {
+		int columnsSize = table.columnKeySet().size();
+		textArea.appendText(stretchTo18("KW"));
+		for (String s : table.columnKeySet()) {
+			textArea.appendText(stretchTo18(s));
+		}
+		textArea.appendText("\n");
+		//Riga orizzontale
+		for(int k = 0; k < 16 * (columnsSize + 3); k++) {
+			textArea.appendText("-");
+		}
+		System.out.println();
+		for (int i : table.rowKeySet()) {
+			textArea.appendText(stretchTo18(i + "\t|"));
+			for (String j : table.columnKeySet()) {
+				textArea.appendText(stretchTo18(String.format("\t%.7f", table.get(i, j))));
+			}
+			textArea.appendText("\n");
+		}
 	}
 	
 	public String stretchTo18(String s) {
