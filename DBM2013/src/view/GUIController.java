@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.gephi.graph.api.Graph;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,6 +44,7 @@ import exceptions.NoAuthorsWithSuchIDException;
 import exceptions.NoPaperWithSuchIDException;
 import exceptions.NoSuchTechniqueException;
 import exceptions.WrongClusteringException;
+import exceptions.WrongFileTypeException;
 
 public class GUIController implements Initializable {
 
@@ -127,9 +130,15 @@ public class GUIController implements Initializable {
 	@FXML
 	private Button phase3Task1ExecuteButton;
 	
+	@FXML
+	private ComboBox<String> phase3Task1PrintFormatComboBox;
+	
 	// PHASE 3 - Task 2 - controls injection
 	@FXML
 	private Button phase3Task2ExecuteButton;
+	
+	@FXML
+	private ComboBox<String> phase3Task2PrintFormatComboBox;
 	
 	// PHASE 3 - Task 3 - controls injection
 	
@@ -998,10 +1007,83 @@ public class GUIController implements Initializable {
 //										+ conceptsKeywordVectors.toString() + "\n";							 
 				}
 			});
+		
+		// PHASE 3 - Task 1 - controls settings
+			phase3Task1PrintFormatComboBox.getItems().clear();
+			phase3Task1PrintFormatComboBox.getItems().addAll("PDF", "GEXF");
+			
+		// PHASE 3 - Task 1 - EVENT HANDLER
+			phase3Task1ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsLabel.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+					String type = phase3Task1PrintFormatComboBox.getValue();
+					if (type != null) {
+						String fileName = "coAuthorsGraphBasedOnKeywordVectors";
+						Graph graph = null;
+						try {
+							graph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
+						} catch (NoAuthorsWithSuchIDException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						try {
+							dblp.printGraphOnFile(graph, fileName, type);
+						} catch (WrongFileTypeException
+								| NoAuthorsWithSuchIDException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}					
+					}
+					else {
+						resultsLabel.setText("Formato di stampa non valido o non selezionato!\n");						
+					}
+					
+																			
+				}
+			});
+			
+			// PHASE 3 - Task 2 - controls settings
+			phase3Task2PrintFormatComboBox.getItems().clear();
+			phase3Task2PrintFormatComboBox.getItems().addAll("PDF", "GEXF");
+		
+			// PHASE 3 - Task 2 - EVENT HANDLER
+			phase3Task2ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					resultsLabel.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+					String type = phase3Task2PrintFormatComboBox.getValue();
+					if (type != null) {
+						String fileName = "coAuthoredPapersGraphBasedOnKeywordVectors";
+						Graph graph = null;
+						try {
+							graph = dblp.getCoAuthoredPapersGraphBasedOnKeywordVectors();
+						} catch (NoAuthorsWithSuchIDException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						try {
+							dblp.printGraphOnFile(graph, fileName, type);
+						} catch (WrongFileTypeException
+								| NoAuthorsWithSuchIDException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					else {
+						resultsLabel.setText("Formato di stampa non valido o non selezionato!\n");	
+					}
+ 					
+																
+				}
+			});
 
 		}
 
 
+	
 	public static void gUIPrintMatrix(ArrayList<ArrayList<Double>> matrix) {
 		resultsLabel.setText("Score Latent Matrix:\n");
 		int cellSpanSize = 30;

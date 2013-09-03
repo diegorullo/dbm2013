@@ -12,7 +12,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="view.GUIController">
   <children>
-    <SplitPane dividerPositions="0.44862155388471175" focusTraversable="true" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+    <SplitPane dividerPositions="0.5" focusTraversable="true" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
@@ -480,6 +480,73 @@
                         <AnchorPane id="Content" layoutX="7.0" layoutY="6.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
+                            <TitledPane fx:id="x5" animated="false" text="Task 1 - 2">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <children>
+                                        <Label text="Task 1) Crea il grafo dei coautori pesato, in cui c'è un arco tra due autori se sono stati coautori di almeno un articolo, il cui peso rappresenta la similarità dei corrispondenti autori, misurata in termini di keyword vector." textFill="$x9" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12001" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="200.0">
+                                          <children>
+                                            <ComboBox fx:id="phase3Task1PrintFormatComboBox" prefHeight="21.0" prefWidth="217.0" promptText="&lt;selezionare il formato di stampa&gt;">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                              <HBox.margin>
+                                                <Insets fx:id="x8" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <Button fx:id="phase3Task1ExecuteButton" mnemonicParsing="false" text="Execute" textAlignment="LEFT" />
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10004" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="200.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10005" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="Task 2) Crea il grafo degli articoli di cui si è stati coautori, in cui esiste un arco tra due articoli se condividono almeno un autore, e in cui i pesi rappresentano la similarità tra i corrispondenti articoli, misurata in termini di TFIDF keyword vector." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10006" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <ComboBox fx:id="phase3Task2PrintFormatComboBox" prefHeight="21.0" prefWidth="216.0" promptText="&lt;selezionare il formato di stampa&gt;">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
+                                            </ComboBox>
+                                            <Button fx:id="phase3Task2ExecuteButton" mnemonicParsing="false" text="Execute" />
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets left="10.0" right="10.0" fx:id="x11002" />
+                                          </VBox.margin>
+                                        </HBox>
+                                      </children>
+                                    </VBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </expandedPane>
+                          <panes>
+                            <fx:reference source="x5" />
                             <TitledPane fx:id="x14" animated="false" text="Task 3 - 4">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -553,60 +620,6 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                          </expandedPane>
-                          <panes>
-                            <TitledPane fx:id="x5" animated="false" text="Task 1 - 2">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                  <children>
-                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <children>
-                                        <Label text="Task 1) Crea il grafo dei coautori pesato, in cui c'è un arco tra due autori se sono stati coautori di almeno un articolo, il cui peso rappresenta la similarità dei corrispondenti autori, misurata in termini di keyword vector." textFill="$x9" wrapText="true">
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12001" />
-                                          </VBox.margin>
-                                        </Label>
-                                        <HBox prefHeight="-1.0" prefWidth="200.0">
-                                          <children>
-                                            <Button id="phase2Task3aExecuteButton" fx:id="phase3Task1ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
-                                              <HBox.margin>
-                                                <Insets left="140.0" fx:id="x13002" />
-                                              </HBox.margin>
-                                            </Button>
-                                          </children>
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10004" />
-                                          </VBox.margin>
-                                        </HBox>
-                                        <Separator prefWidth="200.0">
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10005" />
-                                          </VBox.margin>
-                                        </Separator>
-                                        <Label text="Task 2) Crea il grafo degli articoli di cui si è stati coautori, in cui esiste un arco tra due articoli se condividono almeno un autore, e in cui i pesi rappresentano la similarità tra i corrispondenti articoli, misurata in termini di TFIDF keyword vector." textFill="$x2" wrapText="true">
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10006" />
-                                          </VBox.margin>
-                                        </Label>
-                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
-                                          <children>
-                                            <Button fx:id="phase3Task2ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
-                                              <HBox.margin>
-                                                <Insets left="140.0" fx:id="x13001" />
-                                              </HBox.margin>
-                                            </Button>
-                                          </children>
-                                          <VBox.margin>
-                                            <Insets left="10.0" right="10.0" fx:id="x11002" />
-                                          </VBox.margin>
-                                        </HBox>
-                                      </children>
-                                    </VBox>
-                                  </children>
-                                </AnchorPane>
-                              </content>
-                            </TitledPane>
-                            <fx:reference source="x14" />
                             <TitledPane fx:id="x17" animated="false" text="Task 5 - 7">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
