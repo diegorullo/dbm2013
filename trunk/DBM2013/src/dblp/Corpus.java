@@ -293,9 +293,9 @@ public class Corpus {
 		Table<Integer, Integer, Double> top3ReadTable = IO.readTop3SVDMatrixAuthorFromFile(path, readFileName, authorsIDs);
 		
 		// FIXME: rimuovere metodi di stampa (debug)
-		System.out.println("stampa matrice top3Read");
-		Printer.printTop3SVDMatrixAuthorWithCaptions(top3ReadTable);
-		System.out.println("-------------------------------------------------------------\n");
+//		System.out.println("stampa matrice top3Read");
+//		Printer.printTop3SVDMatrixAuthorWithCaptions(top3ReadTable);
+//		System.out.println("-------------------------------------------------------------\n");
 		
 		Double max = 0.0;
 		Double current = 0.0;
@@ -305,8 +305,8 @@ public class Corpus {
 		ArrayList<Author> cluster1 = new ArrayList<Author>();
 		ArrayList<Author> cluster2 = new ArrayList<Author>();
 		
-		System.out.println("colonne: " + top3ReadTable.columnKeySet());
-		System.out.println("righe: " + top3ReadTable.rowKeySet());
+//		System.out.println("colonne: " + top3ReadTable.columnKeySet());
+//		System.out.println("righe: " + top3ReadTable.rowKeySet());
 		
 		for (int i : top3ReadTable.columnKeySet()) {
 			max = 0.0 - Double.MAX_VALUE;
