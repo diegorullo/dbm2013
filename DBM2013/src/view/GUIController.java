@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,13 +26,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
 import utils.IO;
-import utils.Printer;
 
 import com.google.common.collect.Table;
 
@@ -882,63 +879,73 @@ public class GUIController implements Initializable {
 
 					try {
 //						Scene scene = new Scene((AnchorPane)fxmlLoader.load());
-						AnchorPane ap = (AnchorPane) FXMLLoader.load(Main.class.getResource("Phase2Task3Agui.fxml"));
-						Scene scene = new Scene(ap);
-						Stage stage = new Stage();
-						stage.setScene(scene);
-						stage.centerOnScreen();
-						stage.setTitle("Authors clustered according to the top-3 SVD similarity matrix");						
+//						AnchorPane ap = (AnchorPane) FXMLLoader.load(Main.class.getResource("Phase2Task3Agui.fxml"));
+//						Scene scene = new Scene(ap);
+//						Stage stage = new Stage();
+//						stage.setScene(scene);
+//						stage.centerOnScreen();
+//						stage.setTitle("Authors clustered according to the top-3 SVD similarity matrix");						
 						
 						clustersBasedOnConcepts = dblp.getClustersBasedOnConcepts(path, fileName);
 						ObservableList<String> cluster1ObservableList = FXCollections.observableArrayList();
 						ObservableList<String> cluster2ObservableList = FXCollections.observableArrayList();
 						ObservableList<String> cluster3ObservableList = FXCollections.observableArrayList();
 						
+						cluster1ObservableList.add("############### CLUSTER 1 ###############");
 						for(Author author1 : clustersBasedOnConcepts.get(0)) {
 							cluster1ObservableList.add(author1.getName() + " (" + author1.getAuthorID() + ")");
 						}
+						cluster2ObservableList.add("############### CLUSTER 2 ###############");
 						for(Author author2 : clustersBasedOnConcepts.get(1)) {
 							cluster2ObservableList.add(author2.getName() + " (" + author2.getAuthorID() + ")");
 						}
+						cluster3ObservableList.add("############### CLUSTER 3 ###############");
 						for(Author author3 : clustersBasedOnConcepts.get(2)) {
 							cluster3ObservableList.add(author3.getName() + " (" + author3.getAuthorID() + ")");
 						}
 												
-						cluster1ListView.setItems(cluster1ObservableList);
-						cluster2ListView.setItems(cluster2ObservableList);
-						cluster3ListView.setItems(cluster3ObservableList);
+//						cluster1ListView.setItems(cluster1ObservableList);
+//						cluster2ListView.setItems(cluster2ObservableList);
+//						cluster3ListView.setItems(cluster3ObservableList);
 						
+						ObservableList<String> globalObservableList = FXCollections.observableArrayList();
+						globalObservableList.addAll(cluster1ObservableList);
+						globalObservableList.addAll(cluster2ObservableList);
+						globalObservableList.addAll(cluster3ObservableList);
+						
+						resultsListView.setItems(globalObservableList);				
 
-						stage.show();
+//						stage.show();
 						
-					} catch (IOException | MatlabConnectionException
+					} catch (MatlabConnectionException
 							| MatlabInvocationException
 							| AuthorWithoutPapersException
 							| NoAuthorsWithSuchIDException
 							| WrongClusteringException e) {
 						e.printStackTrace();
 					}
-					System.out.println("Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author");
-					System.out.println("Gruppo autori caratterizzati dalla semantica 1:");
-					Printer.printAuthorsList(clustersBasedOnConcepts.get(0));
-					System.out.println("Gruppo autori caratterizzati dalla semantica 2:");
-					Printer.printAuthorsList(clustersBasedOnConcepts.get(1));
-					System.out.println("Gruppo autori caratterizzati dalla semantica 3:");
-					Printer.printAuthorsList(clustersBasedOnConcepts.get(2));
 					
-					String output = null;
-					output = "Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author:\n"
-										+ "-----------------------------------------------------\n"
-										+ "Gruppo autori caratterizzati dalla semantica 1:\n"
-										+ clustersBasedOnConcepts.get(0).toString() + "\n"
-										+ "-----------------------------------------------------\n"
-										+ "Gruppo autori caratterizzati dalla semantica 2:\n"
-										+ clustersBasedOnConcepts.get(1).toString() + "\n"
-										+ "-----------------------------------------------------\n"
-										+ "Gruppo autori caratterizzati dalla semantica 3:\n"
-										+ clustersBasedOnConcepts.get(2).toString() + "\n";
-							 
-//					FIXME!!!! resultsTextArea.setText(output);														
+					
+//					System.out.println("Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author");
+//					System.out.println("Gruppo autori caratterizzati dalla semantica 1:");
+//					Printer.printAuthorsList(clustersBasedOnConcepts.get(0));
+//					System.out.println("Gruppo autori caratterizzati dalla semantica 2:");
+//					Printer.printAuthorsList(clustersBasedOnConcepts.get(1));
+//					System.out.println("Gruppo autori caratterizzati dalla semantica 3:");
+//					Printer.printAuthorsList(clustersBasedOnConcepts.get(2));
+//					
+//					String output = null;
+//					output = "Gruppi di autori, clusterizzati in base al \n grado di appartenenza alle 3 semantiche \n ottenute dalla matrice di similarita' author-author:\n"
+//										+ "-----------------------------------------------------\n"
+//										+ "Gruppo autori caratterizzati dalla semantica 1:\n"
+//										+ clustersBasedOnConcepts.get(0).toString() + "\n"
+//										+ "-----------------------------------------------------\n"
+//										+ "Gruppo autori caratterizzati dalla semantica 2:\n"
+//										+ clustersBasedOnConcepts.get(1).toString() + "\n"
+//										+ "-----------------------------------------------------\n"
+//										+ "Gruppo autori caratterizzati dalla semantica 3:\n"
+//										+ clustersBasedOnConcepts.get(2).toString() + "\n";
+
 				}
 			});
 			
@@ -949,29 +956,46 @@ public class GUIController implements Initializable {
 					resultsLabel.setText("Attendere prego!\n");
 					Corpus dblp = Main.getDblp();
 					
-					Table<Integer, String, Double> conceptsKeywordVectors = null;
-					
 					String startingDirectory = System.getProperty("user.dir");
 		            String path = startingDirectory + "/../data/";
 		            String fileName = "SimilarityMatrixAuthorForConceptsVectors.csv";		            
 		            try {
-						conceptsKeywordVectors = dblp.getConceptsKeywordVectors(path, fileName);
+		            	Table<Integer, String, Double> conceptsKeywordVectors = dblp.getConceptsKeywordVectors(path, fileName);
+		            	
+		            	ObservableList<String> resultObservableList = FXCollections.observableArrayList();
+						
+		            	ArrayList<String> keywordsList = new ArrayList<String>();
+		            	for(String keyword : conceptsKeywordVectors.columnKeySet()) {
+		            		keywordsList.add(keyword);
+		            	}
+		            			            	
+						for (int i : conceptsKeywordVectors.rowKeySet()) {
+							int k = 0;
+							resultObservableList.add("############### CONCEPT " + (i + 1) + " ###############");
+							for (String j : conceptsKeywordVectors.columnKeySet()) {
+								resultObservableList.add(String.format(keywordsList.get(k) + ": %.7f", conceptsKeywordVectors.get(i, j)));
+								k++;
+							}
+						}
+						
+						resultsListView.setItems(resultObservableList);
+		            	
 					} catch (MatlabConnectionException
 							| MatlabInvocationException
 							| AuthorWithoutPapersException
 							| NoAuthorsWithSuchIDException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-		            System.out.println("Matrice Concetti Keyword");
-		            System.out.println("-----------------------------------------------");
-		            Printer.printConceptsKeywordsTableWithCaptions(conceptsKeywordVectors);
-					
-					String output = null;
-					output = "Matrice Concetti Keyword\n"
-										+ "-----------------------------------------------------\n"
-										+ conceptsKeywordVectors.toString() + "\n";							 
-//					FIXME:::: resultsTextArea.setText(output);														
+		            
+		            
+//		            System.out.println("Concepts-Keywords matrix");
+//		            System.out.println("-----------------------------------------------");
+//		            Printer.printConceptsKeywordsTableWithCaptions(conceptsKeywordVectors);
+//					
+//					String output = null;
+//					output = "Matrice Concetti Keyword\n"
+//										+ "-----------------------------------------------------\n"
+//										+ conceptsKeywordVectors.toString() + "\n";							 
 				}
 			});
 
@@ -1040,6 +1064,9 @@ public class GUIController implements Initializable {
 	
 	//FIXME: da testare
 	public void printConceptsKeywordsTableWithCaptions(Table<Integer, String, Double> table, TextArea textArea) {
+		
+		textArea.setStyle("-fx-font-family: monospace");
+		
 		int columnsSize = table.columnKeySet().size();
 		textArea.appendText(stretchTo18("KW"));
 		for (String s : table.columnKeySet()) {
