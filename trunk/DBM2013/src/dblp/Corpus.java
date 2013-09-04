@@ -754,6 +754,75 @@ public class Corpus {
 		return kMostSimilarAuthors;
 	}
 	
+	//######################### PPR Draft ######################################
+	
+//	public LinkedList<TermTF> getPersonalizedPageRank(String authorID, int n)
+//			throws SQLException, IOException, ParseException {
+//		return getPersonalizedPageRank(authorID, n, 0.85);
+//	}
+//
+//	public LinkedList<TermTF> getPersonalizedPageRank(String authorID, int n, double probability) {
+//		HashMap<String, Double> outmap = new HashMap<String, Double>();
+//		Graph<String, Edge> graph;
+//		graph = getCoauthorsGraph(TFIDF);
+//
+//		int numberNode = graph.getVertexCount();
+//
+//		if (n > numberNode) {
+//			throw new IOException("N is too big");
+//		}
+//
+//		Collection<String> vertices = graph.getVertices();
+//		String[] nodes = new String[0];
+//		nodes = vertices.toArray(nodes);
+//		double[][] z = new double[numberNode][numberNode];
+//
+//		// creo la matrice di adiacenza
+//		for (int i = 0; i < numberNode; i++) {
+//			for (int j = 0; j < numberNode; j++) {
+//				if (graph.isNeighbor(nodes[i], nodes[j])) {
+//					z[i][j] = 1;
+//				} else {
+//					z[i][j] = 0;
+//				}
+//			}
+//		}
+//
+//		int pos = -1;
+//		for (int k = 0; k < ireaderAuthor.numDocs(); k++) {
+//			String authorIdCorrente = ireaderAuthor.document(k)
+//					.getField(DocumentField.ID).stringValue();
+//			if (authorID.equals(authorIdCorrente)) {
+//				pos = k;
+//			}
+//		}
+//
+//		if (pos >= 0) {
+//			if (verboseMode) {
+//				System.out.print("Executes MATLAB function...");
+//			}
+//			Object[] tdObj = latsem.getPersonalizedPageRank(1, z, pos,
+//					probability);
+//			double[] ret = (double[]) ((MWArray) tdObj[0]).getData();
+//			if (verboseMode) {
+//				System.out.println("OK");
+//			}
+//
+//			for (int k = 0; k < ret.length; k++) {
+//				outmap.put(nodes[k], ret[k]);
+//			}
+//		}
+//		LinkedList<TermTF> outmap2 = GeneralUtils.sortProbabilityDescendent(outmap);
+//		LinkedList<TermTF> outmapok = new LinkedList();
+//
+//		for (int i = 0; i < n; i++) {
+//			outmapok.add(outmap2.get(i));
+//		}
+//
+//		return outmapok;
+//	}
+	
+	
 	public ArrayList<Author> getAuthors() {
 		return authors;
 	}
