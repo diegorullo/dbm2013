@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.gephi.graph.api.Graph;
+import org.gephi.graph.api.Node;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +33,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import matlabcontrol.MatlabConnectionException;
 import matlabcontrol.MatlabInvocationException;
+import utils.Clusterer;
 import utils.IO;
 
 import com.google.common.collect.Table;
@@ -47,6 +49,7 @@ import exceptions.WrongClusteringException;
 import exceptions.WrongFileTypeException;
 
 public class GUIController implements Initializable {
+	
 
 	private final static boolean PRINT_ON_FILE = !true;
 
@@ -143,10 +146,10 @@ public class GUIController implements Initializable {
 	// PHASE 3 - Task 3 - controls injection
 	
 	@FXML
-	private TextField phase3Task3TextField;
+	private TextField phase3Task3NClustersTextField;
 	
 	@FXML
-	private ComboBox<String> phase3Task3ComboBox;
+	private ComboBox<String> phase3Task3AlgorithmComboBox;
 	
 	@FXML
 	private Button phase3Task3ExecuteButton;
@@ -217,7 +220,8 @@ public class GUIController implements Initializable {
 	@Override
 	// This method is called by the FXMLLoader when initialization is complete
 	public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
-
+		
+		
 		Corpus dblp = Main.getDblp();
 		ArrayList<Paper> papers = dblp.getPapers();
 		ArrayList<Author> authors = dblp.getAuthors();
@@ -1079,6 +1083,139 @@ public class GUIController implements Initializable {
 																
 				}
 			});
+			
+			// PHASE 3 - Task 3 - controls settings
+			phase3Task3AlgorithmComboBox.getItems().clear();
+			phase3Task3AlgorithmComboBox.getItems().addAll("Simple K-Means", "Farthest First");
+		
+			// PHASE 3 - Task 3 - EVENT HANDLER
+			phase3Task3ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					Clusterer clusterer = new Clusterer();				
+					resultsLabel.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+					String algorithm = phase3Task3AlgorithmComboBox.getValue();
+					int numClusters = Integer.parseInt(phase3Task3NClustersTextField.getText());
+					
+					TextArea resultsTextArea = new TextArea();
+					resultsTextArea.clear();
+					resultsTextArea.setPrefColumnCount(Integer.MAX_VALUE);
+					
+					if (algorithm == "Simple K-Means") {
+						Map<Integer, Integer> clusters = null;
+						
+						try {
+							clusters = clusterer.clusterAuthorsBySimpleKMeans(dblp, numClusters);
+						} catch (IOException | AuthorWithoutPapersException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						resultsTextArea.appendText("Clustering degli autori tramite SimpleKMeans:\n");	
+						
+						System.out.println("Clustering degli autori tramite SimpleKMeans:\n");		
+						resultsTextArea.setStyle("-fx-font-family: monospace");					
+						
+						Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
+						for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
+							int authorID = clusteredAuthor.getKey();
+							try {
+								System.out.println(dblp.getAuthorByID(authorID).getName() + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
+								resultsTextArea.appendText(stretchTo18(dblp.getAuthorByID(authorID).getName()) + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
+								resultsTextArea.appendText("\n");
+							} catch (NoAuthorsWithSuchIDException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}			
+					} else if (algorithm == "Farthest First") {
+						Map<Integer, Integer> clusters = null;
+						try {
+							clusters = clusterer.clusterAuthorsByFarthestFirst(dblp, numClusters);
+						} catch (IOException | AuthorWithoutPapersException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						resultsTextArea.appendText("Clustering degli autori tramite SimpleKMeans:\n");
+						
+						System.out.println("Clustering degli autori tramite FarthestFirst:\n");
+						resultsTextArea.setStyle("-fx-font-family: monospace");	
+						
+						Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
+						for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
+							int authorID = clusteredAuthor.getKey();
+							try {
+								System.out.println(dblp.getAuthorByID(authorID).getName() + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
+								resultsTextArea.appendText(stretchTo18(dblp.getAuthorByID(authorID).getName()) + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
+								resultsTextArea.appendText("\n");
+							} catch (NoAuthorsWithSuchIDException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}										
+
+						
+					}
+					else {
+						resultsLabel.setText("Algoritmo non valido o non selezionato!\n");	
+					} 
+					Stage stage = new Stage();
+					ScrollPane resultPane = new ScrollPane();
+					resultPane.setPrefSize(800,250);
+					resultPane.setFitToWidth(true);
+					resultPane.setFitToHeight(true);
+					resultsTextArea.setPrefSize(800,250);
+					resultPane.setContent(resultsTextArea);
+					
+					Scene resultScene = new Scene(resultPane);
+					stage.setScene(resultScene);
+					stage.centerOnScreen();
+					stage.setTitle("Clustering degli autori");
+					stage.show();
+				}
+			});
+			
+		
+//			// PHASE 3 - Task 4 - EVENT HANDLER
+//			phase3Task4ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+//				@Override
+//				public void handle(ActionEvent event) {
+//								
+//					resultsLabel.setText("Attendere prego!\n");
+//					Corpus dblp = Main.getDblp();
+//
+//					int numNodes = Integer.parseInt(phase3Task4NNodesTextField.getText());
+//					
+//					TextArea resultsTextArea = new TextArea();
+//					resultsTextArea.clear();
+//					resultsTextArea.setPrefColumnCount(Integer.MAX_VALUE);
+//					
+//					Node[] node;
+//					node = dblp.pageRank(graph, numNodes);
+//
+//					resultsTextArea.appendText("K nodi dominanti:\n");	
+//						
+//					System.out.println("K nodi dominanti:\n");		
+//					resultsTextArea.setStyle("-fx-font-family: monospace");					
+//						
+//
+//
+//					Stage stage = new Stage();
+//					ScrollPane resultPane = new ScrollPane();
+//					resultPane.setPrefSize(800,250);
+//					resultPane.setFitToWidth(true);
+//					resultPane.setFitToHeight(true);
+//					resultsTextArea.setPrefSize(800,250);
+//					resultPane.setContent(resultsTextArea);
+//					
+//					Scene resultScene = new Scene(resultPane);
+//					stage.setScene(resultScene);
+//					stage.centerOnScreen();
+//					stage.setTitle("Clustering degli autori");
+//					stage.show();
+//				}
+//			});
+
 
 		}
 
