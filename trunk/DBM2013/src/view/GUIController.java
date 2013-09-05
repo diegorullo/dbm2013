@@ -1019,28 +1019,22 @@ public class GUIController implements Initializable {
 			phase3Task1ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					resultsLabel.setText("Attendere prego!\n");
-					Corpus dblp = Main.getDblp();
-					String type = phase3Task1PrintFormatComboBox.getValue();
-					if (type != null) {
-						String fileName = "coAuthorsGraphBasedOnKeywordVectors";
-						Graph graph = null;
-						try {
-							graph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
-						} catch (NoAuthorsWithSuchIDException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					try {
+						resultsLabel.setText("Attendere prego!\n");
+						Corpus dblp = Main.getDblp();
+						String type = phase3Task1PrintFormatComboBox.getValue();
+						if (type != null) {
+							String fileName = "coAuthorsGraphBasedOnKeywordVectors";
+							Graph graph = null;
+								graph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
+								dblp.printGraphOnFile(graph, fileName, type);
 						}
-						try {
-							dblp.printGraphOnFile(graph, fileName, type);
-						} catch (WrongFileTypeException
-								| NoAuthorsWithSuchIDException | IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}					
-					}
-					else {
-						resultsLabel.setText("Formato di stampa non valido o non selezionato!\n");						
+						else {
+							resultsLabel.setText("Formato di stampa non valido o non selezionato!\n");						
+						}
+					} catch (WrongFileTypeException
+							| NoAuthorsWithSuchIDException | IOException e) {
+						e.printStackTrace();
 					}
 					
 																			
@@ -1055,31 +1049,23 @@ public class GUIController implements Initializable {
 			phase3Task2ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					resultsLabel.setText("Attendere prego!\n");
-					Corpus dblp = Main.getDblp();
-					String type = phase3Task2PrintFormatComboBox.getValue();
-					if (type != null) {
-						String fileName = "coAuthoredPapersGraphBasedOnKeywordVectors";
-						Graph graph = null;
-						try {
-							graph = dblp.getCoAuthoredPapersGraphBasedOnKeywordVectors();
-						} catch (NoAuthorsWithSuchIDException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					try {
+						resultsLabel.setText("Attendere prego!\n");
+						Corpus dblp = Main.getDblp();
+						String type = phase3Task2PrintFormatComboBox.getValue();
+						if (type != null) {
+							String fileName = "coAuthoredPapersGraphBasedOnKeywordVectors";
+							Graph graph = null;
+								graph = dblp.getCoAuthoredPapersGraphBasedOnKeywordVectors();
+								dblp.printGraphOnFile(graph, fileName, type);
 						}
-						try {
-							dblp.printGraphOnFile(graph, fileName, type);
-						} catch (WrongFileTypeException
-								| NoAuthorsWithSuchIDException | IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						else {
+							resultsLabel.setText("Formato di stampa non valido o non selezionato!\n");	
 						}
+					} catch (WrongFileTypeException
+							| NoAuthorsWithSuchIDException | IOException e) {
+						e.printStackTrace();
 					}
-					else {
-						resultsLabel.setText("Formato di stampa non valido o non selezionato!\n");	
-					}
- 					
-																
 				}
 			});
 			
@@ -1091,86 +1077,63 @@ public class GUIController implements Initializable {
 			phase3Task3ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					Clusterer clusterer = new Clusterer();				
-					resultsLabel.setText("Attendere prego!\n");
-					Corpus dblp = Main.getDblp();
-					String algorithm = phase3Task3AlgorithmComboBox.getValue();
-					int numClusters = Integer.parseInt(phase3Task3NClustersTextField.getText());
-					
-					TextArea resultsTextArea = new TextArea();
-					resultsTextArea.clear();
-					resultsTextArea.setPrefColumnCount(Integer.MAX_VALUE);
-					
-					if (algorithm == "Simple K-Means") {
-						Map<Integer, Integer> clusters = null;
+					try {
+						Clusterer clusterer = new Clusterer();				
+						resultsLabel.setText("Attendere prego!\n");
+						Corpus dblp = Main.getDblp();
+						String algorithm = phase3Task3AlgorithmComboBox.getValue();
+						int numClusters = Integer.parseInt(phase3Task3NClustersTextField.getText());
+						TextArea resultsTextArea = new TextArea();
+						resultsTextArea.clear();
+						resultsTextArea.setPrefColumnCount(Integer.MAX_VALUE);
 						
-						try {
+						if (algorithm == "Simple K-Means") {
+							Map<Integer, Integer> clusters = null;
 							clusters = clusterer.clusterAuthorsBySimpleKMeans(dblp, numClusters);
-						} catch (IOException | AuthorWithoutPapersException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						resultsTextArea.appendText("Clustering degli autori tramite SimpleKMeans:\n");	
-						
-						System.out.println("Clustering degli autori tramite SimpleKMeans:\n");		
-						resultsTextArea.setStyle("-fx-font-family: monospace");					
-						
-						Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
-						for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
-							int authorID = clusteredAuthor.getKey();
-							try {
-								System.out.println(dblp.getAuthorByID(authorID).getName() + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
-								resultsTextArea.appendText(stretchTo18(dblp.getAuthorByID(authorID).getName()) + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
-								resultsTextArea.appendText("\n");
-							} catch (NoAuthorsWithSuchIDException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}			
-					} else if (algorithm == "Farthest First") {
-						Map<Integer, Integer> clusters = null;
-						try {
+							resultsTextArea.appendText("Clustering degli autori tramite SimpleKMeans:\n");	
+							System.out.println("Clustering degli autori tramite SimpleKMeans:\n");		
+							resultsTextArea.setStyle("-fx-font-family: monospace");					
+							Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
+							for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
+								int authorID = clusteredAuthor.getKey();
+									System.out.println(dblp.getAuthorByID(authorID).getName() + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
+									resultsTextArea.appendText(stretchTo18(dblp.getAuthorByID(authorID).getName()) + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
+									resultsTextArea.appendText("\n");
+							}			
+						} else if (algorithm == "Farthest First") {
+							Map<Integer, Integer> clusters = null;
 							clusters = clusterer.clusterAuthorsByFarthestFirst(dblp, numClusters);
-						} catch (IOException | AuthorWithoutPapersException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						resultsTextArea.appendText("Clustering degli autori tramite SimpleKMeans:\n");
-						
-						System.out.println("Clustering degli autori tramite FarthestFirst:\n");
-						resultsTextArea.setStyle("-fx-font-family: monospace");	
-						
-						Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
-						for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
-							int authorID = clusteredAuthor.getKey();
-							try {
+							resultsTextArea.appendText("Clustering degli autori tramite SimpleKMeans:\n");
+							System.out.println("Clustering degli autori tramite FarthestFirst:\n");
+							resultsTextArea.setStyle("-fx-font-family: monospace");	
+							Set<Entry<Integer, Integer>> clustersEntrySet = clusters.entrySet();
+							for(Entry<Integer, Integer> clusteredAuthor: clustersEntrySet) {
+								int authorID = clusteredAuthor.getKey();
 								System.out.println(dblp.getAuthorByID(authorID).getName() + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
 								resultsTextArea.appendText(stretchTo18(dblp.getAuthorByID(authorID).getName()) + " (" + authorID + ") > cluster " + clusteredAuthor.getValue());
 								resultsTextArea.appendText("\n");
-							} catch (NoAuthorsWithSuchIDException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}										
-
+							}										
+						}
+						else {
+							resultsLabel.setText("Algoritmo non valido o non selezionato!\n");	
+						} 
+						Stage stage = new Stage();
+						ScrollPane resultPane = new ScrollPane();
+						resultPane.setPrefSize(800,250);
+						resultPane.setFitToWidth(true);
+						resultPane.setFitToHeight(true);
+						resultsTextArea.setPrefSize(800,250);
+						resultPane.setContent(resultsTextArea);
 						
+						Scene resultScene = new Scene(resultPane);
+						stage.setScene(resultScene);
+						stage.centerOnScreen();
+						stage.setTitle("Clustering degli autori");
+						stage.show();
+						
+					} catch (NoAuthorsWithSuchIDException | IOException | AuthorWithoutPapersException e1) {						
+						e1.printStackTrace();
 					}
-					else {
-						resultsLabel.setText("Algoritmo non valido o non selezionato!\n");	
-					} 
-					Stage stage = new Stage();
-					ScrollPane resultPane = new ScrollPane();
-					resultPane.setPrefSize(800,250);
-					resultPane.setFitToWidth(true);
-					resultPane.setFitToHeight(true);
-					resultsTextArea.setPrefSize(800,250);
-					resultPane.setContent(resultsTextArea);
-					
-					Scene resultScene = new Scene(resultPane);
-					stage.setScene(resultScene);
-					stage.centerOnScreen();
-					stage.setTitle("Clustering degli autori");
-					stage.show();
 				}
 			});
 			
@@ -1179,48 +1142,31 @@ public class GUIController implements Initializable {
 			phase3Task4ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-								
-					resultsLabel.setText("Attendere prego!\n");
-					Corpus dblp = Main.getDblp();
-
-					int numNodes = Integer.parseInt(phase3Task4NNodesTextField.getText());
-					
-					Node[] rankedNodes;
-					Graph coAuthorsGraph = null;
 					try {
+					
+						resultsLabel.setText("Attendere prego!\n");
+						Corpus dblp = Main.getDblp();
+						int numNodes = Integer.parseInt(phase3Task4NNodesTextField.getText());
+						Node[] rankedNodes;
+						Graph coAuthorsGraph = null;
 						coAuthorsGraph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
-					} catch (NoAuthorsWithSuchIDException e) {
-						// TODO Auto-generated catch block
+						rankedNodes = dblp.pageRank(coAuthorsGraph, numNodes);
+						System.out.println("I " + numNodes + " autori più dominanti sono:");
+						resultsLabel.setText("I " + numNodes + " autori più dominanti sono:");
+						ObservableList<String> resultsObservableList;
+						ArrayList<String> resultsArrayList = new ArrayList<String>();
+						for(int i = 0; i < numNodes; i++) {
+							System.out.println("[" + (i+1) + "] " +  dblp.getAuthorByID(Integer.parseInt(rankedNodes[i].getNodeData().getLabel())).getName()  + " (" + rankedNodes[i].toString() + ")");
+							resultsArrayList.add("[" + (i+1) + "] " +  dblp.getAuthorByID(Integer.parseInt(rankedNodes[i].getNodeData().getLabel())).getName()  + " (" + rankedNodes[i].toString() + ")");
+						}
+				
+						resultsObservableList = FXCollections.observableArrayList(resultsArrayList);
+						resultsListView.setItems(resultsObservableList);			
+					
+					} catch (NumberFormatException
+							|NoAuthorsWithSuchIDException e) {
 						e.printStackTrace();
 					}
-					rankedNodes = dblp.pageRank(coAuthorsGraph, numNodes);
-					
-					System.out.println("I " + numNodes + " autori più dominanti sono:");
-					resultsLabel.setText("I " + numNodes + " autori più dominanti sono:");
-					
-					ObservableList<String> resultsObservableList;
-					ArrayList<String> resultsArrayList = new ArrayList<String>();
-					
-					for(int i = 0; i < numNodes; i++) {
-						try {
-							System.out.println("[" + (i+1) + "] " +  dblp.getAuthorByID(Integer.parseInt(rankedNodes[i].getNodeData().getLabel())).getName()  + " (" + rankedNodes[i].toString() + ")");
-						} catch (NumberFormatException
-								| NoAuthorsWithSuchIDException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						try {
-							resultsArrayList.add("[" + (i+1) + "] " +  dblp.getAuthorByID(Integer.parseInt(rankedNodes[i].getNodeData().getLabel())).getName()  + " (" + rankedNodes[i].toString() + ")");
-						} catch (NumberFormatException
-								| NoAuthorsWithSuchIDException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-			
-					resultsObservableList = FXCollections.observableArrayList(resultsArrayList);
-					resultsListView.setItems(resultsObservableList);			
-					
 				}
 			});
 			
@@ -1241,54 +1187,34 @@ public class GUIController implements Initializable {
 					Author author = null;
 					try {
 						author = dblp.getAuthorByID(authorid);
-					} catch (NoAuthorsWithSuchIDException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					Graph graph = null;
-					try {
+						Graph graph = null;
 						graph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
-					} catch (NoAuthorsWithSuchIDException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 					
-					System.out.println(numNodes + " authors most similar to " + author.getName() + " (" + authorid + ")");
-					resultsLabel.setText(numNodes + " authors most similar to " + author.getName() + " (" + authorid + ")");
-					
-					Map<String, Double> result = dblp.getKMostSimilarAuthors(graph, author, numNodes);				
-					
-					// Stampo gli autori piu' simili in ordine decrescente
-					System.out.println("Found " + result.size() + " authors.");
-					
-
-					
-					ObservableList<String> resultsObservableList;
-					ArrayList<String> resultsArrayList = new ArrayList<String>();
-					
-					int j = numNodes;
-					Set<Entry<String, Double>> resultEntrySet = result.entrySet();
-					for(Entry<String, Double> similarAuthor : resultEntrySet) {
-						try {
-							System.out.println((numNodes - j + 1) + ") " + dblp.getAuthorByID(Integer.parseInt(similarAuthor.getKey())).getName() + " [" + similarAuthor.getKey() + "]: " +  similarAuthor.getValue());
-						} catch (NumberFormatException
-								| NoAuthorsWithSuchIDException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						j--;
-						try {
-							resultsArrayList.add((numNodes - j + 1) + ") " + dblp.getAuthorByID(Integer.parseInt(similarAuthor.getKey())).getName() + " [" + similarAuthor.getKey() + "]: " +  similarAuthor.getValue());
-						} catch (NumberFormatException
-								| NoAuthorsWithSuchIDException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						System.out.println(numNodes + " authors most similar to " + author.getName() + " (" + authorid + ")");
+						resultsLabel.setText(numNodes + " authors most similar to " + author.getName() + " (" + authorid + ")");
 						
-					}						
-			
-					resultsObservableList = FXCollections.observableArrayList(resultsArrayList);
-					resultsListView.setItems(resultsObservableList);			
+						Map<String, Double> result = dblp.getKMostSimilarAuthors(graph, author, numNodes);				
+						
+						// Stampo gli autori piu' simili in ordine decrescente
+						System.out.println("Found " + result.size() + " authors.");
+						
+						ObservableList<String> resultsObservableList;
+						ArrayList<String> resultsArrayList = new ArrayList<String>();
+						
+						int j = numNodes;
+						Set<Entry<String, Double>> resultEntrySet = result.entrySet();
+						for(Entry<String, Double> similarAuthor : resultEntrySet) {
+							System.out.println((numNodes - j + 1) + ") " + dblp.getAuthorByID(Integer.parseInt(similarAuthor.getKey())).getName() + " [" + similarAuthor.getKey() + "]: " +  similarAuthor.getValue());
+							j--;
+							resultsArrayList.add((numNodes - j + 1) + ") " + dblp.getAuthorByID(Integer.parseInt(similarAuthor.getKey())).getName() + " [" + similarAuthor.getKey() + "]: " +  similarAuthor.getValue());
+						} 
+
+						resultsObservableList = FXCollections.observableArrayList(resultsArrayList);
+						resultsListView.setItems(resultsObservableList);
+					
+					} catch (NumberFormatException | NoAuthorsWithSuchIDException e) {
+						e.printStackTrace();
+					}
 					
 				}
 			});
