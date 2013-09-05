@@ -165,10 +165,10 @@ public class GUIController implements Initializable {
 	// PHASE 3 - Task 5 - controls injection
 	
 	@FXML
-	private TextField phase3Task5TextField;
+	private TextField phase3Task5NNodesTextField;
 	
 	@FXML
-	private ComboBox<String> phase3Task5ComboBox;
+	private ComboBox<String> phase3Task5AuthorIDComboBox;
 	
 	@FXML
 	private Button phase3Task5ExecuteButton;
@@ -532,8 +532,7 @@ public class GUIController implements Initializable {
 			public void handle(ActionEvent event) {
 				resultsLabel.setText("Attendere prego!\n");
 				String modello = phase2Task1aModelComboBox.getValue();
-				String authorid = phase2Task1aAuthorIDComboBox.getValue();
-				
+				String authorid = phase2Task1aAuthorIDComboBox.getValue();		
 				TextArea resultsTextArea = new TextArea();
 				resultsTextArea.clear();
 				resultsTextArea.setPrefColumnCount(Integer.MAX_VALUE);
@@ -1224,7 +1223,75 @@ public class GUIController implements Initializable {
 					
 				}
 			});
+			
+			
+			// PHASE 3 - Task 5 - controls settings
+			phase3Task5AuthorIDComboBox.setItems(authorsIDs);
+			// PHASE 3 - Task 5 - EVENT HANDLER
+			phase3Task5ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+								
+					resultsLabel.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
 
+					int numNodes = Integer.parseInt(phase3Task5NNodesTextField.getText());
+					int authorid = Integer.parseInt(phase3Task5AuthorIDComboBox.getValue());
+					
+					Author author = null;
+					try {
+						author = dblp.getAuthorByID(authorid);
+					} catch (NoAuthorsWithSuchIDException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Graph graph = null;
+					try {
+						graph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
+					} catch (NoAuthorsWithSuchIDException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					System.out.println(numNodes + " authors most similar to " + author.getName() + " (" + authorid + ")");
+					resultsLabel.setText(numNodes + " authors most similar to " + author.getName() + " (" + authorid + ")");
+					
+					Map<String, Double> result = dblp.getKMostSimilarAuthors(graph, author, numNodes);				
+					
+					// Stampo gli autori piu' simili in ordine decrescente
+					System.out.println("Found " + result.size() + " authors.");
+					
+
+					
+					ObservableList<String> resultsObservableList;
+					ArrayList<String> resultsArrayList = new ArrayList<String>();
+					
+					int j = numNodes;
+					Set<Entry<String, Double>> resultEntrySet = result.entrySet();
+					for(Entry<String, Double> similarAuthor : resultEntrySet) {
+						try {
+							System.out.println((numNodes - j + 1) + ") " + dblp.getAuthorByID(Integer.parseInt(similarAuthor.getKey())).getName() + " [" + similarAuthor.getKey() + "]: " +  similarAuthor.getValue());
+						} catch (NumberFormatException
+								| NoAuthorsWithSuchIDException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						j--;
+						try {
+							resultsArrayList.add((numNodes - j + 1) + ") " + dblp.getAuthorByID(Integer.parseInt(similarAuthor.getKey())).getName() + " [" + similarAuthor.getKey() + "]: " +  similarAuthor.getValue());
+						} catch (NumberFormatException
+								| NoAuthorsWithSuchIDException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}						
+			
+					resultsObservableList = FXCollections.observableArrayList(resultsArrayList);
+					resultsListView.setItems(resultsObservableList);			
+					
+				}
+			});
 
 		}
 

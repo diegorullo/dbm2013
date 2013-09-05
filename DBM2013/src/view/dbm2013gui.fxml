@@ -209,53 +209,7 @@
                       <children>
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
-                            <TitledPane fx:id="x3" animated="false" text="Task 3">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                  <children>
-                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <children>
-                                        <Label text="3.a) Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarità coauthor-coauthor (o author-author) e suddivida gli autori in 3 gruppi sulla base del loro grado di appartenenza alle 3 semantiche." textFill="$x2" wrapText="true">
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12004" />
-                                          </VBox.margin>
-                                        </Label>
-                                        <HBox prefHeight="17.0" prefWidth="332.0">
-                                          <children>
-                                            <Button fx:id="phase2Task3aExecuteButton" mnemonicParsing="false" text="Execute">
-                                              <HBox.margin>
-                                                <Insets left="140.0" right="140.0" fx:id="x7" />
-                                              </HBox.margin>
-                                            </Button>
-                                          </children>
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" fx:id="x16001" />
-                                          </VBox.margin>
-                                        </HBox>
-                                        <Separator prefWidth="332.0">
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" fx:id="x16001" />
-                                          </VBox.margin>
-                                        </Separator>
-                                        <Label text="3.b) Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarità coauthor-coauthor (o author-author) e associ un keyword vector a ciascuna semantica/gruppo sulla base dei keyword vector degli autori e del loro grado di appartenenza alla corrispondente semantica latente/gruppo." textFill="$x2" wrapText="true">
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
-                                          </VBox.margin>
-                                        </Label>
-                                        <HBox prefHeight="24.0" prefWidth="332.0" VBox.margin="$x8">
-                                          <children>
-                                            <Button id="phase2Task3bButton" fx:id="phase2Task3bExecuteButton" mnemonicParsing="false" text="Execute" textAlignment="JUSTIFY" HBox.margin="$x7" />
-                                          </children>
-                                        </HBox>
-                                      </children>
-                                    </VBox>
-                                  </children>
-                                </AnchorPane>
-                              </content>
-                            </TitledPane>
-                          </expandedPane>
-                          <panes>
-                            <TitledPane id="x3" animated="false" text="Task 1">
+                            <TitledPane id="x3" fx:id="x10" animated="false" text="Task 1">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -367,7 +321,7 @@
                                             <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
                                           </VBox.margin>
                                         </HBox>
-                                        <HBox id="HBox" alignment="CENTER" prefWidth="-1.0" spacing="0.0" VBox.margin="$x10000">
+                                        <HBox id="HBox" alignment="CENTER" prefWidth="-1.0" spacing="0.0">
                                           <children>
                                             <Label prefWidth="40.0" text="Author:">
                                               <HBox.margin>
@@ -376,10 +330,21 @@
                                             </Label>
                                             <Label fx:id="phase2Task1bTitleLabel" prefWidth="277.0" text="..." HBox.margin="$x8" />
                                           </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
                                         </HBox>
-                                        <Separator prefWidth="327.0" VBox.margin="$x10000" />
-                                        <Label text="1.c) Dato un autore, restituisce in ordine di rilevanza gli articoli per lui più rilevanti (di cui lui non è autore), basandosi sulla similarità tra i seguenti vettori relativi all'utente dato (keyword vector, differentiation vector [TFIDF2 o PF], e top-5 semantiche latenti [PCA, o SVD] ed i document vector degli articoli (TFIDF)." textFill="$x9" wrapText="true" VBox.margin="$x10000" />
-                                        <HBox prefHeight="25.0" prefWidth="-1.0" VBox.margin="$x10000">
+                                        <Separator prefWidth="327.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="1.c) Dato un autore, restituisce in ordine di rilevanza gli articoli per lui più rilevanti (di cui lui non è autore), basandosi sulla similarità tra i seguenti vettori relativi all'utente dato (keyword vector, differentiation vector [TFIDF2 o PF], e top-5 semantiche latenti [PCA, o SVD] ed i document vector degli articoli (TFIDF)." textFill="$x9" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="25.0" prefWidth="-1.0">
                                           <children>
                                             <Label text="Author:">
                                               <HBox.margin>
@@ -412,8 +377,11 @@
                                             </ComboBox>
                                             <Button fx:id="phase2Task1cExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
                                           </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
                                         </HBox>
-                                        <HBox minHeight="-1.0" prefHeight="20.0" prefWidth="-1.0" VBox.margin="$x10000">
+                                        <HBox minHeight="-1.0" prefHeight="20.0" prefWidth="-1.0">
                                           <children>
                                             <Label text="Author:">
                                               <HBox.margin>
@@ -422,6 +390,9 @@
                                             </Label>
                                             <Label fx:id="phase2Task1cTitleLabel" prefWidth="249.0" text="..." HBox.margin="$x8" />
                                           </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
                                         </HBox>
                                       </children>
                                     </VBox>
@@ -429,6 +400,9 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
+                          </expandedPane>
+                          <panes>
+                            <fx:reference source="x10" />
                             <TitledPane id="x5006" animated="false" text="Task 2">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -442,14 +416,26 @@
                                         </Label>
                                         <HBox minHeight="6.0" prefHeight="26.0" prefWidth="347.0">
                                           <children>
-                                            <Button fx:id="phase2Task2aExecuteButton" contentDisplay="CENTER" mnemonicParsing="false" text="Execute" textAlignment="CENTER" HBox.margin="$x7" />
+                                            <Button fx:id="phase2Task2aExecuteButton" contentDisplay="CENTER" mnemonicParsing="false" text="Execute" textAlignment="CENTER">
+                                              <HBox.margin>
+                                                <Insets left="140.0" right="140.0" fx:id="x7" />
+                                              </HBox.margin>
+                                            </Button>
                                           </children>
                                           <padding>
                                             <Insets bottom="10.0" fx:id="x16001" />
                                           </padding>
                                         </HBox>
-                                        <Separator prefHeight="13.0" prefWidth="333.0" VBox.margin="$x10000" />
-                                        <Label prefHeight="-1.0" prefWidth="-1.0" text="2.b) Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrice di similarità coauthor-coauthor creata utilizzando i keyword vector, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true" VBox.margin="$x10000" />
+                                        <Separator prefHeight="13.0" prefWidth="333.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label prefHeight="-1.0" prefWidth="-1.0" text="2.b) Restituisce le top-3 semantiche latenti (in termini di appartenenza degli autori) sottostanti una matrice di similarità coauthor-coauthor creata utilizzando i keyword vector, di cui è stata effettuata la la trasformazione SVD." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Label>
                                         <HBox prefHeight="24.0" prefWidth="333.0">
                                           <children>
                                             <Button fx:id="phase2Task2bExecuteButton" mnemonicParsing="false" text="Execute" HBox.margin="$x7" />
@@ -461,7 +447,46 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <fx:reference source="x3" />
+                            <TitledPane fx:id="x3" animated="false" text="Task 3">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <children>
+                                        <Label text="3.a) Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarità coauthor-coauthor (o author-author) e suddivida gli autori in 3 gruppi sulla base del loro grado di appartenenza alle 3 semantiche." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12004" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="17.0" prefWidth="332.0">
+                                          <children>
+                                            <Button fx:id="phase2Task3aExecuteButton" mnemonicParsing="false" text="Execute" HBox.margin="$x7" />
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" fx:id="x16001" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="332.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" fx:id="x16001" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="3.b) Scrivere un programma che consideri le top-3 semantiche latenti (gruppi) della matrice di similarità coauthor-coauthor (o author-author) e associ un keyword vector a ciascuna semantica/gruppo sulla base dei keyword vector degli autori e del loro grado di appartenenza alla corrispondente semantica latente/gruppo." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="24.0" prefWidth="332.0" VBox.margin="$x8">
+                                          <children>
+                                            <Button id="phase2Task3bButton" fx:id="phase2Task3bExecuteButton" mnemonicParsing="false" text="Execute" textAlignment="JUSTIFY" HBox.margin="$x7" />
+                                          </children>
+                                        </HBox>
+                                      </children>
+                                    </VBox>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
                           </panes>
                         </Accordion>
                       </children>
@@ -480,25 +505,20 @@
                         <AnchorPane id="Content" layoutX="7.0" layoutY="6.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                         <Accordion prefHeight="590.0" prefWidth="355.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <expandedPane>
-                            <TitledPane fx:id="x14" animated="false" text="Task 3 - 4">
+                            <TitledPane fx:id="x17" animated="false" text="Task 5 - 7">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
                                     <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <children>
-                                        <Label text="Task 3) Dato il grafo dei “co-autori”, identifica K cluster (con K dato in input), usando un algoritmo a scelta tra SimpleKMeans o FarthestFirst." textFill="$x2" wrapText="true">
+                                        <Label text="Task 5) Dato il grafo dei “co-autori” e dato un autore, individua ed elenca i K nodi più simili dal punto di vista del contenuto (per un valore K dato in input)." textFill="$x2" wrapText="true">
                                           <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12002" />
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12006" />
                                           </VBox.margin>
                                         </Label>
                                         <HBox prefHeight="-1.0" prefWidth="-1.0">
                                           <children>
-                                            <TextField fx:id="phase3Task3NClustersTextField" prefWidth="85.0" text="# clusters (K)">
-                                              <HBox.margin>
-                                                <Insets right="10.0" fx:id="x5001" />
-                                              </HBox.margin>
-                                            </TextField>
-                                            <ComboBox fx:id="phase3Task3AlgorithmComboBox" prefWidth="85.0" promptText="Algorithm">
+                                            <ComboBox fx:id="phase3Task5AuthorIDComboBox" prefWidth="80.0" promptText="Author ID">
                                               <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                   <String fx:value="Item 1" />
@@ -507,44 +527,78 @@
                                                 </FXCollections>
                                               </items>
                                               <HBox.margin>
-                                                <Insets right="10.0" fx:id="x5002" />
+                                                <Insets right="10.0" fx:id="x5007" />
                                               </HBox.margin>
                                             </ComboBox>
-                                            <Button fx:id="phase3Task3ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                            <TextField fx:id="phase3Task5NNodesTextField" prefWidth="85.0" text="# nodes (K)">
                                               <HBox.margin>
-                                                <Insets fx:id="x8" />
+                                                <Insets right="10.0" fx:id="x4000" />
                                               </HBox.margin>
-                                            </Button>
+                                            </TextField>
+                                            <Button fx:id="phase3Task5ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
                                           </children>
                                           <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10007" />
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10003" />
                                           </VBox.margin>
                                         </HBox>
                                         <Separator prefWidth="200.0">
                                           <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10008" />
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
                                           </VBox.margin>
                                         </Separator>
-                                        <Label text="Task 4) Dato il grafo dei “co-autori”, individua ed elenca i K nodi maggiormente dominanti utilizzando l'algoritmo PageRank (PR), per un valore K dato in input." textFill="$x2" wrapText="true">
+                                        <Label text="Task 6) Dato il grafo dei “co-autori” e dato un autore, individua ed elenca i K nodi più simili dal punto di vista strutturale, utilizzando il Personalized PageRank (PPR) (per un valore K dato in input)." textFill="$x2" wrapText="true">
                                           <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10009" />
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
                                           </VBox.margin>
                                         </Label>
                                         <HBox prefHeight="-1.0" prefWidth="-1.0">
                                           <children>
-                                            <TextField fx:id="phase3Task4NNodesTextField" prefWidth="85.0" text="# nodes (K)">
+                                            <ComboBox fx:id="phase3Task6ComboBox" prefWidth="80.0" promptText="Author ID">
+                                              <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Item 1" />
+                                                  <String fx:value="Item 2" />
+                                                  <String fx:value="Item 3" />
+                                                </FXCollections>
+                                              </items>
                                               <HBox.margin>
-                                                <Insets right="10.0" fx:id="x5003" />
+                                                <Insets right="10.0" fx:id="x4000" />
+                                              </HBox.margin>
+                                            </ComboBox>
+                                            <TextField fx:id="phase3Task6TextField" prefWidth="85.0" text="# nodes (K)">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x4000" />
                                               </HBox.margin>
                                             </TextField>
-                                            <Button fx:id="phase3Task4ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                            <Button fx:id="phase3Task6ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
+                                          </children>
+                                          <padding>
+                                            <Insets fx:id="x8" />
+                                          </padding>
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="200.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="Task 7) Implementa un algoritmo di relevance feedback probabilistico per modificare l'importanza delle chiavi per migliorare l'accuratezza dei match rispetto al contenuto. Il sistema restituisce in output le revisioni suggerite nell'importanza relativa delle chiavi nella query." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10000" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <Button fx:id="phase3Task7ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
                                               <HBox.margin>
-                                                <Insets fx:id="x8" />
+                                                <Insets left="140.0" fx:id="x13001" />
                                               </HBox.margin>
                                             </Button>
                                           </children>
                                           <VBox.margin>
-                                            <Insets left="10.0" right="10.0" fx:id="x11003" />
+                                            <Insets left="10.0" right="10.0" fx:id="x11001" />
                                           </VBox.margin>
                                         </HBox>
                                       </children>
@@ -619,21 +673,25 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <fx:reference source="x14" />
-                            <TitledPane fx:id="x17" animated="false" text="Task 5 - 7">
+                            <TitledPane fx:id="x14" animated="false" text="Task 3 - 4">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
                                     <VBox prefHeight="520.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <children>
-                                        <Label text="Task 5) Dato il grafo dei “co-autori” e dato un autore, individua ed elenca i K nodi più simili dal punto di vista del contenuto (per un valore K dato in input)." textFill="$x2" wrapText="true">
+                                        <Label text="Task 3) Dato il grafo dei “co-autori”, identifica K cluster (con K dato in input), usando un algoritmo a scelta tra SimpleKMeans o FarthestFirst." textFill="$x2" wrapText="true">
                                           <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12006" />
+                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x12002" />
                                           </VBox.margin>
                                         </Label>
                                         <HBox prefHeight="-1.0" prefWidth="-1.0">
                                           <children>
-                                            <ComboBox fx:id="phase3Task5ComboBox" prefWidth="80.0" promptText="Author ID">
+                                            <TextField fx:id="phase3Task3NClustersTextField" prefWidth="85.0" text="# clusters (K)">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x5001" />
+                                              </HBox.margin>
+                                            </TextField>
+                                            <ComboBox fx:id="phase3Task3AlgorithmComboBox" prefWidth="85.0" promptText="Algorithm">
                                               <items>
                                                 <FXCollections fx:factory="observableArrayList">
                                                   <String fx:value="Item 1" />
@@ -642,59 +700,44 @@
                                                 </FXCollections>
                                               </items>
                                               <HBox.margin>
-                                                <Insets right="10.0" fx:id="x5007" />
+                                                <Insets right="10.0" fx:id="x5002" />
                                               </HBox.margin>
                                             </ComboBox>
-                                            <TextField fx:id="phase3Task5TextField" prefWidth="85.0" text="# nodes (K)">
+                                            <Button fx:id="phase3Task3ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
                                               <HBox.margin>
-                                                <Insets right="10.0" fx:id="x4000" />
-                                              </HBox.margin>
-                                            </TextField>
-                                            <Button fx:id="phase3Task5ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
-                                          </children>
-                                          <VBox.margin>
-                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10003" />
-                                          </VBox.margin>
-                                        </HBox>
-                                        <Separator prefWidth="200.0" VBox.margin="$x10000" />
-                                        <Label text="Task 6) Dato il grafo dei “co-autori” e dato un autore, individua ed elenca i K nodi più simili dal punto di vista strutturale, utilizzando il Personalized PageRank (PPR) (per un valore K dato in input)." textFill="$x2" wrapText="true" VBox.margin="$x10000" />
-                                        <HBox prefHeight="-1.0" prefWidth="-1.0" VBox.margin="$x10000">
-                                          <children>
-                                            <ComboBox fx:id="phase3Task6ComboBox" prefWidth="80.0" promptText="Author ID">
-                                              <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                  <String fx:value="Item 1" />
-                                                  <String fx:value="Item 2" />
-                                                  <String fx:value="Item 3" />
-                                                </FXCollections>
-                                              </items>
-                                              <HBox.margin>
-                                                <Insets right="10.0" fx:id="x4000" />
-                                              </HBox.margin>
-                                            </ComboBox>
-                                            <TextField fx:id="phase3Task6TextField" prefWidth="85.0" text="# nodes (K)">
-                                              <HBox.margin>
-                                                <Insets right="10.0" fx:id="x4000" />
-                                              </HBox.margin>
-                                            </TextField>
-                                            <Button fx:id="phase3Task6ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute" />
-                                          </children>
-                                          <padding>
-                                            <Insets fx:id="x8" />
-                                          </padding>
-                                        </HBox>
-                                        <Separator prefWidth="200.0" VBox.margin="$x10000" />
-                                        <Label text="Task 7) Implementa un algoritmo di relevance feedback probabilistico per modificare l'importanza delle chiavi per migliorare l'accuratezza dei match rispetto al contenuto. Il sistema restituisce in output le revisioni suggerite nell'importanza relativa delle chiavi nella query." textFill="$x2" wrapText="true" VBox.margin="$x10000" />
-                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
-                                          <children>
-                                            <Button fx:id="phase3Task7ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
-                                              <HBox.margin>
-                                                <Insets left="140.0" fx:id="x13001" />
+                                                <Insets fx:id="x8" />
                                               </HBox.margin>
                                             </Button>
                                           </children>
                                           <VBox.margin>
-                                            <Insets left="10.0" right="10.0" fx:id="x11001" />
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10007" />
+                                          </VBox.margin>
+                                        </HBox>
+                                        <Separator prefWidth="200.0">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10008" />
+                                          </VBox.margin>
+                                        </Separator>
+                                        <Label text="Task 4) Dato il grafo dei “co-autori”, individua ed elenca i K nodi maggiormente dominanti utilizzando l'algoritmo PageRank (PR), per un valore K dato in input." textFill="$x2" wrapText="true">
+                                          <VBox.margin>
+                                            <Insets bottom="10.0" left="10.0" right="10.0" fx:id="x10009" />
+                                          </VBox.margin>
+                                        </Label>
+                                        <HBox prefHeight="-1.0" prefWidth="-1.0">
+                                          <children>
+                                            <TextField fx:id="phase3Task4NNodesTextField" prefWidth="85.0" text="# nodes (K)">
+                                              <HBox.margin>
+                                                <Insets right="10.0" fx:id="x5003" />
+                                              </HBox.margin>
+                                            </TextField>
+                                            <Button fx:id="phase3Task4ExecuteButton" mnemonicParsing="false" prefWidth="65.0" text="Execute">
+                                              <HBox.margin>
+                                                <Insets fx:id="x8" />
+                                              </HBox.margin>
+                                            </Button>
+                                          </children>
+                                          <VBox.margin>
+                                            <Insets left="10.0" right="10.0" fx:id="x11003" />
                                           </VBox.margin>
                                         </HBox>
                                       </children>
@@ -703,6 +746,7 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
+                            <fx:reference source="x17" />
                           </panes>
                         </Accordion>
                       </children>
