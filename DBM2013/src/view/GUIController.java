@@ -157,7 +157,7 @@ public class GUIController implements Initializable {
 	// PHASE 3 - Task 4 - controls injection
 		
 	@FXML
-	private TextField phase3Task4TextField;
+	private TextField phase3Task4NNodesTextField;
 		
 	@FXML
 	private Button phase3Task4ExecuteButton;
@@ -1176,45 +1176,54 @@ public class GUIController implements Initializable {
 			});
 			
 		
-//			// PHASE 3 - Task 4 - EVENT HANDLER
-//			phase3Task4ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
-//				@Override
-//				public void handle(ActionEvent event) {
-//								
-//					resultsLabel.setText("Attendere prego!\n");
-//					Corpus dblp = Main.getDblp();
-//
-//					int numNodes = Integer.parseInt(phase3Task4NNodesTextField.getText());
-//					
-//					TextArea resultsTextArea = new TextArea();
-//					resultsTextArea.clear();
-//					resultsTextArea.setPrefColumnCount(Integer.MAX_VALUE);
-//					
-//					Node[] node;
-//					node = dblp.pageRank(graph, numNodes);
-//
-//					resultsTextArea.appendText("K nodi dominanti:\n");	
-//						
-//					System.out.println("K nodi dominanti:\n");		
-//					resultsTextArea.setStyle("-fx-font-family: monospace");					
-//						
-//
-//
-//					Stage stage = new Stage();
-//					ScrollPane resultPane = new ScrollPane();
-//					resultPane.setPrefSize(800,250);
-//					resultPane.setFitToWidth(true);
-//					resultPane.setFitToHeight(true);
-//					resultsTextArea.setPrefSize(800,250);
-//					resultPane.setContent(resultsTextArea);
-//					
-//					Scene resultScene = new Scene(resultPane);
-//					stage.setScene(resultScene);
-//					stage.centerOnScreen();
-//					stage.setTitle("Clustering degli autori");
-//					stage.show();
-//				}
-//			});
+			// PHASE 3 - Task 4 - EVENT HANDLER
+			phase3Task4ExecuteButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+								
+					resultsLabel.setText("Attendere prego!\n");
+					Corpus dblp = Main.getDblp();
+
+					int numNodes = Integer.parseInt(phase3Task4NNodesTextField.getText());
+					
+					Node[] rankedNodes;
+					Graph coAuthorsGraph = null;
+					try {
+						coAuthorsGraph = dblp.getCoAuthorsGraphBasedOnKeywordVectors();
+					} catch (NoAuthorsWithSuchIDException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					rankedNodes = dblp.pageRank(coAuthorsGraph, numNodes);
+					
+					System.out.println("I " + numNodes + " autori più dominanti sono:");
+					resultsLabel.setText("I " + numNodes + " autori più dominanti sono:");
+					
+					ObservableList<String> resultsObservableList;
+					ArrayList<String> resultsArrayList = new ArrayList<String>();
+					
+					for(int i = 0; i < numNodes; i++) {
+						try {
+							System.out.println("[" + (i+1) + "] " +  dblp.getAuthorByID(Integer.parseInt(rankedNodes[i].getNodeData().getLabel())).getName()  + " (" + rankedNodes[i].toString() + ")");
+						} catch (NumberFormatException
+								| NoAuthorsWithSuchIDException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						try {
+							resultsArrayList.add("[" + (i+1) + "] " +  dblp.getAuthorByID(Integer.parseInt(rankedNodes[i].getNodeData().getLabel())).getName()  + " (" + rankedNodes[i].toString() + ")");
+						} catch (NumberFormatException
+								| NoAuthorsWithSuchIDException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+			
+					resultsObservableList = FXCollections.observableArrayList(resultsArrayList);
+					resultsListView.setItems(resultsObservableList);			
+					
+				}
+			});
 
 
 		}
